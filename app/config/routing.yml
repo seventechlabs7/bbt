@@ -1,0 +1,17 @@
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation
+
+home:
+    path:     /home
+    defaults: { _controller: AppBundle:University:home }
+
+teachersignup:
+    path:     /api/teacher/signup
+    defaults: { _controller: AppBundle:University:signupTeacher }
+    methods:  [POST]
+
+saveteacher:
+    path:     /api/saveteacher
+    defaults: { _controller: AppBundle:University:saveTeacher }
+    methods:  [POST]

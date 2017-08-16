@@ -1,0 +1,24 @@
+{
+  "name": "os/excel-bundle",
+  "description": "OS Excel Bundle for Symfony2",
+  "keywords": ["excel"],
+  "homepage": "http://github.com/abdeltiflouardi/OSExcelBundle",
+  "type": "symfony-bundle",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "LOUARDI Abdeltif",
+      "email": "louardi.abdeltif@yahoo.fr",
+      "homepage": "http://phphub.net"
+    }
+  ],
+  "require": {
+    "php": ">=5.2.6",
+    "os/php-excel": "2.1"
+  },
+  "autoload": {
+      "psr-0": { "OS\\ExcelBundle": "" }
+  },
+  "minimum-stability": "dev",
+  "target-dir": "OS/ExcelBundle"
+}
