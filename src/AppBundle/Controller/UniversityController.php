@@ -96,28 +96,64 @@ class UniversityController extends Controller
 	    	$em->persist($GM);
 	    	$em->flush();
 	    }
-	    if(0)
+	    if(true)
 		{
+			//path 
+			$absolute_path = getcwd();
+			$fileCo = file_get_contents($file);
+			file_put_contents('temp.xls', $fileCo);
+			//return $this->json(['count'=>$absolute_path]);
 			$reader = $this->get("arodiss.xls.reader");
-			$content = $reader->readAll($file);
-			return $this->json($content);
-			$excel = $this->get('os.excel');
-	    	$excel->loadFile($file);
-			$rows = $excel->getRowCount();
-			$data = $excel->getSheetData();
-				return $this->json(['count'=>$data]);
-			for($i=0;$i<$rows;$i++) 			
+			$path = $absolute_path."/temp.xls";
+			$path = str_replace('/', '//', $path);
+			$content = $reader->readAll($path);
+		
+			 foreach ($content as $c) 
+	    {
+	    	//return $this->json(($c));
+	    	$GM = new GroupEmail;
+	    	$GM->setGroup_id($group->getId());
+	    	$GM->setEmail(array_values($c)[0]);
+	    	$GM->setCreated_by(1);
+	    	$em->persist($GM);
+	    	$em->flush();
+	    	//var_dump($content)
+	    	//return $this->json($content);
+	    }
+	    unlink($path);
+	    return $this->json(($path));
+/*
+			for($i=0;$i<$content;$i++)
+	    {
+
+	    	$GM = new GroupEmail;
+	    	$GM->setGroup_id($group->getId());
+	    	$GM->setEmail($content[$i]);
+	    	$GM->setCreated_by(1);
+	    	$em->persist($GM);
+	    	$em->flush();
+	    	//var_dump($content)
+	    	return $this->json($content);
+	    }*/
+
+			//return $this->json($content);
+			//$excel = $this->get('os.excel');
+	    	//$excel->loadFile($path);
+			//$rows = $excel->getRowCount();
+			//$data = $excel->getSheetData();
+				//return $this->json(['count'=>$data]);
+			/*for($i=0;$i<$rows;$i++) 			
 			{
 				return $this->json( $excel->getCellData([0], [0]));
 				return $this->json(['count'=>$excel->getRowData([$i])]);
 				$data[] = $excel->getRowData([$i]);
-				/*$GM = new GroupEmail;
+				$GM = new GroupEmail;
 		    	$GM->setGroup_id($group->getId());
 		    	$GM->setEmail($excel->getCellData([1], ['A']));
 		    	$GM->setCreated_by(1);
 		    	$em->persist($GM);
-		    	$em->flush();*/
-			}
+		    	$em->flush();
+			}*/
 		}	    
 
     	return $this->json(array('status' => 'success','reason' => 'Group Saved Successfully','reaponse' => 200));
