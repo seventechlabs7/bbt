@@ -16,11 +16,11 @@ class __TwigTemplate_c6830fc60fd480d4a1ae637f40b0b1c6714824036673df3bc846a527111
 
     protected function doDisplay(array $context, array $blocks = array())
     {
-        $__internal_8935e49602f7b7557d7dc6e10177e2f41f8451d942ecf011b5c4a3b29d496016 = $this->env->getExtension("Symfony\\Bundle\\WebProfilerBundle\\Twig\\WebProfilerExtension");
-        $__internal_8935e49602f7b7557d7dc6e10177e2f41f8451d942ecf011b5c4a3b29d496016->enter($__internal_8935e49602f7b7557d7dc6e10177e2f41f8451d942ecf011b5c4a3b29d496016_prof = new Twig_Profiler_Profile($this->getTemplateName(), "template", "staff/partials/home.html.twig"));
+        $__internal_2ba4bb503d3e245b26abdd28dc977ad9fa8ca3d95466c0d81b72c7590f187d8c = $this->env->getExtension("Symfony\\Bundle\\WebProfilerBundle\\Twig\\WebProfilerExtension");
+        $__internal_2ba4bb503d3e245b26abdd28dc977ad9fa8ca3d95466c0d81b72c7590f187d8c->enter($__internal_2ba4bb503d3e245b26abdd28dc977ad9fa8ca3d95466c0d81b72c7590f187d8c_prof = new Twig_Profiler_Profile($this->getTemplateName(), "template", "staff/partials/home.html.twig"));
 
-        $__internal_75ef0d71cf67367606d9215d925edebee829f1bec06ee64e75637247c991823c = $this->env->getExtension("Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension");
-        $__internal_75ef0d71cf67367606d9215d925edebee829f1bec06ee64e75637247c991823c->enter($__internal_75ef0d71cf67367606d9215d925edebee829f1bec06ee64e75637247c991823c_prof = new Twig_Profiler_Profile($this->getTemplateName(), "template", "staff/partials/home.html.twig"));
+        $__internal_7af82b14bdb5e47a2175d9295d2b6f6aade7513f37b960dadd36bf0df7a899df = $this->env->getExtension("Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension");
+        $__internal_7af82b14bdb5e47a2175d9295d2b6f6aade7513f37b960dadd36bf0df7a899df->enter($__internal_7af82b14bdb5e47a2175d9295d2b6f6aade7513f37b960dadd36bf0df7a899df_prof = new Twig_Profiler_Profile($this->getTemplateName(), "template", "staff/partials/home.html.twig"));
 
         // line 1
         echo "
@@ -265,10 +265,10 @@ class __TwigTemplate_c6830fc60fd480d4a1ae637f40b0b1c6714824036673df3bc846a527111
 \t        \t\t\t\t\t\t\t\t\t<div class=\"cust_list_ans\">         \t\t\t\t\t\t
 \t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"row\">
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-6\">
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"date\" class=\"date_form\" placeholder=\"Start Date\" name=\"maillistfile\" ng-model=\"teacher.start_date\" />
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"date\" class=\"date_form\" placeholder=\"Start Date\" name=\"maillistfile\" ng-model=\"teacher.start_date\" ng-change=\"checkTime('start')\" />
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-6\">
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"date\" class=\"date_form\" name=\"startdate\"  ng-model=\"teacher.end_date\"/>
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"date\" class=\"date_form\" name=\"startdate\"  ng-model=\"teacher.end_date\" ng-change=\"checkTime('end')\"/>
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>
 \t\t\t\t\t\t\t\t\t\t\t\t\t</div>
 \t        \t\t\t\t\t\t\t\t\t</div>       \t\t\t\t\t\t\t\t\t
@@ -285,19 +285,19 @@ class __TwigTemplate_c6830fc60fd480d4a1ae637f40b0b1c6714824036673df3bc846a527111
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<ul class=\"check_cont_ul\"> 
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<li> 
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<label class=\"check_label\">   
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" name=\"\" ng-checked=\"teacher.assets == 1\" ng-true-value=\"1\" ng-false-vlaue=\"0\" ng-model=\"teacher.assets\">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" name=\"\" ng-checked=\"teacher.assets[0] == 1\" ng-true-value=\"1\" ng-false-vlaue=\"0\" ng-model=\"teacher.assets[0]\">
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<span class=\"check_text\">Ibex35</span>
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</label>
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</li>
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<li> 
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<label class=\"check_label\">   
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" name=\"\" ng-checked=\"teacher.assets == 2\" ng-true-value=\"2\" ng-false-vlaue=\"0\" ng-model=\"teacher.assets\">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" name=\"\" ng-checked=\"teacher.assets[1] == 2\" ng-true-value=\"2\" ng-false-vlaue=\"0\" ng-model=\"teacher.assets[1]\">
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<span class=\"check_text\">Mercado continuo</span>
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</label>
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</li>
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<li> 
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<label class=\"check_label\">   
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" name=\"\" ng-checked=\"teacher.assets == 3\" ng-true-value=\"3\" ng-false-vlaue=\"0\" ng-model=\"teacher.assets\">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" name=\"\" ng-checked=\"teacher.assets[2] == 3\" ng-true-value=\"3\" ng-false-vlaue=\"0\" ng-model=\"teacher.assets[2]\">
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<span class=\"check_text\">Forex</span>
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</label>
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</li>
@@ -315,7 +315,7 @@ class __TwigTemplate_c6830fc60fd480d4a1ae637f40b0b1c6714824036673df3bc846a527111
 \t        \t\t\t\t\t\t\t\t\t<div class=\"cust_list_ans\">
 \t        \t\t\t\t\t\t\t\t\t\t<div class=\"row\">
 \t        \t\t\t\t\t\t\t\t\t\t\t<div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12\">
-\t        \t\t\t\t\t\t\t\t\t\t\t\t<input type=\"text\" class=\"field_text ft2 blue\" name=\"leaguename\" ng-model=\"teacher.league_name\" />
+\t        \t\t\t\t\t\t\t\t\t\t\t\t<input type=\"text\" class=\"field_text ft2 blue\" placeholder=\"League Name\" name=\"leaguename\" ng-model=\"teacher.league_name\" />
 \t        \t\t\t\t\t\t\t\t\t\t\t</div>\t
 \t        \t\t\t\t\t\t\t\t\t\t</div>
 \t        \t\t\t\t\t\t\t\t\t</div>
@@ -370,25 +370,25 @@ class __TwigTemplate_c6830fc60fd480d4a1ae637f40b0b1c6714824036673df3bc846a527111
 \t\t\t\t\t\t\t\t\t\t\t\t<ul class=\"check_cont_ul\"> 
 \t\t\t\t\t\t\t\t\t\t\t\t\t<li> 
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t<label class=\"check_label\">   
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" ng-checked=\"teacher.feedback == 1\" ng-true-value=\"1\" ng-false-vlaue=\"0\" ng-model=\"teacher.feedback\">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" ng-checked=\"teacher.feedback[0] == 1\" ng-true-value=\"1\" ng-false-vlaue=\"0\" ng-model=\"teacher.feedback[0]\">
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<span class=\"check_text\">Benifits</span>
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t</label>
 \t\t\t\t\t\t\t\t\t\t\t\t\t</li>
 \t\t\t\t\t\t\t\t\t\t\t\t\t<li> 
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t<label class=\"check_label\">   
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" ng-checked=\"teacher.feedback == 2\" ng-true-value=\"2\" ng-false-vlaue=\"0\" ng-model=\"teacher.feedback\">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" ng-checked=\"teacher.feedback[1] == 2\" ng-true-value=\"2\" ng-false-vlaue=\"0\" ng-model=\"teacher.feedback[1]\">
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<span class=\"check_text\">Number of Operations</span>
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t</label>
 \t\t\t\t\t\t\t\t\t\t\t\t\t</li>
 \t\t\t\t\t\t\t\t\t\t\t\t\t<li> 
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t<label class=\"check_label\">   
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" ng-checked=\"teacher.feedback == 3\" ng-true-value=\"3\" ng-false-vlaue=\"0\" ng-model=\"teacher.feedback\">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" ng-checked=\"teacher.feedback[2] == 3\" ng-true-value=\"3\" ng-false-vlaue=\"0\" ng-model=\"teacher.feedback[2]\">
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<span class=\"check_text\">Total Profitability</span>
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t</label>
 \t\t\t\t\t\t\t\t\t\t\t\t\t</li>
 \t\t\t\t\t\t\t\t\t\t\t\t\t<li> 
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t<label class=\"check_label\">   
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" ng-checked=\"teacher.feedback == 4\" ng-true-value=\"4\" ng-false-vlaue=\"0\" ng-model=\"teacher.feedback\">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" ng-checked=\"teacher.feedback[3] == 4\" ng-true-value=\"4\" ng-false-vlaue=\"0\" ng-model=\"teacher.feedback[3]\">
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<span class=\"check_text\">Average Profability per person</span>
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t</label>
 \t\t\t\t\t\t\t\t\t\t\t\t\t</li>
@@ -435,21 +435,21 @@ class __TwigTemplate_c6830fc60fd480d4a1ae637f40b0b1c6714824036673df3bc846a527111
 
 ";
         
-        $__internal_8935e49602f7b7557d7dc6e10177e2f41f8451d942ecf011b5c4a3b29d496016->leave($__internal_8935e49602f7b7557d7dc6e10177e2f41f8451d942ecf011b5c4a3b29d496016_prof);
+        $__internal_2ba4bb503d3e245b26abdd28dc977ad9fa8ca3d95466c0d81b72c7590f187d8c->leave($__internal_2ba4bb503d3e245b26abdd28dc977ad9fa8ca3d95466c0d81b72c7590f187d8c_prof);
 
         
-        $__internal_75ef0d71cf67367606d9215d925edebee829f1bec06ee64e75637247c991823c->leave($__internal_75ef0d71cf67367606d9215d925edebee829f1bec06ee64e75637247c991823c_prof);
+        $__internal_7af82b14bdb5e47a2175d9295d2b6f6aade7513f37b960dadd36bf0df7a899df->leave($__internal_7af82b14bdb5e47a2175d9295d2b6f6aade7513f37b960dadd36bf0df7a899df_prof);
 
     }
 
     // line 402
     public function block_javascripts($context, array $blocks = array())
     {
-        $__internal_3e45696961774b05b055b837977e6c0b607522e1c68ff20a45f652c62f14b9e6 = $this->env->getExtension("Symfony\\Bundle\\WebProfilerBundle\\Twig\\WebProfilerExtension");
-        $__internal_3e45696961774b05b055b837977e6c0b607522e1c68ff20a45f652c62f14b9e6->enter($__internal_3e45696961774b05b055b837977e6c0b607522e1c68ff20a45f652c62f14b9e6_prof = new Twig_Profiler_Profile($this->getTemplateName(), "block", "javascripts"));
+        $__internal_f21ca2008594e722d18601cfce4ea832781d857b3a4c5902c6bd337201f7698a = $this->env->getExtension("Symfony\\Bundle\\WebProfilerBundle\\Twig\\WebProfilerExtension");
+        $__internal_f21ca2008594e722d18601cfce4ea832781d857b3a4c5902c6bd337201f7698a->enter($__internal_f21ca2008594e722d18601cfce4ea832781d857b3a4c5902c6bd337201f7698a_prof = new Twig_Profiler_Profile($this->getTemplateName(), "block", "javascripts"));
 
-        $__internal_c1b66e5d2686d73a6492138c48b5e67531bac2c684744c3ac5c19862433c408e = $this->env->getExtension("Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension");
-        $__internal_c1b66e5d2686d73a6492138c48b5e67531bac2c684744c3ac5c19862433c408e->enter($__internal_c1b66e5d2686d73a6492138c48b5e67531bac2c684744c3ac5c19862433c408e_prof = new Twig_Profiler_Profile($this->getTemplateName(), "block", "javascripts"));
+        $__internal_d897921d2a59f71b30321448bf59a43f139f5a6d4707197bff69dae9c5b0d4c3 = $this->env->getExtension("Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension");
+        $__internal_d897921d2a59f71b30321448bf59a43f139f5a6d4707197bff69dae9c5b0d4c3->enter($__internal_d897921d2a59f71b30321448bf59a43f139f5a6d4707197bff69dae9c5b0d4c3_prof = new Twig_Profiler_Profile($this->getTemplateName(), "block", "javascripts"));
 
         // line 403
         echo "        
@@ -460,10 +460,10 @@ class __TwigTemplate_c6830fc60fd480d4a1ae637f40b0b1c6714824036673df3bc846a527111
 
 ";
         
-        $__internal_c1b66e5d2686d73a6492138c48b5e67531bac2c684744c3ac5c19862433c408e->leave($__internal_c1b66e5d2686d73a6492138c48b5e67531bac2c684744c3ac5c19862433c408e_prof);
+        $__internal_d897921d2a59f71b30321448bf59a43f139f5a6d4707197bff69dae9c5b0d4c3->leave($__internal_d897921d2a59f71b30321448bf59a43f139f5a6d4707197bff69dae9c5b0d4c3_prof);
 
         
-        $__internal_3e45696961774b05b055b837977e6c0b607522e1c68ff20a45f652c62f14b9e6->leave($__internal_3e45696961774b05b055b837977e6c0b607522e1c68ff20a45f652c62f14b9e6_prof);
+        $__internal_f21ca2008594e722d18601cfce4ea832781d857b3a4c5902c6bd337201f7698a->leave($__internal_f21ca2008594e722d18601cfce4ea832781d857b3a4c5902c6bd337201f7698a_prof);
 
     }
 
@@ -731,10 +731,10 @@ class __TwigTemplate_c6830fc60fd480d4a1ae637f40b0b1c6714824036673df3bc846a527111
 \t        \t\t\t\t\t\t\t\t\t<div class=\"cust_list_ans\">         \t\t\t\t\t\t
 \t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"row\">
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-6\">
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"date\" class=\"date_form\" placeholder=\"Start Date\" name=\"maillistfile\" ng-model=\"teacher.start_date\" />
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"date\" class=\"date_form\" placeholder=\"Start Date\" name=\"maillistfile\" ng-model=\"teacher.start_date\" ng-change=\"checkTime('start')\" />
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-6\">
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"date\" class=\"date_form\" name=\"startdate\"  ng-model=\"teacher.end_date\"/>
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"date\" class=\"date_form\" name=\"startdate\"  ng-model=\"teacher.end_date\" ng-change=\"checkTime('end')\"/>
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>
 \t\t\t\t\t\t\t\t\t\t\t\t\t</div>
 \t        \t\t\t\t\t\t\t\t\t</div>       \t\t\t\t\t\t\t\t\t
@@ -751,19 +751,19 @@ class __TwigTemplate_c6830fc60fd480d4a1ae637f40b0b1c6714824036673df3bc846a527111
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<ul class=\"check_cont_ul\"> 
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<li> 
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<label class=\"check_label\">   
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" name=\"\" ng-checked=\"teacher.assets == 1\" ng-true-value=\"1\" ng-false-vlaue=\"0\" ng-model=\"teacher.assets\">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" name=\"\" ng-checked=\"teacher.assets[0] == 1\" ng-true-value=\"1\" ng-false-vlaue=\"0\" ng-model=\"teacher.assets[0]\">
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<span class=\"check_text\">Ibex35</span>
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</label>
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</li>
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<li> 
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<label class=\"check_label\">   
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" name=\"\" ng-checked=\"teacher.assets == 2\" ng-true-value=\"2\" ng-false-vlaue=\"0\" ng-model=\"teacher.assets\">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" name=\"\" ng-checked=\"teacher.assets[1] == 2\" ng-true-value=\"2\" ng-false-vlaue=\"0\" ng-model=\"teacher.assets[1]\">
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<span class=\"check_text\">Mercado continuo</span>
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</label>
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</li>
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<li> 
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<label class=\"check_label\">   
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" name=\"\" ng-checked=\"teacher.assets == 3\" ng-true-value=\"3\" ng-false-vlaue=\"0\" ng-model=\"teacher.assets\">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" name=\"\" ng-checked=\"teacher.assets[2] == 3\" ng-true-value=\"3\" ng-false-vlaue=\"0\" ng-model=\"teacher.assets[2]\">
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<span class=\"check_text\">Forex</span>
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</label>
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</li>
@@ -781,7 +781,7 @@ class __TwigTemplate_c6830fc60fd480d4a1ae637f40b0b1c6714824036673df3bc846a527111
 \t        \t\t\t\t\t\t\t\t\t<div class=\"cust_list_ans\">
 \t        \t\t\t\t\t\t\t\t\t\t<div class=\"row\">
 \t        \t\t\t\t\t\t\t\t\t\t\t<div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12\">
-\t        \t\t\t\t\t\t\t\t\t\t\t\t<input type=\"text\" class=\"field_text ft2 blue\" name=\"leaguename\" ng-model=\"teacher.league_name\" />
+\t        \t\t\t\t\t\t\t\t\t\t\t\t<input type=\"text\" class=\"field_text ft2 blue\" placeholder=\"League Name\" name=\"leaguename\" ng-model=\"teacher.league_name\" />
 \t        \t\t\t\t\t\t\t\t\t\t\t</div>\t
 \t        \t\t\t\t\t\t\t\t\t\t</div>
 \t        \t\t\t\t\t\t\t\t\t</div>
@@ -836,25 +836,25 @@ class __TwigTemplate_c6830fc60fd480d4a1ae637f40b0b1c6714824036673df3bc846a527111
 \t\t\t\t\t\t\t\t\t\t\t\t<ul class=\"check_cont_ul\"> 
 \t\t\t\t\t\t\t\t\t\t\t\t\t<li> 
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t<label class=\"check_label\">   
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" ng-checked=\"teacher.feedback == 1\" ng-true-value=\"1\" ng-false-vlaue=\"0\" ng-model=\"teacher.feedback\">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" ng-checked=\"teacher.feedback[0] == 1\" ng-true-value=\"1\" ng-false-vlaue=\"0\" ng-model=\"teacher.feedback[0]\">
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<span class=\"check_text\">Benifits</span>
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t</label>
 \t\t\t\t\t\t\t\t\t\t\t\t\t</li>
 \t\t\t\t\t\t\t\t\t\t\t\t\t<li> 
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t<label class=\"check_label\">   
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" ng-checked=\"teacher.feedback == 2\" ng-true-value=\"2\" ng-false-vlaue=\"0\" ng-model=\"teacher.feedback\">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" ng-checked=\"teacher.feedback[1] == 2\" ng-true-value=\"2\" ng-false-vlaue=\"0\" ng-model=\"teacher.feedback[1]\">
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<span class=\"check_text\">Number of Operations</span>
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t</label>
 \t\t\t\t\t\t\t\t\t\t\t\t\t</li>
 \t\t\t\t\t\t\t\t\t\t\t\t\t<li> 
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t<label class=\"check_label\">   
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" ng-checked=\"teacher.feedback == 3\" ng-true-value=\"3\" ng-false-vlaue=\"0\" ng-model=\"teacher.feedback\">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" ng-checked=\"teacher.feedback[2] == 3\" ng-true-value=\"3\" ng-false-vlaue=\"0\" ng-model=\"teacher.feedback[2]\">
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<span class=\"check_text\">Total Profitability</span>
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t</label>
 \t\t\t\t\t\t\t\t\t\t\t\t\t</li>
 \t\t\t\t\t\t\t\t\t\t\t\t\t<li> 
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t<label class=\"check_label\">   
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" ng-checked=\"teacher.feedback == 4\" ng-true-value=\"4\" ng-false-vlaue=\"0\" ng-model=\"teacher.feedback\">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" ng-checked=\"teacher.feedback[3] == 4\" ng-true-value=\"4\" ng-false-vlaue=\"0\" ng-model=\"teacher.feedback[3]\">
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<span class=\"check_text\">Average Profability per person</span>
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t</label>
 \t\t\t\t\t\t\t\t\t\t\t\t\t</li>

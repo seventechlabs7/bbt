@@ -11,6 +11,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use AppBundle\Entity\Group;
 use AppBundle\Entity\GroupEmail;
+use AppBundle\Entity\GroupAsset;
+use AppBundle\Entity\GroupFeedback;
 use AppBundle\Entity\Teacher;
 
 class UniversityController extends Controller
@@ -36,8 +38,7 @@ class UniversityController extends Controller
     public function saveTeacherAction(Request $request)
     {    	    	
 		$teacher = $request->request->get('teacher');		
-		$file = $request->files->get('file');
-			    		    	    	  
+		$file = $request->files->get('file');		
 		
 		$em = $this->getDoctrine()->getManager();		
 		$emails_list = $teacher['mail_list'];
@@ -45,10 +46,13 @@ class UniversityController extends Controller
 
 		$group = new Group();
 		$group->setTeacher_id($teacher['id']);
-		$group->setGroup_name($teacher['group_name']);
-		$group->setLeague_name($teacher['league_name']);
-		$group->setFeedback($teacher['feedback']);
-		$group->setAssets($teacher['assets']);
+		if(array_key_exists('group_name',$teacher) && $teacher['group_name'] != null)
+			$group->setGroup_name($teacher['group_name']);
+		else
+		{
+			$group->setGroup_name('Group'.rand());
+		}
+		$group->setLeague_name($teacher['league_name']);		
 		$group->setVirtual_money($teacher['virtual_money']);
 		$group->setStart_date($teacher['start_date']);
 		$group->setEnd_date($teacher['end_date']);
@@ -56,6 +60,32 @@ class UniversityController extends Controller
 
 		$em->persist($group);
 	    $em->flush();
+
+	    $assets = $teacher['assets'];
+	    foreach ($assets as $asset) 
+	    {
+	    	if($asset)
+	    	{
+	    		$GA = new GroupAsset;
+	    		$GA->setGroup_id($group->getId());
+	    		$GA->setAsset_id($asset);
+	    		$em->persist($GA);
+	    		$em->flush();
+	    	}
+	    }
+
+	    $feedbacks = $teacher['feedback'];
+	    foreach ($feedbacks as $feedback) 
+	    {
+	    	if($feedbacks)
+	    	{
+	    		$GF = new GroupFeedback;
+	    		$GF->setGroup_id($group->getId());
+	    		$GF->setFeedback_id($feedback);
+	    		$em->persist($GF);
+	    		$em->flush();
+	    	}	    	
+	    }
 
 	    foreach ($emails as $email) 
 	    {
