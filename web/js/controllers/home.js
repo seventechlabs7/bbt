@@ -94,16 +94,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 					});
 				return;
 				}
-			}
-			if($scope.teacher.group_name == undefined || $scope.teacher.group_name == null)
-			{				
-				notify({
-					message:'Fill Group Name',
-					classes:'alert-danger',
-					duration:2000
-				});
-				return;
-			}
+			}			
 			if($scope.teacher.start_date == undefined || $scope.teacher.start_date == null)
 			{				
 				notify({
@@ -185,9 +176,28 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 			})
 		}
 
+		$scope.checkTime = function(index)
+		{			
+			if($scope.teacher.start_date != undefined && $scope.teacher.start_date != null)
+				var from = $scope.teacher.start_date;
+			if($scope.teacher.end_date != undefined && $scope.teacher.end_date != null)
+		      	var to = $scope.teacher.end_date;
+		      var timeDiff = Math.abs(to.getTime() - from.getTime());
+		      var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));  
+		      if(to.getTime() < from.getTime())
+		      {
+		      	notify({
+		      		message: 'Invalid End Date',
+		      		classes: 'alert-danger',
+		      		duration: 2000
+		      	});
+		      	$scope.teacher.end_date = null;
+		      	return;
+		      }
+		}
+
 		$scope.teacher_signup = function()
-		{
-			
+		{			
 			if($("#signup").valid())
 			{				
 				console.log($scope.teacher)
@@ -200,6 +210,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 					if(success.data.status == 'success')
 					{
 						$scope.teacher.id = success.data.teacher_id;
+<<<<<<< HEAD
 						$('#addStudent').modal('show');					
 					}else if(success.data.status == 'failed')
 					{
@@ -209,6 +220,9 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 							duration:3000
 						});
 						return;			
+=======
+						$('#addStudent').modal('show');
+>>>>>>> 0c1930f4820b90f1e30ea1d53912f8bd6636d58e
 					}
 				},function(error){
 
