@@ -89,6 +89,13 @@ class UniversityController extends Controller
 
 	    foreach ($emails as $email) 
 	    {
+	    	$valid = $this->CheckValidEmail($email);
+	    	if(!$valid)
+	    		continue;
+	    	$exists = $this->CheckDupeEmail($email);
+	    	
+	    	if($exists)
+	    		continue;
 	    	$GM = new GroupEmail;
 	    	$GM->setGroup_id($group->getId());
 	    	$GM->setEmail($email);
@@ -96,21 +103,24 @@ class UniversityController extends Controller
 	    	$em->persist($GM);
 	    	$em->flush();
 	    }
-	    if(true)
-		{
-			//path 
+			//path 			
 			$absolute_path = getcwd();
 			$fileCo = file_get_contents($file);
 			file_put_contents('temp.xls', $fileCo);
-			//return $this->json(['count'=>$absolute_path]);
 			$reader = $this->get("arodiss.xls.reader");
 			$path = $absolute_path."/temp.xls";
 			$path = str_replace('/', '//', $path);
 			$content = $reader->readAll($path);
-		
+			
 			 foreach ($content as $c) 
 	    {
-	    	//return $this->json(($c));
+	    	$valid = $this->CheckValidEmail(array_values($c)[0]);
+	    	if(!$valid)
+	    		continue;
+	    	$exists = $this->CheckDupeEmail(array_values($c)[0]);
+			//return $this->json($exists);
+	    	if($exists)
+	    		continue;
 	    	$GM = new GroupEmail;
 	    	$GM->setGroup_id($group->getId());
 	    	$GM->setEmail(array_values($c)[0]);
@@ -121,7 +131,7 @@ class UniversityController extends Controller
 	    	//return $this->json($content);
 	    }
 	    unlink($path);
-	    return $this->json(($path));
+	    //return $this->json(($path));
 /*
 			for($i=0;$i<$content;$i++)
 	    {
@@ -153,8 +163,7 @@ class UniversityController extends Controller
 		    	$GM->setCreated_by(1);
 		    	$em->persist($GM);
 		    	$em->flush();
-			}*/
-		}	    
+			}*/	    
 
     	return $this->json(array('status' => 'success','reason' => 'Group Saved Successfully','reaponse' => 200));
 
@@ -165,5 +174,30 @@ class UniversityController extends Controller
     	return $this->render('staff/index.html.twig', array(
             'profileName' => 'Admin',
         ));
+    }
+
+   	public function CheckDupeEmail($email)
+    {
+    	$em = $this->getDoctrine()->getManager();
+
+        $RAW_QUERY = 'SELECT email FROM group_emails where group_emails.email = :email LIMIT 1;';
+        
+        $statement = $em->getConnection()->prepare($RAW_QUERY);
+        // Set parameters 
+        $statement->bindValue('email', $email);
+        $statement->execute();
+
+       return  $result = $statement->fetchAll();
+
+        $repository = $this->getDoctrine()->getRepository(GroupEmail::class);
+
+       return $product = $repository->findOneByEmail('hello@hello.com');
+
+
+
+    }
+    	public function CheckValidEmail($email)
+    {
+    	return filter_var($email, FILTER_VALIDATE_EMAIL);
     }
 }
