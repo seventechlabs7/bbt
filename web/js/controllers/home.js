@@ -201,6 +201,14 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 					{
 						$scope.teacher.id = success.data.teacher_id;
 						$('#addStudent').modal('show');					
+					}else if(success.data.status == 'failed')
+					{
+						notify({
+							message:'Email Id is Already Exists',
+							classes:'alert-danger',
+							duration:3000
+						});
+						return;			
 					}
 				},function(error){
 
