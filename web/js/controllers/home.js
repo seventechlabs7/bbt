@@ -211,6 +211,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 					{
 						$scope.teacher.id = success.data.teacher_id;
 <<<<<<< HEAD
+<<<<<<< HEAD
 						$('#addStudent').modal('show');					
 					}else if(success.data.status == 'failed')
 					{
@@ -220,6 +221,9 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 							duration:3000
 						});
 						return;			
+=======
+						$('#addStudent').modal('show');
+>>>>>>> 0c1930f4820b90f1e30ea1d53912f8bd6636d58e
 =======
 						$('#addStudent').modal('show');
 >>>>>>> 0c1930f4820b90f1e30ea1d53912f8bd6636d58e
