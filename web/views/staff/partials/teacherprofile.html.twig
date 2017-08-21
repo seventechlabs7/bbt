@@ -179,7 +179,7 @@ ul.unedit_ul {
 }
 
 </style>
-<div ng-controller="homepage" ng-init="getteacherdetails();">
+<div ng-controller="homepage" ng-init="initSettings();getteacherdetails();">
 	<div class="whole_container">
 		<div class="left_bar_cont">
 			<div class="left_bar">
@@ -350,10 +350,10 @@ ul.unedit_ul {
 		        									<div class="cust_list_ans">         						
 														<div class="row">
 															<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-																<input type="date" class="date_form"  placeholder="Start Date" name="maillistfile" ng-model="teacher.start_date" ng-change="checkTime('start')" />
+																<input id="sDateField" type="date" class="date_form"  placeholder="Start Date" name="maillistfile" ng-model="teacher.start_date" ng-change="checkTime('start')" />
 															</div>
 															<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-																<input type="date" class="date_form" name="startdate"  ng-model="teacher.end_date" ng-change="checkTime('end')"/>
+																<input type="date"  class="date_form" name="startdate"  ng-model="teacher.end_date" ng-change="checkTime('end')"/>
 															</div>
 														</div>
 		        									</div>       									

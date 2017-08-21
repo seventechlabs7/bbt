@@ -180,6 +180,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 
 		$scope.checkTime = function(index)
 		{			
+			$scope.pastDateCheck();
 			if($scope.teacher.start_date != undefined && $scope.teacher.start_date != null)
 				var from = $scope.teacher.start_date;
 			if($scope.teacher.end_date != undefined && $scope.teacher.end_date != null)
@@ -197,6 +198,25 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 		      	return;
 		      }
 		}
+		$scope.initSettings = function()
+		{
+			var input = document.getElementById("sDateField");
+			var today = new Date();
+			var day = today.getDate();
+			// Set month to string to add leading 0
+			var mon = new String(today.getMonth()+1); //January is 0!
+			var yr = today.getFullYear();
+
+			if(mon.length < 2) { mon = "0" + mon; }
+
+			var date = new String( yr + '-' + mon + '-' + day );
+
+			input.disabled = false; 
+			input.setAttribute('min', date);
+
+		}
+
+
 
 		$scope.getteacherdetails = function(){
 			
@@ -213,8 +233,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 					$scope.teacherdetail.surname =$scope.teacher[i].surname;
 					$scope.teacherdetail.email = $scope.teacher[i].email;
 					$scope.teacherdetail.university = $scope.teacher[i].university;
-				}
-
+				}				
 				$('#addStudent').modal('show');
 				$scope.shiftTab(1);
 			},function(error){
@@ -237,6 +256,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 					notify.closeAll();
 					notify({
 						message:'Your Status is Saved Successfully',
+						classes:'alert-success',
 						duration:3000
 					});
 				}
@@ -292,6 +312,26 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 
 	    $scope.today = yyyy+'-'+mm+'-'+dd;
 	    console.log($scope.today);*/
+
+	    $scope.pastDateCheck = function()
+	    {
+	    	if($scope.teacher.start_date)
+	    	{
+	    		var date = new Date($scope.teacher.start_date)	    		
+	    		if(date.setHours(0,0,0,0) < new Date().setHours(0,0,0,0))
+	    		{
+	    			$scope.teacher.start_date = undefined;
+	    			notify({
+							message:'Past Dates Not Allowed',
+							classes:'alert-danger',
+							duration:3000
+						});
+						return;	
+	    			
+	    		}
+	    	}
+	    }
+
 		$("#signup").validate();
     }
     ]);

@@ -67,7 +67,7 @@ class UniversityController extends Controller
 		return $count;*/
 
 		$db = $this->get('database_connection');
-		$query = 'select email from  teachers';
+		/*$query = 'select email from  teachers';
 		//$query->where('email','=',$teacher['email']);
 		$sth = $db->prepare($query);
 		$sth->execute();
@@ -86,7 +86,12 @@ class UniversityController extends Controller
 			}else{
 				$emailvalidate = 0;
 			}
-		}
+		}*/
+
+		$emailvalidate =0;
+        $emailCheck1 = $this->CheckDupeEmail($teacher['email']);
+        if(!$emailCheck1)
+        	$emailvalidate =1;
 		
 		if($emailvalidate === 1){
 			$em = $this->getDoctrine()->getManager();
