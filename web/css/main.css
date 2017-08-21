@@ -1,9 +1,9 @@
-@font-face{
+/*@font-face{
 
     src:url('../fonts/OpenSans-Regular.ttf');
     font-family: "opensans";
 
-}
+}*/
 @font-face{
 
     src:url('../fonts/OpenSans-Light.ttf');
@@ -231,7 +231,7 @@ body
 .header_container {
     display: inline-block;
     width: 100%;
-    background: #1E2CA7;
+    background: #010e9b;
     text-align: center;
     padding: 15px 5px 15px 5px;
 }
@@ -278,6 +278,9 @@ a.forgotpass_text {
     width: 100%;
     margin-top: -5px;
     text-align: center;
+    background-image: url(../imgs/home_back.jpg);
+    background-size: cover;
+    background-position: 0 0;
 }
 
 .body_main_text {
@@ -291,15 +294,17 @@ a.forgotpass_text {
 }
 
 ul.body_main_ul {
-    padding: 0 !important;
+    padding: 0 20px !important;
     text-align: left;
     display: inline-block;
-    width: 50%;
-    list-style: disc !important;
+    width: 68%;
+    list-style: none !important;
 }
 
 ul.body_main_ul li {
-    font-size: 20px;
+    font-size: 21px;
+    color: #5ca513;
+    padding: 8px 0px;
 }
 
 .signup_page_form_cont {
@@ -311,11 +316,12 @@ ul.body_main_ul li {
 .signup_form_card {
     display: inline-block;
     width: 100%;
-    max-width: 485px;
+    max-width: 435px;
     padding: 15px;
-    background: #1E2CA7;
+    background: #010e9b;
     color: #fff;
-    margin: 30px;
+    margin: 6vh;
+    border-radius: 10px;    
 }
 
 .card_header {
@@ -507,7 +513,7 @@ button.upload_button {
     padding: 0 13px;
     color: #fff;
     font-size: 14px;
-    background: #1E2CA7;
+    background: #010e9b;
     border-bottom-right-radius: 7px;
     border-top-right-radius: 7px;    
 }
@@ -533,7 +539,7 @@ button.modal_nxt_bt {
     padding: 6px 23px;
     font-size: 14px;
     color: #fff;
-    background: #1e2ca7;
+    background: #010e9b;
 }
 
 .cust_list_q {
@@ -583,7 +589,7 @@ ul.check_cont_ul {
 
 .checkbox_cont {
     padding: 15px;
-    background: #1e2ca7;
+    background: #010e9b;
     color: #fff;
     border-radius: 8px;
 }
@@ -595,6 +601,195 @@ ul.check_cont_ul {
 {
     display: inline-block !important;
 }
+.body_main_text > .biggerText {
+    color: #333;
+    font-size: 3.375rem;
+    text-transform: capitalize;
+    font-weight: 600;
+}
+
+
+/*Profile Page*/
+
+.left_bar_cont {
+    display: inline-block;
+    width: 100%;
+    max-width: 300px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    background: #010e9b;
+}
+
+.left_bar {
+    display: inline-block;
+    width: 100%;
+}
+
+.left_bar_logo {
+    display: inline-block;
+    width: 100%;
+    padding: 30px 0;
+    text-align: center;
+}
+
+.left_logo {
+    display: inline-block;
+    width: 100%;
+    max-width: 130px;
+}
+
+.left_logo > img {
+    display: inline-block;
+    width: 100%;
+}
+
+.left_logo_text {
+    display: inline-block;
+    width: 100%;
+    padding: 10px 0;
+    color: #fff;
+}
+
+.left_bar_content {
+    display: inline-block;
+    width: 100%;
+    padding: 10vh 0;
+}
+
+.left_bar_buttons {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}
+
+ul.bar_but_ul,ul.bar_but_ul
+ li {
+    display: inline-block;
+    width: 100%;
+}
+
+ul.bar_but_ul
+ li {
+    padding: 20px 0;
+}
+
+button.left_bar_but {
+    border-radius: 7px;
+    background: #fff;
+    border: 0;
+    width: 100%;
+    max-width: 158px;
+    color: #000;
+    padding: 5px 30px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    display:inline-block;
+}
+button.left_bar_but.selected
+{
+    background: #70AD47;
+    color:#fff;
+}
+
+.profile_head_cont,.profile_body_cont {
+    display: inline-block;
+    width: 100%;
+    padding-left: 300px;
+    text-align: center;
+}
+
+.pro_pic_upd_cont {
+    display: inline-block;
+    width: 100%;
+    padding: 20px;
+}
+
+.center_l_block, .center_l_label, .center_l_txt_cont,.center_l_txtarea {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}
+
+.center_l_label {
+    text-align: left;
+    padding: 5px;
+    font-weight: 600;
+}
+
+textarea.center_l_txtarea {
+    border-radius: 6px;
+    resize: none;
+    text-align: left;
+    padding: 10px;
+    outline: 0;
+}
+
+.center_l_txt_cont {
+    padding: 15px;
+}
+
+.center_l_block {
+    border: 1px solid #000;
+    padding: 7px;
+}
+
+.center_r_block {
+    display: inline-block;
+    width: 100%;
+    border: 1px solid #000;
+    padding: 10px;
+}
+
+img.pro_pic_upd_img {
+    display: inline-block;
+    border-radius: 100%;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    border: 0;
+}
+
+.upload_pic_but {
+    display: inline-block;
+    width: auto;
+    padding: 5px 15px;
+    background: #010e9b;
+    color: #fff;
+    border-radius: 9px;
+    border: 0;
+    outline: 0;
+}
+
+.unedit_cont {
+    display: inline-block;
+    width: 100%;
+    padding: 20px;
+    text-align: left;
+}
+
+li.unedit_li {
+    font-size: 16px;
+    padding: 5px;
+}
+
+ul.unedit_ul {
+    padding: 15px;
+}
+.pro_pic_cont {
+    display: inline-block;
+    width: 100%;
+    padding: 20px 20px 0 20px;
+    text-align: center;
+}
+.body_main_text > .biggerText {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+/*EO Profile Page*/
 /*==========  Non-Mobile First Method  ==========*/
 
     /* Large Devices, Wide Screens */

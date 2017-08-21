@@ -3,17 +3,18 @@ angular.module('app')
     .config(
         ['$stateProvider', '$urlRouterProvider', 'JQ_CONFIG',
             function($stateProvider, $urlRouterProvider, JQ_CONFIG) {
-
+             
                 $urlRouterProvider
-                    .otherwise('/');
+                    .otherwise('/dashboard');
                 $stateProvider
-/*                    .state('home', {
-                        abstract:false,
-                        template: '<div ui-view class=""></div>'
+                   .state('app', {
+                        abstract: true,
+                        url: '/app',
+                        template: '<div ui-view class=""></div>',
                     })
-*/                    .state('home', {
-                        url: '/',
-                        templateUrl: 'partials/home.html',
+                    .state('app.home', {
+                        url: '/signup',
+                        templateUrl: 'views/staff/partials/home.html.twig',
                         resolve: {
                             deps: ['uiLoad',
                                 function(uiLoad) {
@@ -22,18 +23,18 @@ angular.module('app')
                             ]
                         }
                     })
-                    .state('home.profile', {
-                        url: '/home/profile',
-                        templateUrl: 'partials/profile.html',
+                    .state('app.profile', {
+                        url: '/profile/:teacher_id',
+                        templateUrl: 'views/staff/partials/teacherprofile.html.twig',
                         resolve: {
                             deps: ['uiLoad',
                                 function(uiLoad) {
-                                    return uiLoad.load(['js/controllers/profile.js']);
+                                    return uiLoad.load(['js/controllers/home.js']);
                                 }
                             ]
                         }
                     })
-                    .state('home.campaign', {
+                    .state('app.campaign', {
                         url: '/camp',
                         templateUrl: 'partials/campaign.html',
                         resolve: {

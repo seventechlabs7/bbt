@@ -65,7 +65,8 @@
     <script  src="bower_components/ng-file-upload/ng-file-upload-shim.min.js"></script>
     <script  src="bower_components/ng-file-upload/ng-file-upload.min.js"></script>
     <script src="bower_components/angular-notify/dist/angular-notify.min.js"></script>
-
+     <script  src="js/app.router.js"></script>
+      <script  src="js/controllers/home.js"></script>
     {% endblock %}
 
 
@@ -73,7 +74,7 @@
 
 <body ng-controller="AppCtrl">
 
-{{ include('staff/partials/home.html.twig') }}
+<section ui-view></section>
 
     
 

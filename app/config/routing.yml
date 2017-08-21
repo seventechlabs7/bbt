@@ -3,12 +3,22 @@ app:
     type: annotation
 
 home:
-    path:     /home
+    path:     /index
     defaults: { _controller: AppBundle:University:home }
+
+teacherdetails:
+    path:     api/getteacherdetails/{tid}
+    defaults: { _controller: AppBundle:University:teacherProfile }
+    methods:  [GET]
 
 teachersignup:
     path:     /api/teacher/signup
     defaults: { _controller: AppBundle:University:signupTeacher }
+    methods:  [POST]
+
+teacherstatus:
+    path:     /api/teacher/status
+    defaults: { _controller: AppBundle:University:teacherStatus }
     methods:  [POST]
 
 saveteacher:

@@ -20,6 +20,8 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 			}
 		});
 
+        $scope.currentPage ="home";
+
         $scope.shiftTab = function(index)
         {
         	//alert(index)
@@ -30,8 +32,11 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
         }
 
         $scope.teacher = {};
+        $scope.teacherdetail = {};
         $scope.teacher.virtual_money = 25.00;
         $scope.step = 1;
+        $scope.teacher_id = "";
+        console.log($stateParams.teacher_id);
 		$scope.openModal = function()
 		{			
 			$('#addStudent').modal('show');
@@ -62,7 +67,8 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 
 		$scope.start = function()
 		{
-			if($scope.teacher.mail_list == undefined || $scope.teacher.mail_list == null)
+			$scope.teacher.id = $stateParams.teacher_id;//$scope.teacher.mail_list == undefined || 
+			if($scope.teacher.mail_list_file == null)
 			{				
 				notify({
 					message:'Atleast one mail Should be there',
@@ -71,30 +77,32 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				});
 				return;
 			}
-			var list = $scope.teacher.mail_list.split(',');
-			var emailregex = /\S+@\S+\.\S+/;
-      
-			for (var i = 0; i < list.length; i++) 
-			{
-				if(list[i] == null)
+			if($scope.teacher.mail_list != undefined){
+				var list = $scope.teacher.mail_list.split(',');
+				var emailregex = /\S+@\S+\.\S+/;
+	      
+				for (var i = 0; i < list.length; i++) 
 				{
-					notify({
-						message:'Should Seperate by single comma',
-						classes:'alert-danger',
-						duration:2000
-					});
+					if(list[i] == null)
+					{
+						notify({
+							message:'Should Seperate by single comma',
+							classes:'alert-danger',
+							duration:2000
+						});
+						return;
+					}
+					if(!list[i].match(emailregex))
+					{
+						notify({
+							message:'Invalid Mail Id',
+							classes:'alert-danger',
+							duration:2000
+						});
 					return;
-				}
-				if(!list[i].match(emailregex))
-				{
-					notify({
-						message:'Invalid Mail Id',
-						classes:'alert-danger',
-						duration:2000
-					});
-				return;
-				}
-			}			
+					}
+				}	
+			}		
 			if($scope.teacher.start_date == undefined || $scope.teacher.start_date == null)
 			{				
 				notify({
@@ -195,6 +203,52 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 		      	return;
 		      }
 		}
+		$scope.getteacherdetails = function(){
+			
+			$http({
+				method: 'GET',
+				url: 'api/getteacherdetails/'+$stateParams.teacher_id
+			}).then(function(success){
+				console.log(success);
+				$scope.teacher = success.data.data;
+				console.log($scope.teacher);
+				for(var i in $scope.teacher){
+					console.log($scope.teacher[i]);
+					$scope.teacherdetail.name = $scope.teacher[i].name;
+					$scope.teacherdetail.surname =$scope.teacher[i].surname;
+					$scope.teacherdetail.email = $scope.teacher[i].email;
+					$scope.teacherdetail.university = $scope.teacher[i].university;
+				}
+
+				$('#addStudent').modal('show');
+				$scope.shiftTab(1);
+			},function(error){
+				
+			});
+		}
+
+		$scope.teacher_status = function(){
+			$http({
+				method: 'POST',
+				url: 'api/teacher/status',
+				data:{
+				id: $stateParams.teacher_id,
+				teacher :$scope.teacherstatus,
+			}
+			}).then(function(success){
+				console.log(success);
+				if(success.data.status == 'success')
+				{
+					notify.closeAll();
+					notify({
+						message:'Your Status is Saved Successfully',
+						duration:3000
+					});
+				}
+			},function(error){
+				
+			});
+		}
 
 		$scope.teacher_signup = function()
 		{			
@@ -210,9 +264,10 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 					if(success.data.status == 'success')
 					{
 						$scope.teacher.id = success.data.teacher_id;
-<<<<<<< HEAD
-<<<<<<< HEAD
-						$('#addStudent').modal('show');					
+						$scope.teacher_id = $scope.teacher.id;
+					$state.go('app.profile', {
+					    teacher_id: $scope.teacher_id 
+					});				
 					}else if(success.data.status == 'failed')
 					{
 						notify({
@@ -221,19 +276,26 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 							duration:3000
 						});
 						return;			
-=======
-						$('#addStudent').modal('show');
->>>>>>> 0c1930f4820b90f1e30ea1d53912f8bd6636d58e
-=======
-						$('#addStudent').modal('show');
->>>>>>> 0c1930f4820b90f1e30ea1d53912f8bd6636d58e
 					}
 				},function(error){
 
 				});
 			}
 		}
+		console.log($scope.teacher_id);
+		/*var today = new Date();
+	    var dd = today.getDate();
+	    var mm = today.getMonth()+1;
+	    var yyyy = today.getFullYear();
+	     if(dd<10){
+	            dd='0'+dd
+	        } 
+	        if(mm<10){
+	            mm='0'+mm
+	        } 
 
+	    $scope.today = yyyy+'-'+mm+'-'+dd;
+	    console.log($scope.today);*/
 		$("#signup").validate();
     }
     ]);

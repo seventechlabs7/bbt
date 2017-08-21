@@ -44,6 +44,21 @@ class Teacher
     private $university;
 
     /**
+     * @ORM\Column(name="`about`",type="text")
+     */
+    private $about;
+
+    /**
+     * @ORM\Column(name="`teach_place`",type="text")
+     */
+    private $teach_place;
+
+    /**
+     * @ORM\Column(name="`work`",type="text")
+     */
+    private $work;
+
+    /**
      * @ORM\Column(name="`created_by`",type="text")
      */
     private $created_by;
@@ -95,6 +110,30 @@ class Teacher
 
 	public function setUniversity($university){
 		$this->university = $university;
+	}
+
+	public function getAbout(){
+		return $this->about;
+	}
+
+	public function setAbout($about){
+		$this->about = $about;
+	}
+
+	public function getTeachplace(){
+		return $this->teach_place;
+	}
+
+	public function setTeachplace($teach_place){
+		$this->teach_place = $teach_place;
+	}
+
+	public function getWork(){
+		return $this->work;
+	}
+
+	public function setWork($work){
+		$this->work = $work;
 	}
 
 	public function getCreated_by(){

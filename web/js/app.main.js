@@ -26,5 +26,8 @@ angular.module('app').controller('AppCtrl', ['$scope','$document','$rootScope','
         }
         $scope.text = "Hellow";
         $scope.app.breadcrumb = [];
+       $state.go('app.home', {
+                       
+                    });
     }
     ]);
