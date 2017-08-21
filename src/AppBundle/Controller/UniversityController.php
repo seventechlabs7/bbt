@@ -303,7 +303,6 @@ class UniversityController extends Controller
         ));
     }
 
-
     public function CheckDupeEmail($email)
     {
     	$em1 = $this->getDoctrine()->getManager();
