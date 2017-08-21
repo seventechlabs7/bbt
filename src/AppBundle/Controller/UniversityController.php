@@ -188,6 +188,32 @@ class UniversityController extends Controller
 	    	}	    	
 	    }
 
+	    $assets = $teacher['assets'];
+	    foreach ($assets as $asset) 
+	    {
+	    	if($asset)
+	    	{
+	    		$GA = new GroupAsset;
+	    		$GA->setGroup_id($group->getId());
+	    		$GA->setAsset_id($asset);
+	    		$em->persist($GA);
+	    		$em->flush();
+	    	}
+	    }
+
+	    $feedbacks = $teacher['feedback'];
+	    foreach ($feedbacks as $feedback) 
+	    {
+	    	if($feedbacks)
+	    	{
+	    		$GF = new GroupFeedback;
+	    		$GF->setGroup_id($group->getId());
+	    		$GF->setFeedback_id($feedback);
+	    		$em->persist($GF);
+	    		$em->flush();
+	    	}	    	
+	    }
+
 	    foreach ($emails as $email) 
 	    {
 	    	$valid = $this->CheckValidEmail($email);
@@ -277,6 +303,7 @@ class UniversityController extends Controller
         ));
     }
 
+
     public function CheckDupeEmail($email)
     {
     	$em1 = $this->getDoctrine()->getManager();
@@ -322,8 +349,6 @@ class UniversityController extends Controller
        /*$repository = $this->getDoctrine()->getRepository(GroupEmail::class);
 
        return $product = $repository->findOneByEmail('hello@hello.com');*/
-
-
 
     }
     	public function CheckValidEmail($email)

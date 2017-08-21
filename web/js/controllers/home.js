@@ -77,32 +77,33 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				});
 				return;
 			}
-			if($scope.teacher.mail_list != undefined){
-				var list = $scope.teacher.mail_list.split(',');
-				var emailregex = /\S+@\S+\.\S+/;
-	      
-				for (var i = 0; i < list.length; i++) 
+			
+			var list = $scope.teacher.mail_list.split(',');
+			var emailregex = /\S+@\S+\.\S+/;
+      
+			for (var i = 0; i < list.length; i++) 
+			{
+				if(list[i] == null)
 				{
-					if(list[i] == null)
-					{
-						notify({
-							message:'Should Seperate by single comma',
-							classes:'alert-danger',
-							duration:2000
-						});
-						return;
-					}
-					if(!list[i].match(emailregex))
-					{
-						notify({
-							message:'Invalid Mail Id',
-							classes:'alert-danger',
-							duration:2000
-						});
+					notify({
+						message:'Should Seperate by single comma',
+						classes:'alert-danger',
+						duration:2000
+					});
 					return;
-					}
-				}	
-			}		
+				}
+				if(!list[i].match(emailregex))
+				{
+					notify({
+						message:'Invalid Mail Id',
+						classes:'alert-danger',
+						duration:2000
+					});
+				return;
+
+				}
+			}	
+					
 			if($scope.teacher.start_date == undefined || $scope.teacher.start_date == null)
 			{				
 				notify({
@@ -203,6 +204,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 		      	return;
 		      }
 		}
+
 		$scope.getteacherdetails = function(){
 			
 			$http({
@@ -249,6 +251,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				
 			});
 		}
+
 
 		$scope.teacher_signup = function()
 		{			
