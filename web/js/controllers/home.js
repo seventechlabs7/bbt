@@ -68,15 +68,6 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 		$scope.start = function()
 		{
 			$scope.teacher.id = $stateParams.teacher_id;//$scope.teacher.mail_list == undefined || 
-			if($scope.teacher.mail_list_file == null)
-			{				
-				notify({
-					message:'Atleast one mail Should be there',
-					classes:'alert-danger',
-					duration:2000
-				});
-				return;
-			}
 			
 			var list = $scope.teacher.mail_list.split(',');
 			var emailregex = /\S+@\S+\.\S+/;
@@ -160,9 +151,11 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 			}
 
 			console.log($scope.teacher)
-			if($scope.teacher.start_date != undefined && $scope.teacher.start_date == null)
+
+			if($scope.teacher.start_date != undefined && $scope.teacher.start_date != null)
 				$scope.teacher.start_date = $filter('date')($scope.teacher.start_date, 'yyyy-MM-dd');
-			if($scope.teacher.end_date != undefined && $scope.teacher.end_date == null)
+			
+			if($scope.teacher.end_date != undefined && $scope.teacher.end_date != null)
 				$scope.teacher.end_date = $filter('date')($scope.teacher.end_date, 'yyyy-MM-dd');
 			console.log($scope.teacher)
 
