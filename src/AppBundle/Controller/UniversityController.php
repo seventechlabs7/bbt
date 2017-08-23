@@ -418,12 +418,9 @@ class UniversityController extends Controller
 						$em1->persist($US);
 						$em1->flush();
 				}
-<<<<<<< HEAD
-				return $this->redirect('http://localhost:8000/index#/app/profile/'.$result1['id']);
-=======
 				$url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'] ;
 				return $this->redirect($url.'/index#/app/profile/'.$result1['id']);
->>>>>>> 81f31e2db5a055d3a6747e568c1489900ba61f9a
+
 			}
 		}
 	}
