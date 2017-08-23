@@ -1,0 +1,429 @@
+
+<div ng-controller="homepage">
+	
+<!-- 	<div class="">
+		Profile{{profileName}}
+	</div> -->
+	<div class="whole_container">
+		<div class="header_container">
+			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-2">
+				<div class="header_logo_cont">
+					<div class="header_logo">
+						<img src="imgs/logo.png">
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-10">
+				<div class="header_right_cont">
+					<div class="row">
+						<div class="col-lg-4 col-md-4 col-xs-12">
+							<input type="" name="" placeholder="Email" class="form_inputtext">
+						</div>
+						<div class="col-lg-4 col-md-4 col-xs-12">
+							<input type="" name="" placeholder="Password" class="form_inputtext">
+						</div>
+						<div class="col-lg-4 col-md-4 col-xs-12">
+							<button class="head_login_but">Log In</button>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div class="forgot_password_cont">
+								<a href="javascript:void(0)" class="forgotpass_text">Forgot password?</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="body_container">
+			<div class="row">
+				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+					<div class="body_main_text">
+						<h3>Your university is getting closer:</h3>
+						<ul class="body_main_ul">
+							<li>Learn Finance</li>
+							<li>Practice in virtual Stock Exchange</li>
+							<li>Connect with people and companies</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+					<div class="signup_page_form_cont">
+						<div class="signup_form_card">
+							<div class="card_header">
+								<div class="card_header_text"> 
+									Sign up Teacher
+								</div>
+								<div class="card_header_button">
+									<!-- <button class="card_header_btn">Are You a teacher?</button> -->
+									<h5 class="form_text text-center"> Specially Prepared for Teachers </h5>									
+								</div>
+							</div>
+							<div class="card_body">
+								<div class="row">
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+										<div class="form_input_cont">
+											<input class="form_inputtext" placeholder="Name" type="text" name="">
+										</div>
+									</div>
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+										<div class="form_input_cont">
+											<input class="form_inputtext" placeholder="Surname" type="text" name="">
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<div class="form_input_cont">
+											<input class="form_inputtext inp_full" placeholder="Email" type="text" name="">
+										</div>
+									</div>
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<div class="form_input_cont">
+											<input class="form_inputtext inp_full" placeholder="Password" type="text" name="">
+										</div>
+									</div>
+									<div class="form_h4_text">
+									Birth Date
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+										<div class="form_input_cont">
+											<input class="form_inputtext" placeholder="Day" type="text" name="">
+										</div>
+									</div>
+									<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+										<div class="form_input_cont">
+											<input class="form_inputtext" placeholder="Month" type="text" name="">
+										</div>
+									</div>
+									<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+										<div class="form_input_cont">
+											<input class="form_inputtext" placeholder="Year" type="text" name="">
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<button class="form_submit_but" data-toggle="modal" ng-click="openModal()">Join now</button>
+									</div>									
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<h5 class="form_text text-center"> - Or Sign up with - </h5>
+									</div>
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<ul class="card_social_ul">
+											<li class="social_li">
+												<div class="social_cirlce">
+													<i class="fa fa-facebook"></i>
+												</div>
+											</li>
+											<li class="social_li">
+												<div class="social_cirlce">
+													<i class="fa fa-linkedin"></i>
+												</div>
+											</li>
+											<li class="social_li">
+												<div class="social_cirlce">
+													<i class="fa fa-google"></i>
+												</div>
+											</li>
+										</ul>
+									</div>
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<div class="card_terms">
+											By clicking the join now button you agree with the cookies policy, the privacy policy and terms and conditions.
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+<div class="container">
+  <h2>Modal Example</h2>
+  <!-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#addStudent">Open Modal</button> -->
+  <div class="modal fade" id="addStudent" role="dialog">
+    <div class="modal-dialog">   
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modal Header</h4>
+          <ul class="step_head_ul">
+          	<li class="step_head_li" id="stephead_1" data="1">Step 1 of 3</li>          	
+          </ul>
+        </div>
+        <div class="modal-body">
+        	<div class="step_body_container">
+        		<ul class="step_body_ul">        		
+        			<li class="step_body_li" id="step_body_1" ng-if="step==1">
+        				<div class="form_container">
+        					<div class="form_head_text">
+        						Do you have students? Add them
+        					</div>
+        					<div class="row">
+	    						<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+									<div class="controls">
+		                                <input type="text" class="form-control" placeholder="Copy and Paste your mailing list" name="maillist" ng-model="university.maillist">
+		                            </div>
+								</div>								
+        					</div>
+        					<div class="row">
+	    						<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+									<div class="controls">
+		                                <input type="text" class="form-control" placeholder="Find Your File(csv./other)" name="maillistfile" ng-model="university.maillistfile">
+		                            </div>
+								</div>
+								<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+									<button type="button" class="btn btn-raised btn-default btn-flat">Upload</button>
+								</div>
+        					</div>
+        					<div class="row">
+	    						<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+									<div class="controls">
+		                                <input type="text" class="form-control" placeholder="Name of the Group" name="groupname" ng-model="university.groupname">
+		                            </div>
+								</div>
+        					</div>
+        					<div class="col-md-12 col-sm-12 col-xs-12">
+			                    <div class="form-group">
+			                        <button type="button" ng-click="nextstep()" class="btn btn-raised btn-primary btn-flat"  id="savebtn">Next</button>
+			                    </div>
+			                </div>
+        				</div>
+        			</li>
+        			<li class="step_body_li" id="step_body_2" ng-if="step==2">
+        				<div class="form_container">
+        					<div class="form_head_text">
+        						Create a virtual bag league for your students:
+        					</div>        				
+	        				<div class="row">
+	    						<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+									<label>How Long will it last for?</label>
+								</div>
+								<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+									<div class="controls">
+		                                <input type="date" class="form-control" placeholder="Start Date" name="maillistfile" ng-model="university.startdate">
+		                            </div>
+								</div>
+								<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+									<div class="controls">
+		                                <input type="date" class="form-control" placeholder="End Date" name="maillistfile" ng-model="university.enddate">
+		                            </div>
+								</div>
+	    					</div>
+	    					<div class="row">
+	    						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+									<label>Which assets do you want to have?</label>
+								</div>
+								<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 row">
+									<div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+	                                    <div class="checkbox checkbox-primary">
+	                                    <label>
+	                                        <input type="checkbox" ng-checked="university.assets == 1" ng-true-value="1" ng-false-vlaue="0" ng-model="university.assets"><span class="checkbox-decorator"><span class="check"></span></span>Ibex 35
+	                                    </label>
+	                                    </div>
+	                                </div>
+	                                <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+	                                    <div class="checkbox checkbox-primary">
+	                                    <label>
+	                                        <input type="checkbox" ng-checked="university.assets == 2" ng-true-value="2" ng-false-vlaue="0" ng-model="university.assets"><span class="checkbox-decorator"><span class="check"></span></span>Mercado continuo
+	                                    </label>
+	                                    </div>
+	                                </div>
+	                                <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+	                                    <div class="checkbox checkbox-primary">
+	                                    <label>
+	                                        <input type="checkbox" ng-checked="university.assets == 3" ng-true-value="3" ng-false-vlaue="0" ng-model="university.assets"><span class="checkbox-decorator"><span class="check"></span></span>Forex
+	                                    </label>
+	                                    </div>
+	                                </div>
+								</div>
+	    					</div>
+	    					<div class="row">
+	    						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+									<label>How do you want to call your league?</label>
+								</div>
+								<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+									<div class="controls">
+		                                <input type="text" class="form-control" placeholder="Name" name="leaguename" ng-model="university.leaguename">
+		                            </div>
+								</div>
+	    					</div>
+	    					<div class="row">
+	    						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+									<label>Virtual Money to Start</label>
+								</div>
+								<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+									<div class="controls">
+		                                <input type="number" class="form-control" placeholder="" name="virtualmoney" ng-model="university.virtualmoney">
+		                            </div>
+								</div>
+	    					</div>
+	    					<div class="col-md-12 col-sm-12 col-xs-12">
+			                    <div class="form-group">
+			                    	<button type="button" ng-click="prevstep()" class="btn btn-raised btn-primary btn-flat"  id="savebtn">Back</button>
+			                        <button type="button" ng-click="nextstep()" class="btn btn-raised btn-primary btn-flat"  id="savebtn">Next</button>
+			                    </div>
+			                </div>
+	    				</div>
+        			</li>
+        			<li class="step_body_li" id="step_body_3" ng-if="step==3">
+        				<div class="form_container">
+        					<div class="form_head_text">
+        						What do you want to see?
+        					</div>
+        					<div class="row">
+	    						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+									<label>Select the feedback:</label>
+								</div>
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+									<div class="checkbox checkbox-primary">
+	                                    <label>
+	                                        <input type="checkbox" ng-checked="university.feedback == 1" ng-true-value="1" ng-false-vlaue="0" ng-model="university.feedback"><span class="checkbox-decorator"><span class="check"></span></span>Benefits
+	                                    </label>
+	                                </div>
+								</div>
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+									<div class="checkbox checkbox-primary">
+	                                    <label>
+	                                        <input type="checkbox" ng-checked="university.feedback == 2" ng-true-value="2" ng-false-vlaue="0" ng-model="university.feedback"><span class="checkbox-decorator"><span class="check"></span></span>Number of Operations
+	                                    </label>
+	                                </div>
+								</div>
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+									<div class="checkbox checkbox-primary">
+	                                    <label>
+	                                        <input type="checkbox" ng-checked="university.feedback == 3" ng-true-value="3" ng-false-vlaue="0" ng-model="university.feedback"><span class="checkbox-decorator"><span class="check"></span></span>Total Profability
+	                                    </label>
+	                                 </div>
+								</div>
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+									<div class="checkbox checkbox-primary">
+	                                    <label>
+	                                        <input type="checkbox" ng-checked="university.feedback == 4" ng-true-value="4" ng-false-vlaue="0" ng-model="university.feedback"><span class="checkbox-decorator"><span class="check"></span></span>Average Profability per person
+	                                    </label>
+	                                </div>
+								</div>
+	    					</div>
+	    					<div class="col-md-12 col-sm-12 col-xs-12">
+			                    <div class="form-group">
+			                    	<button type="button" ng-click="prevstep()" class="btn btn-raised btn-primary btn-flat"  id="savebtn">Back</button>
+			                        <button type="button" ng-click="start()" class="btn btn-raised btn-primary btn-flat"  id="savebtn">Start Now</button>
+			                    </div>
+			                </div>
+        				</div>
+        			</li>
+        		</ul>
+        	</div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default">Next</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</div>
+
+<div class="modal modal-primary fade scale" id="student_list_modal" tabindex="-1" role="dialog" aria-labelledby="modal-default-primary" aria-hidden="true">
+	        <div class="modal-dialog modal-default" role="document">
+	            <div class="modal-content">
+	                <div class="modal-header">
+	                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	                    <span aria-hidden="true">&times;</span>
+	                	</button>
+	                    <h4 class="modal-title" id="modal-default-primary-label">{$ branch_modal_title $}</h4>
+	                </div>
+	                <div class="modal-body">
+	                    <form action="javascript:;" id="branch_form" name="form" autocomplete="off" novalidate>
+			                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			                    <div class="form-group row">
+			                        <label class="col-lg-2 form-label">Branchname</label>
+			                        <div class="col-lg-10">
+			                            <div class="controls">
+			                                <input type="text" class="form-control" placeholder="Branchname" name="branchname" ng-model="branch.name" required>
+			                            </div>
+			                        </div>
+			                    </div>
+			                    <div class="form-group row">
+			                        <label class="col-lg-2 form-label">Phone no</label>
+			                        <div class="col-lg-10">
+			                            <div class="controls">
+			                                <input type="text" class="form-control" placeholder="Phone no" name="phone" ng-model="branch.phone" required>
+			                            </div>
+			                        </div>
+			                    </div>
+
+			                    <div class="form-group row">
+			                        <label class="col-lg-2 form-label">Type</label>
+			                        <div class="col-lg-10">
+			                            <div class="controls">
+			                                <select class="form_input_text chosen-select" ui-jq="chosen" ng-model="branch.type" ui-options="{placeholder_text_single:'Type'}" ng-change="getStorage()" ng-options="type.id as type.name for type in types" required>
+                                                <option value="" > 	</option>
+                                            </select>
+			                            </div>
+			                        </div>
+			                    </div>
+
+			                    <div class="form-group row" ng-if="branch.type == 1">
+			                        <label class="col-lg-2 form-label">Bank</label>
+			                        <div class="col-lg-10">
+			                            <div class="controls">
+			                                <select class="form_input_text select" ui-jq="chosen" ng-model="branch.storage_id" ui-options="{placeholder_text_single:'Bank'}" ng-options="storage.id as storage.name for storage in storages" required>
+                                                <option value="" > 	</option>
+                                            </select>
+			                            </div>
+			                        </div>
+			                    </div>
+
+			                    <div class="form-group row" ng-if="branch.type == 1">
+			                        <label class="col-lg-2 form-label">Hospital</label>
+			                        <div class="col-lg-10">
+			                            <div class="controls">
+			                                <select class="form_input_text select" ui-jq="chosen" ng-model="branch.hospital" ui-options="{placeholder_text_single:'Hospital'}" ng-options="hospital.id as hospital.name for hospital in hospitals" required>
+                                                <option value="" > 	</option>
+                                            </select>
+			                            </div>
+			                        </div>
+			                    </div>
+
+			                    <!-- <div class="form-group row" ng-if="branch.type == 1">
+			                        <label class="col-lg-2 form-label">Doctor Name</label>
+			                        <div class="col-lg-10">
+			                            <div class="controls">
+			                                <input type="text" class="form-control" placeholder="Doctor Name" name="hospital" ng-model="branch.doctor" required>
+			                            </div>
+			                        </div>
+			                    </div> -->
+
+			                    <div class="form-group row" >
+			                        <label class="col-lg-2 form-label">Address</label>
+			                        <div class="col-lg-10">
+			                            <div class="controls">
+			                                <input type="text" class="form-control" placeholder="Address" name="address" ng-model="branch.address" required>
+			                            </div>
+			                        </div>
+			                    </div>
+			                </div>
+
+			                <div class="col-md-12 col-sm-12 col-xs-12">
+			                    <div class="form-group text-right">
+			                        <button type="button" ng-click="BranchUpdate()" class="btn btn-raised btn-primary btn-flat"   id="savebtn">Submit</button>
+			                        <button type="button" data-dismiss="modal" class="btn btn-raised btn-default btn-flat">Close</button>
+			                    </div>
+			                </div>
+			            </form>
+	                </div>
+	            </div>
+	        </div>
+    	</div>
+</div>    	

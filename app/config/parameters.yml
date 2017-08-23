@@ -1,0 +1,16 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_host: localhost
+    database_port: 3306
+    database_name: bigbangt_aemin
+    database_user: root
+    database_password: 
+    mailer_transport: smtp
+    mailer_host: smtp.sendgrid.net
+    mailer_port: 587
+    mailer_user: apikey
+    mailer_password: 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
+    MAIL_ENCRYPTION : tls
+    secret: 48ec05b8b3c5247f643fe5665fe350704b280aef
+    avatar_dir_teachers: "D:/bbt/avatars/teachers"
+    salt_key : 'bbtKey'

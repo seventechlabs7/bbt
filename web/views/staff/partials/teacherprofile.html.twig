@@ -1,0 +1,527 @@
+<style type="text/css">
+
+.left_bar_cont {
+    display: inline-block;
+    width: 100%;
+    max-width: 300px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    background: #010e9b;
+}
+
+.left_bar {
+    display: inline-block;
+    width: 100%;
+}
+
+.left_bar_logo {
+    display: inline-block;
+    width: 100%;
+    padding: 30px 0;
+    text-align: center;
+}
+
+.left_logo {
+    display: inline-block;
+    width: 100%;
+    max-width: 130px;
+}
+
+.left_logo > img {
+    display: inline-block;
+    width: 100%;
+}
+
+.left_logo_text {
+    display: inline-block;
+    width: 100%;
+    padding: 10px 0;
+    color: #fff;
+}
+
+.left_bar_content {
+    display: inline-block;
+    width: 100%;
+    padding: 10vh 0;
+}
+
+.left_bar_buttons {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}
+
+ul.bar_but_ul,ul.bar_but_ul
+ li {
+    display: inline-block;
+    width: 100%;
+}
+
+ul.bar_but_ul
+ li {
+    padding: 20px 0;
+}
+
+button.left_bar_but {
+    border-radius: 7px;
+    background: #fff;
+    border: 0;
+    width: 100%;
+    max-width: 158px;
+    color: #000;
+    padding: 5px 30px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    display:inline-block;
+}
+button.left_bar_but.selected
+{
+    background: #70AD47;
+    color:#fff;
+}
+
+.profile_head_cont,.profile_body_cont {
+    display: inline-block;
+    width: 100%;
+    padding-left: 300px;
+    text-align: center;
+}
+
+.pro_pic_upd_cont {
+    display: inline-block;
+    width: 100%;
+    padding: 20px;
+}
+
+.center_l_block, .center_l_label, .center_l_txt_cont,.center_l_txtarea {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}
+
+.center_l_label {
+    text-align: left;
+    padding: 5px;
+    font-weight: 600;
+}
+
+textarea.center_l_txtarea {
+    border-radius: 6px;
+    resize: none;
+    text-align: left;
+    padding: 10px;
+    outline: 0;
+}
+
+.center_l_txt_cont {
+    padding: 15px;
+}
+
+.center_l_block {
+    border: 1px solid #000;
+    padding: 7px;
+}
+
+.center_r_block {
+    display: inline-block;
+    width: 100%;
+    border: 1px solid #000;
+    padding: 10px;
+}
+
+img.pro_pic_upd_img {
+    display: inline-block;
+    border-radius: 100%;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    border: 0;
+}
+
+.upload_pic_but {
+    display: inline-block;
+    width: auto;
+    padding: 5px 15px;
+    background: #010e9b;
+    color: #fff;
+    border-radius: 9px;
+    border: 0;
+    outline: 0;
+}
+
+.unedit_cont {
+    display: inline-block;
+    width: 100%;
+    padding: 20px;
+    text-align: left;
+}
+
+li.unedit_li {
+    font-size: 16px;
+    padding: 5px;
+}
+
+ul.unedit_ul {
+    padding: 15px;
+}
+.pro_pic_cont {
+    display: inline-block;
+    width: 100%;
+    padding: 20px 20px 0 20px;
+    text-align: center;
+}
+.body_main_text > .biggerText {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+</style>
+<div ng-controller="homepage" ng-init="initSettings();getteacherdetails();">
+	<div class="whole_container">
+		<div class="left_bar_cont">
+			<div class="left_bar">
+				<div class="left_bar_logo">
+					<div class="left_logo">
+						<img src="imgs/logo.png">
+					</div>
+					<div class="left_logo_text">
+						Victor Garcia
+					</div>
+				</div>
+				<div class="left_bar_content">
+					<div class="left_bar_buttons">
+						<ul class="bar_but_ul"> 
+							<li>
+								<button class="left_bar_but selected">Profile</button>
+							</li>
+							<li>
+								<button class="left_bar_but">Ranking</button>
+							</li>
+							<li>
+								<button class="left_bar_but">Feedback</button>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="center_container">
+			<div class="profile_head_cont">
+				<div class="row">
+					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+						<div class="pro_pic_upd_cont">
+							<div class="pro_pic_cont">
+							<input type="file" class="upload_text" placeholder="Avatar"  name="avatar_file" ngf-select="selectAvatar(teacher.avatarFile)" ng-model="teacher.avatarFile"/>
+								<img src="" class="pro_pic_upd_img">
+							</div>							
+							<button class="upload_pic_but" ng-click="uploadAvatar()">
+								Upload Photo
+							</button>
+						</div>
+					</div>
+					<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+						<div class="unedit_cont">
+							<ul class="unedit_ul"> 
+								<li class="unedit_li">
+									{{teacherdetail.name}} {{teacherdetail.surname}}
+								</li>
+								<li class="unedit_li">
+									{{teacherdetail.email}}
+								</li>
+								<li class="unedit_li">
+									{{teacherdetail.university}}
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div> 
+			<div class="profile_body_cont">
+				<div class="row">
+					<div class="col-lg-4 col-md-3 col-sm-12 col-xs-12">
+						<div class="center_l_block">
+							<div class="center_l_label">
+								Tell the world who you are:
+							</div>
+							<div class="center_l_txt_cont">
+								<textarea class="center_l_txtarea" ng-model="teacherstatus.about"></textarea>
+							</div>
+							<div class="center_l_label">
+								Where do you teach?
+							</div>
+							<div class="center_l_txt_cont">
+								<textarea class="center_l_txtarea" ng-model="teacherstatus.teach_place"></textarea>
+							</div>
+							<div class="center_l_label">
+								Do you work?
+							</div>
+							<div class="center_l_txt_cont">
+								<textarea class="center_l_txtarea" ng-model="teacherstatus.work"></textarea>
+							</div>
+							<div style="padding-left: 150px">
+								<button class="upload_pic_but" ng-click="teacher_status()">
+									Save
+								</button>
+							</div>
+						</div>										
+					</div>
+					<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+						<div class="center_r_block">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+	  <div class="modal fade" id="addStudent" role="dialog">
+	    <div class="modal-dialog">   
+	      <div class="modal-content">
+	        <div class="modal-header">
+	          <button type="button" class="close" data-dismiss="modal">&times;</button>
+	          <ul>
+	          	<li class="step_head_li" id="step_head_1" data="1">Step 1 of 4</li>
+	          	<li class="step_head_li" id="step_head_2" data="2">Step 2 of 4</li>
+	          	<li class="step_head_li" id="step_head_3" data="3">Step 3 of 4</li>
+	          	<li class="step_head_li" id="step_head_4" data="4">Step 4 of 4</li>
+	          </ul>
+	        </div>
+	        <div class="modal-body">
+	        	<div class="step_body_container">
+	        		<ul class="step_body_ul">
+	        			<li class="step_body_li" id="step_body_1">
+	        				<div class="form_container">
+	        					<div class="row">
+	        						<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+	        							<div class="form_head_text">
+			        						Do you have students? Add them
+			        					</div>
+	        							<div class="row">
+	        								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			        							<div class="input_upload">
+			        								<input type="text" class="field_text" placeholder="Copy and Paste your mailing list" name="maillist"  ng-model="teacher.mail_list"/>
+			        							</div>
+		        							</div>
+		        							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			        							<div class="input_upload">
+			        								<input type="file" class="upload_text" placeholder="Find Your File(csv./other)" name="maillistfile" name="file" ngf-select="selectFile(teacher.mail_list_file)" ng-model="teacher.mail_list_file"/>
+			        								<button class="upload_button">Upload</button>
+			        							</div>
+		        							</div>
+	        							</div>
+	        							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p0">
+		    								<div class="form_head_text">
+				        						Want to create a group with them ?
+				        					</div>
+				        					<div class="input_text p15">
+				        						<input type="text" class="field_text" placeholder="Name of the Group" name="groupname" ng-model="teacher.group_name" />
+				        					</div>
+		    							</div>
+	        						</div>
+	        						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+	        							<div class="modal_image_container">
+	        								<div class="modal_image">
+	        									<img src="" class="modal_banner">
+	        								</div>
+	        							</div>
+	        						</div>
+	        					</div>
+	        					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+	        						<div class="modal_but_cont">        							
+	        							<button class="modal_nxt_bt" ng-click="shiftTab(2)">Next</button>
+	        						</div>
+	        					</div>
+	        				</div>
+	        			</li>
+	        			<li class="step_body_li" id="step_body_2">
+	        				<div class="form_container">
+	        					<div class="form_head_text">
+	        						Create a virtual bag league for your students:
+	        					</div>
+	        					<div class="row">
+	        						<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+		        						<div class="custom_num_list">
+		        							<ul class="cust_num_ul"> 
+		        								<li class="cust_num_li">
+		        									<div class="cust_list_q">
+		        										<span class="li_num">1</span>
+		        										<span class="li_q">How long will it last for? </span>
+		        									</div>
+		        									<div class="cust_list_ans">         						
+														<div class="row">
+															<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+
+																<b>Start Date : </b><input id="sDateField" type="date" class="date_form"  placeholder="Start Date" name="maillistfile" ng-model="teacher.start_date" ng-change="checkTime('start')" />
+															</div>
+															<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+																<b>End Date : </b> <input type="date"  class="date_form" name="startdate"  ng-model="teacher.end_date" ng-change="checkTime('end')"/>
+															</div>
+														</div>
+		        									</div>       									
+		        								</li>
+		        								<li class="cust_num_li">
+		        									<div class="cust_list_q">
+		        										<span class="li_num">2</span>
+		        										<span class="li_q">Which assets do you want to have?</span>
+		        									</div>
+		        									<div class="cust_list_ans">         						
+														<div class="row">
+															<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+																<div class="checkbox_cont">
+																	<ul class="check_cont_ul"> 
+																		<li> 
+																			<label class="check_label">   
+																				<input type="checkbox" name="" ng-checked="teacher.assets[0] == 1" ng-true-value="1" ng-false-vlaue="0" ng-model="teacher.assets[0]">
+																				<span class="check_text">Ibex35</span>
+																			</label>
+																		</li>
+																		<li> 
+																			<label class="check_label">   
+																				<input type="checkbox" name="" ng-checked="teacher.assets[1] == 2" ng-true-value="2" ng-false-vlaue="0" ng-model="teacher.assets[1]">
+																				<span class="check_text">Mercado continuo</span>
+																			</label>
+																		</li>
+																		<li> 
+																			<label class="check_label">   
+																				<input type="checkbox" name="" ng-checked="teacher.assets[2] == 3" ng-true-value="3" ng-false-vlaue="0" ng-model="teacher.assets[2]">
+																				<span class="check_text">Forex</span>
+																			</label>
+																		</li>
+																	</ul>
+																</div>
+															</div>
+														</div>
+		        									</div>       									
+		        								</li>
+		        								<li class="cust_num_li">
+		        									<div class="cust_list_q">
+		        										<span class="li_num">3</span>
+		        										<span class="li_q">How do you want to call your league?</span>
+		        									</div>
+		        									<div class="cust_list_ans">
+		        										<div class="row">
+		        											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		        												<input type="text" class="field_text ft2 blue" placeholder="League Name" name="leaguename" ng-model="teacher.league_name" />
+		        											</div>	
+		        										</div>
+		        									</div>
+		        								</li>
+		        								<li class="cust_num_li">
+		        									<div class="cust_list_q">
+		        										<span class="li_num">4</span>
+		        										<span class="li_q">Virtual money to start:</span>
+		        									</div>
+		        									<div class="cust_list_ans">
+		        										<div class="row">
+		        											<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+		        												<input type="text" class="field_text ft2 blue"  placeholder="" name="virtualmoney" ng-model="teacher.virtual_money" /> 
+		        											</div>	
+		        											<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="padding-left: 0%;
+    															padding-top: 2%;">
+		        											&euro;
+		        											</div>
+		        										</div>
+		        									</div>
+		        								</li>
+		        							</ul>
+		        						</div>
+	        						</div>
+	        						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+	        							<div class="modal_image_container">
+	        								<div class="modal_image">
+	        									<img src="" class="modal_banner">
+	        								</div>
+	        							</div>
+	        						</div>
+	        					</div>
+	        					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+	        						<div class="modal_but_cont">
+	        							<button class="modal_nxt_bt" ng-click="shiftTab(1)">Back</button>
+	        							<button class="modal_nxt_bt" ng-click="shiftTab(3)">Next</button>
+	        						</div>
+	        					</div>        					
+	        				</div>
+	        			</li>
+	        			<li class="step_body_li" id="step_body_3">
+	        				<div class="form_container">
+	        					<div class="form_head_text">
+	        						What do you want to see?
+	        					</div>
+	        					<div class="row">
+	        						<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+	        							<div class="row">
+	        								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			        							<div class="form_head_text">
+					        						Select the feedback.
+					        					</div>
+		        							</div>
+		        							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		        								<div class="checkbox_cont">
+													<ul class="check_cont_ul"> 
+														<li> 
+															<label class="check_label">   
+																<input type="checkbox" ng-checked="teacher.feedback[0] == 1" ng-true-value="1" ng-false-vlaue="0" ng-model="teacher.feedback[0]">
+																<span class="check_text">Benifits</span>
+															</label>
+														</li>
+														<li> 
+															<label class="check_label">   
+																<input type="checkbox" ng-checked="teacher.feedback[1] == 2" ng-true-value="2" ng-false-vlaue="0" ng-model="teacher.feedback[1]">
+																<span class="check_text">Number of Operations</span>
+															</label>
+														</li>
+														<li> 
+															<label class="check_label">   
+																<input type="checkbox" ng-checked="teacher.feedback[2] == 3" ng-true-value="3" ng-false-vlaue="0" ng-model="teacher.feedback[2]">
+																<span class="check_text">Total Profitability</span>
+															</label>
+														</li>
+														<li> 
+															<label class="check_label">   
+																<input type="checkbox" ng-checked="teacher.feedback[3] == 4" ng-true-value="4" ng-false-vlaue="0" ng-model="teacher.feedback[3]">
+																<span class="check_text">Average Profability per person</span>
+															</label>
+														</li>
+													</ul>
+												</div>
+		        							</div>
+	        							</div>
+	        						</div>
+	        						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+	        							<div class="modal_image_container">
+	        								<div class="modal_image">
+	        									<img src="" class="modal_banner">
+	        								</div>
+	        							</div>
+	        						</div>
+	        					</div>
+	        					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+	        						<div class="modal_but_cont">
+	        							<button class="modal_nxt_bt" ng-click="shiftTab(2)">Back</button>
+	        							<button class="modal_nxt_bt" ng-click="start()">Start Now</button>
+	        						</div>
+	        					</div>
+	        				</div>        				
+	        			</li>
+	        			<li class="step_body_li" id="step_body_4">
+	        				<div class="form_container">
+	        					<div class="row">
+	        						<p>Saved Successfully </p>
+	        					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+	        						<div class="modal_but_cont">        							
+	        							<button class="modal_nxt_bt" data-dismiss="modal">Close</button>
+	        						</div>
+	        					</div>
+	        				</div>
+	        			</li>
+	        		</ul>
+	        	</div>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+</div>

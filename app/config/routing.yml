@@ -1,0 +1,41 @@
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation
+
+home:
+    path:     /index
+    defaults: { _controller: AppBundle:University:home }
+
+teacherdetails:
+    path:     api/getteacherdetails/{tid}
+    defaults: { _controller: AppBundle:University:teacherProfile }
+    methods:  [GET]
+
+teachersignup:
+    path:     /api/teacher/signup
+    defaults: { _controller: AppBundle:University:signupTeacher }
+    methods:  [POST]
+teachersignupverify:
+    path:     api/teacher/verify/{verifyLink}
+    defaults: { _controller: AppBundle:University:verifySignupteacher}
+    methods:  [GET]
+
+teacherstatus:
+    path:     /api/teacher/status
+    defaults: { _controller: AppBundle:University:teacherStatus }
+    methods:  [POST]
+
+saveteacher:
+    path:     /api/saveteacher
+    defaults: { _controller: AppBundle:University:saveTeacher }
+    methods:  [POST]
+
+avatar:
+    path:     /api/avatar
+    defaults: { _controller: AppBundle:University:avatar }
+    methods:  [POST]
+
+usergroupops:
+    path:     /api/getUserOperations
+    defaults: { _controller: AppBundle:UserOperations:getUserOperations }
+    methods:  [GET]

@@ -1,0 +1,26 @@
+
+<div ng-controller="homepage">
+
+
+	<div class="row">
+		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+			<div class="form_input_cont">
+				<input class="form_inputtext" placeholder="about" type="text" ng-model="teacher.about" required>
+			</div>
+		</div>
+		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+			<div class="form_input_cont">
+				<input class="form_inputtext" placeholder="teach" type="text" ng-model="teacher.teach_place"  required>
+			</div>
+		</div>
+		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+			<div class="form_input_cont">
+				<input class="form_inputtext" placeholder="work" type="text" ng-model="teacher.work" name="work" required>
+			</div>
+		</div>
+		<button class="form_submit_but" ng-click="teacher_status()">Save</button>
+	</div>
+</div>
+</body>
+
+</html>
