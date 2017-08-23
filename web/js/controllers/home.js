@@ -170,7 +170,8 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				console.log(success)
 				if(success.data.status == 'success')
 				{
-					$('#addStudent').modal('hide');
+					$scope.shiftTab(4);
+					//$('#addStudent').modal('hide');
 				}				
 			},function(error){
 
