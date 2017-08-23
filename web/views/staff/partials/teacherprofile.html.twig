@@ -214,9 +214,10 @@ ul.unedit_ul {
 					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
 						<div class="pro_pic_upd_cont">
 							<div class="pro_pic_cont">
+							<input type="file" class="upload_text" placeholder="Avatar"  name="avatar_file" ngf-select="selectAvatar(teacher.avatarFile)" ng-model="teacher.avatarFile"/>
 								<img src="" class="pro_pic_upd_img">
 							</div>							
-							<button class="upload_pic_but">
+							<button class="upload_pic_but" ng-click="uploadAvatar()">
 								Upload Photo
 							</button>
 						</div>
@@ -281,6 +282,7 @@ ul.unedit_ul {
 	      <div class="modal-content">
 	        <div class="modal-header">
 	          <button type="button" class="close" data-dismiss="modal">&times;</button>
+	          <ul>
 	          	<li class="step_head_li" id="step_head_1" data="1">Step 1 of 3</li>
 	          	<li class="step_head_li" id="step_head_2" data="2">Step 2 of 3</li>
 	          	<li class="step_head_li" id="step_head_3" data="3">Step 3 of 3</li>
@@ -345,12 +347,12 @@ ul.unedit_ul {
 		        								<li class="cust_num_li">
 		        									<div class="cust_list_q">
 		        										<span class="li_num">1</span>
-		        										<span class="li_q">How long will it last for?</span>
+		        										<span class="li_q">How long will it last for? </span>
 		        									</div>
 		        									<div class="cust_list_ans">         						
 														<div class="row">
 															<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-																<input id="sDateField" type="date" class="date_form"  placeholder="Start Date" name="maillistfile" ng-model="teacher.start_date" ng-change="checkTime('start')" />
+																<input id="sDateField"  type="date" class="date_form"  placeholder="Start Date" name="maillistfile" ng-model="teacher.start_date" ng-change="checkTime('start')" />
 															</div>
 															<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 																<input type="date"  class="date_form" name="startdate"  ng-model="teacher.end_date" ng-change="checkTime('end')"/>
@@ -412,9 +414,13 @@ ul.unedit_ul {
 		        									</div>
 		        									<div class="cust_list_ans">
 		        										<div class="row">
-		        											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-		        												<input type="text" class="field_text ft2 blue"  placeholder="" name="virtualmoney" ng-model="teacher.virtual_money" />
+		        											<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+		        												<input type="text" class="field_text ft2 blue"  placeholder="" name="virtualmoney" ng-model="teacher.virtual_money" /> 
 		        											</div>	
+		        											<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="padding-left: 0%;
+    															padding-top: 2%;">
+		        											&euro;
+		        											</div>
 		        										</div>
 		        									</div>
 		        								</li>

@@ -18,7 +18,7 @@ class Product
     private $id;
 
     /**
-     * @ORM\Column(name="`teacher_id`",type="number")
+     * @ORM\Column(name="`teacher_id`",type="integer")
      */
     private $teacher_id;
 
@@ -43,7 +43,7 @@ class Product
     private $assets;
     
     /**
-     * @ORM\Column(name="`virtual_money`",type="number")
+     * @ORM\Column(name="`virtual_money`",type="integer")
      */
     private $virtual_money;
 
@@ -68,7 +68,7 @@ class Product
     private $created_at;
 
     /**
-     * @ORM\Column(name="`updated_by`",type="number")
+     * @ORM\Column(name="`updated_by`",type="integer")
      */
     private $updated_by;
 

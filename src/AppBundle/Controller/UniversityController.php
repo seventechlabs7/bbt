@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -14,13 +15,18 @@ use AppBundle\Entity\GroupEmail;
 use AppBundle\Entity\GroupAsset;
 use AppBundle\Entity\GroupFeedback;
 use AppBundle\Entity\Teacher;
+use AppBundle\Entity\User;
+use AppBundle\Service\FileUploader;
+use AppBundle\Service\MailerService;
+use AppBundle\Service\CustomCrypt;
 
 class UniversityController extends Controller
 {
 
-	public function signupTeacherAction(Request $request)
+	public function signupTeacherAction(Request $request,MailerService $mailerService,CustomCrypt $crypt)
 	{
 		$teacher = $request->request->all();
+		
 		//$em = $this->getDoctrine()->getManager();
 		//$qb = $em->getRepository('AppBundle:Teacher')->createQueryBuilder('i');
 
@@ -66,7 +72,7 @@ class UniversityController extends Controller
 		$count = $qb->getQuery()->getSingleScalarResult();
 		return $count;*/
 
-		$db = $this->get('database_connection');
+		//$db = $this->get('database_connection');
 		/*$query = 'select email from  teachers';
 		//$query->where('email','=',$teacher['email']);
 		$sth = $db->prepare($query);
@@ -107,9 +113,15 @@ class UniversityController extends Controller
 		    /*return $this->render('staff/partials/teacherprofile.html.twig', array(
 		    'profile' => $teacher,
 				));*/
-			return $this->json(array('status' => 'success','teacher_id' => $TD->getId(),'reason' => 'Teacher Saved Successfully','reaponse' => 200));
+			$mailObject = new \stdClass();
+			$mailObject->toMail = $teacher['email'];
+			$mailObject->name = $teacher['username'];
+			$mailObject->encryptedLink = urlencode($crypt->encrypt($teacher['email']));
+
+			$mailerService->indexAction($mailObject);
+			return $this->json(array('status' => 'success','teacher_id' => $TD->getId(),'reason' => 'Teacher Saved Successfully . please verify your email','reaponse' => 200));
 		}else{
-			return $this->json(array('status' => 'failed','reason' => 'Email is already Exits'));
+			return $this->json(array('status' => 'failed','reason' => 'Email already Exits'));
 		}
 	}
 
@@ -139,7 +151,7 @@ class UniversityController extends Controller
        
     }
 
-    public function saveTeacherAction(Request $request)
+    public function saveTeacherAction(Request $request,CustomCrypt $crypt,MailerService $mailerService)
     {    	    	
 		$teacher = $request->request->get('teacher');		
 		$file = $request->files->get('file');		
@@ -234,6 +246,8 @@ class UniversityController extends Controller
 	    	$GM->setCreated_by(1);
 	    	$em->persist($GM);
 	    	$em->flush();
+	    	$this->sendEmailsToUser($email,$crypt,$mailerService);
+
 	    }
 			//path 			
 			$absolute_path = getcwd();
@@ -259,6 +273,7 @@ class UniversityController extends Controller
 	    	$GM->setCreated_by(1);
 	    	$em->persist($GM);
 	    	$em->flush();
+	    	$this->sendEmailsToUser(array_values($c)[0],$crypt,$mailerService);
 	    	//var_dump($content)
 	    	//return $this->json($content);
 	    }
@@ -359,4 +374,77 @@ class UniversityController extends Controller
     {
     	return filter_var($email, FILTER_VALIDATE_EMAIL);
     }
+
+
+    public function avatarAction(Request $request,FileUploader $fileUploader)
+    {    	    	
+		$uId = $request->request->get('userId');		
+		$file = $request->files->get('file');
+		$fileName = $fileUploader->upload($file,$uId);
+          return new JsonResponse($fileName);
+	}
+
+	public function verifySignupteacherAction(Request $request ,CustomCrypt $crypt,$verifyLink)
+	{
+		$email = $crypt->decrypt(urldecode($verifyLink));
+		if($email)
+		{
+			$checkMail = 	$this->CheckUserTable($email);
+			if($checkMail)
+			{
+				return new JsonResponse("Error : Link Already verified !");
+			}
+			else
+			{
+				$em1 = $this->getDoctrine()->getManager();
+
+				$RAW_QUERY1 = 'SELECT * FROM teachers where teachers.email = :email LIMIT 1;';
+
+				$statement1 = $em1->getConnection()->prepare($RAW_QUERY1);
+				// Set parameters 
+				$statement1->bindValue('email', $email);
+				$statement1->execute();
+				$result1 = $statement1->fetch();
+				//return new JsonResponse($result1['id']); 
+				if($result1)
+				{
+						$US = new User;
+						$US->setId($result1['id']);
+						$US->setEmail($result1['email']);
+						$US->setName($result1['username']);
+						$US->setSurname($result1['surname']);
+						$US->setpassword($result1['password']);
+						$US->setUniversity($result1['university']);
+						$em1->persist($US);
+						$em1->flush();
+				}
+				return $this->redirect('http://localhost:8000/index#/app/profile/'.$result1['id']);
+			}
+		}
+	}
+	public function CheckUserTable($email)
+	{
+		$em3 = $this->getDoctrine()->getManager();
+
+		$RAW_QUERY3 = 'SELECT email FROM bbt_users where bbt_users.email = :email LIMIT 1;';
+
+		$statement3 = $em3->getConnection()->prepare($RAW_QUERY3);
+		// Set parameters 
+		$statement3->bindValue('email', $email);
+		$statement3->execute();
+
+		$result3 = $statement3->fetchAll();
+		return $result3;
+	}
+
+	public function sendEmailsToUser($email,CustomCrypt $crypt,MailerService $mailerService)
+	{
+		$mailObject = new \stdClass();
+			$mailObject->toMail = $email;
+			$mailObject->name = 'Student';
+			$mailObject->encryptedLink = urlencode($crypt->encrypt($email));
+			$mailerService->indexAction($mailObject);
+	}
+
+
 }

@@ -78,4 +78,76 @@ class GroupEmail
 		$this->created_at = $created_at;
 	}
 
+
+    /**
+     * Set groupId
+     *
+     * @param integer $groupId
+     *
+     * @return GroupEmail
+     */
+    public function setGroupId($groupId)
+    {
+        $this->group_id = $groupId;
+    
+        return $this;
+    }
+
+    /**
+     * Get groupId
+     *
+     * @return integer
+     */
+    public function getGroupId()
+    {
+        return $this->group_id;
+    }
+
+    /**
+     * Set createdBy
+     *
+     * @param string $createdBy
+     *
+     * @return GroupEmail
+     */
+    public function setCreatedBy($createdBy)
+    {
+        $this->created_by = $createdBy;
+    
+        return $this;
+    }
+
+    /**
+     * Get createdBy
+     *
+     * @return string
+     */
+    public function getCreatedBy()
+    {
+        return $this->created_by;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param string $createdAt
+     *
+     * @return GroupEmail
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->created_at = $createdAt;
+    
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return string
+     */
+    public function getCreatedAt()
+    {
+        return $this->created_at;
+    }
 }

@@ -816,3 +816,9 @@ ul.unedit_ul {
     @media only screen and (max-width : 320px) {
         
     }
+
+/*date fix*/
+input[type=date]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    display: none;
+}

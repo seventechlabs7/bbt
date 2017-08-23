@@ -15,6 +15,10 @@ teachersignup:
     path:     /api/teacher/signup
     defaults: { _controller: AppBundle:University:signupTeacher }
     methods:  [POST]
+teachersignupverify:
+    path:     api/teacher/verify/{verifyLink}
+    defaults: { _controller: AppBundle:University:verifySignupteacher}
+    methods:  [GET]
 
 teacherstatus:
     path:     /api/teacher/status
@@ -25,3 +29,13 @@ saveteacher:
     path:     /api/saveteacher
     defaults: { _controller: AppBundle:University:saveTeacher }
     methods:  [POST]
+
+avatar:
+    path:     /api/avatar
+    defaults: { _controller: AppBundle:University:avatar }
+    methods:  [POST]
+
+usergroupops:
+    path:     /api/getUserOperations
+    defaults: { _controller: AppBundle:UserOperations:getUserOperations }
+    methods:  [GET]

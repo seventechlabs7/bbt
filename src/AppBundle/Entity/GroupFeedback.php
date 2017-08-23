@@ -56,4 +56,52 @@ class GroupFeedback
 		$this->feedback_id = $feedback_id;
 	}
 
+
+    /**
+     * Set groupId
+     *
+     * @param integer $groupId
+     *
+     * @return GroupFeedback
+     */
+    public function setGroupId($groupId)
+    {
+        $this->group_id = $groupId;
+    
+        return $this;
+    }
+
+    /**
+     * Get groupId
+     *
+     * @return integer
+     */
+    public function getGroupId()
+    {
+        return $this->group_id;
+    }
+
+    /**
+     * Set feedbackId
+     *
+     * @param integer $feedbackId
+     *
+     * @return GroupFeedback
+     */
+    public function setFeedbackId($feedbackId)
+    {
+        $this->feedback_id = $feedbackId;
+    
+        return $this;
+    }
+
+    /**
+     * Get feedbackId
+     *
+     * @return integer
+     */
+    public function getFeedbackId()
+    {
+        return $this->feedback_id;
+    }
 }
