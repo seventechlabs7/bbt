@@ -291,11 +291,11 @@ ul.unedit_ul {
 	        		<ul class="step_body_ul">
 	        			<li class="step_body_li" id="step_body_1">
 	        				<div class="form_container">
-	        					<div class="form_head_text">
-	        						Do you have students? Add them
-	        					</div>
 	        					<div class="row">
 	        						<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+	        							<div class="form_head_text">
+			        						Do you have students? Add them
+			        					</div>
 	        							<div class="row">
 	        								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 			        							<div class="input_upload">
@@ -308,15 +308,15 @@ ul.unedit_ul {
 			        								<button class="upload_button">Upload</button>
 			        							</div>
 		        							</div>
-		        							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-		        								<div class="form_head_text">
-					        						Do you have students? Add them
-					        					</div>
-					        					<div class="input_text">
-					        						<input type="text" class="field_text" placeholder="Name of the Group" name="groupname" ng-model="teacher.group_name" />
-					        					</div>
-		        							</div>
 	        							</div>
+	        							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p0">
+		    								<div class="form_head_text">
+				        						Want to create a group with them ?
+				        					</div>
+				        					<div class="input_text p15">
+				        						<input type="text" class="field_text" placeholder="Name of the Group" name="groupname" ng-model="teacher.group_name" />
+				        					</div>
+		    							</div>
 	        						</div>
 	        						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 	        							<div class="modal_image_container">
@@ -350,10 +350,10 @@ ul.unedit_ul {
 		        									<div class="cust_list_ans">         						
 														<div class="row">
 															<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-																<input id="sDateField" type="date" class="date_form"  placeholder="Start Date" name="maillistfile" ng-model="teacher.start_date" ng-change="checkTime('start')" />
+																<b>Start Date : </b><input id="sDateField" type="date" class="date_form"  placeholder="Start Date" name="maillistfile" ng-model="teacher.start_date" ng-change="checkTime('start')" />
 															</div>
 															<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-																<input type="date"  class="date_form" name="startdate"  ng-model="teacher.end_date" ng-change="checkTime('end')"/>
+																<b>End Date : </b> <input type="date"  class="date_form" name="startdate"  ng-model="teacher.end_date" ng-change="checkTime('end')"/>
 															</div>
 														</div>
 		        									</div>       									
@@ -447,7 +447,7 @@ ul.unedit_ul {
 	        							<div class="row">
 	        								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 			        							<div class="form_head_text">
-					        						Select the Feedback.
+					        						Select the feedback.
 					        					</div>
 		        							</div>
 		        							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
