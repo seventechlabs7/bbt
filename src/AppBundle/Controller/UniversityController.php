@@ -316,7 +316,7 @@ class UniversityController extends Controller
 
     }
     
-    public function homeAction()
+    public function homeAction(Request $req)
     {
     	return $this->render('staff/index.html.twig', array(
             'profileName' => 'Admin',
@@ -418,7 +418,8 @@ class UniversityController extends Controller
 						$em1->persist($US);
 						$em1->flush();
 				}
-				return $this->redirect('http://localhost:8000/index#/app/profile/'.$result1['id']);
+				$url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'] ;
+				return $this->redirect($url.'/index#/app/profile/'.$result1['id']);
 			}
 		}
 	}
