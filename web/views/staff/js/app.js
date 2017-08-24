@@ -21,7 +21,8 @@ angular.module('app', [
    'ui.knob',
    'chart.js',
    'uiGmapgoogle-maps',
-   'ngTable'
+   'ngTable',
+   'ngMessages'
     //'angular-loading-bar', 
     //'ng-token-auth',
     //'ngFileUpload',

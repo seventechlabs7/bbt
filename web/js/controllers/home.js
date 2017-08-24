@@ -20,6 +20,8 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 			}
 		});
 
+		$scope.messageFile = "js/messages.html";
+
         $scope.currentPage ="home";
 
         $scope.shiftTab = function(index)
@@ -253,9 +255,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 
 
 		$scope.teacher_signup = function()
-		{			
-			if($("#signup").valid())
-			{				
+		{						
 				console.log($scope.teacher)
 				$http({
 					method: 'POST',
@@ -287,7 +287,6 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				},function(error){
 
 				});
-			}
 		}
 		console.log($scope.teacher_id);
 		/*var today = new Date();
@@ -372,6 +371,6 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 			})
 	    }
 
-		$("#signup").validate();
+		//$("#signup").validate();
     }
     ]);

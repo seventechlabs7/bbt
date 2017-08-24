@@ -23,8 +23,9 @@ angular.module('app', [
    'uiGmapgoogle-maps',
    'ngTable',
    'ngFileUpload',
-   'cgNotify'
-    //'angular-loading-bar', 
+   'cgNotify',
+   'ngMessages'
+       //'angular-loading-bar', 
     //'ng-token-auth',
     //'ngFileUpload',
     //'satellizer'

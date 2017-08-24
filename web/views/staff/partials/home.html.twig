@@ -59,40 +59,59 @@
 								</div>
 							</div>
 							<div class="card_body">
-								<form action="javascript:;" id="signup" name="signup" autocomplete="off" novalidate>
+								<form  id="signup" name="signup" autocomplete="off" formnovalidate="formnovalidate">
 								<div class="row">
 									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 										<div class="form_input_cont">
-											<input class="form_inputtext" placeholder="Name" type="text" ng-model="teacher.username" name="username" required>
+											<input class="form_inputtext"  placeholder="Name" type="text" ng-model="teacher.username" name="username" ng-minlength="2" ng-maxlength="30" ng-pattern="/^[a-zA-Z ]*$/" required>											
+										</div>
+										<div class="help-block" ng-messages="signup.username.$error" ng-show="signup.username.$touched">
+											   <div ng-messages-include="js/messages.html"></div>
 										</div>
 									</div>
 									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 										<div class="form_input_cont">
-											<input class="form_inputtext" placeholder="Surname" type="text" ng-model="teacher.surname" name="surname" required>
+											<input class="form_inputtext" placeholder="Surname" type="text" ng-model="teacher.surname" name="surname" 
+											ng-minlength="2" ng-maxlength="30" ng-pattern="/^[a-zA-Z ]*$/" required>
 										</div>
+										 <div ng-messages="signup.surname.$error" ng-show="signup.surname.$touched">
+									       <div ng-messages-include="js/messages.html"></div>
+									    </div>
 									</div>
 								</div>
 								<div class="row">
 									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 										<div class="form_input_cont">
-											<input class="form_inputtext inp_full" placeholder="Email" type="email" ng-model="teacher.email" name="email" required>
+											<input class="form_inputtext inp_full" placeholder="Email" type="text" ng-model="teacher.email" name="email" 
+											ng-minlength="2" ng-maxlength="30" ng-pattern="/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,30}$/" required>
 										</div>
+										<div ng-messages="signup.email.$error" ng-show="signup.email.$touched">
+									       <div ng-messages-include="js/messages.html"></div>
+									    </div>
 									</div>
 									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 										<div class="form_input_cont">
-											<input class="form_inputtext inp_full" placeholder="Password" type="password" ng-model="teacher.password" name="password" required>
+											<input class="form_inputtext inp_full" placeholder="Password" type="password" ng-model="teacher.password" name="password"
+											ng-pattern="/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,15}$/"  required>
 										</div>
+										<div ng-messages="signup.password.$error" ng-show="signup.password.$touched">
+									       <div ng-messages-include="js/messages.html"></div>
+									    </div>
 									</div>
 									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 										<div class="form_input_cont">
-											<input class="form_inputtext inp_full" placeholder="University" type="text" ng-model="teacher.university" name="university" required>
+											<input class="form_inputtext inp_full" placeholder="University" type="text" ng-model="teacher.university" name="university" 
+											ng-minlength="2" ng-maxlength="30" ng-pattern="/^[a-zA-Z ]*$/" required>
 										</div>
+										 <div ng-messages="signup.university.$error" ng-show="signup.university.$touched">
+									       <div ng-messages-include="js/messages.html"></div>
+									    </div>
 									</div>
 								</div>
 								<div class="row">
 									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-											<button class="form_submit_but gradient" ng-click="shiftTab(1);teacher_signup()">Join now</button>
+											<button class="form_submit_but gradient" ng-click="shiftTab(1);teacher_signup()" ng-disabled="!signup.$valid">Join now</button>
 										</div>
 									</div>
 									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
