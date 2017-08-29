@@ -177,6 +177,27 @@ ul.unedit_ul {
     font-size: 30px;
     font-weight: bold;
 }
+/*faiyaz*/
+.post-container {
+    margin: 20px 20px 0 0;  
+    border: 5px solid #333;
+    overflow: auto
+}
+.post-thumb {
+    float: left
+}
+.post-thumb img {
+    display: block
+}
+.post-content {
+    margin-left: 50px
+}
+.post-title {
+    font-weight: bold;
+    font-size: 200%
+}
+
+
 
 </style>
 <div ng-controller="homepage" ng-init="initSettings();getteacherdetails();">
@@ -270,7 +291,60 @@ ul.unedit_ul {
 					</div>
 					<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
 						<div class="center_r_block">
-						</div>
+							<!-- <div class="post-container">                
+								<div class="post-thumb"><img src="http://dummyimage.com/50x50/f0f/fff" /></div>
+								<div class="post-content center_l_label">
+									<p>
+										<b>Abc </b> purchased <b>5</b> shares from <b>xyz</b> at <b>45 $</b>
+									</p>
+									<div class="row">
+										<div class="col-lg-2 col-md-2 col-sm-4 col-xs-4"> <a href="javascript:void()" >Like</a></div> 	<div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">  <a href="javascript:void()" >Comment</a></div>
+									</div>
+									<div class="row">
+										<div class="row">
+											
+											<div class="center_l_label">
+												comment 1
+											</div>
+											<div class="center_l_label">
+												<div class="col-lg-2 col-md-2 col-sm-4 col-xs-4"> <a href="javascript:void()" >Like</a></div></div>										
+
+										</div>
+										
+									</div>
+									<div class="row">
+										<textarea rows="3"></textarea>
+									</div>
+							</div>							
+						</div> -->
+
+						<!-- <div class="post-container" ng-repeat="op in timeLine ">                
+								<div class="post-thumb"><img src="http://dummyimage.com/50x50/f0f/fff" /></div>
+								<div class="post-content center_l_label">
+									<p>
+										<b> {{op.username}} </b> purchased <b>5</b> shares from <b>xyz</b> at <b>45 $</b>
+									</p>
+									<div class="row">
+										<div class="col-lg-2 col-md-2 col-sm-4 col-xs-4"> <a href="javascript:void()" >Like</a></div> 	<div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">  <a href="javascript:void()" >Comment</a></div>
+									</div>
+									<div class="row">
+										<div class="row">
+											
+											<div class="center_l_label">
+												comment 1
+											</div>
+											<div class="center_l_label">
+												<div class="col-lg-2 col-md-2 col-sm-4 col-xs-4"> <a href="javascript:void()" >Like</a></div></div>										
+
+										</div>
+										
+									</div>
+									<div class="row">
+										<textarea rows="3"></textarea>
+									</div>
+							</div>							
+						</div> -->
+
 					</div>
 				</div>
 			</div>

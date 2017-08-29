@@ -39,3 +39,11 @@ usergroupops:
     path:     /api/getUserOperations
     defaults: { _controller: AppBundle:UserOperations:getUserOperations }
     methods:  [GET]
+comment:
+    path:     /api/timeline/comment
+    defaults: { _controller: AppBundle:UserOperations:comment }
+    methods:  [GET]
+like:
+    path:     /api/timeline/like
+    defaults: { _controller: AppBundle:UserOperations:like }
+    methods:  [GET]

@@ -371,6 +371,22 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 			})
 	    }
 
+	    $scope.getTimeLine = function()
+	    {
+	    	$http({
+					method: 'GET',
+					url: 'api/getUserOperations',
+					data:$scope.teacher
+				}).then(function(success){
+					console.log(success)
+					$scope.timeLine = success.data;
+					console.log("timeLine")
+					console.log($scope.timeLine);
+				},function(error){
+
+				});
+	    }
+	    $scope.getTimeLine();
 		//$("#signup").validate();
     }
     ]);

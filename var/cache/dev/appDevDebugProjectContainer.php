@@ -36,16 +36,22 @@ class appDevDebugProjectContainer extends Container
         $this->normalizedIds = array(
             'appbundle\\controller\\defaultcontroller' => 'AppBundle\\Controller\\DefaultController',
             'appbundle\\controller\\luckycontroller' => 'AppBundle\\Controller\\LuckyController',
-            'appbundle\\controller\\universitycontroller' => 'AppBundle\\Controller\\UniversityController',
+            'appbundle\\controller\\useroperationscontroller' => 'AppBundle\\Controller\\UserOperationsController',
             'appbundle\\override\\jsonrequest' => 'AppBundle\\Override\\JsonRequest',
+            'appbundle\\service\\customcrypt' => 'AppBundle\\Service\\CustomCrypt',
+            'appbundle\\service\\fileuploader' => 'AppBundle\\Service\\FileUploader',
+            'appbundle\\service\\mailerservice' => 'AppBundle\\Service\\MailerService',
         );
         $this->methodMap = array(
-            '1_dca72a4f1f494320aa569e891fa915e52be64978f3c8e5cf101025f662af6fa7' => 'get1Dca72a4f1f494320aa569e891fa915e52be64978f3c8e5cf101025f662af6fa7Service',
-            '2_dca72a4f1f494320aa569e891fa915e52be64978f3c8e5cf101025f662af6fa7' => 'get2Dca72a4f1f494320aa569e891fa915e52be64978f3c8e5cf101025f662af6fa7Service',
+            '1_06b16980010bbadb71e84917114340f12cbafbf97145142763fed21aa39dcb6e' => 'get106b16980010bbadb71e84917114340f12cbafbf97145142763fed21aa39dcb6eService',
+            '2_06b16980010bbadb71e84917114340f12cbafbf97145142763fed21aa39dcb6e' => 'get206b16980010bbadb71e84917114340f12cbafbf97145142763fed21aa39dcb6eService',
             'AppBundle\\Controller\\DefaultController' => 'getAppBundle_Controller_DefaultControllerService',
             'AppBundle\\Controller\\LuckyController' => 'getAppBundle_Controller_LuckyControllerService',
-            'AppBundle\\Controller\\UniversityController' => 'getAppBundle_Controller_UniversityControllerService',
+            'AppBundle\\Controller\\UserOperationsController' => 'getAppBundle_Controller_UserOperationsControllerService',
             'AppBundle\\Override\\JsonRequest' => 'getAppBundle_Override_JsonRequestService',
+            'AppBundle\\Service\\CustomCrypt' => 'getAppBundle_Service_CustomCryptService',
+            'AppBundle\\Service\\FileUploader' => 'getAppBundle_Service_FileUploaderService',
+            'AppBundle\\Service\\MailerService' => 'getAppBundle_Service_MailerServiceService',
             'annotation_reader' => 'getAnnotationReaderService',
             'annotations.reader' => 'getAnnotations_ReaderService',
             'argument_resolver.default' => 'getArgumentResolver_DefaultService',
@@ -238,8 +244,13 @@ class appDevDebugProjectContainer extends Container
             'sensio_framework_extra.security.listener' => 'getSensioFrameworkExtra_Security_ListenerService',
             'sensio_framework_extra.view.guesser' => 'getSensioFrameworkExtra_View_GuesserService',
             'sensio_framework_extra.view.listener' => 'getSensioFrameworkExtra_View_ListenerService',
+            'service_locator.3291b6ba6e0562b7926c26d14652f948' => 'getServiceLocator_3291b6ba6e0562b7926c26d14652f948Service',
+            'service_locator.3bff7f64092fe91426672f1b86ccaa73' => 'getServiceLocator_3bff7f64092fe91426672f1b86ccaa73Service',
+            'service_locator.3eb6a41eb5eb6199eb5a22f7c19a067d' => 'getServiceLocator_3eb6a41eb5eb6199eb5a22f7c19a067dService',
+            'service_locator.4b91146b4e578c33474d98cd5a72515f' => 'getServiceLocator_4b91146b4e578c33474d98cd5a72515fService',
             'service_locator.4f8384c8862c511eefe34301cff90111' => 'getServiceLocator_4f8384c8862c511eefe34301cff90111Service',
             'service_locator.947d61df567f39b791fcb23abe3a9a62' => 'getServiceLocator_947d61df567f39b791fcb23abe3a9a62Service',
+            'service_locator.dcbb7d9f6c88fb1a375eea7f4f54bdde' => 'getServiceLocator_Dcbb7d9f6c88fb1a375eea7f4f54bddeService',
             'service_locator.e64d23c3bf770e2cf44b71643280668d' => 'getServiceLocator_E64d23c3bf770e2cf44b71643280668dService',
             'session' => 'getSessionService',
             'session.handler' => 'getSession_HandlerService',
@@ -289,9 +300,12 @@ class appDevDebugProjectContainer extends Container
             'web_profiler.debug_toolbar' => 'getWebProfiler_DebugToolbarService',
         );
         $this->privates = array(
-            '1_dca72a4f1f494320aa569e891fa915e52be64978f3c8e5cf101025f662af6fa7' => true,
-            '2_dca72a4f1f494320aa569e891fa915e52be64978f3c8e5cf101025f662af6fa7' => true,
+            '1_06b16980010bbadb71e84917114340f12cbafbf97145142763fed21aa39dcb6e' => true,
+            '2_06b16980010bbadb71e84917114340f12cbafbf97145142763fed21aa39dcb6e' => true,
             'AppBundle\\Override\\JsonRequest' => true,
+            'AppBundle\\Service\\CustomCrypt' => true,
+            'AppBundle\\Service\\FileUploader' => true,
+            'AppBundle\\Service\\MailerService' => true,
             'annotations.reader' => true,
             'argument_resolver.default' => true,
             'argument_resolver.request' => true,
@@ -337,8 +351,13 @@ class appDevDebugProjectContainer extends Container
             'security.request_matcher.5314eeb91110adf24b9b678372bb11bbe00e8858c519c088bfb65f525181ad3bf573fd1d' => true,
             'security.role_hierarchy' => true,
             'security.user_value_resolver' => true,
+            'service_locator.3291b6ba6e0562b7926c26d14652f948' => true,
+            'service_locator.3bff7f64092fe91426672f1b86ccaa73' => true,
+            'service_locator.3eb6a41eb5eb6199eb5a22f7c19a067d' => true,
+            'service_locator.4b91146b4e578c33474d98cd5a72515f' => true,
             'service_locator.4f8384c8862c511eefe34301cff90111' => true,
             'service_locator.947d61df567f39b791fcb23abe3a9a62' => true,
+            'service_locator.dcbb7d9f6c88fb1a375eea7f4f54bdde' => true,
             'service_locator.e64d23c3bf770e2cf44b71643280668d' => true,
             'session.storage.metadata_bag' => true,
             'swiftmailer.mailer.default.transport.eventdispatcher' => true,
@@ -410,13 +429,13 @@ class appDevDebugProjectContainer extends Container
     }
 
     /**
-     * Gets the public 'AppBundle\Controller\UniversityController' shared autowired service.
+     * Gets the public 'AppBundle\Controller\UserOperationsController' shared autowired service.
      *
-     * @return \AppBundle\Controller\UniversityController
+     * @return \AppBundle\Controller\UserOperationsController
      */
-    protected function getAppBundle_Controller_UniversityControllerService()
+    protected function getAppBundle_Controller_UserOperationsControllerService()
     {
-        return $this->services['AppBundle\Controller\UniversityController'] = new \AppBundle\Controller\UniversityController();
+        return $this->services['AppBundle\Controller\UserOperationsController'] = new \AppBundle\Controller\UserOperationsController();
     }
 
     /**
@@ -647,8 +666,8 @@ class appDevDebugProjectContainer extends Container
     protected function getConfigCacheFactoryService()
     {
         return $this->services['config_cache_factory'] = new \Symfony\Component\Config\ResourceCheckerConfigCacheFactory(new RewindableGenerator(function () {
-            yield 0 => ${($_ = isset($this->services['1_dca72a4f1f494320aa569e891fa915e52be64978f3c8e5cf101025f662af6fa7']) ? $this->services['1_dca72a4f1f494320aa569e891fa915e52be64978f3c8e5cf101025f662af6fa7'] : $this->get1Dca72a4f1f494320aa569e891fa915e52be64978f3c8e5cf101025f662af6fa7Service()) && false ?: '_'};
-            yield 1 => ${($_ = isset($this->services['2_dca72a4f1f494320aa569e891fa915e52be64978f3c8e5cf101025f662af6fa7']) ? $this->services['2_dca72a4f1f494320aa569e891fa915e52be64978f3c8e5cf101025f662af6fa7'] : $this->get2Dca72a4f1f494320aa569e891fa915e52be64978f3c8e5cf101025f662af6fa7Service()) && false ?: '_'};
+            yield 0 => ${($_ = isset($this->services['1_06b16980010bbadb71e84917114340f12cbafbf97145142763fed21aa39dcb6e']) ? $this->services['1_06b16980010bbadb71e84917114340f12cbafbf97145142763fed21aa39dcb6e'] : $this->get106b16980010bbadb71e84917114340f12cbafbf97145142763fed21aa39dcb6eService()) && false ?: '_'};
+            yield 1 => ${($_ = isset($this->services['2_06b16980010bbadb71e84917114340f12cbafbf97145142763fed21aa39dcb6e']) ? $this->services['2_06b16980010bbadb71e84917114340f12cbafbf97145142763fed21aa39dcb6e'] : $this->get206b16980010bbadb71e84917114340f12cbafbf97145142763fed21aa39dcb6eService()) && false ?: '_'};
         }, 2));
     }
 
@@ -1120,7 +1139,7 @@ class appDevDebugProjectContainer extends Container
     {
         $this->services['doctrine_cache.providers.doctrine.orm.default_metadata_cache'] = $instance = new \Doctrine\Common\Cache\ArrayCache();
 
-        $instance->setNamespace('sf2orm_default_6f5e3e1b91a9916f36a060721394c6e3230706bf215e1b3e7bc7541b8b824cd4');
+        $instance->setNamespace('sf2orm_default_f6e64299b75b449fe3cc564199439221eaab7352cce7d71c4dcfa4d532c0c677');
 
         return $instance;
     }
@@ -1134,7 +1153,7 @@ class appDevDebugProjectContainer extends Container
     {
         $this->services['doctrine_cache.providers.doctrine.orm.default_query_cache'] = $instance = new \Doctrine\Common\Cache\ArrayCache();
 
-        $instance->setNamespace('sf2orm_default_6f5e3e1b91a9916f36a060721394c6e3230706bf215e1b3e7bc7541b8b824cd4');
+        $instance->setNamespace('sf2orm_default_f6e64299b75b449fe3cc564199439221eaab7352cce7d71c4dcfa4d532c0c677');
 
         return $instance;
     }
@@ -1148,7 +1167,7 @@ class appDevDebugProjectContainer extends Container
     {
         $this->services['doctrine_cache.providers.doctrine.orm.default_result_cache'] = $instance = new \Doctrine\Common\Cache\ArrayCache();
 
-        $instance->setNamespace('sf2orm_default_6f5e3e1b91a9916f36a060721394c6e3230706bf215e1b3e7bc7541b8b824cd4');
+        $instance->setNamespace('sf2orm_default_f6e64299b75b449fe3cc564199439221eaab7352cce7d71c4dcfa4d532c0c677');
 
         return $instance;
     }
@@ -2262,7 +2281,7 @@ class appDevDebugProjectContainer extends Container
 
         $f = new \Symfony\Component\Security\Http\AccessMap();
 
-        return $this->services['security.firewall.map.context.main'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallContext(array(0 => new \Symfony\Component\Security\Http\Firewall\ChannelListener($f, new \Symfony\Component\Security\Http\EntryPoint\RetryAuthenticationEntryPoint(80, 443), $a), 1 => new \Symfony\Component\Security\Http\Firewall\ContextListener($b, array(0 => new \Symfony\Component\Security\Core\User\InMemoryUserProvider()), 'main', $a, ${($_ = isset($this->services['debug.event_dispatcher']) ? $this->services['debug.event_dispatcher'] : $this->get('debug.event_dispatcher', ContainerInterface::NULL_ON_INVALID_REFERENCE)) && false ?: '_'}, $c), 2 => new \Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener($b, '5996a80b04e407.23963486', $a, $d), 3 => new \Symfony\Component\Security\Http\Firewall\AccessListener($b, ${($_ = isset($this->services['debug.security.access.decision_manager']) ? $this->services['debug.security.access.decision_manager'] : $this->getDebug_Security_Access_DecisionManagerService()) && false ?: '_'}, $f, $d)), new \Symfony\Component\Security\Http\Firewall\ExceptionListener($b, $c, new \Symfony\Component\Security\Http\HttpUtils($e, $e), 'main', NULL, NULL, NULL, $a, false), new \Symfony\Bundle\SecurityBundle\Security\FirewallConfig('main', 'security.user_checker', NULL, true, false, 'security.user.provider.concrete.in_memory', 'main', NULL, NULL, NULL, array(0 => 'anonymous')));
+        return $this->services['security.firewall.map.context.main'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallContext(array(0 => new \Symfony\Component\Security\Http\Firewall\ChannelListener($f, new \Symfony\Component\Security\Http\EntryPoint\RetryAuthenticationEntryPoint(80, 443), $a), 1 => new \Symfony\Component\Security\Http\Firewall\ContextListener($b, array(0 => new \Symfony\Component\Security\Core\User\InMemoryUserProvider()), 'main', $a, ${($_ = isset($this->services['debug.event_dispatcher']) ? $this->services['debug.event_dispatcher'] : $this->get('debug.event_dispatcher', ContainerInterface::NULL_ON_INVALID_REFERENCE)) && false ?: '_'}, $c), 2 => new \Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener($b, '59a53f024bc4a7.52133734', $a, $d), 3 => new \Symfony\Component\Security\Http\Firewall\AccessListener($b, ${($_ = isset($this->services['debug.security.access.decision_manager']) ? $this->services['debug.security.access.decision_manager'] : $this->getDebug_Security_Access_DecisionManagerService()) && false ?: '_'}, $f, $d)), new \Symfony\Component\Security\Http\Firewall\ExceptionListener($b, $c, new \Symfony\Component\Security\Http\HttpUtils($e, $e), 'main', NULL, NULL, NULL, $a, false), new \Symfony\Bundle\SecurityBundle\Security\FirewallConfig('main', 'security.user_checker', NULL, true, false, 'security.user.provider.concrete.in_memory', 'main', NULL, NULL, NULL, array(0 => 'anonymous')));
     }
 
     /**
@@ -2564,15 +2583,15 @@ class appDevDebugProjectContainer extends Container
     protected function getSwiftmailer_Mailer_Default_Transport_RealService()
     {
         $a = new \Swift_Transport_Esmtp_AuthHandler(array(0 => new \Swift_Transport_Esmtp_Auth_CramMd5Authenticator(), 1 => new \Swift_Transport_Esmtp_Auth_LoginAuthenticator(), 2 => new \Swift_Transport_Esmtp_Auth_PlainAuthenticator()));
-        $a->setUsername(NULL);
-        $a->setPassword(NULL);
-        $a->setAuthMode(NULL);
+        $a->setUsername('mail25yaz@gmail.com');
+        $a->setPassword('Zaid7@123');
+        $a->setAuthMode('login');
 
         $this->services['swiftmailer.mailer.default.transport.real'] = $instance = new \Swift_Transport_EsmtpTransport(new \Swift_Transport_StreamBuffer(new \Swift_StreamFilters_StringReplacementFilterFactory()), array(0 => $a), ${($_ = isset($this->services['swiftmailer.mailer.default.transport.eventdispatcher']) ? $this->services['swiftmailer.mailer.default.transport.eventdispatcher'] : $this->getSwiftmailer_Mailer_Default_Transport_EventdispatcherService()) && false ?: '_'});
 
-        $instance->setHost('127.0.0.1');
-        $instance->setPort(25);
-        $instance->setEncryption(NULL);
+        $instance->setHost('smtp.gmail.com');
+        $instance->setPort(465);
+        $instance->setEncryption('ssl');
         $instance->setTimeout(30);
         $instance->setSourceIp(NULL);
         (new \Symfony\Bundle\SwiftmailerBundle\DependencyInjection\SmtpTransportConfigurator(NULL, ${($_ = isset($this->services['router.request_context']) ? $this->services['router.request_context'] : $this->getRouter_RequestContextService()) && false ?: '_'}))->configure($instance);
@@ -2951,23 +2970,23 @@ class appDevDebugProjectContainer extends Container
     }
 
     /**
-     * Gets the private '1_dca72a4f1f494320aa569e891fa915e52be64978f3c8e5cf101025f662af6fa7' shared service.
+     * Gets the private '1_06b16980010bbadb71e84917114340f12cbafbf97145142763fed21aa39dcb6e' shared service.
      *
      * @return \Symfony\Component\DependencyInjection\Config\ContainerParametersResourceChecker
      */
-    protected function get1Dca72a4f1f494320aa569e891fa915e52be64978f3c8e5cf101025f662af6fa7Service()
+    protected function get106b16980010bbadb71e84917114340f12cbafbf97145142763fed21aa39dcb6eService()
     {
-        return $this->services['1_dca72a4f1f494320aa569e891fa915e52be64978f3c8e5cf101025f662af6fa7'] = new \Symfony\Component\DependencyInjection\Config\ContainerParametersResourceChecker($this);
+        return $this->services['1_06b16980010bbadb71e84917114340f12cbafbf97145142763fed21aa39dcb6e'] = new \Symfony\Component\DependencyInjection\Config\ContainerParametersResourceChecker($this);
     }
 
     /**
-     * Gets the private '2_dca72a4f1f494320aa569e891fa915e52be64978f3c8e5cf101025f662af6fa7' shared service.
+     * Gets the private '2_06b16980010bbadb71e84917114340f12cbafbf97145142763fed21aa39dcb6e' shared service.
      *
      * @return \Symfony\Component\Config\Resource\SelfCheckingResourceChecker
      */
-    protected function get2Dca72a4f1f494320aa569e891fa915e52be64978f3c8e5cf101025f662af6fa7Service()
+    protected function get206b16980010bbadb71e84917114340f12cbafbf97145142763fed21aa39dcb6eService()
     {
-        return $this->services['2_dca72a4f1f494320aa569e891fa915e52be64978f3c8e5cf101025f662af6fa7'] = new \Symfony\Component\Config\Resource\SelfCheckingResourceChecker();
+        return $this->services['2_06b16980010bbadb71e84917114340f12cbafbf97145142763fed21aa39dcb6e'] = new \Symfony\Component\Config\Resource\SelfCheckingResourceChecker();
     }
 
     /**
@@ -2978,6 +2997,36 @@ class appDevDebugProjectContainer extends Container
     protected function getAppBundle_Override_JsonRequestService()
     {
         return $this->services['AppBundle\Override\JsonRequest'] = new \AppBundle\Override\JsonRequest();
+    }
+
+    /**
+     * Gets the private 'AppBundle\Service\CustomCrypt' shared autowired service.
+     *
+     * @return \AppBundle\Service\CustomCrypt
+     */
+    protected function getAppBundle_Service_CustomCryptService()
+    {
+        return $this->services['AppBundle\Service\CustomCrypt'] = new \AppBundle\Service\CustomCrypt('bbtKey');
+    }
+
+    /**
+     * Gets the private 'AppBundle\Service\FileUploader' shared autowired service.
+     *
+     * @return \AppBundle\Service\FileUploader
+     */
+    protected function getAppBundle_Service_FileUploaderService()
+    {
+        return $this->services['AppBundle\Service\FileUploader'] = new \AppBundle\Service\FileUploader('D:/bbt/avatars/teachers');
+    }
+
+    /**
+     * Gets the private 'AppBundle\Service\MailerService' shared autowired service.
+     *
+     * @return \AppBundle\Service\MailerService
+     */
+    protected function getAppBundle_Service_MailerServiceService()
+    {
+        return $this->services['AppBundle\Service\MailerService'] = new \AppBundle\Service\MailerService(${($_ = isset($this->services['swiftmailer.mailer.default']) ? $this->services['swiftmailer.mailer.default'] : $this->get('swiftmailer.mailer.default')) && false ?: '_'}, ${($_ = isset($this->services['templating']) ? $this->services['templating'] : $this->get('templating')) && false ?: '_'});
     }
 
     /**
@@ -3036,16 +3085,48 @@ class appDevDebugProjectContainer extends Container
     {
         return $this->services['argument_resolver.service'] = new \Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver(new \Symfony\Component\DependencyInjection\ServiceLocator(array('AppBundle\\Controller\\DefaultController:indexAction' => function () {
             return ${($_ = isset($this->services['service_locator.4f8384c8862c511eefe34301cff90111']) ? $this->services['service_locator.4f8384c8862c511eefe34301cff90111'] : $this->getServiceLocator_4f8384c8862c511eefe34301cff90111Service()) && false ?: '_'};
+        }, 'AppBundle\\Controller\\UniversityController:avatarAction' => function () {
+            return ${($_ = isset($this->services['service_locator.3eb6a41eb5eb6199eb5a22f7c19a067d']) ? $this->services['service_locator.3eb6a41eb5eb6199eb5a22f7c19a067d'] : $this->getServiceLocator_3eb6a41eb5eb6199eb5a22f7c19a067dService()) && false ?: '_'};
         }, 'AppBundle\\Controller\\UniversityController:saveTeacherAction' => function () {
-            return ${($_ = isset($this->services['service_locator.947d61df567f39b791fcb23abe3a9a62']) ? $this->services['service_locator.947d61df567f39b791fcb23abe3a9a62'] : $this->getServiceLocator_947d61df567f39b791fcb23abe3a9a62Service()) && false ?: '_'};
+            return ${($_ = isset($this->services['service_locator.3bff7f64092fe91426672f1b86ccaa73']) ? $this->services['service_locator.3bff7f64092fe91426672f1b86ccaa73'] : $this->getServiceLocator_3bff7f64092fe91426672f1b86ccaa73Service()) && false ?: '_'};
+        }, 'AppBundle\\Controller\\UniversityController:sendEmailsToUser' => function () {
+            return ${($_ = isset($this->services['service_locator.dcbb7d9f6c88fb1a375eea7f4f54bdde']) ? $this->services['service_locator.dcbb7d9f6c88fb1a375eea7f4f54bdde'] : $this->getServiceLocator_Dcbb7d9f6c88fb1a375eea7f4f54bddeService()) && false ?: '_'};
         }, 'AppBundle\\Controller\\UniversityController:signupTeacherAction' => function () {
+            return ${($_ = isset($this->services['service_locator.3bff7f64092fe91426672f1b86ccaa73']) ? $this->services['service_locator.3bff7f64092fe91426672f1b86ccaa73'] : $this->getServiceLocator_3bff7f64092fe91426672f1b86ccaa73Service()) && false ?: '_'};
+        }, 'AppBundle\\Controller\\UniversityController:teacherProfileAction' => function () {
             return ${($_ = isset($this->services['service_locator.947d61df567f39b791fcb23abe3a9a62']) ? $this->services['service_locator.947d61df567f39b791fcb23abe3a9a62'] : $this->getServiceLocator_947d61df567f39b791fcb23abe3a9a62Service()) && false ?: '_'};
+        }, 'AppBundle\\Controller\\UniversityController:teacherStatusAction' => function () {
+            return ${($_ = isset($this->services['service_locator.947d61df567f39b791fcb23abe3a9a62']) ? $this->services['service_locator.947d61df567f39b791fcb23abe3a9a62'] : $this->getServiceLocator_947d61df567f39b791fcb23abe3a9a62Service()) && false ?: '_'};
+        }, 'AppBundle\\Controller\\UniversityController:verifySignupteacherAction' => function () {
+            return ${($_ = isset($this->services['service_locator.4b91146b4e578c33474d98cd5a72515f']) ? $this->services['service_locator.4b91146b4e578c33474d98cd5a72515f'] : $this->getServiceLocator_4b91146b4e578c33474d98cd5a72515fService()) && false ?: '_'};
+        }, 'AppBundle\\Controller\\UserOperationsController:commentAction' => function () {
+            return ${($_ = isset($this->services['service_locator.3291b6ba6e0562b7926c26d14652f948']) ? $this->services['service_locator.3291b6ba6e0562b7926c26d14652f948'] : $this->getServiceLocator_3291b6ba6e0562b7926c26d14652f948Service()) && false ?: '_'};
+        }, 'AppBundle\\Controller\\UserOperationsController:getUserOperationsAction' => function () {
+            return ${($_ = isset($this->services['service_locator.3291b6ba6e0562b7926c26d14652f948']) ? $this->services['service_locator.3291b6ba6e0562b7926c26d14652f948'] : $this->getServiceLocator_3291b6ba6e0562b7926c26d14652f948Service()) && false ?: '_'};
+        }, 'AppBundle\\Controller\\UserOperationsController:likeAction' => function () {
+            return ${($_ = isset($this->services['service_locator.3291b6ba6e0562b7926c26d14652f948']) ? $this->services['service_locator.3291b6ba6e0562b7926c26d14652f948'] : $this->getServiceLocator_3291b6ba6e0562b7926c26d14652f948Service()) && false ?: '_'};
         }, 'AppBundle\\Controller\\DefaultController::indexAction' => function () {
             return ${($_ = isset($this->services['service_locator.4f8384c8862c511eefe34301cff90111']) ? $this->services['service_locator.4f8384c8862c511eefe34301cff90111'] : $this->getServiceLocator_4f8384c8862c511eefe34301cff90111Service()) && false ?: '_'};
+        }, 'AppBundle\\Controller\\UniversityController::avatarAction' => function () {
+            return ${($_ = isset($this->services['service_locator.3eb6a41eb5eb6199eb5a22f7c19a067d']) ? $this->services['service_locator.3eb6a41eb5eb6199eb5a22f7c19a067d'] : $this->getServiceLocator_3eb6a41eb5eb6199eb5a22f7c19a067dService()) && false ?: '_'};
         }, 'AppBundle\\Controller\\UniversityController::saveTeacherAction' => function () {
-            return ${($_ = isset($this->services['service_locator.947d61df567f39b791fcb23abe3a9a62']) ? $this->services['service_locator.947d61df567f39b791fcb23abe3a9a62'] : $this->getServiceLocator_947d61df567f39b791fcb23abe3a9a62Service()) && false ?: '_'};
+            return ${($_ = isset($this->services['service_locator.3bff7f64092fe91426672f1b86ccaa73']) ? $this->services['service_locator.3bff7f64092fe91426672f1b86ccaa73'] : $this->getServiceLocator_3bff7f64092fe91426672f1b86ccaa73Service()) && false ?: '_'};
+        }, 'AppBundle\\Controller\\UniversityController::sendEmailsToUser' => function () {
+            return ${($_ = isset($this->services['service_locator.dcbb7d9f6c88fb1a375eea7f4f54bdde']) ? $this->services['service_locator.dcbb7d9f6c88fb1a375eea7f4f54bdde'] : $this->getServiceLocator_Dcbb7d9f6c88fb1a375eea7f4f54bddeService()) && false ?: '_'};
         }, 'AppBundle\\Controller\\UniversityController::signupTeacherAction' => function () {
+            return ${($_ = isset($this->services['service_locator.3bff7f64092fe91426672f1b86ccaa73']) ? $this->services['service_locator.3bff7f64092fe91426672f1b86ccaa73'] : $this->getServiceLocator_3bff7f64092fe91426672f1b86ccaa73Service()) && false ?: '_'};
+        }, 'AppBundle\\Controller\\UniversityController::teacherProfileAction' => function () {
             return ${($_ = isset($this->services['service_locator.947d61df567f39b791fcb23abe3a9a62']) ? $this->services['service_locator.947d61df567f39b791fcb23abe3a9a62'] : $this->getServiceLocator_947d61df567f39b791fcb23abe3a9a62Service()) && false ?: '_'};
+        }, 'AppBundle\\Controller\\UniversityController::teacherStatusAction' => function () {
+            return ${($_ = isset($this->services['service_locator.947d61df567f39b791fcb23abe3a9a62']) ? $this->services['service_locator.947d61df567f39b791fcb23abe3a9a62'] : $this->getServiceLocator_947d61df567f39b791fcb23abe3a9a62Service()) && false ?: '_'};
+        }, 'AppBundle\\Controller\\UniversityController::verifySignupteacherAction' => function () {
+            return ${($_ = isset($this->services['service_locator.4b91146b4e578c33474d98cd5a72515f']) ? $this->services['service_locator.4b91146b4e578c33474d98cd5a72515f'] : $this->getServiceLocator_4b91146b4e578c33474d98cd5a72515fService()) && false ?: '_'};
+        }, 'AppBundle\\Controller\\UserOperationsController::commentAction' => function () {
+            return ${($_ = isset($this->services['service_locator.3291b6ba6e0562b7926c26d14652f948']) ? $this->services['service_locator.3291b6ba6e0562b7926c26d14652f948'] : $this->getServiceLocator_3291b6ba6e0562b7926c26d14652f948Service()) && false ?: '_'};
+        }, 'AppBundle\\Controller\\UserOperationsController::getUserOperationsAction' => function () {
+            return ${($_ = isset($this->services['service_locator.3291b6ba6e0562b7926c26d14652f948']) ? $this->services['service_locator.3291b6ba6e0562b7926c26d14652f948'] : $this->getServiceLocator_3291b6ba6e0562b7926c26d14652f948Service()) && false ?: '_'};
+        }, 'AppBundle\\Controller\\UserOperationsController::likeAction' => function () {
+            return ${($_ = isset($this->services['service_locator.3291b6ba6e0562b7926c26d14652f948']) ? $this->services['service_locator.3291b6ba6e0562b7926c26d14652f948'] : $this->getServiceLocator_3291b6ba6e0562b7926c26d14652f948Service()) && false ?: '_'};
         })));
     }
 
@@ -3100,7 +3181,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getCache_Annotations_RecorderInnerService($lazyLoad = true)
     {
-        return $this->services['cache.annotations.recorder_inner'] = \Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('3wDjJ1UrhZ', 0, 'zfm-GxJOtCJu1muVfEM4ho', (__DIR__.'/pools'), ${($_ = isset($this->services['monolog.logger.cache']) ? $this->services['monolog.logger.cache'] : $this->get('monolog.logger.cache', ContainerInterface::NULL_ON_INVALID_REFERENCE)) && false ?: '_'});
+        return $this->services['cache.annotations.recorder_inner'] = \Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('gkJwXxJLyL', 0, 'HORDDSKdTEN4OlsvuQAHLZ', (__DIR__.'/pools'), ${($_ = isset($this->services['monolog.logger.cache']) ? $this->services['monolog.logger.cache'] : $this->get('monolog.logger.cache', ContainerInterface::NULL_ON_INVALID_REFERENCE)) && false ?: '_'});
     }
 
     /**
@@ -3110,7 +3191,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getCache_App_RecorderInnerService($lazyLoad = true)
     {
-        $this->services['cache.app.recorder_inner'] = $instance = new \Symfony\Component\Cache\Adapter\FilesystemAdapter('oF8E5OWfFd', 0, (__DIR__.'/pools'));
+        $this->services['cache.app.recorder_inner'] = $instance = new \Symfony\Component\Cache\Adapter\FilesystemAdapter('TGEaisTVzj', 0, (__DIR__.'/pools'));
 
         if ($this->has('monolog.logger.cache')) {
             $instance->setLogger(${($_ = isset($this->services['monolog.logger.cache']) ? $this->services['monolog.logger.cache'] : $this->get('monolog.logger.cache', ContainerInterface::NULL_ON_INVALID_REFERENCE)) && false ?: '_'});
@@ -3126,7 +3207,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getCache_Serializer_RecorderInnerService($lazyLoad = true)
     {
-        return $this->services['cache.serializer.recorder_inner'] = \Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('5etD5Pm8CO', 0, 'zfm-GxJOtCJu1muVfEM4ho', (__DIR__.'/pools'), ${($_ = isset($this->services['monolog.logger.cache']) ? $this->services['monolog.logger.cache'] : $this->get('monolog.logger.cache', ContainerInterface::NULL_ON_INVALID_REFERENCE)) && false ?: '_'});
+        return $this->services['cache.serializer.recorder_inner'] = \Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('3tDuu+vwgJ', 0, 'HORDDSKdTEN4OlsvuQAHLZ', (__DIR__.'/pools'), ${($_ = isset($this->services['monolog.logger.cache']) ? $this->services['monolog.logger.cache'] : $this->get('monolog.logger.cache', ContainerInterface::NULL_ON_INVALID_REFERENCE)) && false ?: '_'});
     }
 
     /**
@@ -3136,7 +3217,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getCache_System_RecorderInnerService($lazyLoad = true)
     {
-        return $this->services['cache.system.recorder_inner'] = \Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('yP0xJA9GJN', 0, 'zfm-GxJOtCJu1muVfEM4ho', (__DIR__.'/pools'), ${($_ = isset($this->services['monolog.logger.cache']) ? $this->services['monolog.logger.cache'] : $this->get('monolog.logger.cache', ContainerInterface::NULL_ON_INVALID_REFERENCE)) && false ?: '_'});
+        return $this->services['cache.system.recorder_inner'] = \Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('7aOF6VVp7X', 0, 'HORDDSKdTEN4OlsvuQAHLZ', (__DIR__.'/pools'), ${($_ = isset($this->services['monolog.logger.cache']) ? $this->services['monolog.logger.cache'] : $this->get('monolog.logger.cache', ContainerInterface::NULL_ON_INVALID_REFERENCE)) && false ?: '_'});
     }
 
     /**
@@ -3156,7 +3237,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getCache_Validator_RecorderInnerService($lazyLoad = true)
     {
-        return $this->services['cache.validator.recorder_inner'] = \Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('DGdCYZly7W', 0, 'zfm-GxJOtCJu1muVfEM4ho', (__DIR__.'/pools'), ${($_ = isset($this->services['monolog.logger.cache']) ? $this->services['monolog.logger.cache'] : $this->get('monolog.logger.cache', ContainerInterface::NULL_ON_INVALID_REFERENCE)) && false ?: '_'});
+        return $this->services['cache.validator.recorder_inner'] = \Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('vh7AgcvwHa', 0, 'HORDDSKdTEN4OlsvuQAHLZ', (__DIR__.'/pools'), ${($_ = isset($this->services['monolog.logger.cache']) ? $this->services['monolog.logger.cache'] : $this->get('monolog.logger.cache', ContainerInterface::NULL_ON_INVALID_REFERENCE)) && false ?: '_'});
     }
 
     /**
@@ -3406,7 +3487,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getSecurity_Authentication_Provider_Anonymous_MainService()
     {
-        return $this->services['security.authentication.provider.anonymous.main'] = new \Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider('5996a80b04e407.23963486');
+        return $this->services['security.authentication.provider.anonymous.main'] = new \Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider('59a53f024bc4a7.52133734');
     }
 
     /**
@@ -3477,6 +3558,62 @@ class appDevDebugProjectContainer extends Container
     }
 
     /**
+     * Gets the private 'service_locator.3291b6ba6e0562b7926c26d14652f948' shared service.
+     *
+     * @return \Symfony\Component\DependencyInjection\ServiceLocator
+     */
+    protected function getServiceLocator_3291b6ba6e0562b7926c26d14652f948Service()
+    {
+        return $this->services['service_locator.3291b6ba6e0562b7926c26d14652f948'] = new \Symfony\Component\DependencyInjection\ServiceLocator(array('request' => function () {
+            $f = function (\Symfony\Component\HttpFoundation\Request $v) { return $v; }; return $f(${($_ = isset($this->services['AppBundle\Override\JsonRequest']) ? $this->services['AppBundle\Override\JsonRequest'] : $this->getAppBundle_Override_JsonRequestService()) && false ?: '_'});
+        }));
+    }
+
+    /**
+     * Gets the private 'service_locator.3bff7f64092fe91426672f1b86ccaa73' shared service.
+     *
+     * @return \Symfony\Component\DependencyInjection\ServiceLocator
+     */
+    protected function getServiceLocator_3bff7f64092fe91426672f1b86ccaa73Service()
+    {
+        return $this->services['service_locator.3bff7f64092fe91426672f1b86ccaa73'] = new \Symfony\Component\DependencyInjection\ServiceLocator(array('crypt' => function () {
+            $f = function (\AppBundle\Service\CustomCrypt $v = null) { return $v; }; return $f(${($_ = isset($this->services['AppBundle\Service\CustomCrypt']) ? $this->services['AppBundle\Service\CustomCrypt'] : $this->getAppBundle_Service_CustomCryptService()) && false ?: '_'});
+        }, 'mailerService' => function () {
+            $f = function (\AppBundle\Service\MailerService $v = null) { return $v; }; return $f(${($_ = isset($this->services['AppBundle\Service\MailerService']) ? $this->services['AppBundle\Service\MailerService'] : $this->getAppBundle_Service_MailerServiceService()) && false ?: '_'});
+        }, 'request' => function () {
+            $f = function (\Symfony\Component\HttpFoundation\Request $v) { return $v; }; return $f(${($_ = isset($this->services['AppBundle\Override\JsonRequest']) ? $this->services['AppBundle\Override\JsonRequest'] : $this->getAppBundle_Override_JsonRequestService()) && false ?: '_'});
+        }));
+    }
+
+    /**
+     * Gets the private 'service_locator.3eb6a41eb5eb6199eb5a22f7c19a067d' shared service.
+     *
+     * @return \Symfony\Component\DependencyInjection\ServiceLocator
+     */
+    protected function getServiceLocator_3eb6a41eb5eb6199eb5a22f7c19a067dService()
+    {
+        return $this->services['service_locator.3eb6a41eb5eb6199eb5a22f7c19a067d'] = new \Symfony\Component\DependencyInjection\ServiceLocator(array('fileUploader' => function () {
+            $f = function (\AppBundle\Service\FileUploader $v = null) { return $v; }; return $f(${($_ = isset($this->services['AppBundle\Service\FileUploader']) ? $this->services['AppBundle\Service\FileUploader'] : $this->getAppBundle_Service_FileUploaderService()) && false ?: '_'});
+        }, 'request' => function () {
+            $f = function (\Symfony\Component\HttpFoundation\Request $v) { return $v; }; return $f(${($_ = isset($this->services['AppBundle\Override\JsonRequest']) ? $this->services['AppBundle\Override\JsonRequest'] : $this->getAppBundle_Override_JsonRequestService()) && false ?: '_'});
+        }));
+    }
+
+    /**
+     * Gets the private 'service_locator.4b91146b4e578c33474d98cd5a72515f' shared service.
+     *
+     * @return \Symfony\Component\DependencyInjection\ServiceLocator
+     */
+    protected function getServiceLocator_4b91146b4e578c33474d98cd5a72515fService()
+    {
+        return $this->services['service_locator.4b91146b4e578c33474d98cd5a72515f'] = new \Symfony\Component\DependencyInjection\ServiceLocator(array('crypt' => function () {
+            $f = function (\AppBundle\Service\CustomCrypt $v = null) { return $v; }; return $f(${($_ = isset($this->services['AppBundle\Service\CustomCrypt']) ? $this->services['AppBundle\Service\CustomCrypt'] : $this->getAppBundle_Service_CustomCryptService()) && false ?: '_'});
+        }, 'request' => function () {
+            $f = function (\Symfony\Component\HttpFoundation\Request $v) { return $v; }; return $f(${($_ = isset($this->services['AppBundle\Override\JsonRequest']) ? $this->services['AppBundle\Override\JsonRequest'] : $this->getAppBundle_Override_JsonRequestService()) && false ?: '_'});
+        }));
+    }
+
+    /**
      * Gets the private 'service_locator.4f8384c8862c511eefe34301cff90111' shared service.
      *
      * @return \Symfony\Component\DependencyInjection\ServiceLocator
@@ -3497,6 +3634,20 @@ class appDevDebugProjectContainer extends Container
     {
         return $this->services['service_locator.947d61df567f39b791fcb23abe3a9a62'] = new \Symfony\Component\DependencyInjection\ServiceLocator(array('request' => function () {
             $f = function (\Symfony\Component\HttpFoundation\Request $v) { return $v; }; return $f(${($_ = isset($this->services['AppBundle\Override\JsonRequest']) ? $this->services['AppBundle\Override\JsonRequest'] : $this->getAppBundle_Override_JsonRequestService()) && false ?: '_'});
+        }));
+    }
+
+    /**
+     * Gets the private 'service_locator.dcbb7d9f6c88fb1a375eea7f4f54bdde' shared service.
+     *
+     * @return \Symfony\Component\DependencyInjection\ServiceLocator
+     */
+    protected function getServiceLocator_Dcbb7d9f6c88fb1a375eea7f4f54bddeService()
+    {
+        return $this->services['service_locator.dcbb7d9f6c88fb1a375eea7f4f54bdde'] = new \Symfony\Component\DependencyInjection\ServiceLocator(array('crypt' => function () {
+            $f = function (\AppBundle\Service\CustomCrypt $v = null) { return $v; }; return $f(${($_ = isset($this->services['AppBundle\Service\CustomCrypt']) ? $this->services['AppBundle\Service\CustomCrypt'] : $this->getAppBundle_Service_CustomCryptService()) && false ?: '_'});
+        }, 'mailerService' => function () {
+            $f = function (\AppBundle\Service\MailerService $v = null) { return $v; }; return $f(${($_ = isset($this->services['AppBundle\Service\MailerService']) ? $this->services['AppBundle\Service\MailerService'] : $this->getAppBundle_Service_MailerServiceService()) && false ?: '_'});
         }));
     }
 
@@ -3770,11 +3921,16 @@ class appDevDebugProjectContainer extends Container
             'database_name' => 'bigbangt_aemin',
             'database_user' => 'root',
             'database_password' => NULL,
-            'mailer_transport' => 'smtp',
-            'mailer_host' => '127.0.0.1',
-            'mailer_user' => NULL,
-            'mailer_password' => NULL,
+            'mailer_transport' => 'gmail',
+            'mailer_host' => 'smtp.gmail.com',
+            'mailer_port' => 587,
+            'mailer_user' => 'mail25yaz@gmail.com',
+            'mailer_password' => 'Zaid7@123',
+            'mail_encryption' => 'tls',
             'secret' => '48ec05b8b3c5247f643fe5665fe350704b280aef',
+            'avatar_dir_teachers' => 'D:/bbt/avatars/teachers',
+            'mail_file' => 'D:/bbt/mail',
+            'salt_key' => 'bbtKey',
             'locale' => 'en',
             'fragment.renderer.hinclude.global_template' => NULL,
             'fragment.path' => '/_fragment',
@@ -3871,12 +4027,12 @@ class appDevDebugProjectContainer extends Container
             'swiftmailer.email_sender.listener.class' => 'Symfony\\Bundle\\SwiftmailerBundle\\EventListener\\EmailSenderListener',
             'swiftmailer.data_collector.class' => 'Symfony\\Bundle\\SwiftmailerBundle\\DataCollector\\MessageDataCollector',
             'swiftmailer.mailer.default.transport.name' => 'smtp',
-            'swiftmailer.mailer.default.transport.smtp.encryption' => NULL,
-            'swiftmailer.mailer.default.transport.smtp.port' => 25,
-            'swiftmailer.mailer.default.transport.smtp.host' => '127.0.0.1',
-            'swiftmailer.mailer.default.transport.smtp.username' => NULL,
-            'swiftmailer.mailer.default.transport.smtp.password' => NULL,
-            'swiftmailer.mailer.default.transport.smtp.auth_mode' => NULL,
+            'swiftmailer.mailer.default.transport.smtp.encryption' => 'ssl',
+            'swiftmailer.mailer.default.transport.smtp.port' => 465,
+            'swiftmailer.mailer.default.transport.smtp.host' => 'smtp.gmail.com',
+            'swiftmailer.mailer.default.transport.smtp.username' => 'mail25yaz@gmail.com',
+            'swiftmailer.mailer.default.transport.smtp.password' => 'Zaid7@123',
+            'swiftmailer.mailer.default.transport.smtp.auth_mode' => 'login',
             'swiftmailer.mailer.default.transport.smtp.timeout' => 30,
             'swiftmailer.mailer.default.transport.smtp.source_ip' => NULL,
             'swiftmailer.mailer.default.transport.smtp.local_domain' => NULL,
@@ -4061,7 +4217,7 @@ class appDevDebugProjectContainer extends Container
 
             ),
             'assetic.java.bin' => 'C:\\ProgramData\\Oracle\\Java\\javapath\\java.EXE',
-            'assetic.node.bin' => 'C:\\Program Files\\nodejs\\\\node.EXE',
+            'assetic.node.bin' => '/usr/bin/node',
             'assetic.ruby.bin' => '/usr/bin/ruby',
             'assetic.sass.bin' => '/usr/bin/sass',
             'assetic.reactjsx.bin' => '/usr/bin/jsx',

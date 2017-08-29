@@ -13,7 +13,7 @@ class MailerService
    public function indexAction($mailObject)
 {
     $message = (new \Swift_Message('BBT - Registration Success'))
-        ->setFrom('admin@bbt.com')
+        ->setFrom('admin123@bbt.com')
         ->setTo($mailObject->{'toMail'})
         ->setBody(
             $this->templating->render(
@@ -34,7 +34,7 @@ class MailerService
         )
         */
     ;
-
+    
    $this->mailer->send($message);
 
     // or, you can also fetch the mailer service this way

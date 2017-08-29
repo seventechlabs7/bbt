@@ -5,12 +5,17 @@ parameters:
     database_name: bigbangt_aemin
     database_user: root
     database_password: 
-    mailer_transport: smtp
-    mailer_host: smtp.sendgrid.net
+    #mailer_transport: smtp
+    mailer_transport : gmail
+    #mailer_host: smtp.sendgrid.net
+    mailer_host: smtp.gmail.com
     mailer_port: 587
-    mailer_user: apikey
-    mailer_password: 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
+    #mailer_user: apikey
+    mailer_user: mail25yaz@gmail.com
+    #mailer_password: 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
+    mailer_password : Zaid7@123 
     MAIL_ENCRYPTION : tls
     secret: 48ec05b8b3c5247f643fe5665fe350704b280aef
     avatar_dir_teachers: "D:/bbt/avatars/teachers"
+    mail_file: "D:/bbt/mail"
     salt_key : 'bbtKey'
