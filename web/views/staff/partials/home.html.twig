@@ -65,7 +65,7 @@
 										<div class="form_input_cont">
 											<input class="form_inputtext"  placeholder="Name" type="text" ng-model="teacher.username" name="username" ng-minlength="2" ng-maxlength="30" ng-pattern="/^[a-zA-Z ]*$/" required>											
 										</div>
-										<div class="help-block" ng-messages="signup.username.$error" ng-show="signup.username.$touched">
+										<div  ng-messages="signup.username.$error" ng-show="signup.username.$touched">
 											   <div ng-messages-include="js/messages.html"></div>
 										</div>
 									</div>
@@ -82,8 +82,8 @@
 								<div class="row">
 									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 										<div class="form_input_cont">
-											<input class="form_inputtext inp_full" placeholder="Email" type="text" ng-model="teacher.email" name="email" 
-											ng-minlength="2" ng-maxlength="30" ng-pattern="/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,30}$/" required>
+											<input class="form_inputtext inp_full" placeholder="Email" type="email" ng-model="teacher.email" name="email" 
+											ng-minlength="6" ng-maxlength="30"  required> <!-- ng-pattern="/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,30}$/" -->
 										</div>
 										<div ng-messages="signup.email.$error" ng-show="signup.email.$touched">
 									       <div ng-messages-include="js/messages.html"></div>

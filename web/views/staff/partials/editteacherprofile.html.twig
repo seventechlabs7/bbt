@@ -1,0 +1,343 @@
+<style type="text/css">
+
+.left_bar_cont {
+    display: inline-block;
+    width: 100%;
+    max-width: 300px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    background: #010e9b;
+}
+
+.left_bar {
+    display: inline-block;
+    width: 100%;
+}
+
+.left_bar_logo {
+    display: inline-block;
+    width: 100%;
+    padding: 30px 0;
+    text-align: center;
+}
+
+.left_logo {
+    display: inline-block;
+    width: 100%;
+    max-width: 130px;
+}
+
+.left_logo > img {
+    display: inline-block;
+    width: 100%;
+}
+
+.left_logo_text {
+    display: inline-block;
+    width: 100%;
+    padding: 10px 0;
+    color: #fff;
+}
+
+.left_bar_content {
+    display: inline-block;
+    width: 100%;
+    padding: 10vh 0;
+}
+
+.left_bar_buttons {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}
+
+ul.bar_but_ul,ul.bar_but_ul
+ li {
+    display: inline-block;
+    width: 100%;
+}
+
+ul.bar_but_ul
+ li {
+    padding: 20px 0;
+}
+
+button.left_bar_but {
+    border-radius: 7px;
+    background: #fff;
+    border: 0;
+    width: 100%;
+    max-width: 158px;
+    color: #000;
+    padding: 5px 30px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    display:inline-block;
+}
+button.left_bar_but.selected
+{
+    background: #70AD47;
+    color:#fff;
+}
+
+.profile_head_cont,.profile_body_cont {
+    display: inline-block;
+    width: 100%;
+    padding-left: 300px;
+    text-align: center;
+}
+
+.pro_pic_upd_cont {
+    display: inline-block;
+    width: 100%;
+    padding: 20px;
+}
+
+.center_l_block, .center_l_label, .center_l_txt_cont,.center_l_txtarea {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}
+
+.center_l_label {
+    text-align: left;
+    padding: 5px;
+    font-weight: 600;
+}
+
+textarea.center_l_txtarea {
+    border-radius: 6px;
+    resize: none;
+    text-align: left;
+    padding: 10px;
+    outline: 0;
+}
+
+.center_l_txt_cont {
+    padding: 15px;
+}
+
+.center_l_block {
+    border: 1px solid #000;
+    padding: 7px;
+}
+
+.center_r_block {
+    display: inline-block;
+    width: 100%;
+    border: 1px solid #000;
+    padding: 10px;
+}
+
+img.pro_pic_upd_img {
+    display: inline-block;
+    border-radius: 100%;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    border: 0;
+}
+
+.upload_pic_but {
+    display: inline-block;
+    width: auto;
+    padding: 5px 15px;
+    background: #010e9b;
+    color: #fff;
+    border-radius: 9px;
+    border: 0;
+    outline: 0;
+}
+
+.unedit_cont {
+    display: inline-block;
+    width: 100%;
+    padding: 20px;
+    text-align: left;
+}
+
+li.unedit_li {
+    font-size: 16px;
+    padding: 5px;
+}
+
+ul.unedit_ul {
+    padding: 15px;
+}
+.pro_pic_cont {
+    display: inline-block;
+    width: 100%;
+    padding: 20px 20px 0 20px;
+    text-align: center;
+}
+.body_main_text > .biggerText {
+    font-size: 30px;
+    font-weight: bold;
+}
+/*faiyaz*/
+.post-container {
+    margin: 20px 20px 0 0;  
+    border: 5px solid #333;
+    overflow: auto
+}
+.post-thumb {
+    float: left
+}
+.post-thumb img {
+    display: block
+}
+.post-content {
+    margin-left: 50px
+}
+.post-title {
+    font-weight: bold;
+    font-size: 200%
+}
+.saveEditProfile
+{
+    padding-top: 25%;
+    padding-left: 25%;
+}
+
+
+</style>
+<div ng-controller="profile" ng-init="getteacherdetails();">
+	<div class="whole_container">
+		<div class="left_bar_cont">
+			<div class="left_bar">
+				<div class="left_bar_logo">
+					<div class="left_logo">
+						<img src="imgs/logo.png">
+					</div>
+					<div class="left_logo_text">
+						Victor Garcia
+					</div>
+				</div>
+				<div class="left_bar_content">
+					<div class="left_bar_buttons">
+						<ul class="bar_but_ul"> 
+							<li>
+								<button class="left_bar_but selected">Profile</button>
+							</li>
+							<li>
+								<button class="left_bar_but">Ranking</button>
+							</li>
+							<li>
+								<button class="left_bar_but">Feedback</button>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="center_container">
+			<div class="profile_head_cont">
+				<div class="row">
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+						<div class="pro_pic_upd_cont">
+							<div class="pro_pic_cont">
+							<input type="file" class="upload_text" placeholder="Avatar"  name="avatar_file" ngf-select="selectAvatar(teacher.avatarFile)" ng-model="teacher.avatarFile"/>
+								<img src="{{profileImageUrl}}" class="pro_pic_upd_img">
+							</div>							
+							<button class="upload_pic_but" ng-click="uploadAvatar()">
+								Upload Photo
+							</button>
+						</div>
+					</div>
+					<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+						<div class="">
+						  
+						  <form id="profile" name="profile">
+						  <div class="row">
+						  	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+						    <div class="form-group">
+						      <label for="name">Name </label>
+						      <input type="text" class="form-control" id="email" placeholder="Enter name" name="name" ng-model="teacherstatus.name" required>
+						    </div>
+						    </div>
+						    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+							   <div class="form-group">
+						      		<label for="name">Sur Name </label>
+						      <input type="text" class="form-control" id="email" placeholder="Enter surname" name="surname" 
+						      ng-model="teacherstatus.surname"
+						      required>
+						    </div> 
+						    </div>
+						    </div>
+						    <div class="row">
+						  	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+						    <div class="form-group">
+						      <label for="email">Email</label>
+						      <input type="email" class="form-control" id="email" ng-model="teacherstatus.email" placeholder="Enter name" name="email" 
+						      ng-model="teacherstatus.email" required>
+						    </div>
+						    </div>
+						    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+							 <div class="form-group">
+						      <label for="university">University</label>
+						      <input type="text" class="form-control" id="email" placeholder="Enter university" name="university" 
+						      ng-model="teacherstatus.university" required>
+						    </div>
+						    </div>
+						    </div>
+						     <div class="row">
+							  	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+							    <div class="form-group">
+							      <label for="email">Password</label>
+							      <input type="password" class="form-control" id="email" placeholder="Enter name" name="password" 
+							      ng-model="teacherstatus.password"  ng-required>
+							    </div>
+							    </div>
+							    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+								 <div class="form-group">
+							      <label for="university">Confirm</label>
+							      <input type="password" class="form-control" id="email" placeholder="Enter university" name="confirm" 
+							       ng-model="teacherstatus.confirm" ng-required>
+							    </div>
+							    </div>
+						    </div>
+
+						  </form>
+						</div>
+						
+					</div>
+					
+				</div>
+			</div> 
+			<div class="profile_body_cont">
+				<div class="row">
+					<div class="col-lg-4 col-md-3 col-sm-12 col-xs-12">
+						<div class="center_l_block">
+							<div class="center_l_label">
+								Tell the world who you are:
+							</div>
+							<div class="center_l_txt_cont">
+								<textarea class="center_l_txtarea" ng-model="teacherstatus.about"></textarea>
+							</div>
+							<div class="center_l_label">
+								Where do you teach?
+							</div>
+							<div class="center_l_txt_cont">
+								<textarea class="center_l_txtarea" ng-model="teacherstatus.teach_place"></textarea>
+							</div>
+							<div class="center_l_label">
+								Do you work?
+							</div>
+							<div class="center_l_txt_cont">
+								<textarea class="center_l_txtarea" ng-model="teacherstatus.work"></textarea>
+							</div>
+							
+						</div>										
+					</div>
+					<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 saveEditProfile" style="">
+							<button class="upload_pic_but" ng-click="saveChanges()">
+								save changes
+							</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

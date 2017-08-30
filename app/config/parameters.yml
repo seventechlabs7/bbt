@@ -16,6 +16,6 @@ parameters:
     mailer_password : Zaid7@123 
     MAIL_ENCRYPTION : tls
     secret: 48ec05b8b3c5247f643fe5665fe350704b280aef
-    avatar_dir_teachers: "D:/bbt/avatars/teachers"
+    avatar_dir_teachers: "C:/xampp/htdocs/Media/avatars/teachers"
     mail_file: "D:/bbt/mail"
     salt_key : 'bbtKey'

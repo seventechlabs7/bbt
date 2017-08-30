@@ -16,7 +16,7 @@ class UserPurchaseRepository extends EntityRepository
             $conn = $this->getEntityManager()
          	->getConnection();
        		$sql = '
-            SELECT user.username,user.id_admin as userId ,company.nom_empresa ,purchase.prec_apertura_compra as amount, purchase.volumen as shares  FROM `hist_user_compra` as purchase, users as user ,empresas as company WHERE company.id = purchase.id_empresa and user.id_admin = purchase.id_user group by purchase.id limit 10
+            SELECT purchase.id as recordId , user.username,user.id_admin as userId ,company.nom_empresa ,purchase.prec_apertura_compra as amount, purchase.volumen as shares  FROM `hist_user_compra` as purchase, users as user ,empresas as company WHERE company.id = purchase.id_empresa and user.id_admin = purchase.id_user group by purchase.id limit 10
             ';
 	        $stmt = $conn->prepare($sql);
 	       	$stmt->execute();
@@ -69,6 +69,26 @@ class UserPurchaseRepository extends EntityRepository
             ';
             $stmt = $conn->prepare($sql);
              $stmt->execute(array('userId' => $userId));
+            $final = $stmt->fetch();   
+           // var_dump($final);die;         
+            return ($final);
+    }
+
+    public function postComment($obj)
+    {
+        
+    }
+
+    public function getRecordLikes($obj)
+    {
+            $dummyUserId = 1000;
+            $conn = $this->getEntityManager()
+            ->getConnection();
+            $sql = '
+            SELECT *  from operaciones_like as likes where id_compra = :purchase_id 
+            ';
+            $stmt = $conn->prepare($sql);
+             $stmt->execute(array('purchase_id' => $obj->purchaseId));
             $final = $stmt->fetch();   
            // var_dump($final);die;         
             return ($final);

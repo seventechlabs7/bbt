@@ -15,7 +15,7 @@ use AppBundle\Entity\GroupEmail;
 use AppBundle\Entity\GroupAsset;
 use AppBundle\Entity\GroupFeedback;
 use AppBundle\Entity\Teacher;
-use AppBundle\Entity\User;
+use AppBundle\Entity\BbtUser;
 use AppBundle\Service\FileUploader;
 use AppBundle\Service\MailerService;
 use AppBundle\Service\CustomCrypt;
@@ -137,17 +137,24 @@ class UniversityController extends Controller
 		$em->flush();
 		return $this->json(array('status' => 'success','reason' => 'Teacher Status Saved Successfully','reaponse' => 200));
 	}
-    public function teacherProfileAction(Request $request,$tid)
+    public function teacherProfileAction(Request $request,$tid,FileUploader $fileUploader)
     {
     	$teacherEmail = $tid;
         $repository = $this->getDoctrine()->getRepository('AppBundle:Teacher');
         $qb = $repository->createQueryBuilder('t');
-        $qb->select('t.email','t.id','t.name','t.surname','t.university')
+        $qb->select('t.email','t.id','t.name','t.surname','t.university','t.about','t.teach_place','t.work')
          ->where($qb->expr()->like('t.id', ':teacherEmail'))
             ->setParameter('teacherEmail', $teacherEmail);
         $query = $qb->getQuery();
         $profile = $query->getResult();
-       	return $this->json(array('status' => 'success','data' => $profile,'reason' => 'Teacher Saved Successfully','reaponse' => 200));
+        $profileImageUrl = $fileUploader->getTargetDir();
+        $profileImageUrl =  explode("htdocs",$profileImageUrl)[1]; //$profileImageUrl.split("htdocs")[1];
+        $url = 'http://'.$_SERVER['SERVER_NAME'].':'."80" ;
+        $profileImageUrl = $url.$profileImageUrl ;
+       	return $this->json(array('status' => 'success',
+       		'data' => $profile,
+       		'profileImageUrl' =>$profileImageUrl,
+       		'reaponse' => 200));
        
     }
 
@@ -315,6 +322,42 @@ class UniversityController extends Controller
     	return $this->json(array('status' => 'success','reason' => 'Group Saved Successfully','reaponse' => 200));
 
     }
+
+    public function updateTeacherAction(Request $request)
+    {
+    	$em = $this->getDoctrine()->getManager();
+		$teacher = $request->request->get('teacher');
+    		$TD = $em->getRepository('AppBundle:Teacher')->find($teacher['id']);
+    		$TD->setId($teacher['id']);
+			$TD->setName($teacher['name']);
+			$TD->setSurname($teacher['surname']);
+			$TD->setEmail($teacher['email']);
+			if(isset($teacher['password']))
+				{
+					$TD->setPassword($teacher['password']);		
+					$password = $teacher['password'];
+				}	
+			$TD->setUniversity($teacher['university']);
+			$TD->setCreated_by(1);
+			$em->persist($TD);
+		    $em->flush();
+			if(!isset($teacher['password']))
+				$password=	$TD->getPassword();
+		  /*  $conn = $this->getEntityManager()
+            ->getConnection();*/
+            $sql = '
+            UPDATE users set username = :username , email = :email1 , password =:password where email = :email2 
+            ';
+            $statement3 = $em->getConnection()->prepare($sql);
+				// Set parameters 
+			
+             $statement3->execute(array('username' => $teacher['name'].".".$teacher['surname'],
+             	'email1' =>$teacher['email'],
+             	'password' =>	$password ,
+             	'email2' => $teacher['oldemail']));
+
+    	return $this->json(array('status' => 'success','reason' => 'updated Successfully','reaponse' => 200));
+    }
     
     public function homeAction()
     {
@@ -408,7 +451,7 @@ class UniversityController extends Controller
 				//return new JsonResponse($result1['id']); 
 				if($result1)
 				{
-						$US = new User;
+						/*$US = new BbtUser;
 						$US->setId($result1['id']);
 						$US->setEmail($result1['email']);
 						$US->setName($result1['username']);
@@ -416,7 +459,22 @@ class UniversityController extends Controller
 						$US->setpassword($result1['password']);
 						$US->setUniversity($result1['university']);
 						$em1->persist($US);
-						$em1->flush();
+						$em1->flush();*/
+
+						 $em2 = $this->getDoctrine()->getManager();
+
+						$RAW_QUERY1 = "
+
+						INSERT INTO `users` 
+						(`id_admin`, `activo`, `enPrueba2dias`, `chat_color`, `fecha_alta`, `fecha_max_prueba`, `fecha_nacimiento`, `nif`, 
+						`username`, `nombre`, `apellidos`, `telefono`, `email`, `password`, `roles`, `nombre_completo`, `direccion`, `localidad`, `cp`, `id_provincia`, `id_pais`, `otra_ciudad`, `bloqueado`, `causa_bloqueo`, `aceptaLOPD`, `mi_descripcion`, `mis_trabajos`, `mis_estudios`, `id_universidad`, `empresa`, `icono`, `se_registro_desde`, `fotoFB`, `fb_id`)
+						 VALUES (NULL,:active,'','','','','','',:username , '', '', '', :email, :password, '', '', '', '', '', '', '', '', '','', '', '', '', '', '', '', '', :reg_type, '', '');";
+
+						 $stmt =$em2->getConnection()->prepare($RAW_QUERY1);
+             			 $stmt->execute(array('active' => 1,'username' => $result1['username']." ".$result1['surname'],'email' => $result1['email'],'password' => $result1['password'] ,'reg_type' => 'Reg.Normal'));
+             			  //$stmt->fetch();
+             			 
+             			// return new JsonResponse($stmt);             			  
 				}
 				$url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'] ;
 				return $this->redirect($url.'/index#/app/profile/'.$result1['id']);
@@ -428,7 +486,7 @@ class UniversityController extends Controller
 	{
 		$em3 = $this->getDoctrine()->getManager();
 
-		$RAW_QUERY3 = 'SELECT email FROM bbt_users where bbt_users.email = :email LIMIT 1;';
+		$RAW_QUERY3 = 'SELECT email FROM users where users.email = :email LIMIT 1;';
 
 		$statement3 = $em3->getConnection()->prepare($RAW_QUERY3);
 		// Set parameters 

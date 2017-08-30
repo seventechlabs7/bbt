@@ -34,6 +34,17 @@ angular.module('app')
                             ]
                         }
                     })
+                    .state('app.editprofile', {
+                        url: '/editprofile/:teacher_id',
+                        templateUrl: 'views/staff/partials/editteacherprofile.html.twig',
+                        resolve: {
+                            deps: ['uiLoad',
+                                function(uiLoad) {
+                                    return uiLoad.load(['js/controllers/profile.js']);
+                                }
+                            ]
+                        }
+                    })
                     .state('app.campaign', {
                         url: '/camp',
                         templateUrl: 'partials/campaign.html',

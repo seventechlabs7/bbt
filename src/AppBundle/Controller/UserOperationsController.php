@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Entity\Product;
+use AppBundle\Entity\Likes;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use AppBundle\Entity\UserPurchaseHistory;
@@ -49,7 +50,8 @@ class UserOperationsController extends Controller
         			$likedName =	$this->getUserNames($likeObj);
         			array_push($likedUsers,$likedName['username']); 
            		 }     
-					$commentObj->likedUsers = $likedUsers;
+					$commentObj->likedUsers = count($likedUsers);
+					$commentObj->commentLikes = $likedUsers;
            		 	array_push($usersComments,$commentObj);  
            		 	       		 
 			}
@@ -66,18 +68,58 @@ class UserOperationsController extends Controller
 	public function commentAction(Request $request)
 	{
 		 $reqData = $request->request->all();
-		 $purchaseId = $reqData['req_id'];
-		 $comment = $reqData['comment'];
+
+		 $obj = new \stdClass();
+		 $em = $this->getDoctrine()->getManager();
+		 $obj->userId = $reqData['uId'];
+		 $obj->comment = $reqData['comment'];
+		 $obj->purchaseId = $reqData['rId'];
+		// $obj->commentId = $reqData['cId'];
+		 
+		 $comment =    $em->getRepository('AppBundle:Likes')
+           		 ->postComment($obj);
 		 //get current user id
 
 		 return new JsonResponse("success");
 	}
 	public function likeAction(Request $request)
 	{
-		 $reqData = $request->request->all();
-		 $purchaseId = $reqData['req_id'];
-		 $comment = $reqData['like'];
-		 return new JsonResponse("success");
+		 $reqData = $request->request->all();    
+		 $obj = new \stdClass();
+		 $obj->purchaseId = $reqData['rId'];
+		 $obj->userId = $reqData['uId'];
+
+		 $em = $this->getDoctrine()->getManager();
+
+		 $likes = $em->getRepository('AppBundle:Likes')
+           		   ->findRecordLikes($obj);
+          //return new JsonResponse($likes);     
+         $likesArray = explode("|",$likes['ids_like']);	
+         $newLikes = [];
+         $likeFlag = true;
+           			  foreach ($likesArray as $likeObj) {
+        				if($likeObj == $obj->userId)   
+        					 {
+        					 	$likeFlag =false;
+        					 	//unlike it 
+        					 	break;
+        					 } 
+        					 else
+        					 {
+        					 	 array_push($newLikes,$likeObj);
+        					 } 
+
+           		 }   
+           		 if(count($likesArray) == 0 || $likeFlag)
+           		 {
+           		 	 array_push($newLikes,$obj->userId);
+           		 }
+
+           $obj->newLikes =   implode('|', $newLikes);
+          $update = $em->getRepository('AppBundle:Likes')
+           		   ->updateLikes($obj);
+
+		 return new JsonResponse($update);
 	}
 
 	public function getUserNames($id)

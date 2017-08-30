@@ -236,14 +236,14 @@ ul.unedit_ul {
 						<div class="pro_pic_upd_cont">
 							<div class="pro_pic_cont">
 							<input type="file" class="upload_text" placeholder="Avatar"  name="avatar_file" ngf-select="selectAvatar(teacher.avatarFile)" ng-model="teacher.avatarFile"/>
-								<img src="" class="pro_pic_upd_img">
+								<img src="{{profileImageUrl}}" class="pro_pic_upd_img">
 							</div>							
 							<button class="upload_pic_but" ng-click="uploadAvatar()">
 								Upload Photo
 							</button>
 						</div>
 					</div>
-					<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+					<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
 						<div class="unedit_cont">
 							<ul class="unedit_ul"> 
 								<li class="unedit_li">
@@ -257,6 +257,9 @@ ul.unedit_ul {
 								</li>
 							</ul>
 						</div>
+					</div>
+					<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+						<i class="fa fa-cog" aria-hidden="true" fa-5x ng-click="editProfile()"></i>
 					</div>
 				</div>
 			</div> 
@@ -291,59 +294,37 @@ ul.unedit_ul {
 					</div>
 					<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
 						<div class="center_r_block">
-							<!-- <div class="post-container">                
+
+
+						<div class="post-container" ng-repeat="op in timeLine ">                
 								<div class="post-thumb"><img src="http://dummyimage.com/50x50/f0f/fff" /></div>
 								<div class="post-content center_l_label">
 									<p>
-										<b>Abc </b> purchased <b>5</b> shares from <b>xyz</b> at <b>45 $</b>
+										<b> {{op.username}} </b> purchased <b>{{op.shares}}</b> shares from <b>{{op.nom_empresa}}</b> at <b>{{op.amount}} &euro;</b>
 									</p>
 									<div class="row">
-										<div class="col-lg-2 col-md-2 col-sm-4 col-xs-4"> <a href="javascript:void()" >Like</a></div> 	<div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">  <a href="javascript:void()" >Comment</a></div>
+									
 									</div>
 									<div class="row">
+										<div class="col-lg-2 col-md-2 col-sm-4 col-xs-4"> <a href="javascript:void()" ng-click="postLike(op.recordId)">Like</a> 	{{op.likes.length}} <i class="fa fa-thumbs-o-up" aria-hidden="true"></i></div> 	<div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">  <a href="javascript:void()" >Comment</a></div>
+									</div>
+									<div class="row" ng-repeat="com in op.comments">
 										<div class="row">
 											
 											<div class="center_l_label">
-												comment 1
+												<b> {{com.commentatorName}} </b> {{com.name}}
 											</div>
 											<div class="center_l_label">
-												<div class="col-lg-2 col-md-2 col-sm-4 col-xs-4"> <a href="javascript:void()" >Like</a></div></div>										
+												<div class="col-lg-2 col-md-2 col-sm-4 col-xs-4"> <a href="javascript:void()" >Like</a> {{com.commentLikes.length}} <i class="fa fa-thumbs-o-up" aria-hidden="true"></i></div></div>										
 
 										</div>
 										
 									</div>
 									<div class="row">
-										<textarea rows="3"></textarea>
+										<textarea rows="3" ng-model = "com.currentComment" name="comment" id="comment" ng-minlenght="2" ng-submit="postComment(op.id,com.commentId)"></textarea> <button ng-click="postComment(op.recordId,com.currentComment)">Comment</button>
 									</div>
 							</div>							
-						</div> -->
-
-						<!-- <div class="post-container" ng-repeat="op in timeLine ">                
-								<div class="post-thumb"><img src="http://dummyimage.com/50x50/f0f/fff" /></div>
-								<div class="post-content center_l_label">
-									<p>
-										<b> {{op.username}} </b> purchased <b>5</b> shares from <b>xyz</b> at <b>45 $</b>
-									</p>
-									<div class="row">
-										<div class="col-lg-2 col-md-2 col-sm-4 col-xs-4"> <a href="javascript:void()" >Like</a></div> 	<div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">  <a href="javascript:void()" >Comment</a></div>
-									</div>
-									<div class="row">
-										<div class="row">
-											
-											<div class="center_l_label">
-												comment 1
-											</div>
-											<div class="center_l_label">
-												<div class="col-lg-2 col-md-2 col-sm-4 col-xs-4"> <a href="javascript:void()" >Like</a></div></div>										
-
-										</div>
-										
-									</div>
-									<div class="row">
-										<textarea rows="3"></textarea>
-									</div>
-							</div>							
-						</div> -->
+						</div>
 
 					</div>
 				</div>

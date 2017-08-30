@@ -29,6 +29,10 @@ saveteacher:
     path:     /api/saveteacher
     defaults: { _controller: AppBundle:University:saveTeacher }
     methods:  [POST]
+updateteacher:
+    path:     /api/teacher/update
+    defaults: { _controller: AppBundle:University:updateTeacher }
+    methods:  [POST]
 
 avatar:
     path:     /api/avatar
@@ -40,10 +44,10 @@ usergroupops:
     defaults: { _controller: AppBundle:UserOperations:getUserOperations }
     methods:  [GET]
 comment:
-    path:     /api/timeline/comment
+    path:     /api/timeline/postComment
     defaults: { _controller: AppBundle:UserOperations:comment }
-    methods:  [GET]
+    methods:  [POST]
 like:
-    path:     /api/timeline/like
+    path:     /api/timeline/postLike
     defaults: { _controller: AppBundle:UserOperations:like }
-    methods:  [GET]
+    methods:  [POST]

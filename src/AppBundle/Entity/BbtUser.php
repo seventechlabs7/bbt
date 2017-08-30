@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="bbt_users")
  */
-class User
+class BbtUser
 {
 
 	/**
