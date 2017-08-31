@@ -45,6 +45,17 @@ angular.module('app')
                             ]
                         }
                     })
+                     .state('app.ranking', {
+                        url: '/ranking/:teacher_id',
+                        templateUrl: 'views/staff/partials/ranking.html.twig',
+                        resolve: {
+                            deps: ['uiLoad',
+                                function(uiLoad) {
+                                    return uiLoad.load(['js/controllers/ranking.js']);
+                                }
+                            ]
+                        }
+                    })
                     .state('app.campaign', {
                         url: '/camp',
                         templateUrl: 'partials/campaign.html',

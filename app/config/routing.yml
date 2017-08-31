@@ -19,6 +19,10 @@ teachersignupverify:
     path:     api/teacher/verify/{verifyLink}
     defaults: { _controller: AppBundle:University:verifySignupteacher}
     methods:  [GET]
+studentsignupverify:
+    path:     api/student/verify/{verifyLink}
+    defaults: { _controller: AppBundle:University:verifySignupStudent}
+    methods:  [GET]
 
 teacherstatus:
     path:     /api/teacher/status
@@ -50,4 +54,8 @@ comment:
 like:
     path:     /api/timeline/postLike
     defaults: { _controller: AppBundle:UserOperations:like }
+    methods:  [POST]
+ranking :
+    path :     /api/ranking/load
+    defaults: { _controller: AppBundle:Ranking:show }
     methods:  [POST]

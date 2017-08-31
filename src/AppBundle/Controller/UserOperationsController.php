@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Entity\Product;
 use AppBundle\Entity\Likes;
+use AppBundle\Entity\Teacher;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use AppBundle\Entity\UserPurchaseHistory;
@@ -24,37 +25,54 @@ class UserOperationsController extends Controller
             
             $final = [];
             foreach ($result as $re) {
+
 			  $likes =    $em->getRepository('AppBundle:UserPurchaseHistory')
-           		 ->findUserLikes();
+           		 ->findUserLikes($re);
            		 $users = [];
-           		   foreach ($likes as $like) {
-           		    $likesArray = explode("|",$like);	
-           			  foreach ($likesArray as $likeObj) {
-        		$username =	$this->getUserNames($likeObj);
-           		 	array_push($users,$username['username']);           		 	
-           		 }           		 
-			}
+
+                if(is_array($likes) || is_object($likes))
+                {
+                  foreach ($likes as $like)
+                   {
+                    $likesArray = explode("|",$like);	
+                    if(is_array($likesArray) || is_object($likesArray))
+                    {
+                      foreach ($likesArray as $likeObj) 
+                      {
+                      $username =	$this->getUserNames($likeObj);
+                      array_push($users,$username['username']);           		 	
+                      }        
+                    }   		 
+                  }
+                }
+
 			 $comments =    $em->getRepository('AppBundle:UserPurchaseHistory')
-           		 ->findUserComments();
+           		 ->findUserComments($re);
            		 // return new JsonResponse($comments);
            		 $usersComments = [];
-           		
-           		   foreach ($comments as $comment) {
-           		   	$commentObj = new \stdClass();
-           		   	 $likedUsers = [];
-           		    $likesArray = explode("|",$comment['likes']);	
-           		    $commentatorName =	$this->getUserNames($comment['userId']);
-           			  foreach ($likesArray as $likeObj) {
-           			  	$commentObj->commentatorName = $commentatorName['username'];
-           			  	$commentObj->name = $comment['comment'];
-        			$likedName =	$this->getUserNames($likeObj);
-        			array_push($likedUsers,$likedName['username']); 
-           		 }     
-					$commentObj->likedUsers = count($likedUsers);
-					$commentObj->commentLikes = $likedUsers;
-           		 	array_push($usersComments,$commentObj);  
-           		 	       		 
-			}
+                if(is_array($comments) || is_object($comments))
+                {
+                foreach ($comments as $comment) {
+                $commentObj = new \stdClass();
+                $likedUsers = [];
+                $likesArray = explode("|",$comment['likes']);	
+                $commentatorName =	$this->getUserNames($comment['userId']);
+                if(is_array($likesArray) || is_object($likesArray))
+                {
+                foreach ($likesArray as $likeObj) 
+                  {
+                    $commentObj->commentatorName = $commentatorName['username'];
+                    $commentObj->name = $comment['comment'];
+                    $likedName =	$this->getUserNames($likeObj);
+                    array_push($likedUsers,$likedName['username']); 
+                  }     
+                }
+                $commentObj->likedUsers = count($likedUsers);
+                $commentObj->commentLikes = $likedUsers;
+                array_push($usersComments,$commentObj);  
+                	 
+                }
+                }
 			//return new JsonResponse($likedUsers);  
 				$re['likes'] = $users;
 				$re['comments'] = $usersComments;
@@ -76,6 +94,23 @@ class UserOperationsController extends Controller
 		 $obj->purchaseId = $reqData['rId'];
 		// $obj->commentId = $reqData['cId'];
 		 
+    $TD =  $em->getRepository('AppBundle:Teacher')->find($obj->userId);
+  
+    if($TD)
+    {
+       $em = $this->getDoctrine()->getManager();
+     $user_id  = $em->getRepository('AppBundle:UserPurchaseHistory')
+                ->findEmail($TD->getEmail());
+       if($user_id)
+       {
+           $obj->userId = $user_id['id'];
+       }
+       else
+        return new JsonResponse("failure");
+    }
+    else
+      return new JsonResponse("failure");
+
 		 $comment =    $em->getRepository('AppBundle:Likes')
            		 ->postComment($obj);
 		 //get current user id
@@ -93,7 +128,20 @@ class UserOperationsController extends Controller
 
 		 $likes = $em->getRepository('AppBundle:Likes')
            		   ->findRecordLikes($obj);
-          //return new JsonResponse($likes);     
+    if(!$likes)
+    {
+      $like = new Likes();
+      $like->setPurchaseId($obj->purchaseId);
+      $like->setOperationId(0);
+      $like->setLikes("");
+      $em->persist($like);
+      $em->flush();
+       $likes = $em->getRepository('AppBundle:Likes')
+                 ->findRecordLikes($obj);
+    }
+   
+          //return new JsonResponse($likes);  
+
          $likesArray = explode("|",$likes['ids_like']);	
          $newLikes = [];
          $likeFlag = true;
@@ -104,7 +152,7 @@ class UserOperationsController extends Controller
         					 	//unlike it 
         					 	break;
         					 } 
-        					 else
+        					 else if($likeObj)
         					 {
         					 	 array_push($newLikes,$likeObj);
         					 } 
@@ -114,8 +162,16 @@ class UserOperationsController extends Controller
            		 {
            		 	 array_push($newLikes,$obj->userId);
            		 }
-
-           $obj->newLikes =   implode('|', $newLikes);
+               else
+               {
+               }
+          $newLikes = array_map('trim',$newLikes);
+          /*if(count($newLikes) == 0 >1)
+              $obj->newLikes =   implode('|', $newLikes);
+            else
+                $obj->newLikes =  $newLikes;*/
+               $obj->newLikes =   implode('|', $newLikes);
+          //return new JsonResponse(count($likesArray));
           $update = $em->getRepository('AppBundle:Likes')
            		   ->updateLikes($obj);
 

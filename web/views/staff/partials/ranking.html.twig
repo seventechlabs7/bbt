@@ -196,17 +196,46 @@ ul.unedit_ul {
     font-weight: bold;
     font-size: 200%
 }
-.saveEditProfile
-{
-    padding-top: 25%;
-    padding-left: 25%;
+
+/*clock*/
+h1{
+  color: #396;
+  font-weight: 100;
+  font-size: 40px;
+  margin: 40px 0px 20px;
 }
 
+#clockdiv{
+	font-family: sans-serif;
+	color: #fff;
+	display: inline-block;
+	font-weight: 100;
+	text-align: center;
+	font-size: 30px;
+}
 
+#clockdiv > div{
+	padding: 10px;
+	border-radius: 3px;
+	background: #00BF96;
+	display: inline-block;
+}
+
+#clockdiv div > span{
+	padding: 15px;
+	border-radius: 3px;
+	background: #00816A;
+	display: inline-block;
+}
+
+.smalltext{
+	padding-top: 5px;
+	font-size: 16px;
+}
 </style>
-<div ng-controller="profile" ng-init="getteacherdetails();">
+<div ng-controller="ranking" ng-init="init();">
 	<div class="whole_container">
-		<div class="left_bar_cont" >
+		<div class="left_bar_cont">
 			<div class="left_bar">
 				<div class="left_bar_logo">
 					<div class="left_logo">
@@ -223,7 +252,7 @@ ul.unedit_ul {
 								<button class="left_bar_but selected">Profile</button>
 							</li>
 							<li>
-								<button class="left_bar_but">Ranking</button>
+								<button class="left_bar_but" ng-click="changeNav('ranking')">Ranking</button>
 							</li>
 							<li>
 								<button class="left_bar_but">Feedback</button>
@@ -235,109 +264,56 @@ ul.unedit_ul {
 		</div>
 		<div class="center_container">
 			<div class="profile_head_cont">
-				<div class="row">
-					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-						<div class="pro_pic_upd_cont">
-							<div class="pro_pic_cont">
-							<input type="file" class="upload_text" placeholder="Avatar"  name="avatar_file" ngf-select="selectAvatar(teacher.avatarFile)" ng-model="teacher.avatarFile"/>
-								<img src="{{profileImageUrl}}" class="pro_pic_upd_img">
-							</div>							
-							<button class="upload_pic_but" ng-click="uploadAvatar()">
-								Upload Photo
-							</button>
-						</div>
+			<div class="row">
+				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+					<div class="form-group">
+						<label for="sel1">Select Group</label>
+						<select class="form-control" id="sel1" ng-model="currentGroupId" ng-change="loadRanking(currentGroupId)">
+						<option ng-repeat="group in groups" value="{{group.id}}">{{group.group_name}}</option>
+						</select>
 					</div>
-					<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-						<div class="">
-						  
-						  <form id="profile" name="profile">
-						  <div class="row">
-						  	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-						    <div class="form-group">
-						      <label for="name">Name </label>
-						      <input type="text" class="form-control" id="email" placeholder="Enter name" name="name" ng-model="teacherstatus.name" required>
-						    </div>
-						    </div>
-						    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-							   <div class="form-group">
-						      		<label for="name">Sur Name </label>
-						      <input type="text" class="form-control" id="email" placeholder="Enter surname" name="surname" 
-						      ng-model="teacherstatus.surname"
-						      required>
-						    </div> 
-						    </div>
-						    </div>
-						    <div class="row">
-						  	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-						    <div class="form-group">
-						      <label for="email">Email</label>
-						      <input type="email" class="form-control" id="email" ng-model="teacherstatus.email" placeholder="Enter name" name="email" 
-						      ng-model="teacherstatus.email" required>
-						    </div>
-						    </div>
-						    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-							 <div class="form-group">
-						      <label for="university">University</label>
-						      <input type="text" class="form-control" id="email" placeholder="Enter university" name="university" 
-						      ng-model="teacherstatus.university" required>
-						    </div>
-						    </div>
-						    </div>
-						     <div class="row">
-							  	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-							    <div class="form-group">
-							      <label for="email">Password</label>
-							      <input type="password" class="form-control" id="email" placeholder="Enter name" name="password" 
-							      ng-model="teacherstatus.password"  ng-required>
-							    </div>
-							    </div>
-							    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-								 <div class="form-group">
-							      <label for="university">Confirm</label>
-							      <input type="password" class="form-control" id="email" placeholder="Enter university" name="confirm" 
-							       ng-model="teacherstatus.confirm" ng-required>
-							    </div>
-							    </div>
-						    </div>
-
-						  </form>
-						</div>
-						
-					</div>
-					
 				</div>
+			</div>
+			<div class="row">
+				<h1>Countdown Clock</h1>
+					<div id="clockdiv">
+					<div>
+						<span class="days"></span>
+						<div class="smalltext">Days</div>
+					</div>
+					<div>
+						<span class="hours"></span>
+						<div class="smalltext">Hours</div>
+					</div>
+					<div>
+						<span class="minutes"></span>
+						<div class="smalltext">Minutes</div>
+					</div>
+					<div>
+						<span class="seconds"></span>
+						<div class="smalltext">Seconds</div>
+					</div>
+				</div>
+			</div>
+				
 			</div> 
 			<div class="profile_body_cont">
 				<div class="row">
 					<div class="col-lg-4 col-md-3 col-sm-12 col-xs-12">
 						<div class="center_l_block">
-							<div class="center_l_label">
-								Tell the world who you are:
-							</div>
-							<div class="center_l_txt_cont">
-								<textarea class="center_l_txtarea" ng-model="teacherstatus.about"></textarea>
-							</div>
-							<div class="center_l_label">
-								Where do you teach?
-							</div>
-							<div class="center_l_txt_cont">
-								<textarea class="center_l_txtarea" ng-model="teacherstatus.teach_place"></textarea>
-							</div>
-							<div class="center_l_label">
-								Do you work?
-							</div>
-							<div class="center_l_txt_cont">
-								<textarea class="center_l_txtarea" ng-model="teacherstatus.work"></textarea>
-							</div>
 							
 						</div>										
 					</div>
-					<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 saveEditProfile" style="">
-							<button class="upload_pic_but" ng-click="saveChanges()">
-								save changes
-							</button>
+					<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+						<div class="center_r_block">
+
+
+						
+
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+
 </div>

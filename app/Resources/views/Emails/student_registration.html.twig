@@ -1,0 +1,11 @@
+<h3>Registration Successfull</h3>
+
+Hi {{ regObject.name }} ! You're successfully registered.
+
+{# example, assuming you have a route named "login" #}
+To verify, go to: <a href="{{ url('studentsignupverify', {'verifyLink': regObject.encryptedLink } ) }}">Verify Link</a>.
+
+Thanks!
+
+{# Makes an absolute URL to the /images/logo.png file #}
+<img src="{{ absolute_url(asset('images/logo.png')) }}">

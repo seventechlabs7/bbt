@@ -34,3 +34,15 @@ angular.module('app', [
     //'angular-image-cropper'
     //'htmlSortable'
 ])
+
+window.paceOptions = {
+    document: true, // disabled
+    eventLag: true,
+    restartOnPushState: true,
+     elements: true,
+    restartOnRequestAfter: true,
+    ajax: {
+        trackMethods: [ 'POST','GET']
+    }
+
+};

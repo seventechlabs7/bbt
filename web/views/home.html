@@ -60,7 +60,7 @@
 									<h5 class="form_text text-center"> Specially Prepared for Teachers </h5>									
 								</div>
 							</div>
-							<div class="card_body">
+							<div class="card_body" ng-if="!completed">
 								<div class="row">
 									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 										<div class="form_input_cont">
@@ -137,6 +137,9 @@
 										</div>
 									</div>
 								</div>
+							</div>
+							<div class="card_body" ng-if="completed">
+									{{signupReason}}
 							</div>
 						</div>
 					</div>

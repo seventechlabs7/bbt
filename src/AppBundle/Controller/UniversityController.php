@@ -131,6 +131,7 @@ class UniversityController extends Controller
 		$id = $profile['id'];
 		$em = $this->getDoctrine()->getManager();
         $post = $em->getRepository('AppBundle:Teacher')->find($id);
+        
 		$post->setAbout($profile['teacher']['about']);
 		$post->setTeachplace($profile['teacher']['teach_place']);
 		$post->setWork($profile['teacher']['work']);
@@ -256,36 +257,39 @@ class UniversityController extends Controller
 	    	$this->sendEmailsToUser($email,$crypt,$mailerService);
 
 	    }
-			//path 			
-			$absolute_path = getcwd();
-			$fileCo = file_get_contents($file);
-			file_put_contents('temp.xls', $fileCo);
-			$reader = $this->get("arodiss.xls.reader");
-			$path = $absolute_path."/temp.xls";
-			$path = str_replace('/', '//', $path);
-			$content = $reader->readAll($path);
-			
-			 foreach ($content as $c) 
-	    {
-	    	$valid = $this->CheckValidEmail(array_values($c)[0]);
-	    	if(!$valid)
-	    		continue;
-	    	$exists = $this->CheckDupeEmail(array_values($c)[0]);
-			//return $this->json($exists);
-	    	if($exists)
-	    		continue;
-	    	$GM = new GroupEmail;
-	    	$GM->setGroup_id($group->getId());
-	    	$GM->setEmail(array_values($c)[0]);
-	    	$GM->setCreated_by(1);
-	    	$em->persist($GM);
-	    	$em->flush();
-	    	$this->sendEmailsToUser(array_values($c)[0],$crypt,$mailerService);
-	    	//var_dump($content)
-	    	//return $this->json($content);
-	    }
-	    unlink($path);
-	    //return $this->json(($path));
+			//path 		
+			if($file)
+			{	
+					$absolute_path = getcwd();
+					$fileCo = file_get_contents($file);
+					file_put_contents('temp.xls', $fileCo);
+					$reader = $this->get("arodiss.xls.reader");
+					$path = $absolute_path."/temp.xls";
+					$path = str_replace('/', '//', $path);
+					$content = $reader->readAll($path);
+					
+					 foreach ($content as $c) 
+			    {
+			    	$valid = $this->CheckValidEmail(array_values($c)[0]);
+			    	if(!$valid)
+			    		continue;
+			    	$exists = $this->CheckDupeEmail(array_values($c)[0]);
+					//return $this->json($exists);
+			    	if($exists)
+			    		continue;
+			    	$GM = new GroupEmail;
+			    	$GM->setGroup_id($group->getId());
+			    	$GM->setEmail(array_values($c)[0]);
+			    	$GM->setCreated_by(1);
+			    	$em->persist($GM);
+			    	$em->flush();
+			    	$this->sendEmailsToUser(array_values($c)[0],$crypt,$mailerService);
+			    	//var_dump($content)
+			    	//return $this->json($content);
+			    }
+			    unlink($path);
+		}
+		    //return $this->json(($path));
 /*
 			for($i=0;$i<$content;$i++)
 	    {
@@ -441,6 +445,53 @@ class UniversityController extends Controller
 			{
 				$em1 = $this->getDoctrine()->getManager();
 
+				$RAW_QUERY1 = 'SELECT * FROM group_emails where group_emails.email = :email LIMIT 1;';
+
+				$statement1 = $em1->getConnection()->prepare($RAW_QUERY1);
+				// Set parameters 
+				$statement1->bindValue('email', $email);
+				$statement1->execute();
+				$result1 = $statement1->fetch();
+				//return new JsonResponse($result1['id']); 
+				if($result1)
+				{
+
+						 $em2 = $this->getDoctrine()->getManager();
+
+						$RAW_QUERY1 = "
+
+						INSERT INTO `users` 
+						(`id_admin`, `activo`, `enPrueba2dias`, `chat_color`, `fecha_alta`, `fecha_max_prueba`, `fecha_nacimiento`, `nif`, 
+						`username`, `nombre`, `apellidos`, `telefono`, `email`, `password`, `roles`, `nombre_completo`, `direccion`, `localidad`, `cp`, `id_provincia`, `id_pais`, `otra_ciudad`, `bloqueado`, `causa_bloqueo`, `aceptaLOPD`, `mi_descripcion`, `mis_trabajos`, `mis_estudios`, `id_universidad`, `empresa`, `icono`, `se_registro_desde`, `fotoFB`, `fb_id`)
+						 VALUES (NULL,:active,0,'0',:datetime1,:date1,:date2,'0',:username, '0', '0', '0', :email, :password,:role, '0', '0', '0', '0', '0', 0, '0', 0,'0', 0, '0', '0', '0', 0, '0', '0', :reg_type, '0', '0');";
+
+						 $stmt =$em2->getConnection()->prepare($RAW_QUERY1);
+             			 $stmt->execute(array('active' => 1,'username' => $result1['username']." ".$result1['surname'],'email' => $result1['email'],'password' => $result1['password'],'role' => 'ROLE_STUDENT' ,'reg_type' => 'Reg.Normal' ,'datetime1' => date_format(date_create(null),"Y-m-d H:i:s") ,'date1' =>  date_format(date_create(null),"Y-m-d") ,'date2' => date_format(date_create(null),"Y-m-d")));
+             			  //$stmt->fetch();
+             			 
+             			// return new JsonResponse($stmt);             			  
+				}
+				$url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'] ;
+				return $this->redirect($url.'/index#/app/profile/'.$result1['id']);
+
+			}
+		}
+	}
+
+	public function verifySignupStudent(Request $request ,CustomCrypt $crypt,$verifyLink)
+	{
+		$email = $crypt->decrypt(urldecode($verifyLink));
+		if($email)
+		{
+			$checkMail = 	$this->CheckUserTable($email);
+			if($checkMail)
+			{
+				return new JsonResponse("Error : Link Already verified !");
+			}
+			else
+			{
+				$em1 = $this->getDoctrine()->getManager();
+
 				$RAW_QUERY1 = 'SELECT * FROM teachers where teachers.email = :email LIMIT 1;';
 
 				$statement1 = $em1->getConnection()->prepare($RAW_QUERY1);
@@ -451,15 +502,6 @@ class UniversityController extends Controller
 				//return new JsonResponse($result1['id']); 
 				if($result1)
 				{
-						/*$US = new BbtUser;
-						$US->setId($result1['id']);
-						$US->setEmail($result1['email']);
-						$US->setName($result1['username']);
-						$US->setSurname($result1['surname']);
-						$US->setpassword($result1['password']);
-						$US->setUniversity($result1['university']);
-						$em1->persist($US);
-						$em1->flush();*/
 
 						 $em2 = $this->getDoctrine()->getManager();
 
@@ -482,6 +524,7 @@ class UniversityController extends Controller
 			}
 		}
 	}
+
 	public function CheckUserTable($email)
 	{
 		$em3 = $this->getDoctrine()->getManager();
@@ -502,6 +545,7 @@ class UniversityController extends Controller
 		$mailObject = new \stdClass();
 			$mailObject->toMail = $email;
 			$mailObject->name = 'Student';
+			$mailObject->type = 'Student';
 			$mailObject->encryptedLink = urlencode($crypt->encrypt($email));
 			$mailerService->indexAction($mailObject);
 	}

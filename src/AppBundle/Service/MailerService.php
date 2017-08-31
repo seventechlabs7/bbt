@@ -12,16 +12,22 @@ class MailerService
 }
    public function indexAction($mailObject)
 {
+    if($mailObject->type != 'Student')
+    {
+        $page ='Emails/registration.html.twig' ; 
+    }
+    else
+        $page ='Emails/student_registration.html.twig' ;
     $message = (new \Swift_Message('BBT - Registration Success'))
         ->setFrom('admin123@bbt.com')
         ->setTo($mailObject->{'toMail'})
-        ->setBody(
-            $this->templating->render(
-                // app/Resources/views/Emails/registration.html.twig
-                'Emails/registration.html.twig',
-                array('regObject' =>  $mailObject)
-            ),
-            'text/html'
+        ->setBody(           
+                $this->templating->render(
+                    // app/Resources/views/Emails/registration.html.twig
+                    $page,
+                    array('regObject' =>  $mailObject)
+                ),
+                'text/html'
         )
         /*
          * If you also want to include a plaintext version of the message

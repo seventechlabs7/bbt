@@ -282,7 +282,9 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 					});
 					/*$state.go('app.profile', {
 					    teacher_id: $scope.teacher_id 
-					});	*/			
+					});	*/
+					$scope.completed = true;	
+					$scope.signupReason = success.data.reason;		
 					}else if(success.data.status == 'failed')
 					{
 						notify({
@@ -435,6 +437,16 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 			$state.go('app.editprofile', {
 					    teacher_id: $scope.teacher.id 
 					});	
+		}
+
+		$scope.changeNav = function(page)
+		{
+			if(page == 'ranking')
+			{
+				$state.go('app.ranking', {
+					    teacher_id: $scope.teacher.id 
+					});	
+			}
 		}
     }
     ]);
