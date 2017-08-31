@@ -471,7 +471,7 @@ class UniversityController extends Controller
 						 VALUES (NULL,:active,0,'0',:datetime1,:date1,:date2,'0',:username, '0', '0', '0', :email, :password,:role, '0', '0', '0', '0', '0', 0, '0', 0,'0', 0, '0', '0', '0', 0, '0', '0', :reg_type, '0', '0');";
 
 						 $stmt =$em2->getConnection()->prepare($RAW_QUERY1);
-             			 $stmt->execute(array('active' => 1,'username' => $result1['username']." ".$result1['surname'],'email' => $result1['email'],'password' => $result1['password'],'role' => 'ROLE_TEACHER' ,'reg_type' => 'Reg.Normal' ,'datetime' => date_create('0000-00-00 00:00:00') ,'date1' => date_create('0000-00-00') ,'date2' => date_create('0000-00-00')));
+             			 $stmt->execute(array('active' => 1,'username' => $result1['username']." ".$result1['surname'],'email' => $result1['email'],'password' => $result1['password'],'role' => 'ROLE_TEACHER' ,'reg_type' => 'Reg.Normal' ,'datetime1' => date_create('0000-00-00 00:00:00') ,'date1' => date_create('0000-00-00') ,'date2' => date_create('0000-00-00')));
              			  //$stmt->fetch();
              			 
              			// return new JsonResponse($stmt);             			  
