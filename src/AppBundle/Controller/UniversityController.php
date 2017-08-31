@@ -468,7 +468,7 @@ class UniversityController extends Controller
 						INSERT INTO `users` 
 						(`id_admin`, `activo`, `enPrueba2dias`, `chat_color`, `fecha_alta`, `fecha_max_prueba`, `fecha_nacimiento`, `nif`, 
 						`username`, `nombre`, `apellidos`, `telefono`, `email`, `password`, `roles`, `nombre_completo`, `direccion`, `localidad`, `cp`, `id_provincia`, `id_pais`, `otra_ciudad`, `bloqueado`, `causa_bloqueo`, `aceptaLOPD`, `mi_descripcion`, `mis_trabajos`, `mis_estudios`, `id_universidad`, `empresa`, `icono`, `se_registro_desde`, `fotoFB`, `fb_id`)
-						 VALUES (NULL,:active,0,'0','0000-00-00 00:00:00','0000-00-00','0000-00-00','0',:username, '0', '0', '0', :email, :password,:role, '0', '0', '0', '0', '0', 0, '0', 0,'0', 0, '0', '0', '0', 0, '0', '0', :reg_type, '0', '0');";
+						 VALUES (NULL,:active,0,'0',date_create('0000-00-00 00:00:00'),date_create('0000-00-00'),date_create('0000-00-00'),'0',:username, '0', '0', '0', :email, :password,:role, '0', '0', '0', '0', '0', 0, '0', 0,'0', 0, '0', '0', '0', 0, '0', '0', :reg_type, '0', '0');";
 
 						 $stmt =$em2->getConnection()->prepare($RAW_QUERY1);
              			 $stmt->execute(array('active' => 1,'username' => $result1['username']." ".$result1['surname'],'email' => $result1['email'],'password' => $result1['password'],'role' => 'ROLE_TEACHER' ,'reg_type' => 'Reg.Normal'));
