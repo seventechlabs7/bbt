@@ -4,10 +4,10 @@
 angular.module('app').controller('ranking', ['$scope','$document','$rootScope','$stateParams','$http','$state','$timeout','uiGmapGoogleMapApi','$filter','Upload','notify',
     function($scope,$document,$rootScope,$stateParams,$http,$state,$timeout,uiGmapGoogleMapApi,$filter,Upload,notify) {
         
+       $scope.screen = "start";
        $scope.init = function(gId)
-       {   
-       		$scope.getTeacherDetails();    		
-			
+       {          		
+       		$scope.getTeacherDetails();  			
        }
 
        $scope.getTeacherDetails = function()
@@ -70,6 +70,45 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 			});
        }
 
+       $scope.removeStudent = function(sId)
+       {
+			swal({
+				title: "Are you sure?",
+				text: "This will permanently remove user from group",
+				type: "warning",
+				showCancelButton: true,
+				confirmButtonColor: "#DD6B55",
+				confirmButtonText: "Delete",
+				cancelButtonText: "Cancel!",
+				closeOnConfirm: false,
+				closeOnCancel: false
+			},
+			function(isConfirm){
+				if (isConfirm) {
+
+				$http({
+				method: 'POST',
+				url: 'api/student/removeFromGroup',
+				data:{uId : $scope.teacher.id ,'sId': sId}
+				}).then(function(success){
+
+				var data = success.data;
+				if(data.status =="success")
+					swal("Deleted!", data.reason, "success");
+				else
+					swal("Error!", data.reason, "warning");
+				$scope.loadRankingList();
+			},function(error){
+				swal("Error!", "Something Went Wrong", "error");
+			});
+					
+				} else {
+					
+				}
+			});
+
+       }
+
        $scope.strToDate = function(date)
        {
        		 var from = date.split("-");
@@ -116,6 +155,79 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 
 			updateClock();
 			var timeinterval = setInterval(updateClock, 1000);
+			}
+
+			$scope.changeScreen= function(screen)
+			{
+				$scope.screen = screen;
+				$scope.teacher ={};
+				$scope.teacher.gId = $scope.groupData.id;
+				$scope.teacher.mail_list = [];
+			}
+
+			$scope.selectFile = function(file)
+			{
+				$scope.file = file;
+			}
+
+			$scope.addStudents = function()
+			{
+				$scope.teacher.id = $stateParams.teacher_id;		
+				var list = $scope.teacher.mail_list.split(',');
+				var emailregex = /\S+@\S+\.\S+/;
+	      
+				for (var i = 0; i < list.length; i++) 
+				{
+					if(list[i] == null)
+					{
+						notify({
+							message:'Should Seperate by single comma',
+							classes:'alert-danger',
+							duration:2000
+						});
+						return;
+					}
+					if(!list[i].match(emailregex))
+					{
+						notify({
+							message:'Invalid Mail Id',
+							classes:'alert-danger',
+							duration:2000
+						});
+					return;
+
+					}
+				}
+
+					Upload.upload({
+					method: 'POST',				
+					url: 'api/addstudents',
+					data:{
+							file: $scope.file,
+							teacher :$scope.teacher,
+						}
+					})
+					.then(function(success){
+					console.log(success)
+					if(success.data.status == 'success')
+					{
+						notify({
+							message: success.data.reason,
+							classes:'alert-success',
+							duration:2000
+						});
+					}	
+					else
+					{
+						notify({
+							message: 'Something Went Wrong',
+							classes:'alert-danger',
+							duration:2000
+						});
+					}			
+					},function(error){
+
+					})
 			}
 
 			

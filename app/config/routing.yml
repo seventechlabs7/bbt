@@ -67,3 +67,11 @@ rankingList :
     path :     /api/ranking/list
     defaults: { _controller: AppBundle:Ranking:rankingList }
     methods:  [POST]
+removeFromGroup :
+    path :     /api/student/removeFromGroup
+    defaults: { _controller: AppBundle:UserOperations:removeFromGroup }
+    methods:  [POST]   
+addstudents :
+    path :     /api/addstudents
+    defaults: { _controller: AppBundle:UserOperations:addStudents }
+    methods:  [POST]

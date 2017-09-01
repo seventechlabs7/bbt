@@ -136,4 +136,18 @@ class UserPurchaseRepository extends EntityRepository
                 return ($final);
 
     }
+
+    public function findEmailById($id)
+    {
+            $conn = $this->getEntityManager()
+            ->getConnection();
+            $sql = '
+            SELECT user.email as email from users as user where user.id_admin = :id
+            ';
+            $stmt = $conn->prepare($sql);
+             $stmt->execute(array('id' => $id));
+            $final = $stmt->fetch();   
+           // var_dump($final);die;         
+            return ($final);
+    }
 }

@@ -456,7 +456,8 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 					    teacher_id: $scope.teacher.id 
 					});	
 		}
-
+		
+		
 		$scope.changeNav = function(page)
 		{
 			if(page == 'ranking')

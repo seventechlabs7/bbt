@@ -232,6 +232,20 @@ h1{
 	padding-top: 5px;
 	font-size: 16px;
 }
+.savebutton{
+    left: auto;
+    right: 0;
+    top: 0;
+    height: 100%;
+    border: 0;
+    padding: 0 13px;
+    color: #fff;
+    font-size: 14px;
+    background: #010e9b;
+    border-bottom-right-radius: 7px;
+    border-top-right-radius: 7px;
+}
+}
 </style>
 <div ng-controller="ranking" ng-init="init();">
 	<div class="whole_container">
@@ -262,7 +276,7 @@ h1{
 				</div>
 			</div>
 		</div>
-		<div class="center_container">
+		<div class="center_container" ng-if="screen == 'start'">
 			<div class="profile_head_cont">
 			<div class="row">
 				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
@@ -297,29 +311,140 @@ h1{
 			</div>
 				
 			</div> 
-			<div class="profile_body_cont">
+				<div class="profile_body_cont">
+					<div class="row">
+						<table ng-table="tableParams" class="table table-bordered table-striped table-condensed">
+							<tr ng-repeat="row in rankingList track by $index">
+								<td data-title="'Position'" filter="{Position: 'text'}" sortable="'Position'">{{$index + 1}}</td>
+								<td data-title="'Name'" filter="{Name: 'text'}" sortable="'Name'">{{row.username}}</td>
+								<td data-title="'Amount'" filter="{Amount: 'text'}" sortable="'Amount'">{{row.amount}}</td>
+								<td data-title="'Chat'" filter="{Chat: 'text'}" sortable="'Chat'"> <i class="fa fa-comments" aria-hidden="true" style=" color: #00BFFF;text-shadow: 1px 1px 1px #ccc;font-size: 1.5em;"></i> </td>
+								<td data-title="'Feedback'" filter="{Feedback: 'text'}" sortable="'Feedback'"> <i class="fa fa-comments" aria-hidden="true" style=" color: #00BFFF;text-shadow: 1px 1px 1px #ccc;font-size: 1.5em;"></i> </td>
+								<td data-title="'Delete'" filter="{Delete: 'text'}" sortable="'Delete'"> <i ng-click = "removeStudent(row.userId);" class="fa fa-times-circle" aria-hidden="true" style=" color: red;
+								text-shadow: 1px 1px 1px #ccc;
+								font-size: 1.5em;"></i> </td>
+							</tr>
+						</table>									
+					</div>
+						<div class="row">
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								<div class="modal_but_cont">        							
+									
+									<button class="modal_nxt_bt" ng-click="changeScreen('addstudents')">Add Students</button>
+								</div>
+							</div>
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								<div class="modal_but_cont">        							
+									<button class="modal_nxt_bt" ng-click="changeScreen('edit')">Edit league</button>
+								</div>
+							</div>
+						</div>
+
+			</div>
+			</div>
+			<div class="center_container" ng-if="screen == 'addstudents'">
+			<div class="profile_head_cont">
 				<div class="row">
-					<table ng-table="tableParams" class="table table-bordered table-striped table-condensed">
-      <tr ng-repeat="row in rankingList track by $index">
-        <td data-title="'Position'" filter="{installationAt: 'text'}" sortable="'installationAt'">{{$index + 1}}</td>
-        <td data-title="'Name'" filter="{adminEmail: 'text'}" sortable="'adminEmail'">{{row.username}}</td>
-        <td data-title="'Amount'" filter="{adminEmail: 'text'}" sortable="'adminEmail'">{{row.amount}}</td>
-        <td data-title="'Chat'" filter="{poweredBy: 'text'}" sortable="'poweredBy'"> <i class="fa fa-comments" aria-hidden="true" style=" color: blue;
-    text-shadow: 1px 1px 1px #ccc;
-    font-size: 1.5em;"></i> </td>
-        <td data-title="'Feedback'" filter="{poweredByIcon: 'text'}" sortable="'poweredByIcon'">feedback</td>
-        <td data-title="'Delete'" filter="{poweredByIcon: 'text'}" sortable="'poweredByIcon'"> <i class="fa fa-times-circle" aria-hidden="true" style=" color: red;
-    text-shadow: 1px 1px 1px #ccc;
-    font-size: 1.5em;"></i> </td>
-      </tr>
-    </table>
-
-						
-
+					<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+						<div class="form_head_text">
+    						Do you have students? Add them
+    					</div>
+						<div class="row">
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    							<div class="input_upload">
+    								<input type="text" class="field_text" placeholder="Copy and Paste your mailing list" name="maillist"  ng-model="teacher.mail_list"/>
+    							</div>
+							</div>
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    							<div class="input_upload">
+    								<input type="file" class="upload_text" placeholder="Find Your File(csv./other)" name="maillistfile" name="file" ngf-select="selectFile(teacher.mail_list_file)" ng-model="teacher.mail_list_file"/>
+    								<button class="upload_button">Upload</button>
+    							</div>
+							</div>
+						</div>
+						<!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p0">
+							<div class="form_head_text">
+        						Want to create a group with them ?
+        					</div>
+        					<div class="input_text p15">
+        						<input type="text" class="field_text" placeholder="Name of the Group" name="groupname" ng-model="teacher.group_name" />
+        					</div>
+						</div> -->
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+						<div class="modal_image_container">
+							<div class="modal_image">
+								<img src="" class="modal_banner">
+							</div>
+						</div>
 					</div>
 				</div>
+				<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class="modal_but_cont">        							
+						<button class="modal_nxt_bt" ng-click="addStudents()">upload Students</button>
+					</div>
+				</div>
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class="modal_but_cont">        							
+						<button class="modal_nxt_bt" ng-click="changeScreen('start')">View Ranking</button>
+					</div>
+				</div>
+				</div>
+				</div>
+				
+			</div>
+			<div class="center_container" ng-if="screen == 'league'">
+			<div class="profile_head_cont">
+				<div class="row">
+					<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+						<div class="form_head_text">
+    						Do you have students? Add them
+    					</div>
+						<div class="row">
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    							<div class="input_upload">
+    								<input type="text" class="field_text" placeholder="Copy and Paste your mailing list" name="maillist"  ng-model="teacher.mail_list"/>
+    							</div>
+							</div>
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    							<div class="input_upload">
+    								<input type="file" class="upload_text" placeholder="Find Your File(csv./other)" name="maillistfile" name="file" ngf-select="selectFile(teacher.mail_list_file)" ng-model="teacher.mail_list_file"/>
+    								<button class="upload_button">Upload</button>
+    							</div>
+							</div>
+						</div>
+						<!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p0">
+							<div class="form_head_text">
+        						Want to create a group with them ?
+        					</div>
+        					<div class="input_text p15">
+        						<input type="text" class="field_text" placeholder="Name of the Group" name="groupname" ng-model="teacher.group_name" />
+        					</div>
+						</div> -->
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+						<div class="modal_image_container">
+							<div class="modal_image">
+								<img src="" class="modal_banner">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class="modal_but_cont">        							
+						<button class="modal_nxt_bt" ng-click="addStudents()">upload Students</button>
+					</div>
+				</div>
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class="modal_but_cont">        							
+						<button class="modal_nxt_bt" ng-click="changeScreen('start')">View Ranking</button>
+					</div>
+				</div>
+				</div>
+				</div>
+				
 			</div>
 		</div>
 	</div>
-
-</div>
