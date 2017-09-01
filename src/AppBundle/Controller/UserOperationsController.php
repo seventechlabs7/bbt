@@ -17,11 +17,11 @@ use AppBundle\Entity\UserPurchaseHistory;
 class UserOperationsController extends Controller
 {
 
-	public function getUserOperationsAction(Request $request)
+	public function getUserOperationsAction(Request $request ,$tid)
 	{
 			 $em = $this->getDoctrine()->getManager();
 			$result = $em->getRepository('AppBundle:UserPurchaseHistory')
-            ->findAllOperationsOfConnectedUsers();
+            ->findAllOperationsOfConnectedUsers($tid);
             
             $final = [];
             foreach ($result as $re) {
@@ -35,6 +35,7 @@ class UserOperationsController extends Controller
                   foreach ($likes as $like)
                    {
                     $likesArray = explode("|",$like);	
+
                     if(is_array($likesArray) || is_object($likesArray))
                     {
                       foreach ($likesArray as $likeObj) 
@@ -55,7 +56,9 @@ class UserOperationsController extends Controller
                 foreach ($comments as $comment) {
                 $commentObj = new \stdClass();
                 $likedUsers = [];
-                $likesArray = explode("|",$comment['likes']);	
+                $likesArray = explode("|",$comment['likes']);
+                 $likesArray = array_map('trim',$likesArray);	
+                 
                 $commentatorName =	$this->getUserNames($comment['userId']);
                 if(is_array($likesArray) || is_object($likesArray))
                 {
@@ -63,10 +66,13 @@ class UserOperationsController extends Controller
                   {
                     $commentObj->commentatorName = $commentatorName['username'];
                     $commentObj->name = $comment['comment'];
+                     $commentObj->commentId = $comment['commentId'];
                     $likedName =	$this->getUserNames($likeObj);
                     array_push($likedUsers,$likedName['username']); 
                   }     
                 }
+                //here
+                $likedUsers = array_map('trim',$likedUsers);
                 $commentObj->likedUsers = count($likedUsers);
                 $commentObj->commentLikes = $likedUsers;
                 array_push($usersComments,$commentObj);  
@@ -177,6 +183,59 @@ class UserOperationsController extends Controller
 
 		 return new JsonResponse($update);
 	}
+
+    public function commentLikeAction(Request $request)
+  {
+     $reqData = $request->request->all();    
+     $obj = new \stdClass();
+     $obj->purchaseId = $reqData['rId'];
+     $obj->userId = $reqData['uId'];
+     $obj->commentId = $reqData['cId'];
+
+     $em = $this->getDoctrine()->getManager();
+
+     $comment = $em->getRepository('AppBundle:Likes')
+                 ->findCommentById($obj);
+     // return new JsonResponse($comment);
+    
+   
+          //return new JsonResponse($likes);  
+
+         $likesArray = explode("|",$comment['ids_likes']); 
+         $newLikes = [];
+         $likeFlag = true;
+                  foreach ($likesArray as $likeObj) {
+                if($likeObj == $obj->userId)   
+                   {
+                    $likeFlag =false;
+                    //unlike it 
+                    break;
+                   } 
+                   else if($likeObj)
+                   {
+                     array_push($newLikes,$likeObj);
+                   } 
+
+               }   
+               if(count($likesArray) == 0 || $likeFlag)
+               {
+                 array_push($newLikes,$obj->userId);
+               }
+               else
+               {
+               }
+          $newLikes = array_map('trim',$newLikes);
+          /*if(count($newLikes) == 0 >1)
+              $obj->newLikes =   implode('|', $newLikes);
+            else
+                $obj->newLikes =  $newLikes;*/
+               $obj->newLikes =   implode('|', $newLikes);
+          //return new JsonResponse(count($likesArray));
+          $update = $em->getRepository('AppBundle:Likes')
+                 ->updateCommmentLikes($obj);
+
+     return new JsonResponse($update);
+  }
 
 	public function getUserNames($id)
 	{

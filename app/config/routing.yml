@@ -44,7 +44,7 @@ avatar:
     methods:  [POST]
 
 usergroupops:
-    path:     /api/getUserOperations
+    path:     /api/getUserOperations/{tid}
     defaults: { _controller: AppBundle:UserOperations:getUserOperations }
     methods:  [GET]
 comment:
@@ -54,6 +54,10 @@ comment:
 like:
     path:     /api/timeline/postLike
     defaults: { _controller: AppBundle:UserOperations:like }
+    methods:  [POST]
+commentlike:
+    path:     /api/timeline/postCommentLike
+    defaults: { _controller: AppBundle:UserOperations:commentLike }
     methods:  [POST]
 ranking :
     path :     /api/ranking/load

@@ -223,12 +223,13 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 					$scope.profileImageUrl = success.data.profileImageUrl ;
 					$scope.profileImageUrl = success.data.profileImageUrl+"/"+$scope.teacher[i].id+".jpeg";
 					if(!$scope.teacher.virtual_money)
-						$scope.teacher.virtual_money = "25.00";
+						$scope.teacher.virtual_money = "25000.00";
 					$scope.teacher.id = $scope.teacher[i].id;
 					$timeout(function() {
 			    $scope.teacher.start_date = new Date();
 			}, 100);
 				}	
+				$scope.getTimeLine();
 				if(!$scope.teacherstatus.about)			
 					$('#addStudent').modal('show');
 				$scope.shiftTab(1);
@@ -386,8 +387,8 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 	    {
 	    	$http({
 					method: 'GET',
-					url: 'api/getUserOperations',
-					data:$scope.teacher
+					url: 'api/getUserOperations/'+$stateParams.teacher_id,
+					
 				}).then(function(success){
 					console.log(success)
 					$scope.timeLine = success.data;
@@ -397,7 +398,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 
 				});
 	    }
-	    $scope.getTimeLine();
+	    
 		//$("#signup").validate();
 		$scope.postLike = function(rId)
 		{
@@ -429,6 +430,23 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 					console.log($scope.timeLine);
 				},function(error){
  						$scope.getTimeLine();
+				});
+		}
+
+		$scope.postCommentLike = function(rId,cId)
+		{
+			$http({
+					method: 'POST',
+					url: 'api/timeline/postCommentLike',
+					data:{'rId': rId , 'uId' : $scope.teacher.id , 'cId' :cId}
+				}).then(function(success){
+					 $scope.getTimeLine();
+					console.log(success)
+					//$scope.timeLine = success.data;
+					console.log("timeLine")
+					console.log($scope.timeLine);
+				},function(error){
+					 $scope.getTimeLine();
 				});
 		}
 

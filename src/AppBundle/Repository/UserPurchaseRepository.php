@@ -9,17 +9,21 @@ class UserPurchaseRepository extends EntityRepository
 	 /**
      * @return UserPurchaseHistory[]
      */
-    public function findAllOperationsOfConnectedUsers()
+    public function findAllOperationsOfConnectedUsers($tid)
     {
 
-        	$dummyUserId = 1000;
+        	//$dummyUserId = 1000;
             $conn = $this->getEntityManager()
          	->getConnection();
        		$sql = '
-            SELECT purchase.id as recordId , user.username,user.id_admin as userId ,company.nom_empresa ,purchase.prec_apertura_compra as amount, purchase.volumen as shares  FROM `hist_user_compra` as purchase, users as user ,empresas as company WHERE company.id = purchase.id_empresa and user.id_admin = purchase.id_user group by purchase.id limit 10
+            SELECT purchase.id as recordId , user.username,user.id_admin as userId ,company.nom_empresa ,purchase.prec_apertura_compra as amount, purchase.volumen as shares  FROM `hist_user_compra` as purchase, users as user ,empresas as company , group_emails as ge , groups as g
+
+             WHERE company.id = purchase.id_empresa and user.id_admin = purchase.id_user 
+            and g.id = ge.group_id and g.teacher_id = :tid and user.email = ge.email 
+             group by purchase.id 
             ';
 	        $stmt = $conn->prepare($sql);
-	       	$stmt->execute();
+	       	$stmt->execute(array('tid' => $tid));
 	        $final = $stmt->fetchAll();   
 	       // var_dump($final);die;     	
            	return ($final);
@@ -49,7 +53,7 @@ class UserPurchaseRepository extends EntityRepository
             $conn = $this->getEntityManager()
             ->getConnection();
             $sql = '
-            SELECT com.id_user as userId , com.ids_likes as likes , com.comentario as comment FROM `hist_user_compra` as purchase, users as user ,comentarios as com   WHERE purchase.id = com.id_compra and user.id_admin = com.id_user   and com.id_compra =:purchaseId
+            SELECT com.id as commentId ,com.id_user as userId , com.ids_likes as likes , com.comentario as comment FROM `hist_user_compra` as purchase, users as user ,comentarios as com   WHERE purchase.id = com.id_compra and user.id_admin = com.id_user   and com.id_compra =:purchaseId
             ';
             $stmt = $conn->prepare($sql);
              $stmt->execute(array('purchaseId' => $re['recordId']));
@@ -57,6 +61,8 @@ class UserPurchaseRepository extends EntityRepository
            // var_dump($final);die;         
             return ($final);
     }
+
+    
 
       public function findUserNames($userId)
     {

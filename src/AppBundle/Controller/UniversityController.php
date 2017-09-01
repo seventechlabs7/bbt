@@ -116,6 +116,7 @@ class UniversityController extends Controller
 			$mailObject = new \stdClass();
 			$mailObject->toMail = $teacher['email'];
 			$mailObject->name = $teacher['username'];
+			$mailObject->type = 'teacher';
 			$mailObject->encryptedLink = urlencode($crypt->encrypt($teacher['email']));
 
 			$mailerService->indexAction($mailObject);
@@ -445,53 +446,6 @@ class UniversityController extends Controller
 			{
 				$em1 = $this->getDoctrine()->getManager();
 
-				$RAW_QUERY1 = 'SELECT * FROM group_emails where group_emails.email = :email LIMIT 1;';
-
-				$statement1 = $em1->getConnection()->prepare($RAW_QUERY1);
-				// Set parameters 
-				$statement1->bindValue('email', $email);
-				$statement1->execute();
-				$result1 = $statement1->fetch();
-				//return new JsonResponse($result1['id']); 
-				if($result1)
-				{
-
-						 $em2 = $this->getDoctrine()->getManager();
-
-						$RAW_QUERY1 = "
-
-						INSERT INTO `users` 
-						(`id_admin`, `activo`, `enPrueba2dias`, `chat_color`, `fecha_alta`, `fecha_max_prueba`, `fecha_nacimiento`, `nif`, 
-						`username`, `nombre`, `apellidos`, `telefono`, `email`, `password`, `roles`, `nombre_completo`, `direccion`, `localidad`, `cp`, `id_provincia`, `id_pais`, `otra_ciudad`, `bloqueado`, `causa_bloqueo`, `aceptaLOPD`, `mi_descripcion`, `mis_trabajos`, `mis_estudios`, `id_universidad`, `empresa`, `icono`, `se_registro_desde`, `fotoFB`, `fb_id`)
-						 VALUES (NULL,:active,0,'0',:datetime1,:date1,:date2,'0',:username, '0', '0', '0', :email, :password,:role, '0', '0', '0', '0', '0', 0, '0', 0,'0', 0, '0', '0', '0', 0, '0', '0', :reg_type, '0', '0');";
-
-						 $stmt =$em2->getConnection()->prepare($RAW_QUERY1);
-             			 $stmt->execute(array('active' => 1,'username' => $result1['username']." ".$result1['surname'],'email' => $result1['email'],'password' => $result1['password'],'role' => 'ROLE_STUDENT' ,'reg_type' => 'Reg.Normal' ,'datetime1' => date_format(date_create(null),"Y-m-d H:i:s") ,'date1' =>  date_format(date_create(null),"Y-m-d") ,'date2' => date_format(date_create(null),"Y-m-d")));
-             			  //$stmt->fetch();
-             			 
-             			// return new JsonResponse($stmt);             			  
-				}
-				$url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'] ;
-				return $this->redirect($url.'/index#/app/profile/'.$result1['id']);
-
-			}
-		}
-	}
-
-	public function verifySignupStudent(Request $request ,CustomCrypt $crypt,$verifyLink)
-	{
-		$email = $crypt->decrypt(urldecode($verifyLink));
-		if($email)
-		{
-			$checkMail = 	$this->CheckUserTable($email);
-			if($checkMail)
-			{
-				return new JsonResponse("Error : Link Already verified !");
-			}
-			else
-			{
-				$em1 = $this->getDoctrine()->getManager();
-
 				$RAW_QUERY1 = 'SELECT * FROM teachers where teachers.email = :email LIMIT 1;';
 
 				$statement1 = $em1->getConnection()->prepare($RAW_QUERY1);
@@ -499,7 +453,7 @@ class UniversityController extends Controller
 				$statement1->bindValue('email', $email);
 				$statement1->execute();
 				$result1 = $statement1->fetch();
-				//return new JsonResponse($result1['id']); 
+				
 				if($result1)
 				{
 
@@ -525,6 +479,54 @@ class UniversityController extends Controller
 		}
 	}
 
+	public function verifySignupStudentAction(Request $request ,CustomCrypt $crypt,$verifyLink)
+	{
+		$email = $crypt->decrypt(urldecode($verifyLink));
+		if($email)
+		{
+			$checkMail = 	$this->CheckUserTable($email);
+			if($checkMail)
+			{
+				return new JsonResponse("Error : Link Already verified !");
+			}
+			else
+			{
+				$em1 = $this->getDoctrine()->getManager();
+
+				
+				$RAW_QUERY1 = 'SELECT * FROM group_emails where group_emails.email = :email LIMIT 1;';
+
+				$statement1 = $em1->getConnection()->prepare($RAW_QUERY1);
+				// Set parameters 
+				$statement1->bindValue('email', $email);
+				$statement1->execute();
+				$result1 = $statement1->fetch();
+				//return new JsonResponse($result1['id']); 
+				if($result1)
+				{
+
+						 $em2 = $this->getDoctrine()->getManager();
+
+						$RAW_QUERY1 = "
+
+						INSERT INTO `users` 
+						(`id_admin`, `activo`, `enPrueba2dias`, `chat_color`, `fecha_alta`, `fecha_max_prueba`, `fecha_nacimiento`, `nif`, 
+						`username`, `nombre`, `apellidos`, `telefono`, `email`, `password`, `roles`, `nombre_completo`, `direccion`, `localidad`, `cp`, `id_provincia`, `id_pais`, `otra_ciudad`, `bloqueado`, `causa_bloqueo`, `aceptaLOPD`, `mi_descripcion`, `mis_trabajos`, `mis_estudios`, `id_universidad`, `empresa`, `icono`, `se_registro_desde`, `fotoFB`, `fb_id`)
+						 VALUES (NULL,:active,0,'0',:datetime1,:date1,:date2,'0',:username, '0', '0', '0', :email, :password,:role, '0', '0', '0', '0', '0', 0, '0', 0,'0', 0, '0', '0', '0', 0, '0', '0', :reg_type, '0', '0');";
+
+						 $stmt =$em2->getConnection()->prepare($RAW_QUERY1);
+             			 $stmt->execute(array('active' => 1,'username' => "firstName"." "."lastName" ,'email' => $result1['email'],'password' => "bbtbbt",'role' => 'ROLE_STUDENT' ,'reg_type' => 'Reg.Normal' ,'datetime1' => date_format(date_create(null),"Y-m-d H:i:s") ,'date1' =>  date_format(date_create(null),"Y-m-d") ,'date2' => date_format(date_create(null),"Y-m-d")));
+             			  //$stmt->fetch();
+             			 
+             			// return new JsonResponse($stmt);             			  
+				}
+				$url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'] ;
+				return $this->redirect('http://bigbangtrading.com/');
+
+			}
+		}
+	}
+
 	public function CheckUserTable($email)
 	{
 		$em3 = $this->getDoctrine()->getManager();
@@ -542,7 +544,7 @@ class UniversityController extends Controller
 
 	public function sendEmailsToUser($email,CustomCrypt $crypt,MailerService $mailerService)
 	{
-		$mailObject = new \stdClass();
+			$mailObject = new \stdClass();
 			$mailObject->toMail = $email;
 			$mailObject->name = 'Student';
 			$mailObject->type = 'Student';

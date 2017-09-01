@@ -39,6 +39,21 @@ class LikesRepository extends EntityRepository
             //var_dump($final);die;         
             return ($stmt);
     }
+    
+    public function updateCommmentLikes($obj)
+    {
+            $dummyUserId = 1000;
+            $conn = $this->getEntityManager()
+            ->getConnection();
+            $sql = '
+            UPDATE comentarios set ids_likes = :likes where id = :id 
+            ';
+            $stmt = $conn->prepare($sql);
+             $stmt->execute(array('id' => $obj->commentId,'likes' =>$obj->newLikes));
+            //$final = $stmt->fetch();   
+            //var_dump($final);die;         
+            return ($stmt);
+    }
 
     public function postComment($obj)
     {
@@ -46,13 +61,29 @@ class LikesRepository extends EntityRepository
             $conn = $this->getEntityManager()
             ->getConnection();
             $sql = '
-         INSERT INTO `comentarios` (`id`, `id_compra`, `id_operacion`, `comentario`, `id_user`, `ids_likes`) VALUES (NULL, :purchase_id, 0, :comment, :user_id, " ");
+         INSERT INTO `comentarios` (`id`, `id_compra`, `id_operacion`, `comentario`, `id_user`, `ids_likes`) VALUES (NULL, :purchase_id, 0, :comment, :user_id, "");
             ';
             $stmt = $conn->prepare($sql);
              $stmt->execute(array('purchase_id' => $obj->purchaseId,'comment' => $obj->comment,'user_id' =>$obj->userId));
             //$final = $stmt->fetch();   
             //var_dump($final);die;         
             return ($stmt);
+    }
+
+     public function findCommentById($re)
+    {
+
+            $dummyUserId = 1000;
+            $conn = $this->getEntityManager()
+            ->getConnection();
+            $sql = '
+            SELECT * from comentarios where comentarios.id = :id 
+            ';
+            $stmt = $conn->prepare($sql);
+             $stmt->execute(array('id' => $re->commentId));
+             $final = $stmt->fetch(); 
+           // var_dump($final);die;         
+            return ($final);
     }
 
 }
