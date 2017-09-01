@@ -53,7 +53,7 @@ class UserPurchaseRepository extends EntityRepository
             $conn = $this->getEntityManager()
             ->getConnection();
             $sql = '
-            SELECT com.id as commentId ,com.id_user as userId , com.ids_likes as likes , com.comentario as comment FROM `hist_user_compra` as purchase, users as user ,comentarios as com   WHERE purchase.id = com.id_compra and user.id_admin = com.id_user   and com.id_compra =:purchaseId
+            SELECT com.id as commentId ,com.id_user as userId , com.ids_likes as likes , com.comentario as comment FROM `hist_user_compra` as purchase, users as user ,comentarios as com   WHERE purchase.id = com.id_compra and user.id_admin = com.id_user   and com.id_compra =:purchaseId 
             ';
             $stmt = $conn->prepare($sql);
              $stmt->execute(array('purchaseId' => $re['recordId']));

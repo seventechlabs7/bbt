@@ -53,21 +53,26 @@ class UserOperationsController extends Controller
            		 $usersComments = [];
                 if(is_array($comments) || is_object($comments))
                 {
-                foreach ($comments as $comment) {
+                  label1:
+               foreach ($comments as $comment) {
                 $commentObj = new \stdClass();
                 $likedUsers = [];
+                $likesArray = array_map('trim',$likesArray);  
                 $likesArray = explode("|",$comment['likes']);
-                 $likesArray = array_map('trim',$likesArray);	
                  
+
                 $commentatorName =	$this->getUserNames($comment['userId']);
                 if(is_array($likesArray) || is_object($likesArray))
                 {
+                   label2:
                 foreach ($likesArray as $likeObj) 
                   {
+                      
                     $commentObj->commentatorName = $commentatorName['username'];
                     $commentObj->name = $comment['comment'];
                      $commentObj->commentId = $comment['commentId'];
                     $likedName =	$this->getUserNames($likeObj);
+                    if($likeObj != "")
                     array_push($likedUsers,$likedName['username']); 
                   }     
                 }
