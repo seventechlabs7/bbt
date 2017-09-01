@@ -57,7 +57,7 @@ class UserOperationsController extends Controller
                foreach ($comments as $comment) {
                 $commentObj = new \stdClass();
                 $likedUsers = [];
-                $likesArray = array_map('trim',$likesArray);  
+               
                 $likesArray = explode("|",$comment['likes']);
                  
 
@@ -248,4 +248,6 @@ class UserOperationsController extends Controller
 		return    $em->getRepository('AppBundle:UserPurchaseHistory')
            		 	->findUserNames($id);
 	}
+
+
 }

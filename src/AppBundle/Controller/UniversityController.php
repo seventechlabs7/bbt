@@ -179,7 +179,7 @@ class UniversityController extends Controller
 		{
 			$group->setGroup_name('Group'.rand());
 		}
-		$group->setLeague_name($teacher['league_name']);		
+		$group->setLeague_name($teacher['league_name']);//TODO		
 		$group->setVirtual_money($teacher['virtual_money']);
 		$group->setStart_date($teacher['start_date']);
 		$group->setEnd_date($teacher['end_date']);

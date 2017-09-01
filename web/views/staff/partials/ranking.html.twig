@@ -299,14 +299,20 @@ h1{
 			</div> 
 			<div class="profile_body_cont">
 				<div class="row">
-					<div class="col-lg-4 col-md-3 col-sm-12 col-xs-12">
-						<div class="center_l_block">
-							
-						</div>										
-					</div>
-					<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-						<div class="center_r_block">
-
+					<table ng-table="tableParams" class="table table-bordered table-striped table-condensed">
+      <tr ng-repeat="row in rankingList track by $index">
+        <td data-title="'Position'" filter="{installationAt: 'text'}" sortable="'installationAt'">{{$index + 1}}</td>
+        <td data-title="'Name'" filter="{adminEmail: 'text'}" sortable="'adminEmail'">{{row.username}}</td>
+        <td data-title="'Amount'" filter="{adminEmail: 'text'}" sortable="'adminEmail'">{{row.amount}}</td>
+        <td data-title="'Chat'" filter="{poweredBy: 'text'}" sortable="'poweredBy'"> <i class="fa fa-comments" aria-hidden="true" style=" color: blue;
+    text-shadow: 1px 1px 1px #ccc;
+    font-size: 1.5em;"></i> </td>
+        <td data-title="'Feedback'" filter="{poweredByIcon: 'text'}" sortable="'poweredByIcon'">feedback</td>
+        <td data-title="'Delete'" filter="{poweredByIcon: 'text'}" sortable="'poweredByIcon'"> <i class="fa fa-times-circle" aria-hidden="true" style=" color: red;
+    text-shadow: 1px 1px 1px #ccc;
+    font-size: 1.5em;"></i> </td>
+      </tr>
+    </table>
 
 						
 

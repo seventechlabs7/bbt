@@ -63,3 +63,7 @@ ranking :
     path :     /api/ranking/load
     defaults: { _controller: AppBundle:Ranking:show }
     methods:  [POST]
+rankingList :
+    path :     /api/ranking/list
+    defaults: { _controller: AppBundle:Ranking:rankingList }
+    methods:  [POST]

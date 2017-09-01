@@ -45,7 +45,25 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 					$scope.groupData.end_date = $scope.strToDate($scope.groupData.end_date);
 					var deadline = new Date($scope.groupData.end_date);
 					initializeClock('clockdiv', deadline);
+					$scope.loadRankingList();
 				}
+
+			},function(error){
+
+			});
+       }
+
+       $scope.loadRankingList = function()
+       {
+       	$http({
+				method: 'POST',
+				url: 'api/ranking/list',
+				data:{uId : $scope.teacher.id }
+			}).then(function(success){
+				var data = success.data;
+				console.log("list");
+				console.log(data)
+				$scope.rankingList = data;
 
 			},function(error){
 

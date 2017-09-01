@@ -115,4 +115,19 @@ class RankingController extends Controller
       //return new JsonResponse($query1);
      return new JsonResponse(array('status' => 'success','groups'=>$group,'groupData' => $group,'reason' => 'page loaded','reaponse' => 200));
   }
+
+    public function rankingListAction(Request $request)
+  {
+     $reqData = $request->request->all();
+
+    $TID = $reqData['uId'];
+  
+ 
+       $em = $this->getDoctrine()->getManager();
+     $list  = $em->getRepository('AppBundle:UserPurchaseHistory')
+                ->rankingList($TID);
+     //get current user id
+
+     return new JsonResponse($list);
+  }
 }

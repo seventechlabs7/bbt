@@ -114,4 +114,26 @@ class UserPurchaseRepository extends EntityRepository
            // var_dump($final);die;         
             return ($final);
     }
+
+    public function rankingList($tid)
+    {
+        $sql1 = ' 
+                  SELECT purchase.id as recordId , user.username,user.id_admin as userId ,purchase.prec_apertura_compra as purchaseAmount, sales.prec_cierre_venta as salesAmount , purchase.volumen as shares ,SUM( IFNull(g.virtual_money, 0)  + ( - IFNull(purchase.prec_apertura_compra, 0) ) + IFNull(sales.prec_cierre_venta, 0) )  as amount 
+                  FROM `hist_user_compra` as purchase  ,
+                  group_emails as ge , groups as g , users as user 
+                  left JOIN hist_user_venta as sales    on sales.id_user = user.id_admin WHERE
+                  user.id_admin = purchase.id_user 
+                  and g.id = ge.group_id and g.teacher_id = :tid and user.email = ge.email group by user.id_admin 
+                ';
+
+                $conn = $this->getEntityManager()
+                ->getConnection();
+                $sql = $sql1;
+                $stmt = $conn->prepare($sql);
+                $stmt->execute(array('tid' => $tid));
+                $final = $stmt->fetchAll();   
+               // var_dump($final);die;         
+                return ($final);
+
+    }
 }
