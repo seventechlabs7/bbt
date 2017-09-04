@@ -163,6 +163,11 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				$scope.teacher ={};
 				$scope.teacher.gId = $scope.groupData.id;
 				$scope.teacher.mail_list = [];
+				$scope.teacher.assets = [];
+				if(screen =="league")
+				{
+					$scope.getLeagueDetails(); // currently using group data
+				}
 			}
 
 			$scope.selectFile = function(file)
@@ -230,6 +235,143 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 					})
 			}
 
+			$scope.getLeagueDetails =function()
+			{
+				$http({
+				method: 'POST',
+				url: 'api/league/details',
+				data:{uId : $scope.teacher.id ,gId:$scope.teacher.gId }
+				}).then(function(success){
+				var data = success.data;
+				console.log("data league");
+				console.log(data)
+				
+				$scope.teacher.league_name = data.league_name;
+				$scope.teacher.start_date = new Date(data.start_date);
+				$scope.teacher.end_date = new Date(data.end_date);
+				$scope.teacher.virtual_money = data.virtual_money;
+				$scope.teacher.assets = data.assets.split(',');
+
+				},function(error){
+
+				});
+			}
+
+			$scope.editVirtualMoney = function()
+			{
+
+				var from = $scope.teacher.start_date;
+
+				$scope.currentDate =  new Date();
+				var current = 	$scope.currentDate
+				$scope.teacher.DisableStartDate = false;
+		      if(	current.getTime() > from.getTime())
+		      		{
+		      			$scope.DisableStartDate = true;
+		      			return true;
+		      		}
+		      		else
+		      		{
+		      			return false;
+		      		}
+			}
+
+			$scope.checkTime = function(index)
+		{			
+			if($scope.teacher.start_date != undefined && $scope.teacher.start_date != null)
+				var from = $scope.teacher.start_date;
+			if($scope.teacher.end_date != undefined && $scope.teacher.end_date != null)
+		      	var to = $scope.teacher.end_date;
+		      var timeDiff = Math.abs(to.getTime() - from.getTime());
+		      var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));  
+		      if(to.getTime() < from.getTime())
+		      {
+		      	notify({
+		      		message: 'Invalid End Date',
+		      		classes: 'alert-danger',
+		      		duration: 2000
+		      	});
+		      	$scope.teacher.end_date = null;
+		      	return;
+		      }
+		}
+
+		$scope.updateLeague = function()
+		{
+
+						if($scope.teacher.start_date == undefined || $scope.teacher.start_date == null)
+			{				
+				notify({
+					message:'Fill Start Date',
+					classes:'alert-danger',
+					duration:2000
+				});
+				return;
+			}
+			if($scope.teacher.end_date == undefined || $scope.teacher.end_date == null)
+			{				
+				notify({
+					message:'Fill End Date',
+					classes:'alert-danger',
+					duration:2000
+				});
+				return;
+			}
+			if($scope.teacher.assets == undefined || $scope.teacher.assets == 0)
+			{				
+				notify({
+					message:'Select Assets',
+					classes:'alert-danger',
+					duration:2000
+				});
+				return;
+			}
+			if($scope.teacher.league_name == undefined || $scope.teacher.league_name == null)
+			{				
+				notify({
+					message:'Enter League Name',
+					classes:'alert-danger',
+					duration:2000
+				});
+				return;
+			}
+			if($scope.teacher.virtual_money == undefined || $scope.teacher.virtual_money == null)
+			{				
+				notify({
+					message:'Enter Virtual Money',
+					classes:'alert-danger',
+					duration:2000
+				});
+				return;
+			}
+			$scope.teacher.assets = $scope.teacher.assets.join(",");
+			$http({
+				method: 'POST',
+				url: 'api/league/update',
+				data:{uId : $scope.teacher.id ,data:$scope.teacher }
+				}).then(function(success){
+				var data = success.data;
+				if(data.status =="success")
+				{
+					notify({
+					message: data.reason,
+					classes:'alert-success',
+					duration:2000
+				});
+				}
+				else
+				{
+					notify({
+					message: data.reason,
+					classes:'alert-danger',
+					duration:2000
+					});
+				}
+				$scope.changeScreen('start');			
+				},function(error){
+
+				});
+		}
 			
     }
     ]);

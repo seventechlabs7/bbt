@@ -276,8 +276,8 @@ h1{
 				</div>
 			</div>
 		</div>
-		<div class="center_container" ng-if="screen == 'start'">
-			<div class="profile_head_cont">
+		<div class="center_container" >
+			<div class="profile_head_cont" ng-if="screen != 'addstudents'">
 			<div class="row">
 				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 					<div class="form-group">
@@ -311,7 +311,7 @@ h1{
 			</div>
 				
 			</div> 
-				<div class="profile_body_cont">
+				<div class="profile_body_cont" ng-if="screen == 'start'">
 					<div class="row">
 						<table ng-table="tableParams" class="table table-bordered table-striped table-condensed">
 							<tr ng-repeat="row in rankingList track by $index">
@@ -335,7 +335,7 @@ h1{
 							</div>
 							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 								<div class="modal_but_cont">        							
-									<button class="modal_nxt_bt" ng-click="changeScreen('edit')">Edit league</button>
+									<button class="modal_nxt_bt" ng-click="changeScreen('league')">Edit league</button>
 								</div>
 							</div>
 						</div>
@@ -396,47 +396,110 @@ h1{
 			</div>
 			<div class="center_container" ng-if="screen == 'league'">
 			<div class="profile_head_cont">
+				<!-- league -->
 				<div class="row">
-					<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-						<div class="form_head_text">
-    						Do you have students? Add them
-    					</div>
-						<div class="row">
-							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-    							<div class="input_upload">
-    								<input type="text" class="field_text" placeholder="Copy and Paste your mailing list" name="maillist"  ng-model="teacher.mail_list"/>
-    							</div>
-							</div>
-							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-    							<div class="input_upload">
-    								<input type="file" class="upload_text" placeholder="Find Your File(csv./other)" name="maillistfile" name="file" ngf-select="selectFile(teacher.mail_list_file)" ng-model="teacher.mail_list_file"/>
-    								<button class="upload_button">Upload</button>
-    							</div>
-							</div>
-						</div>
-						<!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p0">
-							<div class="form_head_text">
-        						Want to create a group with them ?
-        					</div>
-        					<div class="input_text p15">
-        						<input type="text" class="field_text" placeholder="Name of the Group" name="groupname" ng-model="teacher.group_name" />
-        					</div>
-						</div> -->
-					</div>
-					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-						<div class="modal_image_container">
-							<div class="modal_image">
-								<img src="" class="modal_banner">
-							</div>
-						</div>
-					</div>
-				</div>
+	        						<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+		        						<div class="custom_num_list">
+		        							<ul class="cust_num_ul"> 
+		        								<li class="cust_num_li">
+		        									<div class="cust_list_q">
+		        										<span class="li_num">1</span>
+		        										<span class="li_q">How long will it last for? </span>
+		        									</div>
+		        									<div class="cust_list_ans">         						
+														<div class="row">
+															<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+
+																<b>Start Date : </b><input id="sDateField" type="date" class="date_form"  placeholder="Start Date" name="maillistfile" ng-model="teacher.start_date" ng-change="checkTime('start')" ng-disabled="DisableStartDate" />
+															</div>
+															<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+																<b>End Date : </b> <input type="date"  class="date_form" name="startdate"  ng-model="teacher.end_date" ng-change="checkTime('end')"/>
+															</div>
+														</div>
+		        									</div>       									
+		        								</li>
+		        								<li class="cust_num_li">
+		        									<div class="cust_list_q">
+		        										<span class="li_num">2</span>
+		        										<span class="li_q">Which assets do you want to have?</span>
+		        									</div>
+		        									<div class="cust_list_ans">         						
+														<div class="row">
+															<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+																<div class="checkbox_cont">
+																	<ul class="check_cont_ul"> 
+																		<li> 
+																			<label class="check_label">   
+																				<input type="checkbox" name="" ng-checked="teacher.assets[0] == 1" ng-true-value="1" ng-false-vlaue="0" ng-model="teacher.assets[0]">
+																				<span class="check_text">Ibex35</span>
+																			</label>
+																		</li>
+																		<li> 
+																			<label class="check_label">   
+																				<input type="checkbox" name="" ng-checked="teacher.assets[1] == 2" ng-true-value="2" ng-false-vlaue="0" ng-model="teacher.assets[1]">
+																				<span class="check_text">Mercado continuo</span>
+																			</label>
+																		</li>
+																		<li> 
+																			<label class="check_label">   
+																				<input type="checkbox" name="" ng-checked="teacher.assets[2] == 3" ng-true-value="3" ng-false-vlaue="0" ng-model="teacher.assets[2]">
+																				<span class="check_text">Forex</span>
+																			</label>
+																		</li>
+																	</ul>
+																</div>
+															</div>
+														</div>
+		        									</div>       									
+		        								</li>
+		        								<li class="cust_num_li">
+		        									<div class="cust_list_q">
+		        										<span class="li_num">3</span>
+		        										<span class="li_q">How do you want to call your league?</span>
+		        									</div>
+		        									<div class="cust_list_ans">
+		        										<div class="row">
+		        											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		        												<input type="text" class="field_text ft2 blue" placeholder="League Name" name="leaguename" ng-model="teacher.league_name" />
+		        											</div>	
+		        										</div>
+		        									</div>
+		        								</li>
+		        								<li class="cust_num_li">
+		        									<div class="cust_list_q">
+		        										<span class="li_num">4</span>
+		        										<span class="li_q">Virtual money to start:</span>
+		        									</div>
+		        									<div class="cust_list_ans">
+		        										<div class="row">
+		        											<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+		        												<input type="text" class="field_text ft2 blue"  placeholder="" name="virtualmoney" ng-model="teacher.virtual_money" ng-disabled="editVirtualMoney()"/> 
+		        											</div>	
+		        											<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="padding-left: 0%;
+    															padding-top: 2%;">
+		        											&euro;
+		        											</div>
+		        										</div>
+		        									</div>
+		        								</li>
+		        							</ul>
+		        						</div>
+	        						</div>
+	        						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+	        							<div class="modal_image_container">
+	        								<div class="modal_image">
+	        									<img src="" class="modal_banner">
+	        								</div>
+	        							</div>
+	        						</div>
+	        					</div>
+	        					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+	        						<div class="modal_but_cont">
+	        							<button class="modal_nxt_bt" ng-click="updateLeague()">Update</button>
+	        							
+	        						</div>
+	        					</div>
 				<div class="row">
-				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<div class="modal_but_cont">        							
-						<button class="modal_nxt_bt" ng-click="addStudents()">upload Students</button>
-					</div>
-				</div>
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 					<div class="modal_but_cont">        							
 						<button class="modal_nxt_bt" ng-click="changeScreen('start')">View Ranking</button>

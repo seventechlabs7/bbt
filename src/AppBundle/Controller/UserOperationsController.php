@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Entity\Product;
 use AppBundle\Entity\Likes;
 use AppBundle\Entity\Teacher;
+use AppBundle\Entity\Group;
 use AppBundle\Entity\GroupEmail;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -401,6 +402,62 @@ class UserOperationsController extends Controller
       $mailObject->type = 'Student';
       $mailObject->encryptedLink = urlencode($crypt->encrypt($email));
       $mailerService->indexAction($mailObject);
+  }
+
+  public function getLeagueByIdAction (Request $request)
+  {
+    $league = $request->request->all();
+    $gId = $league['gId'];
+    $em = $this->getDoctrine()->getManager();
+
+
+    $query = $em->createQuery(
+    'SELECT g.id,g.league_name,g.start_date,g.end_date ,g.virtual_money ,g.assets 
+    FROM AppBundle:Group g
+    WHERE g.id = :id
+    '
+)->setParameter('id',$gId);
+$products = $query->setMaxResults(1)->getOneOrNullResult();
+//$products = $query->getResult();
+ return new JsonResponse($products);
+
+    $leagueData = new Group();
+    $res = $em->getRepository('AppBundle:Group')->findOneById($gId);
+
+    if($res)
+    {
+
+      $leagueData->setLeague_name($res->getLeague_name());
+      $leagueData->setVirtual_money($res->getVirtual_money());
+      $leagueData->setGroup_name($res->getGroup_name());
+      $leagueData->setStart_date($res->getStart_date());
+      $leagueData->setEnd_date($res->getEnd_date());
+      $leagueData->setAssets($res->getAssets());
+      $leagueData->setId($res->getId());
+
+      return new JsonResponse($leagueData);
+    }
+  }
+
+  public function updateLeagueAction(Request $request)
+  {
+    $requestData  =  $request->request->all();
+    $requestData = $requestData['data'];
+   
+    $em = $this->getDoctrine()->getManager();
+    $TD =  $em->getRepository('AppBundle:Group')->find($requestData['gId']);
+    if($TD)
+    {
+       $TD->setStart_date($requestData['start_date']);
+       $TD->setEnd_date($requestData['end_date']);
+       $TD->setVirtual_money($requestData['virtual_money']);
+       $TD->setLeague_name($requestData['league_name']);
+       $TD->setAssets($requestData['assets']);
+       $em->flush($TD);
+       return new JsonResponse(array('status' => 'success','reason' => 'updated successfully','reaponse' => 200));
+    }
+     return new JsonResponse(array('status' => 'failure','reason' => 'something went wrong','reaponse' => 200));
+
   }
 
 
