@@ -2,6 +2,7 @@
 
 Hi {{ regObject.name }} ! You're successfully registered.
 
+Temporary password  - bbt@123
 {# example, assuming you have a route named "login" #}
 To verify, go to: <a href="{{ url('studentsignupverify', {'verifyLink': regObject.encryptedLink } ) }}">Verify Link</a>.
 

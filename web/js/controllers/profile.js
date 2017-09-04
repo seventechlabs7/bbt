@@ -33,6 +33,7 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
         }
 
         $scope.teacher = {};
+        $scope.password ={};
         $scope.teacherdetail = {};
         $scope.teacher.virtual_money = 25.00;
         $scope.step = 1;
@@ -365,16 +366,7 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 
 		$scope.saveChanges = function()
 		{
-			if($scope.teacherstatus.password != $scope.teacherstatus.password)
-			{
-				notify({
-							message:'Both passwords should match',
-							classes:'alert-danger',
-							duration:3000
-						});
-						return;		
-				return ;
-			}
+			
 			$http({
 				method: 'POST',
 				url: 'api/teacher/update',
@@ -407,6 +399,90 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 			{
 				return false;
 			}
+		}
+
+		$scope.checkCurrentPassword = function()
+		{
+			$http({
+				method: 'POST',
+				url: 'api/password/current',
+				data:{				
+					password :$scope.password.currentPassword,
+					tId : $scope.teacher.id,
+				}
+			}).then(function(success){
+				console.log(success);
+				if(success.data.status == 'success')
+				{
+					
+				}
+				else
+				{
+					$scope.password.currentPassword ='';
+					notify.closeAll();
+					notify({
+						message: success.data.reason,
+						classes:'alert-danger',
+						duration:3000
+					});
+				}
+			},function(error){
+				
+			});
+		}
+
+		$scope.updatePassword = function()
+		{
+			if($scope.password.password != $scope.password.confirm)
+			{
+				notify({
+							message:'Both passwords should match',
+							classes:'alert-danger',
+							duration:3000
+						});
+						return;		
+			}
+			if($scope.password.password == $scope.password.currentPassword)
+			{
+				{
+					notify({
+							message: 'New password should not be same as current password',
+							classes:'alert-danger',
+							duration:3000
+						});
+						return;		
+				}
+			}
+			$http({
+				method: 'POST',
+				url: 'api/password/update',
+				data:{				
+				password :$scope.password,tId:$scope.teacher.id,
+			}
+			}).then(function(success){
+				console.log(success);
+				$scope.password ={};
+				if(success.data.status == 'success')
+				{
+					notify.closeAll();
+					notify({
+						message:success.data.reason,
+						classes:'alert-success',
+						duration:3000
+					});
+				}
+				else
+				{
+					notify.closeAll();
+					notify({
+						message:success.data.reason,
+						classes:'alert-danger',
+						duration:3000
+					});
+				}
+			},function(error){
+				
+			});
 		}
 
     }

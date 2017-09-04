@@ -23,6 +23,7 @@ class UserOperationsController extends Controller
 
 	public function getUserOperationsAction(Request $request ,$tid)
 	{
+
 			 $em = $this->getDoctrine()->getManager();
 			$result = $em->getRepository('AppBundle:UserPurchaseHistory')
             ->findAllOperationsOfConnectedUsers($tid);
@@ -339,7 +340,7 @@ class UserOperationsController extends Controller
           unlink($path);
     }
 
-       return new JsonResponse(array('status' => 'failure','reason' => 'success','reaponse' => 200));
+       return new JsonResponse(array('status' => 'success','reason' => 'success','reaponse' => 200));
   }
 
       public function CheckDupeEmail($email)
@@ -458,6 +459,65 @@ $products = $query->setMaxResults(1)->getOneOrNullResult();
     }
      return new JsonResponse(array('status' => 'failure','reason' => 'something went wrong','reaponse' => 200));
 
+  }
+
+  public function checkCurrentPasswordAction(Request $request)
+  {
+    $requestData  =  $request->request->all();
+    $password = $requestData['password'];
+    $tId = $requestData['tId'];
+    $em = $this->getDoctrine()->getManager();
+    $TD =  $em->getRepository('AppBundle:Teacher')->find($tId);
+    if($TD)
+    {
+      $em = $this->getDoctrine()->getManager();
+
+      $user = $em->getRepository('AppBundle:UserPurchaseHistory')
+                  ->findEmail($TD->getEmail()); // TODO from session
+
+        if($password == $user['password'])
+        {
+           return new JsonResponse(array('status' => 'success','response' => 200));
+        }  
+        else
+           return new JsonResponse(array('status' => 'failure','reason' => 'incorrect current password','reaponse' => 200));    
+      return new JsonResponse($pwEN);
+    }
+    
+
+  }
+
+   public function updatePasswordAction(Request $request)
+  {
+    $requestData  =  $request->request->all();
+    $password = $requestData['password'];
+    $tId = $requestData['tId'];
+    $em = $this->getDoctrine()->getManager();
+    $TD =  $em->getRepository('AppBundle:Teacher')->find($tId);
+    if($TD)
+    {
+      $em = $this->getDoctrine()->getManager();
+
+      $user = $em->getRepository('AppBundle:UserPurchaseHistory')
+                  ->findEmail($TD->getEmail()); // TODO from session
+
+
+        if($password['currentPassword'] == $user['password'])
+        {
+            if($password['password'] != $user['password'])
+            {
+                 $passwordupdate = $em->getRepository('AppBundle:UserPurchaseHistory')
+                  ->updatePassword($TD->getEmail(),$password['password']); 
+            }
+            else
+            {
+               return new JsonResponse(array('status' => 'failure','reason' => 'New password should not be same as current password','reaponse' => 200));  
+            }
+        }  
+        else
+           return new JsonResponse(array('status' => 'failure','reason' => 'incorrect current password','reaponse' => 200));    
+      return new JsonResponse(array('status' => 'success','reason' => 'Password updated successfully','reaponse' => 200)); 
+    }
   }
 
 

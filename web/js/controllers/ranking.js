@@ -39,13 +39,15 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				if(data.status == "success")
 				{
 					$scope.groupData =data.groupData[0];
+					$scope.currentGroupId = $scope.groupData.id;
 					$scope.groups = data.groups;
-
+					
 					$scope.groupData.start_date = $scope.strToDate($scope.groupData.start_date);
 					$scope.groupData.end_date = $scope.strToDate($scope.groupData.end_date);
 					var deadline = new Date($scope.groupData.end_date);
 					initializeClock('clockdiv', deadline);
 					$scope.loadRankingList();
+					
 				}
 
 			},function(error){
@@ -64,7 +66,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				console.log("list");
 				console.log(data)
 				$scope.rankingList = data;
-
+				
 			},function(error){
 
 			});
@@ -112,7 +114,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
        $scope.strToDate = function(date)
        {
        		 var from = date.split("-");
-       		 var f = new Date(from[0], from[1] - 1, from[1]);
+       		 var f = new Date(from[0], from[1] - 1, from[2]);
        		 return f;
        }
 
@@ -299,7 +301,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 		$scope.updateLeague = function()
 		{
 
-						if($scope.teacher.start_date == undefined || $scope.teacher.start_date == null)
+			if($scope.teacher.start_date == undefined || $scope.teacher.start_date == null)
 			{				
 				notify({
 					message:'Fill Start Date',
@@ -345,6 +347,8 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				return;
 			}
 			$scope.teacher.assets = $scope.teacher.assets.join(",");
+			$scope.teacher.start_date =  $filter('date')($scope.teacher.start_date, 'yyyy-MM-dd');
+			$scope.teacher.end_date =  $filter('date')($scope.teacher.end_date, 'yyyy-MM-dd');
 			$http({
 				method: 'POST',
 				url: 'api/league/update',

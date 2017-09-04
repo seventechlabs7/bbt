@@ -282,7 +282,7 @@ h1{
 				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 					<div class="form-group">
 						<label for="sel1">Select Group</label>
-						<select class="form-control" id="sel1" ng-model="currentGroupId" ng-change="loadRanking(currentGroupId)">
+						<select class="form-control" id="gId" name="gId" ng-model="currentGroupId" ng-change="loadRanking(currentGroupId)">
 						<option ng-repeat="group in groups" value="{{group.id}}">{{group.group_name}}</option>
 						</select>
 					</div>

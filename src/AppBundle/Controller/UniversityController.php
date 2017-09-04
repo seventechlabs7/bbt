@@ -548,9 +548,21 @@ class UniversityController extends Controller
 			$mailObject->toMail = $email;
 			$mailObject->name = 'Student';
 			$mailObject->type = 'Student';
+			/*$mailObject->temppassword = "bbt@123";*/
 			$mailObject->encryptedLink = urlencode($crypt->encrypt($email));
 			$mailerService->indexAction($mailObject);
 	}
+
+	public function generateRandomString($length) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
+}
+
 
 
 }

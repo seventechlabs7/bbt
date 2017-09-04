@@ -83,3 +83,11 @@ leagueupdate:
     path:     /api/league/update
     defaults: { _controller: AppBundle:UserOperations:updateLeague }
     methods:  [POST]    
+currentpasswordcheck:
+    path:     /api/password/current
+    defaults: { _controller: AppBundle:UserOperations:checkCurrentPassword }
+    methods:  [POST] 
+updatePasswordCheck:
+    path:     /api/password/update
+    defaults: { _controller: AppBundle:UserOperations:updatePassword }
+    methods:  [POST] 
