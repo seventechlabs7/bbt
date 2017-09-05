@@ -91,3 +91,7 @@ updatePasswordCheck:
     path:     /api/password/update
     defaults: { _controller: AppBundle:UserOperations:updatePassword }
     methods:  [POST] 
+emailupdateteacherverify:
+    path:     api/teacher/emailchange/{verifyLink}
+    defaults: { _controller: AppBundle:University:emailChangeTeacherVerify}
+    methods:  [GET]

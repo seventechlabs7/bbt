@@ -32,6 +32,10 @@ class Teacher
      * @ORM\Column(name="`email`",type="text")
      */
     private $email;
+      /**
+     * @ORM\Column(name="`tempemail`",type="text")
+     */
+    private $tempemail;
 
     /**
      * @ORM\Column(name="`password`",type="text")
@@ -94,6 +98,13 @@ class Teacher
 
 	public function setEmail($email){
 		$this->email = $email;
+	}
+	public function getTempEmail(){
+		return $this->tempemail;
+	}
+
+	public function setTempEmail($tempemail){
+		$this->tempemail = $tempemail;
 	}
 
 	public function getPassword(){

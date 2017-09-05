@@ -328,15 +328,23 @@ class UniversityController extends Controller
 
     }
 
-    public function updateTeacherAction(Request $request)
+    public function updateTeacherAction(Request $request ,CustomCrypt $crypt,MailerService $mailerService)
     {
     	$em = $this->getDoctrine()->getManager();
 		$teacher = $request->request->get('teacher');
     		$TD = $em->getRepository('AppBundle:Teacher')->find($teacher['id']);
+    		$mailFlag =false;
+    		if($teacher['email'] != $TD->getEmail())
+    			{
+    				$mailFlag =true;
+    				$TD->setTempEmail($teacher['email']);
+    				$oldemail = $TD->getEmail();
+    			}
+    		
     		$TD->setId($teacher['id']);
 			$TD->setName($teacher['name']);
 			$TD->setSurname($teacher['surname']);
-			$TD->setEmail($teacher['email']);
+			
 			if(isset($teacher['password']))
 				{
 					$TD->setPassword($teacher['password']);		
@@ -360,6 +368,9 @@ class UniversityController extends Controller
              	'email1' =>$teacher['email'],
              	'password' =>	$password ,
              	'email2' => $teacher['oldemail']));
+
+             if($mailFlag)
+             	$this->mailUpdateLink($oldemail,$teacher['email'],$crypt, $mailerService)
 
     	return $this->json(array('status' => 'success','reason' => 'updated Successfully','reaponse' => 200));
     }
@@ -563,6 +574,64 @@ class UniversityController extends Controller
     return $randomString;
 }
 
+	public function mailUpdateLink($email,$newEmail,CustomCrypt $crypt,MailerService $mailerService)
+	{
+			$mailObject = new \stdClass();
+			$mailObject->toMail = $email;
+			$mailObject->name = 'user';
+			
+			/*$mailObject->temppassword = "bbt@123";*/
+			$mailObject->encryptedLink = urlencode($crypt->encrypt($email));
+			$mailerService->mailChangeLink($mailObject);
+	}
+
+
+		public function emailChangeTeacherVerifyAction(Request $request ,CustomCrypt $crypt,$verifyLink)
+	{
+		$email = $crypt->decrypt(urldecode($verifyLink));
+		if($email)
+		{
+			$checkMail = 	$this->CheckUserTable($email);
+			if($checkMail)
+			{
+				return new JsonResponse("Error : Link Already verified !");
+			}
+			else
+			{
+				$em1 = $this->getDoctrine()->getManager();
+
+				$RAW_QUERY1 = 'SELECT * FROM teachers where teachers.email = :email LIMIT 1;';
+
+				$statement1 = $em1->getConnection()->prepare($RAW_QUERY1);
+				// Set parameters 
+				$statement1->bindValue('email', $email);
+				$statement1->execute();
+				$result1 = $statement1->fetch();
+				
+				if($result1)
+				{
+
+						 $em2 = $this->getDoctrine()->getManager();
+
+						$RAW_QUERY1 = "
+
+						INSERT INTO `users` 
+						(`id_admin`, `activo`, `enPrueba2dias`, `chat_color`, `fecha_alta`, `fecha_max_prueba`, `fecha_nacimiento`, `nif`, 
+						`username`, `nombre`, `apellidos`, `telefono`, `email`, `password`, `roles`, `nombre_completo`, `direccion`, `localidad`, `cp`, `id_provincia`, `id_pais`, `otra_ciudad`, `bloqueado`, `causa_bloqueo`, `aceptaLOPD`, `mi_descripcion`, `mis_trabajos`, `mis_estudios`, `id_universidad`, `empresa`, `icono`, `se_registro_desde`, `fotoFB`, `fb_id`)
+						 VALUES (NULL,:active,0,'0',:datetime1,:date1,:date2,'0',:username, '0', '0', '0', :email, :password,:role, '0', '0', '0', '0', '0', 0, '0', 0,'0', 0, '0', '0', '0', 0, '0', '0', :reg_type, '0', '0');";
+
+						 $stmt =$em2->getConnection()->prepare($RAW_QUERY1);
+             			 $stmt->execute(array('active' => 1,'username' => $result1['username']." ".$result1['surname'],'email' => $result1['email'],'password' => $result1['password'],'role' => 'ROLE_TEACHER' ,'reg_type' => 'Reg.Normal' ,'datetime1' => date_format(date_create(null),"Y-m-d H:i:s") ,'date1' =>  date_format(date_create(null),"Y-m-d") ,'date2' => date_format(date_create(null),"Y-m-d")));
+             			  //$stmt->fetch();
+             			 
+             			// return new JsonResponse($stmt);             			  
+				}
+				$url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'] ;
+				return $this->redirect($url.'/index#/app/profile/'.$result1['id']);
+
+			}
+		}
+	}
 
 
 }

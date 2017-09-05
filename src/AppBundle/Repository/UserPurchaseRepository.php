@@ -126,7 +126,7 @@ class UserPurchaseRepository extends EntityRepository
                   and g.id = ge.group_id and g.teacher_id = :tid and user.email = ge.email group by user.id_admin 
                 ';*/
             $sql1 = '
-            SELECT pos.patrimonio_total ,pos.posicion , pos.posicion_ant ,user.username,user.id_admin as userId 
+            SELECT pos.patrimonio_total as amount ,pos.posicion as position , pos.posicion_ant as old_position,user.username as name,user.id_admin as userId 
             from hist_teacher_league_ranking , users as user on pos.id_user = user.id_admin 
             ';
 
