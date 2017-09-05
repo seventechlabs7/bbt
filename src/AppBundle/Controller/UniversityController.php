@@ -339,6 +339,9 @@ class UniversityController extends Controller
     				$mailFlag =true;
     				$TD->setTempEmail($teacher['email']);
     				$oldemail = $TD->getEmail();
+    				$exists = $this->CheckDupeEmail($teacher['email']);
+    				if($exists)
+    					return $this->json(array('status' => 'failure','reason' => 'Email Already in use','reaponse' => 200));
     			}
     		
     		$TD->setId($teacher['id']);
@@ -370,7 +373,7 @@ class UniversityController extends Controller
              	'email2' => $teacher['oldemail']));
 
              if($mailFlag)
-             	$this->mailUpdateLink($oldemail,$teacher['email'],$crypt, $mailerService)
+             	$this->mailUpdateLink($oldemail,$teacher['email'],$crypt, $mailerService);
 
     	return $this->json(array('status' => 'success','reason' => 'updated Successfully','reaponse' => 200));
     }
@@ -581,7 +584,7 @@ class UniversityController extends Controller
 			$mailObject->name = 'user';
 			
 			/*$mailObject->temppassword = "bbt@123";*/
-			$mailObject->encryptedLink = urlencode($crypt->encrypt($email));
+			$mailObject->encryptedLink = urlencode($crypt->encrypt($newEmail));
 			$mailerService->mailChangeLink($mailObject);
 	}
 
@@ -591,16 +594,17 @@ class UniversityController extends Controller
 		$email = $crypt->decrypt(urldecode($verifyLink));
 		if($email)
 		{
-			$checkMail = 	$this->CheckUserTable($email);
+			$checkMail = 	$this->CheckDupeEmail($email);
+			//return new JsonResponse($email);
 			if($checkMail)
 			{
-				return new JsonResponse("Error : Link Already verified !");
+				return new JsonResponse("Error : Link Already verified or email already in use");
 			}
 			else
 			{
 				$em1 = $this->getDoctrine()->getManager();
 
-				$RAW_QUERY1 = 'SELECT * FROM teachers where teachers.email = :email LIMIT 1;';
+				$RAW_QUERY1 = 'SELECT * FROM teachers where teachers.tempemail = :email LIMIT 1;';
 
 				$statement1 = $em1->getConnection()->prepare($RAW_QUERY1);
 				// Set parameters 
@@ -613,15 +617,28 @@ class UniversityController extends Controller
 
 						 $em2 = $this->getDoctrine()->getManager();
 
-						$RAW_QUERY1 = "
+						  $sql = '
+							UPDATE users set  email = :email1  where email = :email2 
+							';
+							$statement3 = $em1->getConnection()->prepare($sql);
+							// Set parameters 
 
-						INSERT INTO `users` 
-						(`id_admin`, `activo`, `enPrueba2dias`, `chat_color`, `fecha_alta`, `fecha_max_prueba`, `fecha_nacimiento`, `nif`, 
-						`username`, `nombre`, `apellidos`, `telefono`, `email`, `password`, `roles`, `nombre_completo`, `direccion`, `localidad`, `cp`, `id_provincia`, `id_pais`, `otra_ciudad`, `bloqueado`, `causa_bloqueo`, `aceptaLOPD`, `mi_descripcion`, `mis_trabajos`, `mis_estudios`, `id_universidad`, `empresa`, `icono`, `se_registro_desde`, `fotoFB`, `fb_id`)
-						 VALUES (NULL,:active,0,'0',:datetime1,:date1,:date2,'0',:username, '0', '0', '0', :email, :password,:role, '0', '0', '0', '0', '0', 0, '0', 0,'0', 0, '0', '0', '0', 0, '0', '0', :reg_type, '0', '0');";
+							$statement3->execute(array(
+							'email1' =>$result1['tempemail'],
+							'email2' => $result1['email']));
 
-						 $stmt =$em2->getConnection()->prepare($RAW_QUERY1);
-             			 $stmt->execute(array('active' => 1,'username' => $result1['username']." ".$result1['surname'],'email' => $result1['email'],'password' => $result1['password'],'role' => 'ROLE_TEACHER' ,'reg_type' => 'Reg.Normal' ,'datetime1' => date_format(date_create(null),"Y-m-d H:i:s") ,'date1' =>  date_format(date_create(null),"Y-m-d") ,'date2' => date_format(date_create(null),"Y-m-d")));
+							 $sql1 = '
+							UPDATE teachers set  email = :email1 ,tempemail=:temail where email = :email2 
+							';
+							$statement4 = $em1->getConnection()->prepare($sql1);
+							// Set parameters 
+
+							$statement4->execute(array(
+							'email1' =>$result1['tempemail'],
+							'email2' => $result1['email'],
+							'temail' => null));
+
+						
              			  //$stmt->fetch();
              			 
              			// return new JsonResponse($stmt);             			  

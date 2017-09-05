@@ -46,6 +46,9 @@ services:
     #SwitMail Service
     AppBundle\Service\MailerService:
         arguments: ["@mailer", "@templating"]
+    AppBundle\Service\BbtCrypt:
     AppBundle\Service\CustomCrypt:
         arguments: 
            $key: '%salt_key%'
+    AppBundle\Service\Utils:           
+

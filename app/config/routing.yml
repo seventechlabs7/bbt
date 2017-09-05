@@ -95,3 +95,12 @@ emailupdateteacherverify:
     path:     api/teacher/emailchange/{verifyLink}
     defaults: { _controller: AppBundle:University:emailChangeTeacherVerify}
     methods:  [GET]
+getchatbyuser:
+    path:     api/chat/get
+    defaults: { _controller: AppBundle:Ranking:getChat}
+    methods:  [POST] 
+sendmessage :
+    path:     api/chat/send
+    defaults: { _controller: AppBundle:Ranking:sendMessage}
+    methods:  [POST] 
+

@@ -126,15 +126,18 @@ class UserPurchaseRepository extends EntityRepository
                   and g.id = ge.group_id and g.teacher_id = :tid and user.email = ge.email group by user.id_admin 
                 ';*/
             $sql1 = '
-            SELECT pos.patrimonio_total as amount ,pos.posicion as position , pos.posicion_ant as old_position,user.username as name,user.id_admin as userId 
-            from hist_teacher_league_ranking , users as user on pos.id_user = user.id_admin 
+            SELECT pos.patrimonio_total as amount ,pos.posicion as position , pos.posicion_ant as old_position,
+            user.username as name,user.id_admin as userId ,
+            IFNull(chat.total, 0) as total 
+            from hist_teacher_league_ranking as pos, users as user left join chats_sin_leer as chat on chat.id_user =:idUser and chat.id_user_send = user.id_admin
+            where pos.id_user = user.id_admin group by pos.id_user order by pos.posicion_ant ASC
             ';
 
                 $conn = $this->getEntityManager()
                 ->getConnection();
                 $sql = $sql1;
                 $stmt = $conn->prepare($sql);
-                $stmt->execute(array('tid' => $tid));
+                $stmt->execute(array('idUser' => $tid ));
                 $final = $stmt->fetchAll();   
                // var_dump($final);die;         
                 return ($final);
@@ -178,6 +181,80 @@ class UserPurchaseRepository extends EntityRepository
             ';
             $stmt = $conn->prepare($sql);
              $stmt->execute(array('email' => $email,'password'=>$password));
+            //$final = $stmt->fetch();   
+            //var_dump($final);die;         
+            return ($stmt);
+    }
+
+    public function getChat($uId,$tId)
+    {
+        $members1 = $tId.'##'.$uId;
+        $members2 = $uId.'##'.$tId;
+
+         $conn = $this->getEntityManager()
+            ->getConnection();
+            $sql = '
+            SELECT chat.id,chat.members , chat.messages  ,user.id_admin as userId ,user.username as username  
+            from chats as chat , users as user 
+            where (chat.members = :members1 or chat.members = :members2) and user.id_admin = :uId
+            ';
+            $stmt = $conn->prepare($sql);
+             $stmt->execute(array('members1' => $members1,'members2'=>$members2,'uId'=>$uId));
+            $final = $stmt->fetch();   
+           // var_dump($final);die;         
+            return ($final);
+    }
+
+    public function selectUsers($uId,$fromId)
+    {
+         $conn = $this->getEntityManager()
+            ->getConnection();
+            $sql = '
+            SELECT id_admin, username, chat_color FROM users WHERE id_admin =:uId OR id_admin = :fromId
+            ';
+            $stmt = $conn->prepare($sql);
+             $stmt->execute(array('uId' => $uId,'fromId'=>$fromId));
+            $final = $stmt->fetchAll();   
+           // var_dump($final);die;         
+            return ($final);
+    }
+
+     public function selectChats($room)
+    {
+         $conn = $this->getEntityManager()
+            ->getConnection();
+            $sql = '
+            select * from chats where members = :room
+            ';
+            $stmt = $conn->prepare($sql);
+             $stmt->execute(array('room' => $room));
+            $final = $stmt->fetchAll();   
+           // var_dump($final);die;         
+            return ($final);
+    }
+
+    public function insertChat($members,$newmessage)
+    {
+            $conn = $this->getEntityManager()
+                         ->getConnection();
+            $sql = '
+                   INSERT INTO chats (type, members, messages) VALUES (:type, :members,:message ) 
+                    ';
+            $stmt = $conn->prepare($sql);
+             $stmt->execute(array('type' => 0,'members'=>$members ,'message' =>"<p>".$newmessage."</p>##@@last_message@@##"));
+            //$final = $stmt->fetch();   
+            //var_dump($final);die;         
+            return ($stmt);
+    }
+    public function updateChat($members,$newmessage)
+    {
+            $conn = $this->getEntityManager()
+                         ->getConnection();
+            $sql = '
+                   UPDATE  chats set  messages =:messages  where members = :members  
+                    ';
+            $stmt = $conn->prepare($sql);
+             $stmt->execute(array('members'=>$members ,'messages' =>"<p>".$newmessage));
             //$final = $stmt->fetch();   
             //var_dump($final);die;         
             return ($stmt);

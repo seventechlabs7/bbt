@@ -311,16 +311,21 @@ h1{
 			</div>
 				
 			</div> 
-				<div class="profile_body_cont" ng-if="screen == 'start'">
+				<div class="profile_body_cont" ng-if="screen == 'start'"> <button class="modal_nxt_bt" ng-click="loadRankingList()">Reload</button>
 					<div class="row">
 						<table ng-table="tableParams" class="table table-bordered table-striped table-condensed">
 							<tr ng-repeat="row in rankingList track by $index">
-								<td data-title="'Position'" filter="{Position: 'text'}" sortable="'Position'">{{$index + 1}}
-								<span ><i class="fa fa-arrow-up" aria-hidden="true"></i></span>
+								<td data-title="'Position'" filter="{Position: 'text'}" sortable="'Position'">{{row.position}} {{positionCheck(row.old_position,row.position)}}
+								<!-- <div ng-switch = "positionCheck(row.old_position,row.position)">
+									<span ng-switch-when=true><i class="fa fa-arrow-up" aria-hidden="true"></i></span>
+									<span ng-switch-when=false><i class="fa fa-arrow-down" aria-hidden="true"></i></span>
+								</div> -->
+								<span ng-if=positionCheck(row.old_position,row.position)><i class="fa fa-arrow-up" aria-hidden="true" style=" color: green;text-shadow: 1px 1px 1px #ccc;font-size: 1.5em;"></i></span>
+									<span ng-if=!positionCheck(row.old_position,row.position)><i class="fa fa-arrow-down" aria-hidden="true" style=" color: red;text-shadow: 1px 1px 1px #ccc;font-size: 1.5em;"></i></span>
 								</td>
 								<td data-title="'Name'" filter="{Name: 'text'}" sortable="'Name'">{{row.name}}</td>
 								<td data-title="'Amount'" filter="{Amount: 'text'}" sortable="'Amount'">{{row.amount}}</td>
-								<td data-title="'Chat'" filter="{Chat: 'text'}" sortable="'Chat'"> <i class="fa fa-comments" aria-hidden="true" style=" color: #00BFFF;text-shadow: 1px 1px 1px #ccc;font-size: 1.5em;"></i> </td>
+								<td data-title="'Chat'" filter="{Chat: 'text'}" sortable="'Chat'"> <i ng-click="chatNow(row);" class="fa fa-comments" aria-hidden="true" style=" color: #00BFFF;text-shadow: 1px 1px 1px #ccc;font-size: 1.5em;"></i> {{row.total}} </td>
 								<td data-title="'Feedback'" filter="{Feedback: 'text'}" sortable="'Feedback'"> <i class="fa fa-comments" aria-hidden="true" style=" color: #00BFFF;text-shadow: 1px 1px 1px #ccc;font-size: 1.5em;"></i> </td>
 								<td data-title="'Delete'" filter="{Delete: 'text'}" sortable="'Delete'"> <i ng-click = "removeStudent(row.userId);" class="fa fa-times-circle" aria-hidden="true" style=" color: red;
 								text-shadow: 1px 1px 1px #ccc;

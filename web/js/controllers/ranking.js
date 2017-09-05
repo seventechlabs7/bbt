@@ -72,6 +72,11 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 			});
        }
 
+       $scope.positionCheck = function(oldPos , newPos)
+       {
+       		return (parseInt(newPos) <= parseInt(oldPos));
+       }
+
        $scope.removeStudent = function(sId)
        {
 			swal({
@@ -376,6 +381,59 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 
 				});
 		}
+
+		$scope.chatNow = function(row)
+		{
+			$http({
+				method: 'POST',
+				url: 'api/chat/get',
+				data:{tId : 815 ,uId:row.userId }
+				}).then(function(success){
+				var data = success.data.list;
+				$scope.curEncUID = success.data.encUID;
+						swal({
+							title: "Chat with "+row.name,
+							text: data.messages,
+							type: "input",
+							showCancelButton: true,
+							closeOnConfirm: false,
+							animation: "slide-from-top",
+							inputPlaceholder: "type your message here",
+							html:true,
+							showLoaderOnConfirm: true,
+						},
+						function(inputValue){
+						if (inputValue === false) 
+							return false;
+						if (inputValue === "") {
+							swal.showInputError("You need to write something!");
+							return false
+						}
+						$scope.sendMessage(815,row.userId,inputValue);
+						
+						});
+
+				$scope.changeScreen('start');			
+				},function(error){
+
+				});
+		}
+
+		$scope.sendMessage = function(uId,tId,inputValue)
+		{
+			$http({
+				method: 'POST',
+				url: 'api/chat/send',
+				data:{uId :uId ,tId:tId ,'message':$scope.curEncUID+":"+inputValue }
+				}).then(function(success){
+				var data = success.data;
+				swal("Success!", "Your message has been sent");
+						
+				},function(error){
+
+				});
+		}
+
 			
     }
     ]);

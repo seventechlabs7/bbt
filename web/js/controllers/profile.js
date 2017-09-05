@@ -365,8 +365,7 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 	    }
 
 		$scope.saveChanges = function()
-		{
-			
+		{			
 			$http({
 				method: 'POST',
 				url: 'api/teacher/update',
@@ -379,8 +378,17 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 				{
 					notify.closeAll();
 					notify({
-						message:'Your Status is Saved Successfully',
+						message:success.data.reason,
 						classes:'alert-success',
+						duration:3000
+					});
+				}
+				else
+				{
+					notify.closeAll();
+					notify({
+						message:success.data.reason,
+						classes:'alert-danger',
 						duration:3000
 					});
 				}
