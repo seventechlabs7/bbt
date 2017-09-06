@@ -1,8 +1,8 @@
 'use strict';
 
 
-angular.module('app').controller('homepage', ['$scope','$document','$rootScope','$stateParams','$http','$state','$timeout','uiGmapGoogleMapApi','$filter','Upload','notify',
-    function($scope,$document,$rootScope,$stateParams,$http,$state,$timeout,uiGmapGoogleMapApi,$filter,Upload,notify) {
+angular.module('app').controller('homepage', ['$scope','$document','$rootScope','$stateParams','$http','$state','$timeout','uiGmapGoogleMapApi','$filter','Upload','notify','UserService',
+    function($scope,$document,$rootScope,$stateParams,$http,$state,$timeout,uiGmapGoogleMapApi,$filter,Upload,notify,UserService) {
         
         $scope.profileName ="Home";
         $scope.c_next_index = 1;
@@ -467,5 +467,59 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 					});	
 			}
 		}
+		$scope.login = {};
+		$scope.loginNow = function()
+		{
+			if($scope.login.email && $scope.login.password)
+			{
+				$http({
+					method: 'POST',
+					url: 'auth/login',
+					data: $scope.login,
+				}).then(function(success){
+					if(success.data)
+					{
+						var user ={};
+						 user.access_token = success.data.token;
+		                 UserService.setCurrentUser(user);
+		                 $rootScope.$broadcast('authorized');
+		                 $state.go('app.profile', {
+					    		teacher_id: success.data.id 
+							});	
+					}
+					else
+						{
+							notify({
+							message: 'Invalid Credentials',
+							classes:'alert-danger',
+							duration:3000
+							});
+
+						}
+				},function(error){
+					
+					notify({
+							message: 'Invalid Credentials 1',
+							classes:'alert-danger',
+							duration:3000
+							});
+				});
+			}
+			else
+			{
+					notify({
+							message: 'Enter valid email and password',
+							classes:'alert-danger',
+							duration:3000
+						});
+				return ;
+			}
+		}
+
+		$scope.logout = function()
+		{
+			window.location.href = "/index";
+		}
+
     }
     ]);

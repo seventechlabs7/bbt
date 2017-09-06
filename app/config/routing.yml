@@ -1,6 +1,10 @@
 app:
     resource: '@AppBundle/Controller/'
     type: annotation
+    defaults:
+        _format: json
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
 
 home:
     path:     /index
@@ -103,4 +107,8 @@ sendmessage :
     path:     api/chat/send
     defaults: { _controller: AppBundle:Ranking:sendMessage}
     methods:  [POST] 
-
+login:
+    path:     auth/login
+    defaults: { _controller: AppBundle:Login:login}
+    methods:  [POST] 
+    

@@ -493,5 +493,6 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 			});
 		}
 
+		
     }
     ]);

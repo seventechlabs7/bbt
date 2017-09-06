@@ -68,3 +68,5 @@
 [2017-08-19 17:10:10] request.ERROR: Uncaught PHP Exception Symfony\Component\HttpKernel\Exception\NotFoundHttpException: "No route found for "GET /css/bootstrap.css.map"" at C:\xampp\htdocs\bbt\var\cache\prod\classes.php line 4173 {"exception":"[object] (Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException(code: 0): No route found for \"GET /css/bootstrap.css.map\" at C:\\xampp\\htdocs\\bbt\\var\\cache\\prod\\classes.php:4173, Symfony\\Component\\Routing\\Exception\\ResourceNotFoundException(code: 0):  at C:\\xampp\\htdocs\\bbt\\var\\cache\\prod\\appProdProjectContainerUrlMatcher.php:109)"} []
 =======
 >>>>>>> origin/master
+[2017-09-06 14:51:35] assetic.ERROR: The template "SecurityBundle:Collector:security.html.twig" contains an error: Unknown "profiler_dump" function in "SecurityBundle:Collector:security.html.twig" at line 100. [] []
+[2017-09-06 14:51:36] assetic.ERROR: The template "DoctrineBundle:Collector:db.html.twig" contains an error: Unknown "profiler_dump" function in "DoctrineBundle:Collector:db.html.twig" at line 241. [] []

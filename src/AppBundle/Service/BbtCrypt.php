@@ -21,6 +21,7 @@ class BbtCrypt
     
     // *********************************
     public static function decrypt( $cad) {
+        $app = new \stdClass();
         $app->encrypt_method = "aes128";
         $app->secret_key = "d2ae49e3b63ed418b9fc25105cd964d4";
         $app->secret_iv = "fb68e879fab1db2a2ce30dbf6f9b3743";

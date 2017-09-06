@@ -15,13 +15,13 @@
 						<div class="col-lg-2 col-md-2 col-xs-2">
 						</div>
 						<div class="col-lg-4 col-md-4 col-xs-12 bigger_p0">
-							<input type="" name="" placeholder="Email" class="form_inputtext">
+							<input type="" name="" placeholder="Email" ng-model="login.email" class="form_inputtext">
 						</div>
 						<div class="col-lg-4 col-md-4 col-xs-12 ">
-							<input type="" name="" placeholder="Password" class="form_inputtext">
+							<input type="" name="" placeholder="Password" ng-model="login.password" class="form_inputtext">
 						</div>
 						<div class="col-lg-2 col-md-2 col-xs-12 bigger_p0">
-							<button class="head_login_but gradient">Log In</button>
+							<button class="head_login_but gradient" ng-click="loginNow()">Log In</button>
 						</div>
 					</div>
 					<div class="row">

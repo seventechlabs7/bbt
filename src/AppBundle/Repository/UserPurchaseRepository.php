@@ -259,4 +259,31 @@ class UserPurchaseRepository extends EntityRepository
             //var_dump($final);die;         
             return ($stmt);
     }
+
+     public function authenticate($user)
+    {
+            $conn = $this->getEntityManager()
+                         ->getConnection();
+            $sql = '
+                   select id_admin, email ,password from users  where email = :email limit 1
+                   ';
+             $stmt = $conn->prepare($sql);
+             $stmt->execute(array('email' => $user));
+            $final = $stmt->fetch();   
+           // var_dump($final);die;         
+            return ($final);
+    }
+     public function getTeacherId($user)
+    {
+            $conn = $this->getEntityManager()
+                         ->getConnection();
+            $sql = '
+                   select id from teachers  where email = :email limit 1
+                   ';
+             $stmt = $conn->prepare($sql);
+             $stmt->execute(array('email' => $user));
+            $final = $stmt->fetch();   
+           // var_dump($final);die;         
+            return ($final);
+    }
 }
