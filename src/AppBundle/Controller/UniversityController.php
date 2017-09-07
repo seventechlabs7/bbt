@@ -19,6 +19,7 @@ use AppBundle\Entity\BbtUser;
 use AppBundle\Service\FileUploader;
 use AppBundle\Service\MailerService;
 use AppBundle\Service\CustomCrypt;
+use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
 
 class UniversityController extends Controller
 {
@@ -470,18 +471,19 @@ class UniversityController extends Controller
 				
 				if($result1)
 				{
+					 $encoder = new MessageDigestPasswordEncoder();
+    				 $pwencoded = $encoder->encodePassword($result1['password'], '');
+					 $em2 = $this->getDoctrine()->getManager();
 
-						 $em2 = $this->getDoctrine()->getManager();
+					$RAW_QUERY1 = "
 
-						$RAW_QUERY1 = "
+					INSERT INTO `users` 
+					(`id_admin`, `activo`, `enPrueba2dias`, `chat_color`, `fecha_alta`, `fecha_max_prueba`, `fecha_nacimiento`, `nif`, 
+					`username`, `nombre`, `apellidos`, `telefono`, `email`, `password`, `roles`, `nombre_completo`, `direccion`, `localidad`, `cp`, `id_provincia`, `id_pais`, `otra_ciudad`, `bloqueado`, `causa_bloqueo`, `aceptaLOPD`, `mi_descripcion`, `mis_trabajos`, `mis_estudios`, `id_universidad`, `empresa`, `icono`, `se_registro_desde`, `fotoFB`, `fb_id`)
+					 VALUES (NULL,:active,0,'0',:datetime1,:date1,:date2,'0',:username, '0', '0', '0', :email, :password,:role, '0', '0', '0', '0', '0', 0, '0', 0,'0', 0, '0', '0', '0', 0, '0', '0', :reg_type, '0', '0');";
 
-						INSERT INTO `users` 
-						(`id_admin`, `activo`, `enPrueba2dias`, `chat_color`, `fecha_alta`, `fecha_max_prueba`, `fecha_nacimiento`, `nif`, 
-						`username`, `nombre`, `apellidos`, `telefono`, `email`, `password`, `roles`, `nombre_completo`, `direccion`, `localidad`, `cp`, `id_provincia`, `id_pais`, `otra_ciudad`, `bloqueado`, `causa_bloqueo`, `aceptaLOPD`, `mi_descripcion`, `mis_trabajos`, `mis_estudios`, `id_universidad`, `empresa`, `icono`, `se_registro_desde`, `fotoFB`, `fb_id`)
-						 VALUES (NULL,:active,0,'0',:datetime1,:date1,:date2,'0',:username, '0', '0', '0', :email, :password,:role, '0', '0', '0', '0', '0', 0, '0', 0,'0', 0, '0', '0', '0', 0, '0', '0', :reg_type, '0', '0');";
-
-						 $stmt =$em2->getConnection()->prepare($RAW_QUERY1);
-             			 $stmt->execute(array('active' => 1,'username' => $result1['username']." ".$result1['surname'],'email' => $result1['email'],'password' => $result1['password'],'role' => 'ROLE_TEACHER' ,'reg_type' => 'Reg.Normal' ,'datetime1' => date_format(date_create(null),"Y-m-d H:i:s") ,'date1' =>  date_format(date_create(null),"Y-m-d") ,'date2' => date_format(date_create(null),"Y-m-d")));
+					 $stmt =$em2->getConnection()->prepare($RAW_QUERY1);
+         			 $stmt->execute(array('active' => 1,'username' => $result1['username']." ".$result1['surname'],'email' => $result1['email'],'password' => $pwencoded,'role' => 'ROLE_TEACHER' ,'reg_type' => 'Reg.Normal' ,'datetime1' => date_format(date_create(null),"Y-m-d H:i:s") ,'date1' =>  date_format(date_create(null),"Y-m-d") ,'date2' => date_format(date_create(null),"Y-m-d")));
              			  //$stmt->fetch();
              			 
              			// return new JsonResponse($stmt);             			  
@@ -519,6 +521,8 @@ class UniversityController extends Controller
 				if($result1)
 				{
 
+					 $encoder = new MessageDigestPasswordEncoder();
+    				 $pwencoded = $encoder->encodePassword('bbt@123', '');
 						 $em2 = $this->getDoctrine()->getManager();
 
 						$RAW_QUERY1 = "
@@ -529,7 +533,7 @@ class UniversityController extends Controller
 						 VALUES (NULL,:active,0,'0',:datetime1,:date1,:date2,'0',:username, '0', '0', '0', :email, :password,:role, '0', '0', '0', '0', '0', 0, '0', 0,'0', 0, '0', '0', '0', 0, '0', '0', :reg_type, '0', '0');";
 
 						 $stmt =$em2->getConnection()->prepare($RAW_QUERY1);
-             			 $stmt->execute(array('active' => 1,'username' => "firstName"." "."lastName" ,'email' => $result1['email'],'password' => "bbtbbt",'role' => 'ROLE_STUDENT' ,'reg_type' => 'Reg.Normal' ,'datetime1' => date_format(date_create(null),"Y-m-d H:i:s") ,'date1' =>  date_format(date_create(null),"Y-m-d") ,'date2' => date_format(date_create(null),"Y-m-d")));
+             			 $stmt->execute(array('active' => 1,'username' => "firstName"." "."lastName" ,'email' => $result1['email'],'password' => $encPassStud,'role' => 'ROLE_STUDENT' ,'reg_type' => 'Reg.Normal' ,'datetime1' => date_format(date_create(null),"Y-m-d H:i:s") ,'date1' =>  date_format(date_create(null),"Y-m-d") ,'date2' => date_format(date_create(null),"Y-m-d")));
              			  //$stmt->fetch();
              			 
              			// return new JsonResponse($stmt);             			  

@@ -38,7 +38,8 @@ class LoginController extends Controller
             ->authenticate($userName);
         //return new JsonResponse($result);
         if (!$user) {
-            throw $this->createNotFoundException();
+            return new JsonResponse(array('status' => 'failure','reason' => 'Invalid User','reaponse' => 404));
+           // throw $this->createNotFoundException();
         }
  
       /*  $isValid = $this->get('security.password_encoder')
@@ -47,12 +48,13 @@ class LoginController extends Controller
         $isValid =  $encoder->isPasswordValid($user['password'], $password ,'');
        
         if (!$isValid) {
-            throw new BadCredentialsException();
+           // throw new BadCredentialsException();
+            return new JsonResponse(array('status' => 'failure','reason' => 'Invalid Credentials','reaponse' => 404));
         }
     $user1 = $em->getRepository('AppBundle:UserPurchaseHistory')
             ->getTeacherId($userName);
     $token = $this->getToken($userName);
-    $response = new Response($this->serialize(['token' => $token,'id' =>$user1['id']]), Response::HTTP_OK);
+    $response = new Response($this->serialize(['status'=>'success','token' => $token,'id' =>$user1['id']]), Response::HTTP_OK);
  
     return $this->setBaseHeaders($response);
 }

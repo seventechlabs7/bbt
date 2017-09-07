@@ -477,7 +477,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 					url: 'auth/login',
 					data: $scope.login,
 				}).then(function(success){
-					if(success.data)
+					if(success.data.status =="success")
 					{
 						var user ={};
 						 user.access_token = success.data.token;
