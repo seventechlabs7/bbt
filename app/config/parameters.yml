@@ -11,3 +11,6 @@ parameters:
     mailer_password: Zaid7@123
     secret: 48ec05b8b3c5247f643fe5665fe350704b280aef
     jwt_key_pass_phrase: secretbbt
+    avatar_dir_teachers: "C:/xampp/htdocs/Media/avatars/teachers"
+    mail_file: "D:/bbt/mail"
+    salt_key : 'bbtKey'
