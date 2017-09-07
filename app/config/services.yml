@@ -47,7 +47,7 @@ services:
     #file upload
     AppBundle\Service\FileUploader:
         arguments:
-            $targetDir: 'C:/xampp/htdocs/Media/avatars/teachers'
+            $targetDir: '%avatar_dir_teachers%'
     #custom qury service
     AppBundle\Service\CustomQuery:
     #SwitMail Service
@@ -56,7 +56,7 @@ services:
     AppBundle\Service\BbtCrypt:
     AppBundle\Service\CustomCrypt:
         arguments: 
-           $key: 'bbtKey'
+           $key: '%salt_key%'
     AppBundle\Service\Utils: 
 
     token_authenticator:

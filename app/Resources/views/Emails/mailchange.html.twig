@@ -1,3 +1,6 @@
+{# Makes an absolute URL to the /images/logo.png file #}
+<img style="width:4rem;" src="{{ absolute_url(asset('imgs/logo.png')) }}">
+
 <h3>Email Change verification</h3>
 
 Hi {{ regObject.name }} ! , we received a email change request
@@ -8,4 +11,4 @@ To verify, go to: <a href="{{ url('emailupdateteacherverify', {'verifyLink': reg
 Thanks!
 
 {# Makes an absolute URL to the /images/logo.png file #}
-<img src="{{ absolute_url(asset('images/logo.png')) }}">
+<img style="width:20%";  src="{{ absolute_url(asset('imgs/logo.png')) }}">

@@ -411,6 +411,8 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 
 		$scope.checkCurrentPassword = function()
 		{
+			if(!$scope.password.currentPassword)
+				return ;
 			$http({
 				method: 'POST',
 				url: 'api/password/current',
@@ -428,11 +430,10 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 				{
 					$scope.password.currentPassword ='';
 					notify.closeAll();
-					notify({
-						message: success.data.reason,
-						classes:'alert-danger',
-						duration:3000
-					});
+					swal("Failed!", success.data.reason, "error", {
+						  confirmButtonText: "Try Again!",
+						});
+					
 				}
 			},function(error){
 				
@@ -441,23 +442,26 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 
 		$scope.updatePassword = function()
 		{
+			if(!$scope.password.currentPassword)
+			{
+				swal("Failed!", "Please enter current password", "warning", {
+						  confirmButtonText: "Try Again!",
+						});		
+				return;
+			}
 			if($scope.password.password != $scope.password.confirm)
 			{
-				notify({
-							message:'Both passwords should match',
-							classes:'alert-danger',
-							duration:3000
-						});
+				swal("Failed!", "Password and confirm password should be same!", "error", {
+						  confirmButtonText: "Try Again!",
+						});			
 						return;		
 			}
 			if($scope.password.password == $scope.password.currentPassword)
 			{
 				{
-					notify({
-							message: 'New password should not be same as current password',
-							classes:'alert-danger',
-							duration:3000
-						});
+					swal("Failed!", "New password should not be same as current password!", "error", {
+						  confirmButtonText: "Try Again!",
+						});					
 						return;		
 				}
 			}
@@ -473,24 +477,44 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 				if(success.data.status == 'success')
 				{
 					notify.closeAll();
-					notify({
-						message:success.data.reason,
-						classes:'alert-success',
-						duration:3000
-					});
+					swal("Success!", success.data.reason, "success", {
+						  confirmButtonText: "Close",
+						});
 				}
 				else
 				{
 					notify.closeAll();
-					notify({
-						message:success.data.reason,
-						classes:'alert-danger',
-						duration:3000
-					});
+					swal("failed!", success.data.reason, "error", {
+						  confirmButtonText: "Try Again",
+						});				
+						return;	
+				
 				}
 			},function(error){
 				
 			});
+		}
+
+		$scope.changeNav = function(page)
+		{
+			if(page == 'ranking')
+			{
+				$state.go('app.ranking', {
+					    teacher_id: $scope.teacher.id 
+					});	
+			}
+			if(page == 'profile')
+			{
+				$state.go('app.profile', {
+					    teacher_id: $scope.teacher.id 
+					});	
+			}
+
+		}
+
+		$scope.logout = function()
+		{
+			window.location.href = "/index";
 		}
 
 		

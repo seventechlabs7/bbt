@@ -33,12 +33,25 @@ class LoginController extends Controller
             ->getRepository('AppBundle:User')
             ->findOneBy(['email' => $userName]);*/
 
-    $em = $this->getDoctrine()->getManager();
+          $em = $this->getDoctrine()->getManager();
             $user = $em->getRepository('AppBundle:UserPurchaseHistory')
             ->authenticate($userName);
         //return new JsonResponse($result);
         if (!$user) {
-            return new JsonResponse(array('status' => 'failure','reason' => 'Invalid User','reaponse' => 404));
+             $teacherFind = $em->getRepository('AppBundle:Teacher')->findOneByEmail($userName);
+             if($teacherFind)
+             {
+                return new JsonResponse(array('status' => 'failure','reason' => 'Inactive account . Plesae activate link shared to your registered email id','response' => 200));
+             }
+             else
+             {
+                 $studentfind = $em->getRepository('AppBundle:GroupEmail')->findOneByEmail($userName);
+                  if($studentfind)
+                 {
+                    return new JsonResponse(array('status' => 'failure','reason' => 'Inactive account . Plesae activate link shared to your registered email id','response' => 200));
+                 }
+             }
+            return new JsonResponse(array('status' => 'failure','reason' => 'Invalid User','response' => 200));
            // throw $this->createNotFoundException();
         }
  
@@ -49,7 +62,7 @@ class LoginController extends Controller
        
         if (!$isValid) {
            // throw new BadCredentialsException();
-            return new JsonResponse(array('status' => 'failure','reason' => 'Invalid Credentials','reaponse' => 404));
+            return new JsonResponse(array('status' => 'failure','reason' => 'Invalid Credentials','response' => 404));
         }
     $user1 = $em->getRepository('AppBundle:UserPurchaseHistory')
             ->getTeacherId($userName);

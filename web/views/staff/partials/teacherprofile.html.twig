@@ -216,16 +216,16 @@ ul.unedit_ul {
 					<div class="left_bar_buttons">
 						<ul class="bar_but_ul"> 
 							<li>
-								<button class="left_bar_but selected">Profile</button>
+								<button class="left_bar_but selected" ng-click="changeNav('profile')">Profile</button>
 							</li>
 							<li>
 								<button class="left_bar_but" ng-click="changeNav('ranking')">Ranking</button>
 							</li>
 							<li>
-								<button class="left_bar_but">Feedback</button>
+								<button class="left_bar_but" ng-click="changeNav('feedback')">Feedback</button>
 							</li>
 							<li>
-								<button class="left_bar_but" ng-click="logout()">Logout</button>
+								<button class="left_bar_but" ng-click="logout()" >Logout</button>
 							</li>
 						</ul>
 					</div>
@@ -540,7 +540,7 @@ ul.unedit_ul {
 														<li> 
 															<label class="check_label">   
 																<input type="checkbox" ng-checked="teacher.feedback[3] == 4" ng-true-value="4" ng-false-vlaue="0" ng-model="teacher.feedback[3]">
-																<span class="check_text">Average Profability per person</span>
+																<span class="check_text">Average profitability per person</span>
 															</label>
 														</li>
 													</ul>

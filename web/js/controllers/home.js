@@ -264,7 +264,8 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 
 
 		$scope.teacher_signup = function()
-		{						
+		{				
+			$scope.login ={};		
 				console.log($scope.teacher)
 				$http({
 					method: 'POST',
@@ -274,17 +275,20 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 					console.log(success)
 					if(success.data.status == 'success')
 					{
-						$scope.teacher.id = success.data.teacher_id;
-						$scope.teacher_id = $scope.teacher.id;
+						/*$scope.teacher.id = success.data.teacher_id;
+						$scope.teacher_id = $scope.teacher.id;*/
+						$scope.teacher ={};
+						$scope.signup.$setPristine();
+						$scope.signup.$setUntouched();
 						notify({
 						message: success.data.reason,
 						classes:'alert-success',
-						duration:3000
+						duration:5000
 					});
 					/*$state.go('app.profile', {
 					    teacher_id: $scope.teacher_id 
 					});	*/
-					$scope.completed = true;	
+					//$scope.completed = true;	
 					$scope.signupReason = success.data.reason;		
 					}else if(success.data.status == 'failed')
 					{
@@ -466,6 +470,13 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 					    teacher_id: $scope.teacher.id 
 					});	
 			}
+			if(page == 'profile')
+			{
+				$state.go('app.profile', {
+					    teacher_id: $scope.teacher.id 
+					});	
+			}
+
 		}
 		$scope.login = {};
 		$scope.loginNow = function()
@@ -490,9 +501,9 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 					else
 						{
 							notify({
-							message: 'Invalid Credentials',
+							message: success.data.reason,
 							classes:'alert-danger',
-							duration:3000
+							duration:5000
 							});
 
 						}
@@ -501,7 +512,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 					notify({
 							message: 'Invalid Credentials 1',
 							classes:'alert-danger',
-							duration:3000
+							duration:5000
 							});
 				});
 			}
@@ -510,7 +521,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 					notify({
 							message: 'Enter valid email and password',
 							classes:'alert-danger',
-							duration:3000
+							duration:5000
 						});
 				return ;
 			}

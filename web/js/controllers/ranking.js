@@ -1,8 +1,8 @@
 'use strict';
 
 
-angular.module('app').controller('ranking', ['$scope','$document','$rootScope','$stateParams','$http','$state','$timeout','uiGmapGoogleMapApi','$filter','Upload','notify',
-    function($scope,$document,$rootScope,$stateParams,$http,$state,$timeout,uiGmapGoogleMapApi,$filter,Upload,notify) {
+angular.module('app').controller('ranking', ['$scope','$document','$rootScope','$stateParams','$http','$state','$timeout','uiGmapGoogleMapApi','$filter','Upload','notify','NgTableParams',
+    function($scope,$document,$rootScope,$stateParams,$http,$state,$timeout,uiGmapGoogleMapApi,$filter,Upload,notify,NgTableParams) {
         
        $scope.screen = "start";
        $scope.init = function(gId)
@@ -45,7 +45,9 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 					$scope.groupData.start_date = $scope.strToDate($scope.groupData.start_date);
 					$scope.groupData.end_date = $scope.strToDate($scope.groupData.end_date);
 					var deadline = new Date($scope.groupData.end_date);
-					initializeClock('clockdiv', deadline);
+					//$scope.initializeClock('clockdiv', deadline);
+					$scope.currentEndDate =$scope.groupData.end_date;
+					updateClockNg();
 					$scope.loadRankingList();
 					
 				}
@@ -66,6 +68,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				console.log("list");
 				console.log(data)
 				$scope.rankingList = data;
+				$scope.rankTable = createUsingFullOptions();
 				
 			},function(error){
 
@@ -88,7 +91,8 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				confirmButtonText: "Delete",
 				cancelButtonText: "Cancel!",
 				closeOnConfirm: false,
-				closeOnCancel: false
+				closeOnCancel: true,
+				showLoaderOnConfirm: true,
 			},
 			function(isConfirm){
 				if (isConfirm) {
@@ -124,6 +128,26 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
        }
 
        /*clock*/
+       	$scope.resetClock = function()
+       	{
+       		$scope.days = null
+			$scope.hours  = null;
+			$scope.minutes = null
+			$scope.seconds  = null;
+
+       		/*var clock = document.getElementById('clockdiv');
+			var daysSpan = clock.querySelector('.days');
+			var hoursSpan = clock.querySelector('.hours');
+			var minutesSpan = clock.querySelector('.minutes');
+			var secondsSpan = clock.querySelector('.seconds');
+
+			daysSpan.innerHTML = undefined;
+			hoursSpan.innerHTML = undefined;
+			minutesSpan.innerHTML = undefined;
+			secondsSpan.innerHTML = undefined;*/
+			//initializeClock('clockdiv','a','reset');
+       	}
+
 			function getTimeRemaining(endtime) 
 			{
 				var t = Date.parse(endtime) - Date.parse(new Date());
@@ -139,29 +163,38 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				'seconds': seconds
 				};
 			}
+				var timeinterval ;
+			$scope.initializeClock = function(id, endtime,reset) {
 
-			function initializeClock(id, endtime) {
-			var clock = document.getElementById(id);
-			var daysSpan = clock.querySelector('.days');
-			var hoursSpan = clock.querySelector('.hours');
-			var minutesSpan = clock.querySelector('.minutes');
-			var secondsSpan = clock.querySelector('.seconds');
+				var clock = document.getElementById(id);
+				/*var daysSpan = clock.querySelector('.days');
+				var hoursSpan = clock.querySelector('.hours');
+				var minutesSpan = clock.querySelector('.minutes');
+				var secondsSpan = clock.querySelector('.seconds');*/
 
-			function updateClock() {
+				
+				updateClock(endtime);
+				timeinterval = $timeout(updateClock(endtime), 1000);
+				}
+		function updateClock (endtime) {
 			var t = getTimeRemaining(endtime);
 
-			daysSpan.innerHTML = t.days;
+			/*daysSpan.innerHTML = t.days;
 			hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
 			minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
-			secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+			secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);*/
+
+			$scope.days = t.days;
+			$scope.hours  = ('0' + t.hours).slice(-2);
+			$scope.minutes = ('0' + t.minutes).slice(-2);
+			$scope.seconds  = ('0' + t.seconds).slice(-2);
 
 			if (t.total <= 0) {
+
 			clearInterval(timeinterval);
 			}
-			}
 
-			updateClock();
-			var timeinterval = setInterval(updateClock, 1000);
+			
 			}
 
 			$scope.changeScreen= function(screen)
@@ -211,7 +244,22 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 					}
 				}
 
-					Upload.upload({
+				swal({
+				title: "Upload Students",
+				text: "Are you sure you want to upload ?",
+				type: "info",
+				showCancelButton: true,
+				confirmButtonColor: "#DD6B55",
+				confirmButtonText: "Upload",
+				cancelButtonText: "Cancel!",
+				closeOnConfirm: false,
+				closeOnCancel: true,
+				showLoaderOnConfirm: true,
+			},
+			function(isConfirm){
+				if (isConfirm) {
+
+				Upload.upload({
 					method: 'POST',				
 					url: 'api/addstudents',
 					data:{
@@ -221,25 +269,26 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 					})
 					.then(function(success){
 					console.log(success)
-					if(success.data.status == 'success')
+					var data = success.data;
+				if(data.status =="success")
 					{
-						notify({
-							message: success.data.reason,
-							classes:'alert-success',
-							duration:2000
-						});
-					}	
-					else
-					{
-						notify({
-							message: 'Something Went Wrong',
-							classes:'alert-danger',
-							duration:2000
-						});
-					}			
+						swal("Uploaded!", data.reason, "success");
+						$scope.teacher.mail_list = [];
+						$scope.file = null;
+					}
+				else
+					swal("Error!", data.reason, "warning");	
+
 					},function(error){
 
 					})
+					
+				} else {
+					
+				}
+			});
+			
+				
 			}
 
 			$scope.getLeagueDetails =function()
@@ -266,11 +315,11 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 
 			$scope.editVirtualMoney = function()
 			{
-
+				if(!$scope.teacher.start_date )
+					return;
 				var from = $scope.teacher.start_date;
-
 				$scope.currentDate =  new Date();
-				var current = 	$scope.currentDate
+				var current = 	$scope.currentDate;
 				$scope.teacher.DisableStartDate = false;
 		      if(	current.getTime() > from.getTime())
 		      		{
@@ -287,12 +336,18 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 		{			
 			if($scope.teacher.start_date != undefined && $scope.teacher.start_date != null)
 				var from = $scope.teacher.start_date;
+			else
+				return;
 			if($scope.teacher.end_date != undefined && $scope.teacher.end_date != null)
 		      	var to = $scope.teacher.end_date;
+		    else
+		    	return;
+		    alert()
 		      var timeDiff = Math.abs(to.getTime() - from.getTime());
 		      var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));  
 		      if(to.getTime() < from.getTime())
 		      {
+		      	notify.closeAll();
 		      	notify({
 		      		message: 'Invalid End Date',
 		      		classes: 'alert-danger',
@@ -301,6 +356,10 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 		      	$scope.teacher.end_date = null;
 		      	return;
 		      }
+		      var deadline = new Date($scope.teacher.end_date);
+		      $scope.currentEndDate = angular.copy($scope.teacher.end_date);
+		      return;
+		      updateClockNg();
 		}
 
 		$scope.updateLeague = function()
@@ -367,6 +426,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 					classes:'alert-success',
 					duration:2000
 				});
+					$scope.changeScreen('start');
 				}
 				else
 				{
@@ -432,6 +492,67 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				},function(error){
 
 				});
+		}
+
+		/*for countdown v2 - Angular*/
+			$scope.timeTillEvent = {};
+
+			var updateClockNg = function () {
+				var d1 = new Date($scope.currentEndDate);
+					d1.setHours(24,0,0,0);
+				var d2 = new Date();
+					//d2.setHours(0,0,0,0);
+				var t1 = d1.getTime();
+				var t2 = d2.getTime();
+			$scope.seconds = (t1-t2)/1000;
+			$scope.timeTillEvent = {
+			days: parseInt($scope.seconds / 86400),
+			hours: parseInt($scope.seconds % 86400 / 3600),
+			mins: parseInt($scope.seconds % 86400 % 3600 / 60),
+			seconds: parseInt($scope.seconds % 86400 % 3600 % 60)
+			}
+			setInterval(function () {
+			$scope.$apply(updateClockNg);
+			}, 1000);
+			};
+
+			/*Ng table for rangking list*/
+
+			   function createUsingFullOptions() {
+                      var initialParams = {
+                        count: 10 // initial page size
+                      };
+                      var initialSettings = {
+                        // page size buttons (right set of buttons in demo)
+                        counts: [],
+                        // determines the pager buttons (left set of buttons in demo)
+                        paginationMaxBlocks: 10,
+                        paginationMinBlocks: 2,
+                        dataset: $scope.rankingList
+                      };
+                      return new NgTableParams(initialParams, initialSettings);
+                    }
+
+             $scope.changeNav = function(page)
+			{
+				if(page == 'ranking')
+				{
+					$state.go('app.ranking', {
+						    teacher_id: $scope.teacher.id 
+						});	
+				}
+				if(page == 'profile')
+				{
+					$state.go('app.profile', {
+						    teacher_id: $scope.teacher.id 
+						});	
+				}
+
+			}
+
+			$scope.logout = function()
+		{
+			window.location.href = "/index";
 		}
 
 			
