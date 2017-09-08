@@ -522,7 +522,7 @@ class UniversityController extends Controller
 				{
 
 					 $encoder = new MessageDigestPasswordEncoder();
-    				 $pwencoded = $encoder->encodePassword('bbt@123', '');
+    				 $encPassStud = $encoder->encodePassword('bbt@123', '');
 						 $em2 = $this->getDoctrine()->getManager();
 
 						$RAW_QUERY1 = "
