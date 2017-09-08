@@ -72,7 +72,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 			
 			var list = $scope.teacher.mail_list.split(',');
 			var emailregex = /\S+@\S+\.\S+/;
-      
+      		notify.closeAll();
 			for (var i = 0; i < list.length; i++) 
 			{
 				if(list[i] == null)
@@ -377,7 +377,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				console.log(success)
 				notify({
 							message:'Avatar Uploaded Successfully',
-							classes:'alert-danger',
+							classes:'alert-success',
 							duration:3000
 						});
 				$scope.getteacherdetails();

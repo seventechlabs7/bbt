@@ -123,7 +123,7 @@ class UniversityController extends Controller
 			$mailerService->indexAction($mailObject);
 			return $this->json(array('status' => 'success','teacher_id' => $TD->getId(),'reason' => 'Teacher Saved Successfully . please verify your email','reaponse' => 200));
 		}else{
-			return $this->json(array('status' => 'failed','reason' => 'Email already Exits'));
+			return $this->json(array('status' => 'failed','reason' => 'Email already Exists'));
 		}
 	}
 
@@ -444,7 +444,7 @@ class UniversityController extends Controller
 		$uId = $request->request->get('userId');		
 		$file = $request->files->get('file');
 		$fileName = $fileUploader->upload($file,$uId);
-          return new JsonResponse($fileName);
+        return new JsonResponse($fileName);
 	}
 
 	public function verifySignupteacherAction(Request $request ,CustomCrypt $crypt,$verifyLink)
