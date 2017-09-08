@@ -30,6 +30,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 
        $scope.loadRanking = function(gId)
        {
+
 			$http({
 				method: 'POST',
 				url: 'api/ranking/load',
@@ -105,9 +106,21 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 
 				var data = success.data;
 				if(data.status =="success")
-					swal("Deleted!", data.reason, "success");
+					{
+						swal({
+						title:"Deleted!", 
+						text:data.reason,
+						type:"success",
+						closeOnConfirm:true,});
+					}
 				else
-					swal("Error!", data.reason, "warning");
+				{
+					swal({
+						title:"Error!", 
+						text:data.reason,
+						type:"warning",
+						closeOnConfirm:true,});
+				}
 				$scope.loadRankingList();
 			},function(error){
 				swal("Error!", "Something Went Wrong", "error");
@@ -220,7 +233,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				$scope.teacher.id = $stateParams.teacher_id;		
 				var list = $scope.teacher.mail_list.split(',');
 				var emailregex = /\S+@\S+\.\S+/;
-	      
+	      		notify.closeAll();
 				for (var i = 0; i < list.length; i++) 
 				{
 					if(list[i] == null)
@@ -308,6 +321,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				$scope.teacher.virtual_money = data.virtual_money;
 				$scope.teacher.assets =[]; //data.assets.split(',');
 				$scope.oldObj = angular.copy($scope.teacher);
+				$scope.unsaved =true;
 				},function(error){
 
 				});
@@ -342,7 +356,6 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 		      	var to = $scope.teacher.end_date;
 		    else
 		    	return;
-		    alert()
 		      var timeDiff = Math.abs(to.getTime() - from.getTime());
 		      var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));  
 		      if(to.getTime() < from.getTime())
@@ -364,9 +377,10 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 
 		$scope.updateLeague = function()
 		{
-
+			notify.closeAll();
 			if($scope.teacher.start_date == undefined || $scope.teacher.start_date == null)
-			{				
+			{		
+
 				notify({
 					message:'Fill Start Date',
 					classes:'alert-danger',
@@ -419,6 +433,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				data:{uId : $scope.teacher.id ,data:$scope.teacher }
 				}).then(function(success){
 				var data = success.data;
+				notify.closeAll();
 				if(data.status =="success")
 				{
 					notify({
@@ -535,7 +550,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 
              $scope.changeNav = function(page)
 			{
-				if(!angular.equals($scope.oldObj, $scope.teacher))
+				if(!angular.equals($scope.oldObj, $scope.teacher) && $scope.unsaved)
 				{
 						swal({
 				title: "unsaved Data",

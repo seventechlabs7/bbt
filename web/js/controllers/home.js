@@ -141,7 +141,9 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				});
 				return;
 			}
-			if($scope.teacher.feedback == undefined || $scope.teacher.feedback == null)
+			else
+				$scope.teacher.virtual_money = parseFloat($scope.teacher.virtual_money);
+			if($scope.teacher.feedback)
 			{				
 				notify({
 					message:'Select Feedback',
@@ -182,6 +184,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 
 		$scope.checkTime = function(index)
 		{			
+			notify.closeAll();
 			$scope.pastDateCheck();
 			if($scope.teacher.start_date != undefined && $scope.teacher.start_date != null)
 				var from = $scope.teacher.start_date;
@@ -210,27 +213,27 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				console.log(success);
 				$scope.teacher = success.data.data;
 				console.log($scope.teacher);
-				for(var i in $scope.teacher){
-					console.log($scope.teacher[i]);
-					$scope.teacherdetail.name = $scope.teacher[i].name;
-					$scope.teacherdetail.surname =$scope.teacher[i].surname;
-					$scope.teacherdetail.email = $scope.teacher[i].email;
-					$scope.teacherdetail.university = $scope.teacher[i].university;
+			
+					console.log($scope.teacher);
+					$scope.teacherdetail.name = $scope.teacher.name;
+					$scope.teacherdetail.surname =$scope.teacher.surname;
+					$scope.teacherdetail.email = $scope.teacher.email;
+					$scope.teacherdetail.university = $scope.teacher.university;
 					$scope.teacherstatus ={};
-					$scope.teacherstatus.about = $scope.teacher[i].about;
-					$scope.teacherstatus.teach_place = $scope.teacher[i].teach_place;
-					$scope.teacherstatus.work = $scope.teacher[i].work;
+					$scope.teacherstatus.about = $scope.teacher.about;
+					$scope.teacherstatus.teach_place = $scope.teacher.teach_place;
+					$scope.teacherstatus.work = $scope.teacher.work;
 					$scope.profileImageUrl = success.data.profileImageUrl ;
-					$scope.profileImageUrl = success.data.profileImageUrl+"/"+$scope.teacher[i].id+".jpeg";
+					$scope.profileImageUrl = success.data.profileImageUrl+"/"+$scope.teacher.id+".jpeg";
 					if(!$scope.teacher.virtual_money)
 						$scope.teacher.virtual_money = "25000.00";
-					$scope.teacher.id = $scope.teacher[i].id;
+					$scope.teacher.id = $scope.teacher.id;
 					$timeout(function() {
 			    $scope.teacher.start_date = new Date();
 			}, 100);
-				}	
+				
 				$scope.getTimeLine();
-				if(!$scope.teacherstatus.about)			
+				if(!$scope.teacher.isGroup == 'false')			
 					$('#addStudent').modal('show');
 				$scope.shiftTab(1);
 			},function(error){
@@ -265,7 +268,8 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 
 		$scope.teacher_signup = function()
 		{				
-			$scope.login ={};		
+			$scope.login ={};
+			notify.closeAll();		
 				console.log($scope.teacher)
 				$http({
 					method: 'POST',
@@ -320,6 +324,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 	    //faiyaz
 	    $scope.pastDateCheck = function()
 	    {
+	    	notify.closeAll();
 	    	if($scope.teacher.start_date)
 	    	{
 	    		var date = new Date($scope.teacher.start_date)	    		
@@ -365,6 +370,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 
 	    $scope.uploadAvatar = function()
 	    {
+	    	notify.closeAll();
 	    	Upload.upload({
 				method: 'POST',				
 				url: 'api/avatar',
@@ -481,6 +487,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 		$scope.login = {};
 		$scope.loginNow = function()
 		{
+			notify.closeAll();
 			if($scope.login.email && $scope.login.password)
 			{
 				$http({

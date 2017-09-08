@@ -70,7 +70,7 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 		$scope.start = function()
 		{
 			$scope.teacher.id = $stateParams.teacher_id;//$scope.teacher.mail_list == undefined || 
-			
+			notify.closeAll();
 			var list = $scope.teacher.mail_list.split(',');
 			var emailregex = /\S+@\S+\.\S+/;
       
@@ -182,7 +182,8 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 		}
 
 		$scope.checkTime = function(index)
-		{			
+		{		
+		  notify.closeAll();	
 			$scope.pastDateCheck();
 			if($scope.teacher.start_date != undefined && $scope.teacher.start_date != null)
 				var from = $scope.teacher.start_date;
@@ -265,7 +266,8 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 
 
 		$scope.teacher_signup = function()
-		{						
+		{			
+		      notify.closeAll();			
 				console.log($scope.teacher)
 				$http({
 					method: 'POST',
@@ -315,6 +317,7 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 	    //faiyaz
 	    $scope.pastDateCheck = function()
 	    {
+	    	notify.closeAll();
 	    	if($scope.teacher.start_date)
 	    	{
 	    		var date = new Date($scope.teacher.start_date)	    		
@@ -342,6 +345,7 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 
 	    $scope.uploadAvatar = function()
 	    {
+	    	notify.closeAll();
 	    	Upload.upload({
 				method: 'POST',				
 				url: 'api/avatar',
@@ -354,7 +358,7 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 				console.log(success)
 				notify({
 							message:'Avatar Uploaded Successfully',
-							classes:'alert-danger',
+							classes:'alert-success',
 							duration:3000
 						});
 				$scope.getteacherdetails();
@@ -365,7 +369,8 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 	    }
 
 		$scope.saveChanges = function()
-		{			
+		{	
+			notify.closeAll();		
 			$http({
 				method: 'POST',
 				url: 'api/teacher/update',
@@ -411,6 +416,7 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 
 		$scope.checkCurrentPassword = function()
 		{
+			notify.closeAll();
 			if(!$scope.password.currentPassword)
 				return ;
 			$http({
@@ -442,6 +448,7 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 
 		$scope.updatePassword = function()
 		{
+			notify.closeAll();
 			if(!$scope.password.currentPassword)
 			{
 				swal("Failed!", "Please enter current password", "warning", {

@@ -17,6 +17,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use AppBundle\Entity\UserPurchaseHistory;
 use AppBundle\Service\MailerService;
 use AppBundle\Service\CustomCrypt;
+use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
 
 class UserOperationsController extends Controller
 {
@@ -475,7 +476,10 @@ $products = $query->setMaxResults(1)->getOneOrNullResult();
       $user = $em->getRepository('AppBundle:UserPurchaseHistory')
                   ->findEmail($TD->getEmail()); // TODO from session
 
-        if($password == $user['password'])
+         $encoder = new MessageDigestPasswordEncoder();
+         $isValid =  $encoder->isPasswordValid($user['password'], $password ,'');
+          
+        if($isValid)
         {
            return new JsonResponse(array('status' => 'success','response' => 200));
         }  

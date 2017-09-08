@@ -149,7 +149,16 @@ class UniversityController extends Controller
          ->where($qb->expr()->like('t.id', ':teacherEmail'))
             ->setParameter('teacherEmail', $teacherEmail);
         $query = $qb->getQuery();
-        $profile = $query->getResult();
+        $profile = $query->getSingleResult();
+       // return new JsonResponse($profile);
+        $em = $this->getDoctrine()->getManager();
+        $post = $em->getRepository('AppBundle:Group')->findBy(array('teacher_id' => $profile['id']));
+        if(count($post) >0)
+        {
+        	$isGroup =true;
+        }
+        else
+        	$isGroup =false;
         $profileImageUrl = $fileUploader->getTargetDir();
         $profileImageUrl =  explode("htdocs",$profileImageUrl)[1]; //$profileImageUrl.split("htdocs")[1];
         $url = 'http://'.$_SERVER['SERVER_NAME'].':'."80" ;
@@ -157,6 +166,7 @@ class UniversityController extends Controller
        	return $this->json(array('status' => 'success',
        		'data' => $profile,
        		'profileImageUrl' =>$profileImageUrl,
+       		 'isGroup' =>$isGroup,
        		'reaponse' => 200));
        
     }
