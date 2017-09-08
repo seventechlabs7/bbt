@@ -96,7 +96,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				}
 			}	
 					
-			if($scope.teacher.start_date == undefined || $scope.teacher.start_date == null)
+			if(!$scope.teacher.start_date)
 			{				
 				notify({
 					message:'Fill Start Date',
@@ -105,7 +105,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				});
 				return;
 			}
-			if($scope.teacher.end_date == undefined || $scope.teacher.end_date == null)
+			if(!$scope.teacher.end_date)
 			{				
 				notify({
 					message:'Fill End Date',
@@ -114,7 +114,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				});
 				return;
 			}
-			if($scope.teacher.assets == undefined || $scope.teacher.assets == 0)
+			if($scope.teacher.assets == undefined || $scope.teacher.assets.length == 0)
 			{				
 				notify({
 					message:'Select Assets',
@@ -123,7 +123,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				});
 				return;
 			}
-			if($scope.teacher.league_name == undefined || $scope.teacher.league_name == null)
+			if(!$scope.teacher.league_name)
 			{				
 				notify({
 					message:'Enter League Name',
@@ -132,7 +132,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				});
 				return;
 			}
-			if($scope.teacher.virtual_money == undefined || $scope.teacher.virtual_money == null)
+			if(!$scope.teacher.virtual_money)
 			{				
 				notify({
 					message:'Enter Virtual Money',
