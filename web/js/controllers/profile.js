@@ -500,13 +500,13 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 			if(page == 'ranking')
 			{
 				$state.go('app.ranking', {
-					    teacher_id: $scope.teacher.id 
+					    teacher_id: $stateParams.teacher_id
 					});	
 			}
 			if(page == 'profile')
 			{
 				$state.go('app.profile', {
-					    teacher_id: $scope.teacher.id 
+					    teacher_id: $stateParams.teacher_id
 					});	
 			}
 

@@ -306,8 +306,8 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				$scope.teacher.start_date = new Date(data.start_date);
 				$scope.teacher.end_date = new Date(data.end_date);
 				$scope.teacher.virtual_money = data.virtual_money;
-				$scope.teacher.assets = data.assets.split(',');
-
+				$scope.teacher.assets =[]; //data.assets.split(',');
+				$scope.oldObj = angular.copy($scope.teacher);
 				},function(error){
 
 				});
@@ -320,7 +320,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				var from = $scope.teacher.start_date;
 				$scope.currentDate =  new Date();
 				var current = 	$scope.currentDate;
-				$scope.teacher.DisableStartDate = false;
+				$scope.DisableStartDate = false;
 		      if(	current.getTime() > from.getTime())
 		      		{
 		      			$scope.DisableStartDate = true;
@@ -535,18 +535,47 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 
              $scope.changeNav = function(page)
 			{
+				if(!angular.equals($scope.oldObj, $scope.teacher))
+				{
+						swal({
+				title: "unsaved Data",
+				text: "Are you sure you want to leave page ?",
+				type: "warning",
+				showCancelButton: true,
+				confirmButtonColor: "#DD6B55",
+				confirmButtonText: "Yes",
+				cancelButtonText: "Cancel!",
+				closeOnConfirm: true,
+				closeOnCancel: true,
+			},
+			function(isConfirm){
+				if (isConfirm) {
+						$state.go('app.profile', {
+						    teacher_id: $stateParams.teacher_id
+						});	
+				
+					
+				} else {
+					return;
+				}
+			});
+					return;
+				}
+				else
+				{
 				if(page == 'ranking')
 				{
 					$state.go('app.ranking', {
-						    teacher_id: $scope.teacher.id 
+						    teacher_id: $stateParams.teacher_id 
 						});	
 				}
 				if(page == 'profile')
 				{
 					$state.go('app.profile', {
-						    teacher_id: $scope.teacher.id 
+						    teacher_id: $stateParams.teacher_id
 						});	
 				}
+			}
 
 			}
 
