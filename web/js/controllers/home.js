@@ -232,7 +232,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 					$timeout(function() {
 			    $scope.teacher.start_date = new Date();
 			}, 100);
-					alert($scope.teacher.isGroup)
+					//alert($scope.teacher.isGroup)
 				if(!$scope.teacher.isGroup)			
 					$('#addStudent').modal('show');
 				$scope.getTimeLine();
