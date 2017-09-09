@@ -343,6 +343,11 @@ class UniversityController extends Controller
     {
     	$em = $this->getDoctrine()->getManager();
 		$teacher = $request->request->get('teacher');
+		$isEmailChanged = isset($teacher['oldemail']);
+		if($isEmailChanged)
+			$emailold = $teacher['oldemail'];
+		else
+			$emailold = null;
     		$TD = $em->getRepository('AppBundle:Teacher')->find($teacher['id']);
     		$mailFlag =false;
     		if($teacher['email'] != $TD->getEmail())
@@ -370,18 +375,8 @@ class UniversityController extends Controller
 		    $em->flush();
 			if(!isset($teacher['password']))
 				$password=	$TD->getPassword();
-		  /*  $conn = $this->getEntityManager()
-            ->getConnection();*/
-            $sql = '
-            UPDATE users set username = :username , email = :email1 , password =:password where email = :email2 
-            ';
-            $statement3 = $em->getConnection()->prepare($sql);
-				// Set parameters 
-			
-             $statement3->execute(array('username' => $teacher['name'].".".$teacher['surname'],
-             	'email1' =>$teacher['email'],
-             	'password' =>	$password ,
-             	'email2' => $teacher['oldemail']));
+		 
+          
 
              if($mailFlag)
              	$this->mailUpdateLink($oldemail,$teacher['email'],$crypt, $mailerService);

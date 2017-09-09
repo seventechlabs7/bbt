@@ -469,6 +469,7 @@ $products = $query->setMaxResults(1)->getOneOrNullResult();
     $tId = $requestData['tId'];
     $em = $this->getDoctrine()->getManager();
     $TD =  $em->getRepository('AppBundle:Teacher')->find($tId);
+
     if($TD)
     {
       $em = $this->getDoctrine()->getManager();
@@ -477,6 +478,7 @@ $products = $query->setMaxResults(1)->getOneOrNullResult();
                   ->findEmail($TD->getEmail()); // TODO from session
 
          $encoder = new MessageDigestPasswordEncoder();
+         //return new JsonResponse($user);
          $isValid =  $encoder->isPasswordValid($user['password'], $password ,'');
           
         if($isValid)
@@ -495,6 +497,7 @@ $products = $query->setMaxResults(1)->getOneOrNullResult();
   {
     $requestData  =  $request->request->all();
     $password = $requestData['password'];
+    $currentPassword = $password['currentPassword'];
     $tId = $requestData['tId'];
     $em = $this->getDoctrine()->getManager();
     $TD =  $em->getRepository('AppBundle:Teacher')->find($tId);
@@ -505,13 +508,17 @@ $products = $query->setMaxResults(1)->getOneOrNullResult();
       $user = $em->getRepository('AppBundle:UserPurchaseHistory')
                   ->findEmail($TD->getEmail()); // TODO from session
 
-
-        if($password['currentPassword'] == $user['password'])
+     $encoder = new MessageDigestPasswordEncoder();
+         //return new JsonResponse($password);
+         $curEncPassword =   $encoder->encodePassword($password['currentPassword'], '');
+         $encPassword =   $encoder->encodePassword($password['password'], '');
+         //return new JsonResponse($encodePassword."---------".$user['password']);
+        if($curEncPassword == $user['password'])
         {
             if($password['password'] != $user['password'])
             {
                  $passwordupdate = $em->getRepository('AppBundle:UserPurchaseHistory')
-                  ->updatePassword($TD->getEmail(),$password['password']); 
+                  ->updatePassword($TD->getEmail(),$encPassword); 
             }
             else
             {

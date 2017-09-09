@@ -143,7 +143,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 			}
 			else
 				$scope.teacher.virtual_money = parseFloat($scope.teacher.virtual_money);
-			if($scope.teacher.feedback)
+			if(!$scope.teacher.feedback)
 			{				
 				notify({
 					message:'Select Feedback',
@@ -212,6 +212,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 			}).then(function(success){
 				console.log(success);
 				$scope.teacher = success.data.data;
+				$scope.teacher.isGroup = success.data.isGroup;
 				console.log($scope.teacher);
 			
 					console.log($scope.teacher);
@@ -231,6 +232,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 					$timeout(function() {
 			    $scope.teacher.start_date = new Date();
 			}, 100);
+					alert($scope.teacher.isGroup)
 				if(!$scope.teacher.isGroup)			
 					$('#addStudent').modal('show');
 				$scope.getTimeLine();
@@ -397,7 +399,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 							classes:'alert-success',
 							duration:3000
 						});
-				$scope.imageSelected =false
+				$scope.imageSelected =false;
 				$scope.getteacherdetails();
 						return;					
 			},function(error){

@@ -20,7 +20,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				$scope.teacher = success.data.data;
 				console.log($scope.teacher);
 				for(var i in $scope.teacher){					
-					$scope.teacher.id = $scope.teacher[i].id;			
+					$scope.teacher.id = $scope.teacher.id;			
 				}				
 				$scope.loadRanking();
 			},function(error){
@@ -63,7 +63,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
        	$http({
 				method: 'POST',
 				url: 'api/ranking/list',
-				data:{uId : $scope.teacher.id }
+				data:{uId :  $stateParams.teacher_id }
 			}).then(function(success){
 				var data = success.data;
 				console.log("list");

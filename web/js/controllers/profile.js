@@ -212,27 +212,27 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 				console.log(success);
 				$scope.teacher = success.data.data;
 				console.log($scope.teacher);
-				for(var i in $scope.teacher){
+				
 						$scope.teacherstatus ={};
-					console.log($scope.teacher[i]);
-					$scope.teacherstatus.name = $scope.teacher[i].name;
-					$scope.teacherstatus.surname =$scope.teacher[i].surname;
-					$scope.teacherstatus.email = $scope.teacher[i].email;
-					$scope.teacherstatus.oldemail = angular.copy( $scope.teacher[i].email);
-					$scope.teacherstatus.university = $scope.teacher[i].university;
-					$scope.teacherstatus.about = $scope.teacher[i].about;
-					$scope.teacherstatus.teach_place = $scope.teacher[i].teach_place;
-					$scope.teacherstatus.work = $scope.teacher[i].work;
-					$scope.teacherstatus.id =	$scope.teacher[i].id;
+					console.log($scope.teacher);
+					$scope.teacherstatus.name = $scope.teacher.name;
+					$scope.teacherstatus.surname =$scope.teacher.surname;
+					$scope.teacherstatus.email = $scope.teacher.email;
+					$scope.teacherstatus.oldemail = angular.copy( $scope.teacher.email);
+					$scope.teacherstatus.university = $scope.teacher.university;
+					$scope.teacherstatus.about = $scope.teacher.about;
+					$scope.teacherstatus.teach_place = $scope.teacher.teach_place;
+					$scope.teacherstatus.work = $scope.teacher.work;
+					$scope.teacherstatus.id =	$scope.teacher.id;
 					$scope.profileImageUrl = success.data.profileImageUrl ;
-					$scope.profileImageUrl = success.data.profileImageUrl+"/"+$scope.teacher[i].id+".jpeg";
+					$scope.profileImageUrl = success.data.profileImageUrl+"/"+$scope.teacher.id+".jpeg";
 					if(!$scope.teacher.virtual_money)
 						$scope.teacher.virtual_money = "25.00";
-					$scope.teacher.id = $scope.teacher[i].id;
+					$scope.teacher.id = $scope.teacher.id;
 					$timeout(function() {
 			    $scope.teacher.start_date = new Date();
 			}, 200);
-				}				
+							
 				//$('#addStudent').modal('show');
 				$scope.shiftTab(1);
 			},function(error){
@@ -341,6 +341,8 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 
 	    {
 	    	$scope.avatarFile = avatar;
+	    	if(avatar)
+	    		$scope.imageSelected = true;
 	    }
 
 	    $scope.uploadAvatar = function()
@@ -361,6 +363,7 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 							classes:'alert-success',
 							duration:3000
 						});
+				$scope.imageSelected =false;
 				$scope.getteacherdetails();
 						return;					
 			},function(error){
@@ -370,6 +373,7 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 
 		$scope.saveChanges = function()
 		{	
+			$scope.teacherstatus.id = $stateParams.teacher_id;
 			notify.closeAll();		
 			$http({
 				method: 'POST',
