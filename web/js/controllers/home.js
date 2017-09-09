@@ -366,11 +366,22 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 
 	    {
 	    	$scope.avatarFile = avatar;
+	    	if(avatar)
+	    		$scope.imageSelected = true;
 	    }
 
 	    $scope.uploadAvatar = function()
 	    {
 	    	notify.closeAll();
+	    	if(!$scope.avatarFile)
+	    	{
+	    		notify({
+							message:'Please select image',
+							classes:'alert-warning',
+							duration:3000
+						});
+	    		return;
+	    	}
 	    	Upload.upload({
 				method: 'POST',				
 				url: 'api/avatar',
@@ -386,6 +397,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 							classes:'alert-success',
 							duration:3000
 						});
+				$scope.imageSelected =false
 				$scope.getteacherdetails();
 						return;					
 			},function(error){

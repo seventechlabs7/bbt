@@ -238,8 +238,9 @@ ul.unedit_ul {
 					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
 						<div class="pro_pic_upd_cont">
 							<div class="pro_pic_cont">
-							<input type="file" class="upload_text" placeholder="Avatar"  name="avatar_file" ngf-select="selectAvatar(teacher.avatarFile)" ng-model="teacher.avatarFile"/>
-								<img src="{{profileImageUrl}}" class="pro_pic_upd_img">
+							<input type="file" class="upload_text" placeholder="Avatar" accept="image/jpg,image/jpeg,image/png"  name="avatar_file" ngf-select="selectAvatar(teacher.avatarFile)" ng-model="teacher.avatarFile"/>
+								<img  ng-if="imageSelected" ngf-src="teacher.avatarFile" class="pro_pic_upd_img">
+								<img ng-if="!imageSelected" src="{{profileImageUrl}}" class="pro_pic_upd_img">
 							</div>							
 							<button class="upload_pic_but" ng-click="uploadAvatar()">
 								Upload Photo
