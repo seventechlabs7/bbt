@@ -231,10 +231,10 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 					$timeout(function() {
 			    $scope.teacher.start_date = new Date();
 			}, 100);
-				
-				$scope.getTimeLine();
-				if(!$scope.teacher.isGroup == 'false')			
+				if(!$scope.teacher.isGroup)			
 					$('#addStudent').modal('show');
+				$scope.getTimeLine();
+				
 				$scope.shiftTab(1);
 			},function(error){
 				
