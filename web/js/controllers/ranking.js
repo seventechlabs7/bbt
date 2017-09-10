@@ -47,7 +47,8 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 					$scope.groupData.end_date = $scope.strToDate($scope.groupData.end_date);
 					var deadline = new Date($scope.groupData.end_date);
 					//$scope.initializeClock('clockdiv', deadline);
-					$scope.currentEndDate =$scope.groupData.end_date;
+					$scope.currentEndDate = angular.copy($scope.groupData.end_date);
+					$scope.stopcountdown = false;
 					updateClockNg();
 					$scope.loadRankingList();
 					
@@ -346,16 +347,23 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 		      		}
 			}
 
+			$scope.stopcountdownFun = function(index)
+			{
+
+				$scope.stopcountdown = true;
+				$scope.checkTime(index);
+			}
 			$scope.checkTime = function(index)
-		{			
-			if($scope.teacher.start_date != undefined && $scope.teacher.start_date != null)
+		{	
+					
+	
+			alert($scope.stopcountdown)
+			if($scope.teacher.start_date && $scope.teacher.end_date)
+			{
 				var from = $scope.teacher.start_date;
-			else
-				return;
-			if($scope.teacher.end_date != undefined && $scope.teacher.end_date != null)
-		      	var to = $scope.teacher.end_date;
-		    else
-		    	return;
+				var to = $scope.teacher.end_date;
+			}
+			
 		      var timeDiff = Math.abs(to.getTime() - from.getTime());
 		      var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));  
 		      if(to.getTime() < from.getTime())
@@ -369,10 +377,17 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 		      	$scope.teacher.end_date = null;
 		      	return;
 		      }
-		      var deadline = new Date($scope.teacher.end_date);
+		     // var deadline = new Date($scope.teacher.end_date);
 		      $scope.currentEndDate = angular.copy($scope.teacher.end_date);
-		      return;
-		      updateClockNg();
+		      //return;
+		      $scope.stopcountdown =false;
+		      
+				
+
+/*		      $timeout(function()
+		      	{
+		      		 
+		      	},2000);*/
 		}
 
 		$scope.updateLeague = function()
@@ -512,24 +527,29 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 		/*for countdown v2 - Angular*/
 			$scope.timeTillEvent = {};
 
-			var updateClockNg = function () {
-				var d1 = new Date($scope.currentEndDate);
-					d1.setHours(24,0,0,0);
+			var updateClockNg = function ()
+			 {
+			 	if($scope.stopcountdown)
+			 		return;
+			 	$scope.timeTillEvent = {};
+				var e = angular.copy($scope.currentEndDate);
+				var d1 = new Date(e);
+				d1.setHours(24,0,0,0);
 				var d2 = new Date();
-					//d2.setHours(0,0,0,0);
+				//d2.setHours(0,0,0,0);
 				var t1 = d1.getTime();
 				var t2 = d2.getTime();
-			$scope.seconds = (t1-t2)/1000;
-			$scope.timeTillEvent = {
-			days: parseInt($scope.seconds / 86400),
-			hours: parseInt($scope.seconds % 86400 / 3600),
-			mins: parseInt($scope.seconds % 86400 % 3600 / 60),
-			seconds: parseInt($scope.seconds % 86400 % 3600 % 60)
+				$scope.seconds = (t1-t2)/1000;
+				$scope.timeTillEvent = {
+				days: parseInt($scope.seconds / 86400),
+				hours: parseInt($scope.seconds % 86400 / 3600),
+				mins: parseInt($scope.seconds % 86400 % 3600 / 60),
+				seconds: parseInt($scope.seconds % 86400 % 3600 % 60)
+				}
+				setInterval(function () {
+				$scope.$apply(updateClockNg);
+				}, 60000);
 			}
-			setInterval(function () {
-			$scope.$apply(updateClockNg);
-			}, 1000);
-			};
 
 			/*Ng table for rangking list*/
 

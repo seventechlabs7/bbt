@@ -348,6 +348,17 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 	    $scope.uploadAvatar = function()
 	    {
 	    	notify.closeAll();
+
+	    		if(!$scope.avatarFile)
+	    	{
+	    		notify({
+							message:'Please select image',
+							classes:'alert-warning',
+							duration:3000
+						});
+	    		 return;
+	    	}
+
 	    	Upload.upload({
 				method: 'POST',				
 				url: 'api/avatar',
@@ -391,6 +402,12 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 						classes:'alert-success',
 						duration:3000
 					});
+
+					$timeout(function() {
+			  	$state.go('app.profile', {
+					    teacher_id: $stateParams.teacher_id
+					});	
+			}, 3000);
 				}
 				else
 				{

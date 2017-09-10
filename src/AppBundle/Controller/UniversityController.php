@@ -364,20 +364,19 @@ class UniversityController extends Controller
 			$TD->setName($teacher['name']);
 			$TD->setSurname($teacher['surname']);
 			
-			if(isset($teacher['password']))
+		/*	if(isset($teacher['password']))
 				{
 					$TD->setPassword($teacher['password']);		
 					$password = $teacher['password'];
-				}	
+				}	*/
 			$TD->setUniversity($teacher['university']);
+			$TD->setAbout($teacher['about']);
+			$TD->setTeachplace($teacher['teach_place']);
+			$TD->setWork($teacher['work']);
 			$TD->setCreated_by(1);
 			$em->persist($TD);
 		    $em->flush();
-			if(!isset($teacher['password']))
-				$password=	$TD->getPassword();
-		 
-          
-
+		    
              if($mailFlag)
              	$this->mailUpdateLink($oldemail,$teacher['email'],$crypt, $mailerService);
 

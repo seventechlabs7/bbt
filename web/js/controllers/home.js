@@ -501,14 +501,18 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 		$scope.login = {};
 		$scope.loginNow = function()
 		{
+			if($scope.blocked)
+				return;
 			notify.closeAll();
 			if($scope.login.email && $scope.login.password)
 			{
+				$scope.blocked = true;
 				$http({
 					method: 'POST',
 					url: 'auth/login',
 					data: $scope.login,
 				}).then(function(success){
+					$scope.blocked = false;
 					if(success.data.status =="success")
 					{
 						var user ={};
@@ -521,6 +525,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 					}
 					else
 						{
+							notify.closeAll();
 							notify({
 							message: success.data.reason,
 							classes:'alert-danger',
@@ -529,7 +534,8 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 
 						}
 				},function(error){
-					
+					$scope.blocked = false;
+					notify.closeAll();
 					notify({
 							message: 'Invalid Credentials 1',
 							classes:'alert-danger',
@@ -539,6 +545,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 			}
 			else
 			{
+				notify.closeAll();
 					notify({
 							message: 'Enter valid email and password',
 							classes:'alert-danger',

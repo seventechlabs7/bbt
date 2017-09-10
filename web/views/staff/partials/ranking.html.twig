@@ -309,10 +309,10 @@ h1{
 						<span class="minutes">{{timeTillEvent.mins}}</span>
 						<div class="smalltext">Minutes</div>
 					</div>
-					<div>
+					<!-- <div>
 						<span class="seconds">{{timeTillEvent.seconds}}</span>
 						<div class="smalltext">Seconds</div>
-					</div>
+					</div> -->
 				</div>
 			</div>
 				
@@ -429,10 +429,10 @@ h1{
 														<div class="row">
 															<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 
-																<b>Start Date : </b><input id="sDateField" type="date" class="date_form"  placeholder="Start Date" name="maillistfile" ng-model="teacher.start_date" ng-change="checkTime('start')" ng-disabled="DisableStartDate" />
+																<b>Start Date : </b><input id="sDateField" type="date" class="date_form"  placeholder="Start Date" name="maillistfile" ng-model="teacher.start_date" ng-change="stopcountdownFun('start')" ng-disabled="DisableStartDate" />
 															</div>
 															<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-																<b>End Date : </b> <input type="date"  class="date_form" name="startdate"  ng-model="teacher.end_date" ng-change="checkTime('end')"/>
+																<b>End Date : </b> <input type="date"  class="date_form" name="startdate"  ng-model="teacher.end_date" ng-change="stopcountdownFun('end')"/>
 															</div>
 														</div>
 		        									</div>       									
