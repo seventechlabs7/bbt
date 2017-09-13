@@ -295,6 +295,14 @@ h1{
 				</div>
 			</div>
 			<div class="row">
+				<ul>
+					<li>Number of students 		   : {{report.count}}</li>
+					<li>Total number of	operations : {{report.operations}}</li>
+					<li>Total Profitability        : {{report.percent}} %</li>
+					<li>Total Benefits             : {{report.benefit}}</li>
+				</ul>
+			</div>
+			<div class="row">
 				<h1>Countdown Clock   </h1>
 					<div id="clockdiv">
 					<div>
@@ -329,11 +337,14 @@ h1{
 								<span ng-if=positionCheck(row.old_position,row.position)><i class="fa fa-arrow-up" aria-hidden="true" style=" color: green;text-shadow: 1px 1px 1px #ccc;font-size: 1.5em;"></i></span>
 									<span ng-if=!positionCheck(row.old_position,row.position)><i class="fa fa-arrow-down" aria-hidden="true" style=" color: red;text-shadow: 1px 1px 1px #ccc;font-size: 1.5em;"></i></span>
 								</td>
-								<td data-title="'Name'" filter="{name: 'text'}" sortable="'name'">{{row.name}}</td>
+								<td data-title="'Name'" filter="{name: 'text'}" sortable="'name'"><a ng-click="userBasedFeedBack(row.userId);" href="javascript:void(0)"> {{row.name}} </a></td>
 								<td data-title="'Amount'" filter="{amount: 'text'}" sortable="'amount'">{{row.amount}}</td>
+								<td data-title="'Operations'" filter="{operations: 'text'}" sortable="'operations'">{{row.operations}}</td>								
+								<td data-title="'Profitability %'" filter="{benefitPercent: 'text'}" sortable="'benefitPercent'">{{row.benefitPercent}}</td>
+								<td data-title="'Benefit'" filter="{benefits: 'text'}" sortable="'benefits'">{{row.benefits}}</td>
 								<td data-title="'Actions'" > 
 									<i title="Chat" ng-click="chatNow(row);" class="fa fa-comments" aria-hidden="true" style=" color: #00BFFF;text-shadow: 1px 1px 1px #ccc;font-size: 1.5em;"></i> ({{row.total}}) 
-									<i title="Feedback" class="fa fa-comments" aria-hidden="true" style=" color: #00BFFF;text-shadow: 1px 1px 1px #ccc;font-size: 1.5em;"></i>
+									
 									<i title="Delete User" ng-click = "removeStudent(row.userId);" class="fa fa-times-circle" aria-hidden="true" style=" color: red;
 								text-shadow: 1px 1px 1px #ccc;
 								font-size: 1.5em;"></i>

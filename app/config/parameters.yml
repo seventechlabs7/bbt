@@ -5,10 +5,11 @@ parameters:
     database_name: bigbangt_aemin
     database_user: root
     database_password: null
-    mailer_transport: gmail
-    mailer_host: smtp.gmail.com
-    mailer_user: mail25yaz@gmail.com
-    mailer_password: Zaid7@123
+    mailer_transport: smtp
+    mailer_host:  smtp.bigbangtrading.com
+    mailer_port: 587
+    mailer_user: profesores@bigbangtrading.com
+    mailer_password: optisol-7
     secret: 48ec05b8b3c5247f643fe5665fe350704b280aef
     jwt_key_pass_phrase: secretbbt
     avatar_dir_teachers: "C:/xampp/htdocs/Media/avatars/teachers"

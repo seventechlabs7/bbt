@@ -79,8 +79,6 @@ class RankingController extends Controller
   {
      $ranking = $request->request->all();
 
-
-
      //find all groups by teacher id
       $teacherId = $ranking['uId'];
 
@@ -95,27 +93,68 @@ class RankingController extends Controller
         //fetch group details 
       $flag = false;
       if(isset($ranking['gId']))
-       {
-          $flag = true;
-          $groupId = $ranking['gId'] ;
-       }
-        if(!$flag && count($groups) >0 )
-        {
-            $groupId = $groups[0]['id'] ;
-        }
+      {
+        $flag = true;
+        $groupId = $ranking['gId'] ;
+      }
+      if(!$flag && count($groups) >0 )
+      {
+        $groupId = $groups[0]['id'] ;
+      }
 
-
-
-     $qb = $repository->createQueryBuilder('g');
+       $qb = $repository->createQueryBuilder('g');
       $qb->select('g.id','g.group_name','g.start_date,g.end_date')
       ->where($qb->expr()->like('g.id', ':groupId'))
       ->setParameter('groupId', $groupId);
       $query1 = $qb->getQuery();
       $group = $query1->getResult();
-      //$groups = $query->getResult();
-         // $groupData = $query1->setMaxResults(1)->getOneOrNullResult();
-      //return new JsonResponse($query1);
-     return new JsonResponse(array('status' => 'success','groups'=>$group,'groupData' => $group,'reason' => 'page loaded','reaponse' => 200));
+
+
+
+     return new JsonResponse(array('status' => 'success','groups'=>$groups,'groupData'=>$group,'reason' => 'data loaded','reaponse' => 200));
+  }
+
+  public function dashBoardAction(Request $request)
+  {
+     $ranking = $request->request->all();
+
+      $teacherId = $ranking['uId'];
+     $report = new \stdClass();
+
+     $em = $this->getDoctrine()->getManager();
+     $count  = $em->getRepository('AppBundle:UserPurchaseHistory')
+                ->totalUsers($teacherId);
+
+     $em = $this->getDoctrine()->getManager();
+     $dashboard  = $em->getRepository('AppBundle:UserPurchaseHistory')
+                ->dashBoard($teacherId);
+
+
+     $report->count      = $count['totalUsers'];
+     $report->operations = $dashboard['operations'];
+     $report->percentage = $dashboard['percentage'];
+     $report->benefits   = $dashboard['benefits'];
+
+      return new JsonResponse(array('status' => 'success','report'=>$report,'reason' => 'data loaded','reaponse' => 200));
+  }
+
+   public function studentDataAction(Request $request)
+  {
+     $ranking = $request->request->all();
+
+     $teacherId = $ranking['uId'];
+     $studentId = $ranking['sId'];
+     $groupId = $ranking['gId'];
+
+     $report = new \stdClass();
+
+     $em = $this->getDoctrine()->getManager();
+     $op  = $em->getRepository('AppBundle:UserPurchaseHistory')
+                ->operationsOfStudent($teacherId,$studentId,$groupId);
+
+     
+
+      return new JsonResponse(array('status' => 'success','operations'=>$op,'reason' => 'data loaded','reaponse' => 200));
   }
 
     public function rankingListAction(Request $request)

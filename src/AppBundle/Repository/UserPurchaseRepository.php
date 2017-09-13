@@ -126,12 +126,17 @@ class UserPurchaseRepository extends EntityRepository
                   and g.id = ge.group_id and g.teacher_id = :tid and user.email = ge.email group by user.id_admin 
                 ';*/
             $sql1 = '
-            SELECT pos.patrimonio_total as amount ,pos.posicion as position , pos.posicion_ant as old_position,
-            user.username as name,user.id_admin as userId ,
-            IFNull(chat.total, 0) as total 
-            from hist_teacher_league_ranking as pos, users as user left join chats_sin_leer as chat on chat.id_user =:idUser and chat.id_user_send = user.id_admin
-            where pos.id_user = user.id_admin group by pos.id_user order by pos.posicion_ant ASC
-            ';
+                        SELECT amounttable.patrimonio as amount ,
+                        pos.patrimonio_total as newamount , pos.posicion as position ,pos.posicion_ant as old_position,
+                        pos.beneficio_total as benefits ,  
+                        user.username as name,user.id_admin as userId , count(op.id_user) as operations ,
+                        IFNull(chat.total, 0) as total 
+                        from hist_teacher_league_ranking as pos, users as user 
+                        left join chats_sin_leer as chat on chat.id_user =:idUser and chat.id_user_send = user.id_admin
+                        left join hist_user_operaciones as op   on  op.id_user = user.id_admin
+                        left join hist_patrimonio as amounttable on amounttable.id_user = user.id_admin
+                        where pos.id_user = user.id_admin group by pos.id_user order by pos.posicion ASC
+                    ';
 
                 $conn = $this->getEntityManager()
                 ->getConnection();
@@ -285,5 +290,73 @@ class UserPurchaseRepository extends EntityRepository
             $final = $stmt->fetch();   
            // var_dump($final);die;         
             return ($final);
+    }
+
+     public function totalUsers($user)
+    {
+            $conn = $this->getEntityManager()
+                         ->getConnection();
+            $sql = '
+                   SELECT count(user.id_admin) as totalUsers  FROM  users as user  , group_emails as ge , groups as g
+
+             WHERE 
+             g.id = ge.group_id and g.teacher_id = :tid and user.email = ge.email 
+            
+                    ';
+             $stmt = $conn->prepare($sql);
+             $stmt->execute(array('tid' => $user));
+            $final = $stmt->fetch();   
+           // var_dump($final);die;         
+            return ($final);
+    }
+
+        public function dashBoard($tid)
+    {
+            $sql1 = 
+                '
+                    SELECT 
+                    sum(pos.beneficio_total) as benefits ,  
+                    ((pos.patrimonio_total -25000.00)/25000 ) * 100 as percentage
+                    , count(op.id) as operations 
+                   
+                    from hist_teacher_league_ranking as pos, users as user 
+                   
+                    left join hist_user_operaciones as op   on  op.id_user = user.id_admin
+                    
+                    where pos.id_user = user.id_admin 
+                ';
+
+                $conn = $this->getEntityManager()
+                ->getConnection();
+                $sql = $sql1;
+                $stmt = $conn->prepare($sql);
+                $stmt->execute(array('idUser' => $tid ));
+                $final = $stmt->fetch();   
+               // var_dump($final);die;         
+                return ($final);
+
+    }
+
+      public function operationsOfStudent($tid,$sid,$gid)
+    {
+            $sql1 = 
+                '
+                    SELECT  com.nom_empresa as asset ,
+                    op.fecha_compra  as pruchaseDate ,op.prec_compra as pruchaseprice ,op.volumen_compra as purchaseShare,
+                    op.prec_venta as salePrice ,op.fecha_venta as saleDate ,op.volumen_operacion as saleShare
+                    from hist_user_operaciones as op  ,empresas as com 
+                    where
+                     com.id = op.id_empresa 
+                ';
+
+                $conn = $this->getEntityManager()
+                ->getConnection();
+                $sql = $sql1;
+                $stmt = $conn->prepare($sql);
+                $stmt->execute(array('sid' => $sid ));
+                $final = $stmt->fetchAll();   
+               // var_dump($final);die;         
+                return ($final);
+
     }
 }

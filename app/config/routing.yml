@@ -67,6 +67,14 @@ ranking :
     path :     /api/ranking/load
     defaults: { _controller: AppBundle:Ranking:show }
     methods:  [POST]
+studenData :
+    path :     /api/ranking/student
+    defaults: { _controller: AppBundle:Ranking:studentData }
+    methods:  [POST]
+dashboard :
+    path :     /api/ranking/dashboard
+    defaults: { _controller: AppBundle:Ranking:dashboard }
+    methods:  [POST]
 rankingList :
     path :     /api/ranking/list
     defaults: { _controller: AppBundle:Ranking:rankingList }

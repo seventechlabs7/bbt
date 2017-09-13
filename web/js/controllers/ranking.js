@@ -30,7 +30,6 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 
        $scope.loadRanking = function(gId)
        {
-
 			$http({
 				method: 'POST',
 				url: 'api/ranking/load',
@@ -50,8 +49,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 					$scope.currentEndDate = angular.copy($scope.groupData.end_date);
 					$scope.stopcountdown = false;
 					updateClockNg();
-					$scope.loadRankingList();
-					
+					$scope.loadRankingList();					
 				}
 
 			},function(error){
@@ -70,11 +68,42 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				console.log("list");
 				console.log(data)
 				$scope.rankingList = data;
-				$scope.rankTable = createUsingFullOptions();
-				
+				$scope.processRankingTable();
+				$scope.dashBoard();								
 			},function(error){
 
 			});
+       }
+
+        $scope.dashBoard = function()
+       {
+       	$http({
+				method: 'POST',
+				url: 'api/ranking/dashboard',
+				data:{uId :  $stateParams.teacher_id }
+			}).then(function(success){
+				var data = success.data;
+				console.log("list");
+				console.log(data)
+				$scope.report = data.report;							
+			},function(error){
+
+			});
+       }
+
+
+       $scope.processRankingTable = function()
+       {
+       	for(var i=0;i<$scope.rankingList.length;i++)
+       	{
+       		var obj = $scope.rankingList[i];
+       		obj.benefitPercent = ((parseFloat(obj.newamount)-25000.00)/25000.00) * 100 ; 
+       		obj.position = parseInt(obj.position);
+       		obj.amount = parseFloat(obj.amount);
+       		obj.operations = parseInt(obj.operations);
+       		obj.benefits =parseFloat(obj.benefits) ;      	
+       	}
+       	$scope.rankTable = createUsingFullOptions();
        }
 
        $scope.positionCheck = function(oldPos , newPos)
@@ -630,10 +659,29 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 
 			}
 
+
+		$scope.userBasedFeedBack = function(userId)
+		{
+			$http({
+				method: 'POST',
+				url: 'api/ranking/student',
+				data:{uId :  $stateParams.teacher_id ,sId:userId ,gId : $scope.currentGroupId}
+			}).then(function(success){
+				var data = success.data;
+				console.log("list");
+				console.log(data)
+				$scope.studentData = data.report;							
+			},function(error){
+
+			});
+		}
 			$scope.logout = function()
+		
 		{
 			window.location.href = "/index";
 		}
+
+
 
 			
     }

@@ -19,7 +19,7 @@ class MailerService
     else
         $page ='Emails/student_registration.html.twig' ;
     $message = (new \Swift_Message('BBT - Registration Success'))
-        ->setFrom('admin123@bbt.com')
+        ->setFrom('profesores@bigbangtrading.com')
         ->setTo($mailObject->{'toMail'})
         ->setBody(           
                 $this->templating->render(
