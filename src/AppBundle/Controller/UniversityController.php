@@ -199,7 +199,7 @@ class UniversityController extends Controller
 		$em->persist($group);
 	    $em->flush();
 	    //return "hi";
-	    $assets = $teacher['assets'];
+	   /* $assets = $teacher['assets'];
 	    foreach ($assets as $asset) 
 	    {
 	    	if($asset)
@@ -223,7 +223,7 @@ class UniversityController extends Controller
 	    		$em->persist($GF);
 	    		$em->flush();
 	    	}	    	
-	    }
+	    }*/
 
 	    $assets = $teacher['assets'];
 	    foreach ($assets as $asset) 

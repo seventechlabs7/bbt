@@ -57,6 +57,17 @@ angular.module('app')
                             ]
                         }
                     })
+                    .state('app.feedback', {
+                        url: '/feedback/:teacher_id',
+                        templateUrl: 'views/staff/partials/feedback.html.twig',
+                        resolve: {
+                            deps: ['uiLoad',
+                                function(uiLoad) {
+                                    return uiLoad.load(['js/controllers/feedback.js']);
+                                }
+                            ]
+                        }
+                    })
                     .state('app.campaign', {
                         url: '/camp',
                         templateUrl: 'partials/campaign.html',

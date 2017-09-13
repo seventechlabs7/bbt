@@ -69,32 +69,36 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 		$scope.start = function()
 		{
 			$scope.teacher.id = $stateParams.teacher_id;//$scope.teacher.mail_list == undefined || 
-			
-			var list = $scope.teacher.mail_list.split(',');
-			var emailregex = /\S+@\S+\.\S+/;
-      		notify.closeAll();
-			for (var i = 0; i < list.length; i++) 
+			if($scope.teacher.mail_list)
 			{
-				if(list[i] == null)
+				var list = $scope.teacher.mail_list.split(',');
+				var emailregex = /\S+@\S+\.\S+/;
+	      		notify.closeAll();
+				for (var i = 0; i < list.length; i++) 
 				{
-					notify({
-						message:'Should Seperate by single comma',
-						classes:'alert-danger',
-						duration:2000
-					});
+					if(list[i] == null)
+					{
+						notify({
+							message:'Should Seperate by single comma',
+							classes:'alert-danger',
+							duration:2000
+						});
+						return;
+					}
+					if(!list[i].match(emailregex))
+					{
+						notify({
+							message:'Invalid Mail Id',
+							classes:'alert-danger',
+							duration:2000
+						});
 					return;
-				}
-				if(!list[i].match(emailregex))
-				{
-					notify({
-						message:'Invalid Mail Id',
-						classes:'alert-danger',
-						duration:2000
-					});
-				return;
 
+					}
 				}
 			}	
+			else
+				$scope.teacher.mail_list = "";
 					
 			if(!$scope.teacher.start_date)
 			{				
@@ -289,7 +293,8 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 						notify({
 						message: success.data.reason,
 						classes:'alert-success',
-						duration:5000
+						duration:5000,
+						position:'center'
 					});
 					/*$state.go('app.profile', {
 					    teacher_id: $scope.teacher_id 
@@ -490,9 +495,15 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 					    teacher_id: $scope.teacher.id 
 					});	
 			}
-			if(page == 'profile')
+			else if(page == 'profile')
 			{
 				$state.go('app.profile', {
+					    teacher_id: $scope.teacher.id 
+					});	
+			}
+			else if(page == 'feedback')
+			{
+				$state.go('app.feedback', {
 					    teacher_id: $scope.teacher.id 
 					});	
 			}

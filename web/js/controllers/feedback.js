@@ -1,7 +1,7 @@
 'use strict';
 
 
-angular.module('app').controller('ranking', ['$scope','$document','$rootScope','$stateParams','$http','$state','$timeout','uiGmapGoogleMapApi','$filter','Upload','notify','NgTableParams',
+angular.module('app').controller('feedback', ['$scope','$document','$rootScope','$stateParams','$http','$state','$timeout','uiGmapGoogleMapApi','$filter','Upload','notify','NgTableParams',
     function($scope,$document,$rootScope,$stateParams,$http,$state,$timeout,uiGmapGoogleMapApi,$filter,Upload,notify,NgTableParams) {
         
        $scope.screen = "start";
@@ -28,12 +28,12 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 			});
        }
 
-       $scope.loadRanking = function(gId)
+       $scope.loadFeedback = function(gId)
        {
 
 			$http({
 				method: 'POST',
-				url: 'api/ranking/load',
+				url: 'api/feedback/load',
 				data:{'gId': gId ,uId : $scope.teacher.id }
 			}).then(function(success){
 				var data = success.data;
@@ -49,8 +49,8 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 					//$scope.initializeClock('clockdiv', deadline);
 					$scope.currentEndDate = angular.copy($scope.groupData.end_date);
 					$scope.stopcountdown = false;
-					updateClockNg();
-					$scope.loadRankingList();
+					
+					//$scope.loadRankingList();
 					
 				}
 
@@ -358,6 +358,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 		{	
 					
 	
+			alert($scope.stopcountdown)
 			if($scope.teacher.start_date && $scope.teacher.end_date)
 			{
 				var from = $scope.teacher.start_date;
@@ -381,7 +382,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 		      $scope.currentEndDate = angular.copy($scope.teacher.end_date);
 		      //return;
 		      $scope.stopcountdown =false;
-		      updateClockNg();
+		      
 				
 
 /*		      $timeout(function()

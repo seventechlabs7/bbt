@@ -420,8 +420,28 @@ class UserOperationsController extends Controller
     '
 )->setParameter('id',$gId);
 $products = $query->setMaxResults(1)->getOneOrNullResult();
+
+
+
+
+    $query1 = $em->createQuery(
+    'SELECT ga.asset_id  
+  
+    FROM AppBundle:Group g , AppBundle:GroupAsset as ga
+    where ga.group_id = g.id 
+    and g.id = :id
+    '
+)->setParameter('id',$gId);
+$assets = $query1->getResult();
+$as = [];
+foreach($assets as $i => $item) {
+     
+    $as[$i] = $item['asset_id'];
+     // $array[$i] is same as $item
+}
+//return new JsonResponse($as);
 //$products = $query->getResult();
- return new JsonResponse($products);
+ return new JsonResponse(array('league'=>$products,'assets'=>implode(',', ($as))));
 
     $leagueData = new Group();
     $res = $em->getRepository('AppBundle:Group')->findOneById($gId);
