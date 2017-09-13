@@ -26,6 +26,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 
         $scope.shiftTab = function(index)
         {
+        	notify.closeAll();
         	if(index == 2)
         	{
 
