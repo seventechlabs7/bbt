@@ -26,6 +26,136 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 
         $scope.shiftTab = function(index)
         {
+        	if(index == 2)
+        	{
+
+				var list =[];
+				if($scope.teacher.mail_list)
+				{
+					list = $scope.teacher.mail_list.split(',');
+					var emailregex = /\S+@\S+\.\S+/;
+		      		notify.closeAll();
+					for (var i = 0; i < list.length; i++) 
+					{
+						if(list[i] == null)
+						{
+							notify({
+								message:'Should be Seperated by single comma',
+								classes:'alert-danger',
+								duration:2000
+							});
+							return;
+						}
+						if(!list[i].match(emailregex))
+						{
+							notify({
+								message:'Invalid Mail Id',
+								classes:'alert-danger',
+								duration:2000
+							});
+						return;
+
+						}
+					}
+				}	
+				else
+					$scope.teacher.mail_list = "";
+				if(list.length == 0 && !$scope.file)
+				{
+					notify({
+						message:'Enter valid emails or upload a email list file',
+						classes:'alert-danger',
+						duration:2000
+					});
+					return;
+				}
+        	}
+        	if(index == 3)
+        	{
+        			if(!$scope.teacher.start_date)
+			{				
+				notify({
+					message:'Fill Start Date',
+					classes:'alert-danger',
+					duration:2000
+				});
+				return;
+			}
+			if(!$scope.teacher.end_date)
+			{				
+				notify({
+					message:'Fill End Date',
+					classes:'alert-danger',
+					duration:2000
+				});
+				return;
+			}
+			console.log($scope.teacher.assets)
+			$scope.assetsCheck = false;
+			if(!$scope.teacher.assets)
+				$scope.teacher.assets = [];
+			for (var i = 0; i < $scope.teacher.assets.length; i++) {
+				var a = $scope.teacher.assets[i];
+				console.log(a)
+				if(a)
+					{
+						$scope.assetsCheck = true;
+						break;
+					}
+
+			}
+			if(!$scope.assetsCheck)
+			{				
+				notify({
+					message:'Select Assets',
+					classes:'alert-danger',
+					duration:2000
+				});
+				return;
+			}
+			if(!$scope.teacher.league_name)
+			{				
+				notify({
+					message:'Enter League Name',
+					classes:'alert-danger',
+					duration:2000
+				});
+				return;
+			}
+			if(!$scope.teacher.virtual_money)
+			{				
+				notify({
+					message:'Enter Virtual Money',
+					classes:'alert-danger',
+					duration:2000
+				});
+				return;
+			}
+        	}
+        	if(index == 4)
+        {
+        	$scope.feedbackCheck = false;
+			if(!$scope.teacher.feedback)
+				$scope.teacher.feedback = [];
+			for (var i = 0; i < $scope.teacher.feedback.length; i++) {
+				var a = $scope.teacher.feedback[i];
+				if(a)
+					{
+						$scope.feedbackCheck = true;
+						break;
+					}
+
+			}
+			if(!$scope.feedbackCheck)
+			{				
+				notify({
+					message:'Select Feedback',
+					classes:'alert-danger',
+					duration:2000
+				});
+				return;
+			}
+        }
         	$('.step_head_li').removeClass('active');
         	$('#step_head_'+index).addClass('active');
         	$('.step_body_li').removeClass('active');
@@ -47,9 +177,13 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 		$scope.nextstep = function()
 		{
 			if($scope.step == 1)
-				$scope.step = 2;
+				{
+					$scope.step = 2;
+				}
 			else if($scope.step == 2)
-				$scope.step = 3;
+				{
+					$scope.step = 3;
+				}
 		}
 
 		$scope.prevstep = function()
@@ -118,7 +252,18 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				});
 				return;
 			}
-			if($scope.teacher.assets == undefined || $scope.teacher.assets.length == 0)
+			$scope.assetsCheck = false;
+			if(!$scope.teacher.assets)
+				$scope.teacher.assets = [];
+			for (var i = 0; i < $scope.teacher.assets.length; i++) {
+				var a = $scope.teacher.assets[i];
+				if(a)
+					{
+						$scope.assetsCheck = true;
+						break;
+					}
+			}
+			if(!$scope.assetsCheck)
 			{				
 				notify({
 					message:'Select Assets',
@@ -147,7 +292,21 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 			}
 			else
 				$scope.teacher.virtual_money = parseFloat($scope.teacher.virtual_money);
+
+			$scope.feedbackCheck = false;
 			if(!$scope.teacher.feedback)
+				$scope.teacher.feedback = [];
+			console.log($scope.teacher.feedback)
+			for (var i = 0; i < $scope.teacher.feedback.length; i++) {
+				var a = $scope.teacher.feedback[i];
+				if(a)
+					{
+						$scope.feedbackCheck = true;
+						break;
+					}
+
+			}
+			if(!$scope.feedbackCheck)
 			{				
 				notify({
 					message:'Select Feedback',
@@ -216,6 +375,9 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 			}).then(function(success){
 				console.log(success);
 				$scope.teacher = success.data.data;
+				$scope.teacher.assets = [0,0,0];
+
+				$scope.teacher.feedback = [0,0,0,0];
 				$scope.teacher.isGroup = success.data.isGroup;
 				console.log($scope.teacher);
 			

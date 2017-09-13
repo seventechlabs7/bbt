@@ -234,6 +234,7 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 			}, 200);
 							
 				//$('#addStudent').modal('show');
+				$scope.oldteacherstatus = angular.copy($scope.teacherstatus);
 				$scope.shiftTab(1);
 			},function(error){
 				
@@ -385,8 +386,25 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 		$scope.saveChanges = function()
 		{	
 			$scope.teacherstatus.id = $stateParams.teacher_id;
-			notify.closeAll();		
-			$http({
+			notify.closeAll();	
+			if($scope.teacherstatus.oldemail != $scope.teacherstatus.email)
+			{
+
+				swal({
+				title: "Email changed",
+				text: "Are you sure you want to update email ?",
+				type: "warning",
+				showCancelButton: true,
+				confirmButtonColor: "#DD6B55",
+				confirmButtonText: "Yes",
+				cancelButtonText: "Cancel!",
+				closeOnConfirm: true,
+				closeOnCancel: true,
+			},
+			function(isConfirm){
+				if (isConfirm) {
+
+				$http({
 				method: 'POST',
 				url: 'api/teacher/update',
 				data:{				
@@ -421,6 +439,53 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 			},function(error){
 				
 			});
+				
+					
+				} else {
+					return;
+				}
+			});
+					return;
+			}
+			else
+			{
+				$http({
+				method: 'POST',
+				url: 'api/teacher/update',
+				data:{				
+				teacher :$scope.teacherstatus,
+			}
+			}).then(function(success){
+				console.log(success);
+				if(success.data.status == 'success')
+				{
+					notify.closeAll();
+					notify({
+						message:success.data.reason,
+						classes:'alert-success',
+						duration:3000
+					});
+
+					$timeout(function() {
+			  	$state.go('app.profile', {
+					    teacher_id: $stateParams.teacher_id
+					});	
+			}, 3000);
+				}
+				else
+				{
+					notify.closeAll();
+					notify({
+						message:success.data.reason,
+						classes:'alert-danger',
+						duration:3000
+					});
+				}
+			},function(error){
+				
+			});
+			}
+		
 		}
 
 		$scope.passwordCheck =function()
@@ -525,17 +590,56 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 
 		$scope.changeNav = function(page)
 		{
-			if(page == 'ranking')
+			if(!angular.equals($scope.oldteacherstatus, $scope.teacherstatus))
+				{
+						swal({
+				title: "unsaved Data",
+				text: "Are you sure you want to leave page ?",
+				type: "warning",
+				showCancelButton: true,
+				confirmButtonColor: "#DD6B55",
+				confirmButtonText: "Yes",
+				cancelButtonText: "Cancel!",
+				closeOnConfirm: true,
+				closeOnCancel: true,
+			},
+			function(isConfirm){
+				if (isConfirm) {
+
+					if(page == 'ranking')
+				{
+					$state.go('app.ranking', {
+						    teacher_id: $stateParams.teacher_id
+						});	
+				}
+				if(page == 'profile')
+				{
+					$state.go('app.profile', {
+						    teacher_id: $stateParams.teacher_id
+						});	
+				}
+				
+					
+				} else {
+					return;
+				}
+			});
+					return;
+				}
+			else
 			{
-				$state.go('app.ranking', {
-					    teacher_id: $stateParams.teacher_id
-					});	
-			}
-			if(page == 'profile')
-			{
-				$state.go('app.profile', {
-					    teacher_id: $stateParams.teacher_id
-					});	
+				if(page == 'ranking')
+				{
+					$state.go('app.ranking', {
+						    teacher_id: $stateParams.teacher_id
+						});	
+				}
+				if(page == 'profile')
+				{
+					$state.go('app.profile', {
+						    teacher_id: $stateParams.teacher_id
+						});	
+				}
 			}
 
 		}

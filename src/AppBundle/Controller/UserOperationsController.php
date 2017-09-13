@@ -18,6 +18,7 @@ use AppBundle\Entity\UserPurchaseHistory;
 use AppBundle\Service\MailerService;
 use AppBundle\Service\CustomCrypt;
 use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
+use AppBundle\Entity\GroupAsset;
 
 class UserOperationsController extends Controller
 {
@@ -468,14 +469,38 @@ foreach($assets as $i => $item) {
    
     $em = $this->getDoctrine()->getManager();
     $TD =  $em->getRepository('AppBundle:Group')->find($requestData['gId']);
+
+
+
+      $RAW_QUERY1 = "
+          DELETE FROM `group_assets` WHERE `group_assets`.`group_id` = :gId
+      ";
+
+      $stmt =$em->getConnection()->prepare($RAW_QUERY1);
+      $stmt->execute(array('gId'=>$requestData['gId']));
+
+
     if($TD)
     {
        $TD->setStart_date($requestData['start_date']);
        $TD->setEnd_date($requestData['end_date']);
        $TD->setVirtual_money($requestData['virtual_money']);
        $TD->setLeague_name($requestData['league_name']);
-       $TD->setAssets($requestData['assets']);
+       $TD->setAssets("1");
        $em->flush($TD);
+
+        $assets = $requestData['assets'];
+      foreach ($assets as $asset) 
+      {
+        
+          $GA = new GroupAsset;
+          $GA->setGroup_id($TD->getId());
+          $GA->setAsset_id($asset);
+          $em->persist($GA);
+          $em->flush();
+        
+      }
+
        return new JsonResponse(array('status' => 'success','reason' => 'updated successfully','reaponse' => 200));
     }
      return new JsonResponse(array('status' => 'failure','reason' => 'something went wrong','reaponse' => 200));

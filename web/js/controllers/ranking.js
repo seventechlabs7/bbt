@@ -122,7 +122,9 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 						type:"warning",
 						closeOnConfirm:true,});
 				}
-				$scope.loadRankingList();
+				//$scope.loadRankingList();
+				$scope.rankTable;
+				console.log($scope.rankTable)
 			},function(error){
 				swal("Error!", "Something Went Wrong", "error");
 			});
@@ -393,7 +395,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 		$scope.updateLeague = function()
 		{
 			notify.closeAll();
-			if($scope.teacher.start_date == undefined || $scope.teacher.start_date == null)
+			if($scope.teacher.start_date)
 			{		
 
 				notify({
@@ -403,7 +405,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				});
 				return;
 			}
-			if($scope.teacher.end_date == undefined || $scope.teacher.end_date == null)
+			if($scope.teacher.end_date)
 			{				
 				notify({
 					message:'Fill End Date',
@@ -412,7 +414,20 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				});
 				return;
 			}
-			if($scope.teacher.assets == undefined || $scope.teacher.assets == 0)
+			$scope.assetsCheck = false;
+			if(!$scope.teacher.assets)
+				$scope.teacher.assets = [];
+			for (var i = 0; i < $scope.teacher.assets.length; i++) {
+				var a = $scope.teacher.assets[i];
+				console.log(a)
+				if(a)
+					{
+						$scope.assetsCheck = true;
+						break;
+					}
+
+			}
+			if(!$scope.assetsCheck)
 			{				
 				notify({
 					message:'Select Assets',
@@ -421,7 +436,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				});
 				return;
 			}
-			if($scope.teacher.league_name == undefined || $scope.teacher.league_name == null)
+			if($scope.teacher.league_name)
 			{				
 				notify({
 					message:'Enter League Name',
@@ -430,7 +445,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				});
 				return;
 			}
-			if($scope.teacher.virtual_money == undefined || $scope.teacher.virtual_money == null)
+			if($scope.teacher.virtual_money)
 			{				
 				notify({
 					message:'Enter Virtual Money',
@@ -439,7 +454,8 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				});
 				return;
 			}
-			$scope.teacher.assets = $scope.teacher.assets.join(",");
+			//$scope.teacher.assets = $scope.teacher.assets.join(",");
+			console.log($scope.teacher.assets)
 			$scope.teacher.start_date =  $filter('date')($scope.teacher.start_date, 'yyyy-MM-dd');
 			$scope.teacher.end_date =  $filter('date')($scope.teacher.end_date, 'yyyy-MM-dd');
 			$http({
