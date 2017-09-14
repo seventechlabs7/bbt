@@ -161,6 +161,8 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
         	$('#step_head_'+index).addClass('active');
         	$('.step_body_li').removeClass('active');
         	$('#step_body_'+index).addClass('active');
+
+						
         }
 
         $scope.teacher = {};
@@ -320,10 +322,16 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 			console.log($scope.teacher)
 
 			if($scope.teacher.start_date != undefined && $scope.teacher.start_date != null)
-				$scope.teacher.start_date = $filter('date')($scope.teacher.start_date, 'yyyy-MM-dd');
+				{
+					 $scope.teacher.start_date = new Date($scope.teacher.start_date.split("/").reverse().join("-"));
 			
+					$scope.teacher.start_date = $filter('date')($scope.teacher.start_date, 'yyyy-MM-dd');
+				}
 			if($scope.teacher.end_date != undefined && $scope.teacher.end_date != null)
-				$scope.teacher.end_date = $filter('date')($scope.teacher.end_date, 'yyyy-MM-dd');
+				{
+					 $scope.teacher.end_date = new Date($scope.teacher.end_date.split("/").reverse().join("-"));
+					$scope.teacher.end_date = $filter('date')($scope.teacher.end_date, 'yyyy-MM-dd');
+				}
 			console.log($scope.teacher)
 
 			Upload.upload({
@@ -350,10 +358,12 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 		{			
 			notify.closeAll();
 			$scope.pastDateCheck();
-			if($scope.teacher.start_date != undefined && $scope.teacher.start_date != null)
+			var from = new Date($scope.teacher.start_date.split("/").reverse().join("-"));
+			var to = new Date($scope.teacher.end_date.split("/").reverse().join("-"));
+			/*if($scope.teacher.start_date != undefined && $scope.teacher.start_date != null)
 				var from = $scope.teacher.start_date;
 			if($scope.teacher.end_date != undefined && $scope.teacher.end_date != null)
-		      	var to = $scope.teacher.end_date;
+		      	var to = $scope.teacher.end_date;*/
 		      var timeDiff = Math.abs(to.getTime() - from.getTime());
 		      var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));  
 		      if(to.getTime() < from.getTime())
@@ -398,6 +408,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 					$scope.teacher.id = $scope.teacher.id;
 					$timeout(function() {
 			    $scope.teacher.start_date = new Date();
+			    $scope.teacher.start_date = $filter('date')($scope.teacher.start_date, 'dd/MM/yyyy')
 			}, 100);
 					//alert($scope.teacher.isGroup)
 				if(!$scope.teacher.isGroup)			
@@ -497,7 +508,8 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 	    	notify.closeAll();
 	    	if($scope.teacher.start_date)
 	    	{
-	    		var date = new Date($scope.teacher.start_date)	    		
+	    		var date = new Date($scope.teacher.start_date.split("/").reverse().join("-"));
+	    		//var date = new Date($scope.teacher.start_date)	    		
 	    		if(date.setHours(0,0,0,0) < new Date().setHours(0,0,0,0))
 	    		{
 	    			$scope.teacher.start_date = undefined;
@@ -513,7 +525,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 	    }
 
 	    $scope.initSettings = function()
-		{
+		{/*
 			var input = document.getElementById("sDateField");
 			var today = new Date();
 			var day = today.getDate();
@@ -526,7 +538,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 			var date = new String( yr + '-' + mon + '-' + day );
 
 			input.disabled = false; 
-			input.setAttribute('min', date);
+			input.setAttribute('min', date);*/
 			
 			   
 			   // $('#sDateField').val(today);
@@ -733,6 +745,15 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 		{
 			window.location.href = "/index";
 		}
+
+		/*initialiser for date*/
+
+		/*$scope.dateinitialize = function()
+		{
+		        console.log("date called")
+		             $("#picker1").datepicker();
+		             $('[data-toggle="datepicker"]').datepicker();
+		}*/
 
     }
     ]);

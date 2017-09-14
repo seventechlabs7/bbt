@@ -294,6 +294,8 @@ ul.unedit_ul {
 									Save
 								</button>
 							</div>
+
+							
 						</div>										
 					</div>
 					<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
@@ -413,10 +415,14 @@ ul.unedit_ul {
 														<div class="row">
 															<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 
-																<b>Start Date : </b><input id="sDateField" type="date" class="date_form"  placeholder="Start Date" name="maillistfile" ng-model="teacher.start_date" ng-change="checkTime('start')" />
+																<b>Start Date : </b>
+																<!-- <input id="sDateField" type="date" class="date_form"  placeholder="Start Date" name="maillistfile" ng-model="teacher.start_date" ng-change="checkTime('start')" /> -->
+																<input type="text" ng-click="dateinitialize()" class="form-control docs-date" id="picker1" name="sdate"   ng-model="teacher.start_date" ng-change="checkTime('start')" placeholder="dd/mm/yyyy" data-toggle="datepicker" />
 															</div>
 															<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-																<b>End Date : </b> <input type="date"  class="date_form" name="startdate"  ng-model="teacher.end_date" ng-change="checkTime('end')"/>
+																<b>End Date : </b> 
+																<!-- <input type="date"  class="date_form" name="startdate"  ng-model="teacher.end_date" ng-change="checkTime('end')"/> -->
+																<input type="text" ng-click="dateinitialize()" class="form-control docs-date" id="picker2" name="edate"   ng-model="teacher.end_date" ng-change="checkTime('end')" placeholder="dd/mm/yyyy" data-toggle="datepicker" />
 															</div>
 														</div>
 		        									</div>       									
@@ -575,6 +581,7 @@ ul.unedit_ul {
 	        						</div>
 	        					</div>
 	        				</div>
+	        			</div>
 	        			</li>
 	        		</ul>
 	        	</div>
@@ -582,5 +589,34 @@ ul.unedit_ul {
 	      </div>
 	    </div>
 	  </div>
+	   <script type="text/javascript">
+
+			function initPlug () {
+					/*$('#datetimepicker100').datetimepicker(
+						{
+							format: 'DD/MM/YYYY'
+						});*/
+						// $('[data-toggle="datepicker"]').datepicker();
+						  $("#picker1").datepicker({
+						  	format: "DD/MM/YYYY",
+						  	zIndex:9999999999,
+						  	startDate: new Date()
+						  }); 
+						  $("#picker2").datepicker({
+						  	format: "DD/MM/YYYY",
+						  	zIndex:9999999999
+						  }); 
+				}
+			
+
+
+				initPlug();
+
+			    //$( "#datepicker" ).datepicker();
+
+        </script>
 	</div>
 </div>
+</div>
+	
+       

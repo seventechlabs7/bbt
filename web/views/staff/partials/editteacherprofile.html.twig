@@ -309,7 +309,45 @@ ul.unedit_ul {
 			</div> 
 			<div class="profile_body_cont">
 				<div class="row">
-					<div class="col-lg-4 col-md-3 col-sm-12 col-xs-12">
+					<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+						<div class="center_r_block">
+							<div class="center_l_label">
+								Update Password
+							</div>
+							  <div class="row">
+							  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							    <div class="form-group">
+							      <label for="email" class="center_l_label">Current Password</label>
+							      <input type="password" class="form-control" id="email" placeholder="Enter current password" name="password" 
+							       ng-model="password.currentPassword" ng-blur="checkCurrentPassword()" ng-required>
+							    </div>
+							    </div>
+							  	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							    <div class="form-group">
+							      <label for="email">Enter new password</label>
+							      <input type="password" class="form-control" id="email" placeholder="Enter new password" name="password" 
+							      ng-model="password.password"  ng-required>
+							    </div>
+							    </div>
+							    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								 <div class="form-group">
+							      <label for="university">Re - Enter password</label>
+							      <input type="password" class="form-control" id="email" placeholder="Re - Enter password" name="confirm" 
+							       ng-model="password.confirm" ng-required>
+							    </div>
+							    </div>
+						    </div>
+							<div class="row">
+								<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 " style="">
+									<button class="upload_pic_but" ng-click="updatePassword()">
+										update password
+									</button>
+								</div>
+							</div>
+						</div>	
+															
+					</div>
+					<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
 						<div class="center_l_block">
 							<div class="center_l_label">
 								Tell the world who you are:
@@ -344,64 +382,22 @@ ul.unedit_ul {
 							<div ng-messages="profile.work.$error" ng-show="profile.work.$touched">
 							       <div ng-messages-include="js/messages.html"></div>
 							 </div>
+							 <div class="row">
+								<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 " style="">
+									<button class="upload_pic_but" ng-click="saveChanges()">
+										Save  Changes
+									</button>
+								</div>
+							</div>
 							
 						</div>	
-															
 					</div>
+					
+					
 					</div>
 					
 			</div>
-
-		
-			<div class="row">
-						<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" style="">
-								<button class="upload_pic_but" ng-disabled="!profile.$valid" ng-click="saveChanges()">
-									save changes
-								</button>
-					    </div>
-				    </div>
-				    </form>
+				</form>
 		</div>
-		<div class="profile_body_cont">
-					<div class="row">					
-						<div class="center_l_block">
-						<div class="center_l_label">
-								Update Password
-							</div>
-							  <div class="row">
-							  <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-							    <div class="form-group">
-							      <label for="email">Current Password</label>
-							      <input type="password" class="form-control" id="email" placeholder="Enter current password" name="password" 
-							       ng-model="password.currentPassword" ng-blur="checkCurrentPassword()" ng-required>
-							    </div>
-							    </div>
-							  	<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-							    <div class="form-group">
-							      <label for="email">Enter new password</label>
-							      <input type="password" class="form-control" id="email" placeholder="Enter new password" name="password" 
-							      ng-model="password.password"  ng-required>
-							    </div>
-							    </div>
-							    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-								 <div class="form-group">
-							      <label for="university">Re - Enter password</label>
-							      <input type="password" class="form-control" id="email" placeholder="Re - Enter password" name="confirm" 
-							       ng-model="password.confirm" ng-required>
-							    </div>
-							    </div>
-						    </div>
-						    	<div class="row">
-									<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 " style="">
-								<button class="upload_pic_but" ng-click="updatePassword()">
-									update password
-								</button>
-					    </div>
-				    </div>
-						</div>	
-					</div>									
-				
-			</div>
 		</div>
 	</div>
-</div>
