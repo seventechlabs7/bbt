@@ -279,7 +279,8 @@ h1{
 				</div>
 			</div>
 		</div>
-		<div class="center_container" >
+		<!-- ranking list -->
+		<div class="center_container" ng-if="type=='ranking'">
 			<div class="profile_head_cont" ng-if="screen != 'addstudents'">
 			<div class="row">
 				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
@@ -299,7 +300,7 @@ h1{
 					<li>Number of students 		   : {{report.count}}</li>
 					<li>Total number of	operations : {{report.operations}}</li>
 					<li>Total Profitability        : {{report.percent}} %</li>
-					<li>Total Benefits             : {{report.benefit}}</li>
+					<li>Total Benefits             : {{report.benefits}}</li>
 				</ul>
 			</div>
 			<div class="row">
@@ -356,7 +357,7 @@ h1{
 							</tr>
 						</table>
 						<div>
-							<p>{{NgTableParams}}</p>
+				
 						</div>									
 					</div>
 						<div class="row">
@@ -375,6 +376,72 @@ h1{
 
 			</div>
 			</div>
+
+			<!-- student feedback -->
+			<div class="center_container" ng-if="type=='studentFeedback'">
+			   <div class="profile_head_cont" >
+			      <div class="row">
+			         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+			            <div class="form-group">
+			               <label for="sel1">Select Student   </label>
+			               <select class="form-control" ng-model="studentId" 
+			                  ng-options="user.userId as user.username  for user in students" ng-change="userBasedFeedBack(studentId)">
+			               </select>
+			            </div>
+			         </div>
+			          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+			            <div class="modal_but_cont">        							
+						<button class="modal_nxt_bt" ng-click="changeScreen('start')">View Ranking</button>
+					</div>
+			         </div>
+
+			      </div>
+			      <div class="row">
+			         <ul>
+			            <li>Number of students 		   : {{report.count}}</li>
+			            <li>Total number of	operations : {{report.operations}}</li>
+			            <li>Total Profitability        : {{report.percent}} %</li>
+			            <li>Total Benefits             : {{report.benefits}}</li>
+			         </ul>
+			      </div>
+			   </div>
+			   <div class="profile_body_cont" ng-if="screen == 'start'">
+			      <!-- <button class="modal_nxt_bt" ng-click="loadRankingList()">Reload</button> -->
+			      <div class="row">
+			         <table ng-table="purchaseTable" class="table table-bordered table-striped table-condensed">
+			            <tr ng-repeat="row in $data track by $index">			              
+			               <td data-title="'Asset'" filter="{asset: 'text'}" sortable="'asset'">{{row.asset}}</td>
+			               <td data-title="'Date of buy'" filter="{purchaseDate: 'text'}" sortable="'purchaseDate'">{{row.purchaseDate | date}}</td>
+			               <td data-title="'Buy Price'" filter="{purchasePrice: 'text'}" sortable="'purchasePrice'">{{row.purchasePrice}}</td>
+			               <td data-title="'Amount'" filter="{purchaseShare: 'text'}" sortable="'purchaseShare'">{{row.purchaseShare}}</td>
+			               <td data-title="'Current Price'" filter="{currentPrice: 'text'}" sortable="'currentPrice'">{{row.currentPrice}}</td>
+			               <td data-title="'Benefit'" filter="{benefits: 'text'}" sortable="'benefits'">{{row.benefits}}</td>
+			            </tr>
+			         </table>
+			         <div>
+			         </div>
+			      </div>
+			      <!-- operations table -->
+			       <div class="row">
+			         <table ng-table="operationsTable" class="table table-bordered table-striped table-condensed">
+			            <tr ng-repeat="row in $data track by $index">			              
+			               <td data-title="'Asset'" filter="{asset: 'text'}" sortable="'asset'">{{row.asset}}</td>
+			               <td data-title="'Date of buy'" filter="{purchaseDate: 'text'}" sortable="'purchaseDate'">{{row.purchaseDate}}</td>
+			               <td data-title="'Buy Price'" filter="{purchasePrice: 'text'}" sortable="'purchasePrice'">{{row.purchasePrice}}</td>
+			               <td data-title="'Purchase Volume'" filter="{purchaseShare: 'text'}" sortable="'purchaseShare'">{{row.purchaseShare}}</td>
+			               <td data-title="'Sell Price Price'" filter="{salePrice: 'text'}" sortable="'salePrice'">{{row.salePrice}}</td>
+			               <td data-title="'Purchase Volume'" filter="{purchaseShare: 'text'}" sortable="'purchaseShare'">{{row.purchaseShare}}</td>
+			               <td data-title="'Date of sale'" filter="{saleDate: 'text'}" sortable="'saleDate'">{{row.saleDate}}</td>
+			               <td data-title="'Benefit'" filter="{benefits: 'text'}" sortable="'benefits'"><button class="btn" ng-class="buttonColor1(row.benefits)">{{row.benefits}}</button></td>
+			               <td data-title="'Benefit %'" filter="{benefitPercentage: 'text'}" sortable="'benefitPercentage'"><button class="btn" ng-class="buttonColor1(row.benefitPercentage)">{{row.benefitPercentage}}</button></td>
+			            </tr>
+			         </table>
+			         <div>
+			         </div>
+			      </div>
+			   </div>
+			</div>
+
 			<div class="center_container" ng-if="screen == 'addstudents'">
 			<div class="profile_head_cont">
 				<div class="row">

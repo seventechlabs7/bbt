@@ -9,7 +9,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
        {          		
        		$scope.getTeacherDetails();  			
        }
-
+       $scope.type = "ranking";
        $scope.getTeacherDetails = function()
        {
        		$http({
@@ -94,16 +94,16 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 
        $scope.processRankingTable = function()
        {
-       	for(var i=0;i<$scope.rankingList.length;i++)
-       	{
-       		var obj = $scope.rankingList[i];
-       		obj.benefitPercent = ((parseFloat(obj.newamount)-25000.00)/25000.00) * 100 ; 
-       		obj.position = parseInt(obj.position);
-       		obj.amount = parseFloat(obj.amount);
-       		obj.operations = parseInt(obj.operations);
-       		obj.benefits =parseFloat(obj.benefits) ;      	
-       	}
-       	$scope.rankTable = createUsingFullOptions();
+	       	for(var i=0;i<$scope.rankingList.length;i++)
+	       	{
+	       		var obj = $scope.rankingList[i];
+	       		obj.benefitPercent = ((parseFloat(obj.newamount)-25000.00)/25000.00) * 100 ; 
+	       		obj.position = parseInt(obj.position);
+	       		obj.amount = parseFloat(obj.amount);
+	       		obj.operations = parseInt(obj.operations);
+	       		obj.benefits =parseFloat(obj.benefits) ;      	
+	       	}
+       	    $scope.rankTable = createUsingFullOptionsRanking();
        }
 
        $scope.positionCheck = function(oldPos , newPos)
@@ -596,22 +596,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				}, 60000);
 			}
 
-			/*Ng table for rangking list*/
-
-			   function createUsingFullOptions() {
-                      var initialParams = {
-                        count: 10 // initial page size
-                      };
-                      var initialSettings = {
-                        // page size buttons (right set of buttons in demo)
-                        counts: [],
-                        // determines the pager buttons (left set of buttons in demo)
-                        paginationMaxBlocks: 10,
-                        paginationMinBlocks: 2,
-                        dataset: $scope.rankingList
-                      };
-                      return new NgTableParams(initialParams, initialSettings);
-                    }
+			
 
              $scope.changeNav = function(page)
 			{
@@ -662,19 +647,121 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 
 		$scope.userBasedFeedBack = function(userId)
 		{
+			$scope.studentId = userId;
 			$http({
 				method: 'POST',
 				url: 'api/ranking/student',
 				data:{uId :  $stateParams.teacher_id ,sId:userId ,gId : $scope.currentGroupId}
 			}).then(function(success){
+				$scope.type = "studentFeedback";
 				var data = success.data;
-				console.log("list");
-				console.log(data)
-				$scope.studentData = data.report;							
+
+				$scope.students = data.students;
+
+				$scope.purchaseData = data.purchase;
+				$scope.processPurchaseTable();
+				
+				$scope.operationsData = data.operations;
+				$scope.processOperationsTable()					
+
 			},function(error){
 
 			});
 		}
+
+		 $scope.processPurchaseTable = function()
+       {
+	       	for(var i=0;i<$scope.purchaseData.length;i++)
+	       	{
+	       		var obj = $scope.purchaseData[i];
+	       		obj.purchasePrice = parseFloat(obj.purchasePrice);
+	       		obj.purchaseShare = parseFloat(obj.purchaseShare); 
+				obj.purchaseDate = moment(new Date(obj.purchaseDate)).format("DD/MM/YYYY");
+	       	}
+       	  $scope.purchaseTable = createUsingFullOptionsPurchase();
+       }
+
+        $scope.processOperationsTable = function()
+       {
+	       	for(var i=0;i<$scope.operationsData.length;i++)
+	       	{
+	       		var obj = $scope.operationsData[i];
+	       		obj.purchasePrice 		= parseFloat(obj.purchasePrice);
+	       		obj.purchaseShare 		= parseFloat(obj.purchaseShare);
+	       		obj.salePrice 	  		= parseFloat(obj.salePrice);
+	       		obj.saleShare     		= parseFloat(obj.saleShare);   
+	       		obj.benefits      		= parseFloat(obj.benefits);
+	       		obj.benefitPercentage 	= parseFloat(obj.benefitPercentage);  
+	       		
+	       		obj.purchaseDate = moment(new Date(obj.purchaseDate)).format("DD/MM/YYYY");
+	       		obj.saleDate = moment(new Date(obj.saleDate)).format("DD/MM/YYYY");
+	       	}
+       	   $scope.operationsTable = createUsingFullOptionsOperations();
+       }
+
+		/*Ng table for rangking list*/
+
+		   function createUsingFullOptionsRanking() {
+                  var initialParams = {
+                    count: 10 // initial page size
+                  };
+                  var initialSettings = {
+                    // page size buttons (right set of buttons in demo)
+                    counts: [],
+                    // determines the pager buttons (left set of buttons in demo)
+                    paginationMaxBlocks: 10,
+                    paginationMinBlocks: 2,
+                    dataset: $scope.rankingList
+                  };
+                  return new NgTableParams(initialParams, initialSettings);
+                }
+        /*Ng table for purchase list*/
+
+		   function createUsingFullOptionsPurchase() {
+                  var initialParams = {
+                    count: 10 // initial page size
+                  };
+                  var initialSettings = {
+                    // page size buttons (right set of buttons in demo)
+                    counts: [],
+                    // determines the pager buttons (left set of buttons in demo)
+                    paginationMaxBlocks: 10,
+                    paginationMinBlocks: 2,
+                    dataset: $scope.purchaseData
+                  };
+                  return new NgTableParams(initialParams, initialSettings);
+                }
+           /*Ng table for purchase list*/
+
+		   function createUsingFullOptionsOperations() {
+                  var initialParams = {
+                    count: 10 // initial page size
+                  };
+                  var initialSettings = {
+                    // page size buttons (right set of buttons in demo)
+                    counts: [],
+                    // determines the pager buttons (left set of buttons in demo)
+                    paginationMaxBlocks: 10,
+                    paginationMinBlocks: 2,
+                    dataset: $scope.operationsData
+                  };
+                  return new NgTableParams(initialParams, initialSettings);
+                }
+
+         $scope.buttonColor1 = function(key)
+         {
+
+         	var a = parseFloat(key);
+         	console.log(a)
+         	if(a > 0)
+         		return 'success';
+         	if(a == parseFloat(0))
+         		return 'warning';
+         	if(a < 0)
+         		return 'danger';
+         }       
+
+
 			$scope.logout = function()
 		
 		{

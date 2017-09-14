@@ -342,11 +342,12 @@ class UserPurchaseRepository extends EntityRepository
             $sql1 = 
                 '
                     SELECT  com.nom_empresa as asset ,
-                    op.fecha_compra  as pruchaseDate ,op.prec_compra as pruchaseprice ,op.volumen_compra as purchaseShare,
-                    op.prec_venta as salePrice ,op.fecha_venta as saleDate ,op.volumen_operacion as saleShare
+                    op.fecha_compra  as purchaseDate ,op.prec_compra as purchasePrice ,op.volumen_compra as purchaseShare,
+                    op.prec_venta as salePrice ,op.fecha_venta as saleDate ,op.volumen_operacion as saleShare ,
+                    op.beneficios as benefits , ((op.prec_venta - op.prec_compra) / op.prec_compra)*100 as benefitPercentage 
                     from hist_user_operaciones as op  ,empresas as com 
                     where
-                     com.id = op.id_empresa 
+                     com.id = op.id_empresa /*and op.id_user = :sid*/
                 ';
 
                 $conn = $this->getEntityManager()
@@ -358,5 +359,47 @@ class UserPurchaseRepository extends EntityRepository
                // var_dump($final);die;         
                 return ($final);
 
+    }
+
+      public function studentPurchase($tid,$sid,$gid)
+    {
+            $sql1 = 
+                '
+                    SELECT  com.nom_empresa as asset ,
+                    op.fecha_apertura_compra  as purchaseDate ,op.prec_apertura_compra as purchasePrice ,op.volumen as purchaseShare 
+                    from hist_user_compra as op  ,empresas as com 
+                    where
+                     com.id = op.id_empresa /*and op.id_user = :sid*/
+                ';
+
+                $conn = $this->getEntityManager()
+                ->getConnection();
+                $sql = $sql1;
+                $stmt = $conn->prepare($sql);
+                $stmt->execute(array('sid' => $sid ));
+                $final = $stmt->fetchAll();   
+               // var_dump($final);die;         
+                return ($final);
+
+    }
+
+    public function studentList($tId,$gId)
+    {
+        $sql1 = 
+                '
+                    SELECT  user.id_admin as userId , user.email as email ,user.username 
+                    from users as user , groups as g ,group_emails as ge 
+                    where g.id = :gId and  ge.group_id = g.id and ge.email = user.email and g.teacher_id = :tId; 
+
+                ';
+
+                $conn = $this->getEntityManager()
+                ->getConnection();
+                $sql = $sql1;
+                $stmt = $conn->prepare($sql);
+                $stmt->execute(array('gId' => $gId ,'tId' => $tId));
+                $final = $stmt->fetchAll();   
+               // var_dump($final);die;         
+                return ($final);
     }
 }

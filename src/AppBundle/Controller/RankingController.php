@@ -152,9 +152,15 @@ class RankingController extends Controller
      $op  = $em->getRepository('AppBundle:UserPurchaseHistory')
                 ->operationsOfStudent($teacherId,$studentId,$groupId);
 
+     $purchase  = $em->getRepository('AppBundle:UserPurchaseHistory')
+                ->studentPurchase($teacherId,$studentId,$groupId);
+
+      $studentList = $em->getRepository('AppBundle:UserPurchaseHistory')
+                ->studentList($teacherId,$groupId);
      
 
-      return new JsonResponse(array('status' => 'success','operations'=>$op,'reason' => 'data loaded','reaponse' => 200));
+      return new JsonResponse(array('status' => 'success','operations'=>$op,'purchase'=>$purchase,'students' => $studentList,
+        'reason' => 'data loaded','reaponse' => 200));
   }
 
     public function rankingListAction(Request $request)
