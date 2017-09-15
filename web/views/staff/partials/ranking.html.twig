@@ -281,7 +281,7 @@ h1{
 		</div>
 		<!-- ranking list -->
 		<div class="center_container" ng-if="type=='ranking'">
-			<div class="profile_head_cont" ng-if="screen != 'addstudents'">
+			<div class="profile_head_cont" ng-if="screen != 'addstudents' && screen != 'editfeedback'">
 			<div class="row">
 				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 					<div class="form-group">
@@ -361,15 +361,20 @@ h1{
 						</div>									
 					</div>
 						<div class="row">
-							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
 								<div class="modal_but_cont">        							
 									
-									<button class="modal_nxt_bt" ng-click="changeScreen('addstudents')">Add Students</button>
+									<button class="modal_nxt_bt" ng-click="changeScreen('addstudents')">Upload Students</button>
 								</div>
 							</div>
-							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
 								<div class="modal_but_cont">        							
-									<button class="modal_nxt_bt" ng-click="changeScreen('league')">Edit league</button>
+									<button class="modal_nxt_bt" ng-click="changeScreen('league')">League Settings</button>
+								</div>
+							</div>
+							<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+								<div class="modal_but_cont">        							
+									<button class="modal_nxt_bt" ng-click="changeScreen('editfeedback')">Modify Feedback</button>
 								</div>
 							</div>
 						</div>
@@ -496,6 +501,63 @@ h1{
 				</div>
 				
 			</div>
+			<div class="center_container" ng-if="screen == 'editfeedback'">
+			<div class="profile_head_cont">
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<div class="form_head_text">
+							Select the feedback.
+						</div>
+					</div>
+					<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+						<div class="checkbox_cont">
+							<ul class="check_cont_ul"> 
+								<li> 
+									<label class="check_label">   
+										<input type="checkbox" ng-checked="teacher.feedback[0] == 1" ng-true-value="1" ng-false-vlaue="0" ng-model="teacher.feedback[0]">
+										<span class="check_text">Benefits</span>
+									</label>
+								</li>
+								<li> 
+									<label class="check_label">   
+										<input type="checkbox" ng-checked="teacher.feedback[1] == 2" ng-true-value="2" ng-false-vlaue="0" ng-model="teacher.feedback[1]">
+										<span class="check_text">Number of Operations</span>
+									</label>
+								</li>
+								<li> 
+									<label class="check_label">   
+										<input type="checkbox" ng-checked="teacher.feedback[2] == 3" ng-true-value="3" ng-false-vlaue="0" ng-model="teacher.feedback[2]">
+										<span class="check_text">Total Profitability</span>
+									</label>
+								</li>
+								<li> 
+									<label class="check_label">   
+										<input type="checkbox" ng-checked="teacher.feedback[3] == 4" ng-true-value="4" ng-false-vlaue="0" ng-model="teacher.feedback[3]">
+										<span class="check_text">Average Profitability per person</span>
+									</label>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+						<i class="fa fa-bar-chart fa-6" aria-hidden="true" ></i>
+					</div>
+	        	</div>
+				<div class="row">
+				<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+					<div class="modal_but_cont">        							
+						<button class="modal_nxt_bt" ng-click="updateFeedback()">Update Feedback</button>
+					</div>
+				</div>
+				<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+					<div class="modal_but_cont">        							
+						<button class="modal_nxt_bt" ng-click="changeScreen('start')">View Ranking</button>
+					</div>
+				</div>
+				</div>
+				</div>
+				
+			</div>
 			<div class="center_container" ng-if="screen == 'league'">
 			<div class="profile_head_cont">
 				<!-- league -->
@@ -536,19 +598,19 @@ h1{
 																	<ul class="check_cont_ul"> 
 																		<li> 
 																			<label class="check_label">   
-																				<input type="checkbox" name="" ng-checked="teacher.assets[0] == 1" ng-true-value="1" ng-false-vlaue="0" ng-model="teacher.assets[0]">
+																				<input type="checkbox"  ng-checked="teacher.assets[0] == 1" ng-true-value="1" ng-false-vlaue="0" ng-model="teacher.assets[0]">
 																				<span class="check_text">Ibex35</span>
 																			</label>
 																		</li>
 																		<li> 
 																			<label class="check_label">   
-																				<input type="checkbox" name="" ng-checked="teacher.assets[1] == 2" ng-true-value="2" ng-false-vlaue="0" ng-model="teacher.assets[1]">
+																				<input type="checkbox"  ng-checked="teacher.assets[1] == 2" ng-true-value="2" ng-false-vlaue="0" ng-model="teacher.assets[1]">
 																				<span class="check_text">Mercado continuo</span>
 																			</label>
 																		</li>
 																		<li> 
 																			<label class="check_label">   
-																				<input type="checkbox" name="" ng-checked="teacher.assets[2] == 3" ng-true-value="3" ng-false-vlaue="0" ng-model="teacher.assets[2]">
+																				<input type="checkbox"  ng-checked="teacher.assets[2] == 3" ng-true-value="3" ng-false-vlaue="0" ng-model="teacher.assets[2]">
 																				<span class="check_text">Forex</span>
 																			</label>
 																		</li>

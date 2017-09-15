@@ -94,7 +94,11 @@ leaguedata:
 leagueupdate:
     path:     /api/league/update
     defaults: { _controller: AppBundle:UserOperations:updateLeague }
-    methods:  [POST]    
+    methods:  [POST]  
+feedbackupdate:
+    path:     /api/feedback/update
+    defaults: { _controller: AppBundle:UserOperations:updateFeedback }
+    methods:  [POST]   
 currentpasswordcheck:
     path:     /api/password/current
     defaults: { _controller: AppBundle:UserOperations:checkCurrentPassword }

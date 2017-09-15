@@ -245,13 +245,19 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 			$scope.changeScreen= function(screen)
 			{
 				$scope.screen = screen;
+				if(screen == "start")
+					$scope.type = "ranking"
 				$scope.teacher ={};
 				$scope.teacher.gId = $scope.groupData.id;
-				$scope.teacher.mail_list = [];
+				$scope.teacher.mail_list = "";
 				$scope.teacher.assets = [];
 				if(screen =="league")
 				{
 					$scope.getLeagueDetails(); // currently using group data
+				}
+				if(screen == "editfeedback")
+				{
+					$scope.getLeagueDetails(); 
 				}
 			}
 
@@ -262,7 +268,10 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 
 			$scope.addStudents = function()
 			{
-				$scope.teacher.id = $stateParams.teacher_id;		
+				$scope.teacher.id = $stateParams.teacher_id;	
+				
+				if($scope.teacher.mail_list)
+			{	
 				var list = $scope.teacher.mail_list.split(',');
 				var emailregex = /\S+@\S+\.\S+/;
 	      		notify.closeAll();
@@ -288,6 +297,9 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 
 					}
 				}
+			}
+			else
+				$scope.teacher.mail_list = "";
 
 				swal({
 				title: "Upload Students",
@@ -318,8 +330,9 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				if(data.status =="success")
 					{
 						swal("Uploaded!", data.reason, "success");
-						$scope.teacher.mail_list = [];
+						$scope.teacher.mail_list = "";
 						$scope.file = null;
+						$scope.changeScreen('start');
 					}
 				else
 					swal("Error!", data.reason, "warning");	
@@ -357,6 +370,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 
 				$scope.teacher.virtual_money = data.league.virtual_money;
 				$scope.teacher.assets = data.assets.split(',');
+				$scope.teacher.feedback = data.feedback.split(',');
 				console.log($scope.teacher.assets)
 				$scope.oldObj = angular.copy($scope.teacher);
 				$scope.unsaved =true;
@@ -517,9 +531,64 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 
 			$scope.teacher.end_date = new Date($scope.teacher.end_date.split("/").reverse().join("-"));
 			$scope.teacher.end_date =  $filter('date')($scope.teacher.end_date, 'yyyy-MM-dd');
+			$scope.unsaved =false;
 			$http({
 				method: 'POST',
 				url: 'api/league/update',
+				data:{uId : $scope.teacher.id ,data:$scope.teacher }
+				}).then(function(success){
+				var data = success.data;
+				notify.closeAll();
+				if(data.status =="success")
+				{
+					notify({
+					message: data.reason,
+					classes:'alert-success',
+					duration:2000
+				});
+					$scope.changeScreen('start');
+				}
+				else
+				{
+					notify({
+					message: data.reason,
+					classes:'alert-danger',
+					duration:2000
+					});
+				}
+				$scope.changeScreen('start');			
+				},function(error){
+
+				});
+		}
+
+		$scope.updateFeedback = function()
+		{
+			if(!$scope.teacher.feedback)
+				$scope.teacher.feedback = [];
+			for (var i = 0; i < $scope.teacher.feedback.length; i++) {
+				var a = $scope.teacher.feedback[i];
+				console.log(a)
+				if(a)
+					{
+						$scope.feedbackCheck = true;
+						break;
+					}
+
+			}
+			if(!$scope.feedbackCheck)
+			{				
+				notify({
+					message:'Select Feedback',
+					classes:'alert-danger',
+					duration:2000
+				});
+				return;
+			}
+			$scope.unsaved =false;
+			$http({
+				method: 'POST',
+				url: 'api/feedback/update',
 				data:{uId : $scope.teacher.id ,data:$scope.teacher }
 				}).then(function(success){
 				var data = success.data;
@@ -631,6 +700,8 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 
              $scope.changeNav = function(page)
 			{
+				console.log($scope.oldObj);
+				console.log($scope.teacher);
 				if(!angular.equals($scope.oldObj, $scope.teacher) && $scope.unsaved)
 				{
 						swal({
@@ -708,8 +779,8 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 	       		obj.purchasePrice = parseFloat(obj.purchasePrice);
 	       		obj.purchaseShare = parseFloat(obj.purchaseShare); 
 				obj.purchaseDate = moment(new Date(obj.purchaseDate)).format("DD/MM/YYYY");
-				obj.currentPrice = parseFloat("00.0000");
-				obj.benefits = parseFloat("00.0000");
+				obj.currentPrice = parseFloat(obj.current_price);
+				obj.benefits = parseFloat(obj.benefit);
 	       	}
        	  $scope.purchaseTable = createUsingFullOptionsPurchase();
        }
