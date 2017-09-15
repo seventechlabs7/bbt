@@ -408,7 +408,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 					$scope.teacher.id = $scope.teacher.id;
 					$timeout(function() {
 			    $scope.teacher.start_date = new Date();
-			    $scope.teacher.start_date = $filter('date')($scope.teacher.start_date, 'dd/MM/yyyy')
+			    $scope.teacher.start_date = $filter('date')($scope.teacher.start_date, 'dd/MM/yyyy');
 			}, 100);
 					//alert($scope.teacher.isGroup)
 				if(!$scope.teacher.isGroup)			

@@ -350,6 +350,11 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				$scope.teacher.league_name = data.league.league_name;
 				$scope.teacher.start_date = new Date(data.league.start_date);
 				$scope.teacher.end_date = new Date(data.league.end_date);
+
+				/*date filter*/
+			    $scope.teacher.start_date = $filter('date')($scope.teacher.start_date, 'dd/MM/yyyy');
+			    $scope.teacher.end_date = $filter('date')($scope.teacher.end_date, 'dd/MM/yyyy');
+
 				$scope.teacher.virtual_money = data.league.virtual_money;
 				$scope.teacher.assets = data.assets.split(',');
 				console.log($scope.teacher.assets)
@@ -364,7 +369,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 			{
 				if(!$scope.teacher.start_date )
 					return;
-				var from = $scope.teacher.start_date;
+				var from = new Date($scope.teacher.start_date.split("/").reverse().join("-"));
 				$scope.currentDate =  new Date();
 				var current = 	$scope.currentDate;
 				$scope.DisableStartDate = false;
@@ -381,20 +386,21 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 
 			$scope.stopcountdownFun = function(index)
 			{
-
+				$scope.pastDateCheck();
 				$scope.stopcountdown = true;
 				$scope.checkTime(index);
 			}
 			$scope.checkTime = function(index)
 		{	
-					
-	
+			$notify.closeAll();	
+			$scope.pastDateCheck();
 			if($scope.teacher.start_date && $scope.teacher.end_date)
 			{
-				var from = $scope.teacher.start_date;
-				var to = $scope.teacher.end_date;
+				var from = new Date($scope.teacher.start_date.split("/").reverse().join("-"));
+				var to = new Date($scope.teacher.end_date.split("/").reverse().join("-"));
 			}
-			
+			else
+				 return;
 		      var timeDiff = Math.abs(to.getTime() - from.getTime());
 		      var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));  
 		      if(to.getTime() < from.getTime())
@@ -420,6 +426,27 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 		      		 
 		      	},2000);*/
 		}
+
+		   $scope.pastDateCheck = function()
+	    {
+	    	notify.closeAll();
+	    	if($scope.teacher.start_date)
+	    	{
+	    		var date = new Date($scope.teacher.start_date.split("/").reverse().join("-"));
+	    		//var date = new Date($scope.teacher.start_date)	    		
+	    		if(date.setHours(0,0,0,0) < new Date().setHours(0,0,0,0))
+	    		{
+	    			$scope.teacher.start_date = undefined;
+	    			notify({
+							message:'Past Dates Not Allowed',
+							classes:'alert-danger',
+							duration:3000
+						});
+						return;	
+	    			
+	    		}
+	    	}
+	    }
 
 		$scope.updateLeague = function()
 		{

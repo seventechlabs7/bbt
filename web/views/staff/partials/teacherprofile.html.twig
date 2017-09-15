@@ -592,27 +592,19 @@ ul.unedit_ul {
 	   <script type="text/javascript">
 
 			function initPlug () {
-					/*$('#datetimepicker100').datetimepicker(
-						{
-							format: 'DD/MM/YYYY'
-						});*/
-						// $('[data-toggle="datepicker"]').datepicker();
 						  $("#picker1").datepicker({
 						  	format: "DD/MM/YYYY",
 						  	zIndex:9999999999,
-						  	startDate: new Date()
+						  	startDate: new Date(),
+						  	autoHide: true
 						  }); 
 						  $("#picker2").datepicker({
 						  	format: "DD/MM/YYYY",
-						  	zIndex:9999999999
+						  	zIndex:9999999999,
+						  	autoHide : true
 						  }); 
 				}
-			
-
-
 				initPlug();
-
-			    //$( "#datepicker" ).datepicker();
 
         </script>
 	</div>
