@@ -366,7 +366,8 @@ class UserPurchaseRepository extends EntityRepository
             $sql1 = 
                 '
                     SELECT  com.nom_empresa as asset ,
-                    op.fecha_apertura_compra  as purchaseDate ,op.prec_apertura_compra as purchasePrice ,op.volumen as purchaseShare 
+                    op.fecha_apertura_compra  as purchaseDate ,op.prec_apertura_compra as purchasePrice ,op.volumen as purchaseShare ,
+                    com.current_price as current_price , ((op.prec_apertura_compra * op.volumen) - (com.current_price )* (op.volumen - op.volumen_ya_vendido)) as benefit
                     from hist_user_compra as op  ,empresas as com 
                     where
                      com.id = op.id_empresa /*and op.id_user = :sid*/

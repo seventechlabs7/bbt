@@ -387,6 +387,69 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 		{	
 			$scope.teacherstatus.id = $stateParams.teacher_id;
 			notify.closeAll();	
+			if(!$scope.teacherstatus.name)
+			{
+				notify({
+					message:'Enter first name',
+					classes:'alert-danger',
+					duration:2000
+				});
+				return;
+			}
+			if(!$scope.teacherstatus.surname)
+			{
+				notify({
+					message:'Enter sur name',
+					classes:'alert-danger',
+					duration:2000
+				});
+				return;
+			}
+			if(!$scope.teacherstatus.email)
+			{
+				notify({
+					message:'Enter email',
+					classes:'alert-danger',
+					duration:2000
+				});
+				return;
+			}
+			if(!$scope.teacherstatus.university)
+			{
+				notify({
+					message:'Enter university',
+					classes:'alert-danger',
+					duration:2000
+				});
+				return;
+			}
+			if(!$scope.teacherstatus.about)
+			{
+				notify({
+					message:'Enter about',
+					classes:'alert-danger',
+					duration:2000
+				});
+				return;
+			}
+			if(!$scope.teacherstatus.teach_place)
+			{
+				notify({
+					message:'Enter teach place',
+					classes:'alert-danger',
+					duration:2000
+				});
+				return;
+			}
+			if(!$scope.teacherstatus.work)
+			{
+				notify({
+					message:'Enter work',
+					classes:'alert-danger',
+					duration:2000
+				});
+				return;
+			}
 			if($scope.teacherstatus.oldemail != $scope.teacherstatus.email)
 			{
 				swal({

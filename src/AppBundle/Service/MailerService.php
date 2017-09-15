@@ -51,36 +51,41 @@ class MailerService
 
    public function mailChangeLink($mailObject)
 {
-    
         $page ='Emails/mailchange.html.twig' ; 
-   
-    $message = (new \Swift_Message('BBT - Email Change Confirmation'))
+        $message = (new \Swift_Message('BBT - Email Change Confirmation'))
         ->setFrom('admin123@bbt.com')
         ->setTo($mailObject->{'toMail'})
         ->setBody(           
                 $this->templating->render(
-                    // app/Resources/views/Emails/registration.html.twig
+
                     $page,
                     array('regObject' =>  $mailObject)
                 ),
                 'text/html'
         )
-        /*
-         * If you also want to include a plaintext version of the message
-        ->addPart(
-            $this->renderView(
-                'Emails/registration.txt.twig',
-                array('name' => $name)
-            ),
-            'text/plain'
-        )
-        */
     ;
     
    $this->mailer->send($message);
 
-    // or, you can also fetch the mailer service this way
-    // $this->get('mailer')->send($message);
+    return new JsonResponse("successs");
+}
+public function mailChangeNotify($mailObject)
+{
+        $page ='Emails/mailnotify.html.twig' ; 
+        $message = (new \Swift_Message('BBT - Email Change Confirmation'))
+        ->setFrom('admin123@bbt.com')
+        ->setTo($mailObject->{'toMail'})
+        ->setBody(           
+                $this->templating->render(
+
+                    $page,
+                    array('regObject' =>  $mailObject)
+                ),
+                'text/html'
+        )
+    ;
+    
+   $this->mailer->send($message);
 
     return new JsonResponse("successs");
 }
