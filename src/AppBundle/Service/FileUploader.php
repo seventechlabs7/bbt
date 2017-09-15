@@ -16,9 +16,12 @@ class FileUploader
     {
         //$fileName = md5(uniqid()).'.'.$file->guessExtension();
         $fileName = $uId.'.'.$file->guessExtension();
-        $file->move($this->getTargetDir(), $fileName);
-
-        return $fileName;
+       // $file->move($this->getTargetDir(), $fileName);
+        $save = $this->getTargetDir(). strtolower($uId) .".png";
+        $img  = imagecreatefrompng($file);
+      return  imagepng($img, $save);
+        
+        return "success";
     }
 
     public function getTargetDir()

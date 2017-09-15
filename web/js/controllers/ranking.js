@@ -406,8 +406,9 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 			}
 			$scope.checkTime = function(index)
 		{	
-			notify.closeAll();	
-			$scope.pastDateCheck();
+			notify.closeAll();
+			if(!$scope.DisableStartDate)	
+			    $scope.pastDateCheck();
 			if($scope.teacher.start_date && $scope.teacher.end_date)
 			{
 				var from = new Date($scope.teacher.start_date.split("/").reverse().join("-"));
