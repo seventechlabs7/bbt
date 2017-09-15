@@ -530,6 +530,20 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 	    	}
 	    }
 
+	    $scope.dashBoard = function()
+       {
+       	$http({
+				method: 'POST',
+				url: 'api/ranking/dashboard',
+				data:{uId :  $stateParams.teacher_id }
+			}).then(function(success){
+				var data = success.data;
+				$scope.report = data.report;							
+			},function(error){
+
+			});
+       }
+
 	    $scope.initSettings = function()
 		{/*
 			var input = document.getElementById("sDateField");
