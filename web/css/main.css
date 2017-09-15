@@ -972,12 +972,49 @@ textarea.colored {
     display: inline-block;
 }
 .edit_page_icon {
-    padding: 20px;
+    padding: 0px;
     font-size: 20px;
     color: #010e9b;
+    width: 66px;
+    height: 66px;
+    margin: 10px;
+    text-align: center;
 }
 td,th{
     width: 15% !important;
+}
+.edit_page_icon img {
+    display: inline-block;
+    width: 100%;
+}
+.green_box {
+    display: inline-block;
+    margin: 20px;
+    width: 400px;
+    border: 1px solid #010e9b;
+    padding: 20px;
+    color: #fff;
+    text-align: left;
+    font-size: 13px;
+    border-radius: 14px;
+    background: #00B050;
+}
+.green_box {
+    display: inline-block;
+    margin: 20px;
+    width: 400px;
+    border: 1px solid #010e9b;
+    padding: 20px;
+    color: #fff;
+    text-align: left;
+    font-size: 13px;
+    border-radius: 14px;
+    background: #00B050;
+}
+
+select.blue_select {
+    background: #010e9b;
+    color: #fff !important;
 }
 /*Eo POst COmment*/
 /*==========  Non-Mobile First Method  ==========*/

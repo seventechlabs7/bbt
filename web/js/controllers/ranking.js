@@ -432,7 +432,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 		      $scope.currentEndDate = angular.copy($scope.teacher.end_date);
 		      //return;
 		      $scope.stopcountdown =false;
-		      updateClockNg();
+		     // updateClockNg();
 				
 
 /*		      $timeout(function()
@@ -691,11 +691,12 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				mins: parseInt($scope.seconds % 86400 % 3600 / 60),
 				seconds: parseInt($scope.seconds % 86400 % 3600 % 60)
 				}
-				setInterval(function () {
-				$scope.$apply(updateClockNg);
-				}, 60000);
+				
 			}
 
+			setInterval(function () {
+				$scope.$apply(updateClockNg);
+				}, 1000);
 			
 
              $scope.changeNav = function(page)

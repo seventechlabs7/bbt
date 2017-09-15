@@ -215,17 +215,18 @@ h1{
 }
 
 #clockdiv > div{
-	padding: 10px;
-	border-radius: 3px;
-	background: #00B200;
-	display: inline-block;
+    padding: 10px;
+    border-radius: 3px;
+    border: 1px solid #010e9b;
+    background: #00B050;
+    display: inline-block;
 }
 
 #clockdiv div > span{
-	padding: 15px;
-	border-radius: 3px;
-	background: #00B200;
-	display: inline-block;
+    padding: 15px;
+    border-radius: 3px;
+    background: #00B050;
+    display: inline-block;
 }
 
 .smalltext{
@@ -289,22 +290,42 @@ h1{
 					<!-- 	<select class="form-control" id="gId" name="gId" placeholder="Select group" ng-model="currentGroupId" ng-selected="currentGroupId" ng-change="loadRanking(currentGroupId)" >
 						<option ng-repeat="group in groups" value="{{group.id}}">{{group.id}}{{group.group_name}}</option>
 						</select> -->
-						<select class="form-control" ng-model="currentGroupId" 
+						<select class="form-control blue_select" ng-model="currentGroupId" 
 					      ng-options="group.id as group.group_name for group in groups" ng-change="loadRanking(currentGroupId)">
 					    </select>
 					</div>
 				</div>
 			</div>
-			<div class="row">
-				<ul>
-					<li>Number of students 		   : {{report.count}}</li>
-					<li>Total number of	operations : {{report.operations}}</li>
-					<li>Total Profitability        : {{report.percentage}} %</li>
-					<li>Total Benefits             : {{report.benefits}}</li>
-				</ul>
+			<div class="green_box">
+		      <div class="row">
+		      	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
+		      		<span>Number of students</span>
+		      	</div>
+		      	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+		      		{{report.count}}
+		      	</div>
+		      	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
+		      		<span>Total number of operations</span>
+		      	</div>
+		      	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+		      		{{report.operations}}
+		      	</div>
+		      	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
+		      		<span>Total Profitability</span>
+		      	</div>
+		      	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+		      		{{report.percentage}} %
+		      	</div>
+		      	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
+		      		<span>Total Benefits</span>
+		      	</div>
+		      	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+		      		{{report.benefits}}
+		      	</div>
+
+		      </div>
 			</div>
 			<div class="row">
-				<h1>Countdown Clock   </h1>
 					<div id="clockdiv">
 					<div>
 						<span class="days">{{timeTillEvent.days}}</span>
@@ -318,10 +339,10 @@ h1{
 						<span class="minutes">{{timeTillEvent.mins}}</span>
 						<div class="smalltext">Minutes</div>
 					</div>
-					 <!-- <div>
+					 <div>
 						<span class="seconds">{{timeTillEvent.seconds}}</span>
 						<div class="smalltext">Seconds</div>
-					</div>  -->
+					</div> 
 				</div>
 			</div>
 				
@@ -335,8 +356,8 @@ h1{
 									<span ng-switch-when=true><i class="fa fa-arrow-up" aria-hidden="true"></i></span>
 									<span ng-switch-when=false><i class="fa fa-arrow-down" aria-hidden="true"></i></span>
 								</div> -->
-								<span ng-if=positionCheck(row.old_position,row.position)><i class="fa fa-arrow-up" aria-hidden="true" style=" color: green;text-shadow: 1px 1px 1px #ccc;font-size: 1.5em;"></i></span>
-									<span ng-if=!positionCheck(row.old_position,row.position)><i class="fa fa-arrow-down" aria-hidden="true" style=" color: red;text-shadow: 1px 1px 1px #ccc;font-size: 1.5em;"></i></span>
+								<span class="pull-left" ng-if=positionCheck(row.old_position,row.position)><i class="fa fa-arrow-up" aria-hidden="true" style=" color: green;text-shadow: 1px 1px 1px #ccc;font-size: 1.5em;"></i></span>
+								<span class="pull-left" ng-if=!positionCheck(row.old_position,row.position)><i class="fa fa-arrow-down" aria-hidden="true" style=" color: red;text-shadow: 1px 1px 1px #ccc;font-size: 1.5em;"></i></span>
 								</td>
 								<td data-title="'Name'" filter="{name: 'text'}" sortable="'name'"><a ng-click="userBasedFeedBack(row.userId);" href="javascript:void(0)"> {{row.name}} </a></td>
 								<td data-title="'Amount'" filter="{amount: 'text'}" sortable="'amount'">{{row.amount}}</td>
@@ -389,7 +410,7 @@ h1{
 			         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 			            <div class="form-group">
 			               <label for="sel1">Select Student   </label>
-			               <select class="form-control" ng-model="studentId" 
+			               <select class="form-control blue_select" ng-model="studentId" 
 			                  ng-options="user.userId as user.username  for user in students" ng-change="userBasedFeedBack(studentId)">
 			               </select>
 			            </div>
@@ -401,14 +422,36 @@ h1{
 			         </div>
 
 			      </div>
-			      <div class="row">
-			         <ul>
-			            <li>Number of students 		   : {{report.count}}</li>
-			            <li>Total number of	operations : {{report.operations}}</li>
-			            <li>Total Profitability        : {{report.percent}} %</li>
-			            <li>Total Benefits             : {{report.benefits}}</li>
-			         </ul>
-			      </div>
+			      <div class="green_box">
+				      <div class="row">
+				      	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
+				      		<span>Number of students</span>
+				      	</div>
+				      	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+				      		{{report.count}}
+				      	</div>
+				      	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
+				      		<span>Total number of operations</span>
+				      	</div>
+				      	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+				      		{{report.operations}}
+				      	</div>
+				      	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
+				      		<span>Total Profitability</span>
+				      	</div>
+				      	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+				      		{{report.percentage}} %
+				      	</div>
+				      	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
+				      		<span>Total Benefits</span>
+				      	</div>
+				      	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+				      		{{report.benefits}}
+				      	</div>
+
+				      </div>
+			     </div>
+			         
 			   </div>
 			   <div class="profile_body_cont" ng-if="screen == 'start'">
 			      <!-- <button class="modal_nxt_bt" ng-click="loadRankingList()">Reload</button> -->

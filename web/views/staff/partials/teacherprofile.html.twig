@@ -265,8 +265,8 @@ ul.unedit_ul {
 						</div>
 					</div>
 					<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-						<div class="edit_page_icon">
-							<i class="fa fa-pencil" aria-hidden="true" fa-5x ng-click="editProfile()"></i>
+						<div class="edit_page_icon">							
+							<img src="imgs/settingsicon.png" ng-click="editProfile()">
 						</div>						
 					</div>
 				</div>
@@ -275,32 +275,35 @@ ul.unedit_ul {
 				<div class="row">
 					<div class="col-lg-4 col-md-3 col-sm-12 col-xs-12">
 						<div class="center_l_block">
-							<h3>Introduction</h3>
-							<div class="center_l_label">
-								Tell the world who you are:
-							</div>
-							<div class="center_l_txt_cont">
-								<textarea class="center_l_txtarea colored" ng-model="teacherstatus.about"></textarea>
-							</div>
-							<div class="center_l_label">
-								Where do you teach?
-							</div>
-							<div class="center_l_txt_cont">
-								<textarea class="center_l_txtarea colored" ng-model="teacherstatus.teach_place"></textarea>
-							</div>
-							<div class="center_l_label">
-								Do you work?
-							</div>
-							<div class="center_l_txt_cont">
-								<textarea class="center_l_txtarea colored" ng-model="teacherstatus.work"></textarea>
-							</div>
-							<div style="padding-left: 150px">
-								<button class="upload_pic_but" ng-click="teacher_status()">
-									Save
-								</button>
-							</div>
+							<div class="green_box">
+						      <div class="row">
+						      	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
+						      		<span>Number of students</span>
+						      	</div>
+						      	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+						      		{{report.count}}
+						      	</div>
+						      	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
+						      		<span>Total number of operations</span>
+						      	</div>
+						      	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+						      		{{report.operations}}
+						      	</div>
+						      	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
+						      		<span>Total Profitability</span>
+						      	</div>
+						      	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+						      		{{report.percentage}} %
+						      	</div>
+						      	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
+						      		<span>Total Benefits</span>
+						      	</div>
+						      	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+						      		{{report.benefits}}
+						      	</div>
 
-							
+						      </div>
+					     </div>							
 						</div>										
 					</div>
 					<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
