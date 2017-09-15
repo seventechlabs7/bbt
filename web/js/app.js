@@ -26,7 +26,7 @@ angular.module('app', [
    'cgNotify',
    'ngMessages',
    'angular-storage',
-   'ngTable'
+   'ngTable',
        //'angular-loading-bar', 
     //'ng-token-auth',
     //'ngFileUpload',
