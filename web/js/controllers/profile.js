@@ -389,10 +389,9 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 			notify.closeAll();	
 			if($scope.teacherstatus.oldemail != $scope.teacherstatus.email)
 			{
-
 				swal({
 				title: "Email changed",
-				text: "Are you sure you want to update email ?",
+				text: "Are you sure you want to update email ? You will have to verify email to update email",
 				type: "warning",
 				showCancelButton: true,
 				confirmButtonColor: "#DD6B55",

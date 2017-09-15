@@ -131,7 +131,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				$http({
 				method: 'POST',
 				url: 'api/student/removeFromGroup',
-				data:{uId : $scope.teacher.id ,'sId': sId}
+				data:{uId : $stateParams.teacher_id ,'sId': sId}
 				}).then(function(success){
 
 				var data = success.data;
@@ -418,7 +418,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 		      $scope.currentEndDate = angular.copy($scope.teacher.end_date);
 		      //return;
 		      $scope.stopcountdown =false;
-		      //updateClockNg();
+		      updateClockNg();
 				
 
 /*		      $timeout(function()
@@ -624,7 +624,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				}
 				setInterval(function () {
 				$scope.$apply(updateClockNg);
-				}, 1000);
+				}, 60000);
 			}
 
 			
@@ -708,6 +708,8 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 	       		obj.purchasePrice = parseFloat(obj.purchasePrice);
 	       		obj.purchaseShare = parseFloat(obj.purchaseShare); 
 				obj.purchaseDate = moment(new Date(obj.purchaseDate)).format("DD/MM/YYYY");
+				obj.currentPrice = parseFloat("00.0000");
+				obj.benefits = parseFloat("00.0000");
 	       	}
        	  $scope.purchaseTable = createUsingFullOptionsPurchase();
        }

@@ -365,10 +365,13 @@ ul.unedit_ul {
 			        							<div class="input_upload">
 			        								<input type="text" class="field_text" placeholder="Copy and Paste your mailing list" name="maillist"  ng-model="teacher.mail_list"/>
 			        							</div>
+			        							<small>Enter comma seperated emails</small>
 		        							</div>
+		        							(or)
 		        							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 			        							<div class="input_upload">
 			        								<input type="file" class="upload_text" placeholder="Find Your File(csv./other)" name="maillistfile" name="file" ngf-select="selectFile(teacher.mail_list_file)" ng-model="teacher.mail_list_file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
+			        								<small>Enter xls ,xlxs documents with emails</small>
 			        								<!-- <button class="upload_button">Upload</button> -->
 			        							</div>
 		        							</div>

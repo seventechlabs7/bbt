@@ -299,7 +299,7 @@ h1{
 				<ul>
 					<li>Number of students 		   : {{report.count}}</li>
 					<li>Total number of	operations : {{report.operations}}</li>
-					<li>Total Profitability        : {{report.percent}} %</li>
+					<li>Total Profitability        : {{report.percentage}} %</li>
 					<li>Total Benefits             : {{report.benefits}}</li>
 				</ul>
 			</div>
@@ -318,10 +318,10 @@ h1{
 						<span class="minutes">{{timeTillEvent.mins}}</span>
 						<div class="smalltext">Minutes</div>
 					</div>
-					 <div>
+					 <!-- <div>
 						<span class="seconds">{{timeTillEvent.seconds}}</span>
 						<div class="smalltext">Seconds</div>
-					</div> 
+					</div>  -->
 				</div>
 			</div>
 				
@@ -453,12 +453,14 @@ h1{
 							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
     							<div class="input_upload">
     								<input type="text" class="field_text" placeholder="Copy and Paste your mailing list" name="maillist"  ng-model="teacher.mail_list"/>
+    								<small>Enter comma seperated emails</small>
     							</div>
 							</div>
+							(or)
 							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
     							<div class="input_upload">
-    								<input type="file" class="upload_text" placeholder="Find Your File(csv./other)" name="maillistfile" name="file" ngf-select="selectFile(teacher.mail_list_file)" ng-model="teacher.mail_list_file"/>
-    							
+    								<input type="file" class="upload_text" placeholder="Find Your File(csv./other)" name="maillistfile" name="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" ngf-select="selectFile(teacher.mail_list_file)" ng-model="teacher.mail_list_file"/>
+    								<small>Enter xls ,xlxs documents with emails</small>
     							</div>
 							</div>
 						</div>
