@@ -42,8 +42,8 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 					$scope.currentGroupId = $scope.groupData.id;
 					$scope.groups = data.groups;
 					
-					$scope.groupData.start_date = $scope.strToDate($scope.groupData.start_date);
-					$scope.groupData.end_date = $scope.strToDate($scope.groupData.end_date);
+					$scope.groupData.start_date =   $filter('date')($scope.groupData.start_date, 'dd/MM/yyyy');
+					$scope.groupData.end_date =   $filter('date')($scope.groupData.end_date, 'dd/MM/yyyy');
 					var deadline = new Date($scope.groupData.end_date);
 					//$scope.initializeClock('clockdiv', deadline);
 					$scope.currentEndDate = angular.copy($scope.groupData.end_date);
@@ -392,7 +392,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 			}
 			$scope.checkTime = function(index)
 		{	
-			$notify.closeAll();	
+			notify.closeAll();	
 			$scope.pastDateCheck();
 			if($scope.teacher.start_date && $scope.teacher.end_date)
 			{
@@ -418,7 +418,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 		      $scope.currentEndDate = angular.copy($scope.teacher.end_date);
 		      //return;
 		      $scope.stopcountdown =false;
-		      updateClockNg();
+		      //updateClockNg();
 				
 
 /*		      $timeout(function()
@@ -451,7 +451,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 		$scope.updateLeague = function()
 		{
 			notify.closeAll();
-			if($scope.teacher.start_date)
+			if(!$scope.teacher.start_date)
 			{		
 
 				notify({
@@ -461,7 +461,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				});
 				return;
 			}
-			if($scope.teacher.end_date)
+			if(!$scope.teacher.end_date)
 			{				
 				notify({
 					message:'Fill End Date',
@@ -492,7 +492,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				});
 				return;
 			}
-			if($scope.teacher.league_name)
+			if(!$scope.teacher.league_name)
 			{				
 				notify({
 					message:'Enter League Name',
@@ -501,7 +501,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				});
 				return;
 			}
-			if($scope.teacher.virtual_money)
+			if(!$scope.teacher.virtual_money)
 			{				
 				notify({
 					message:'Enter Virtual Money',
@@ -511,8 +511,11 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				return;
 			}
 			//$scope.teacher.assets = $scope.teacher.assets.join(",");
-			console.log($scope.teacher.assets)
+			console.log($scope.teacher.assets);
+			$scope.teacher.start_date = new Date($scope.teacher.start_date.split("/").reverse().join("-"));
 			$scope.teacher.start_date =  $filter('date')($scope.teacher.start_date, 'yyyy-MM-dd');
+
+			$scope.teacher.end_date = new Date($scope.teacher.end_date.split("/").reverse().join("-"));
 			$scope.teacher.end_date =  $filter('date')($scope.teacher.end_date, 'yyyy-MM-dd');
 			$http({
 				method: 'POST',
@@ -605,7 +608,8 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 			 		return;
 			 	$scope.timeTillEvent = {};
 				var e = angular.copy($scope.currentEndDate);
-				var d1 = new Date(e);
+				e = new Date(e.split("/").reverse().join("-"));
+				var d1 = e;
 				d1.setHours(24,0,0,0);
 				var d2 = new Date();
 				//d2.setHours(0,0,0,0);
@@ -620,7 +624,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				}
 				setInterval(function () {
 				$scope.$apply(updateClockNg);
-				}, 60000);
+				}, 1000);
 			}
 
 			
