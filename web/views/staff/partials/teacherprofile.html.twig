@@ -93,7 +93,7 @@ button.left_bar_but.selected
 .pro_pic_upd_cont {
     display: inline-block;
     width: 100%;
-    padding: 20px;
+    padding: 20px 0;
 }
 
 .center_l_block, .center_l_label, .center_l_txt_cont,.center_l_txtarea {
@@ -135,8 +135,8 @@ textarea.center_l_txtarea {
 img.pro_pic_upd_img {
     display: inline-block;
     border-radius: 100%;
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
     margin: 0 auto;
     border: 0;
 }
@@ -170,7 +170,7 @@ ul.unedit_ul {
 .pro_pic_cont {
     display: inline-block;
     width: 100%;
-    padding: 20px 20px 0 20px;
+    padding: 0;
     text-align: center;
 }
 .body_main_text > .biggerText {
@@ -235,12 +235,14 @@ ul.unedit_ul {
 		<div class="center_container">
 			<div class="profile_head_cont">
 				<div class="row">
-					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+					<div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
 						<div class="pro_pic_upd_cont">
 							<div class="pro_pic_cont">
+							<div class="image_and_select">
 							<input type="file" class="upload_text" placeholder="Avatar" accept="image/jpg,image/jpeg,image/png"  name="avatar_file" ngf-select="selectAvatar(teacher.avatarFile)" ng-model="teacher.avatarFile"/>
 								<img  ng-if="imageSelected" ngf-src="teacher.avatarFile" class="pro_pic_upd_img">
 								<img ng-if="!imageSelected" src="{{profileImageUrl}}" class="pro_pic_upd_img">
+							</div>
 							</div>							
 							<button class="upload_pic_but" ng-click="uploadAvatar()">
 								Upload Photo
@@ -263,7 +265,9 @@ ul.unedit_ul {
 						</div>
 					</div>
 					<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-						<i class="fa fa-cog" aria-hidden="true" fa-5x ng-click="editProfile()"></i>
+						<div class="edit_page_icon">
+							<i class="fa fa-pencil" aria-hidden="true" fa-5x ng-click="editProfile()"></i>
+						</div>						
 					</div>
 				</div>
 			</div> 
@@ -271,23 +275,24 @@ ul.unedit_ul {
 				<div class="row">
 					<div class="col-lg-4 col-md-3 col-sm-12 col-xs-12">
 						<div class="center_l_block">
+							<h3>Introduction</h3>
 							<div class="center_l_label">
 								Tell the world who you are:
 							</div>
 							<div class="center_l_txt_cont">
-								<textarea class="center_l_txtarea" ng-model="teacherstatus.about"></textarea>
+								<textarea class="center_l_txtarea colored" ng-model="teacherstatus.about"></textarea>
 							</div>
 							<div class="center_l_label">
 								Where do you teach?
 							</div>
 							<div class="center_l_txt_cont">
-								<textarea class="center_l_txtarea" ng-model="teacherstatus.teach_place"></textarea>
+								<textarea class="center_l_txtarea colored" ng-model="teacherstatus.teach_place"></textarea>
 							</div>
 							<div class="center_l_label">
 								Do you work?
 							</div>
 							<div class="center_l_txt_cont">
-								<textarea class="center_l_txtarea" ng-model="teacherstatus.work"></textarea>
+								<textarea class="center_l_txtarea colored" ng-model="teacherstatus.work"></textarea>
 							</div>
 							<div style="padding-left: 150px">
 								<button class="upload_pic_but" ng-click="teacher_status()">
@@ -300,37 +305,84 @@ ul.unedit_ul {
 					</div>
 					<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
 						<div class="center_r_block">
-
-
-						<div class="post-container" ng-repeat="op in timeLine ">                
-								<div class="post-thumb"><img src="http://dummyimage.com/50x50/f0f/fff" /></div>
-								<div class="post-content center_l_label">
-									<p>
-										<b> {{op.username}} </b> purchased <b>{{op.shares}}</b> shares from <b>{{op.nom_empresa}}</b> at <b>{{op.amount}} &euro;</b>
-									</p>
+						<div class="post_cont">
+							<div class="single_post" ng-repeat="op in timeLine ">
+								<div class="single_profile">
 									<div class="row">
-									
-									</div>
-									<div class="row">
-										<div class="col-lg-2 col-md-2 col-sm-4 col-xs-4"> <a href="javascript:void()" ng-click="postLike(op.recordId)">Like</a> 	{{op.likes.length}} <i class="fa fa-thumbs-o-up" aria-hidden="true"></i></div> 	<div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">  <a href="javascript:void()" >Comment</a></div>
-									</div>
-									<div class="row" ng-repeat="com in op.comments">
-										<div class="row">
-											
-											<div class="center_l_label">
-												<b> {{com.commentatorName}} </b> {{com.name}}
+										<div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
+											<div class="post_image big">
+												 <img src="http://dummyimage.com/50x50/f0f/fff" />
 											</div>
-											<div class="center_l_label">
-												<div class="col-lg-2 col-md-2 col-sm-4 col-xs-4" ng-click="postCommentLike(op.recordId,com.commentId)"> <a href="javascript:void()" >Like</a> {{com.commentLikes.length}} <i class="fa fa-thumbs-o-up" aria-hidden="true"></i></div></div>										
+										</div>
+										<div class="col-lg-10 col-md-10 col-sm-10 col-xs-9">
+											<div class="post_line">
+												<span class="post_name">{{op.username}}</span> has bought
+											</div>
+											<div class="post_line">
+												<span class="bold">{{op.shares}}</span> shares of <span class="bold">{{op.nom_empresa}}</span> for <span class="bold">{{op.amount}} &euro;</span>
+											</div>
+											<div class="post_line">
+												<p>
+													<a href="javascript:void()" class="like_a" ng-click="postLike(op.recordId)"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a>{{op.likes.length}}    <a href="javascript:void(0)" ng-click="openclosecmt($index)">Comment</a>
+												</p>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
+											
 
 										</div>
-										
+										<div class="col-lg-10 col-md-10 col-sm-10 col-xs-9">
+											<div class="multi_comment_whole" id="multiwhole{{$index}}">
+												<div class="multi_comment_block" ng-repeat="com in op.comments">
+													<div class="row">
+														<div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
+															<div class="multi_comment_who">
+																<div class="comment_who">
+																	<div class="post_image small">
+																		 <img src="http://dummyimage.com/50x50/f0f/fff" />
+																	</div>
+																	<p><span class="post_name bold">{{com.commentatorName}}</span></p> 
+																</div>
+															</div>
+														</div>
+														<div class="col-lg-10 col-md-10 col-sm-10 col-xs-9">
+															<div class="commented">
+																<p>{{com.name}}</p>
+															</div>												
+														</div>
+														<div class="likes_section">
+																<div class="post_line">
+																<a href="javascript:void()" class="like_a" ng-click="postCommentLike(op.recordId,com.commentId)"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a> {{com.commentLikes.length}} 
+																</div>
+															</div>
+													</div>			
+												</div>
+											</div>
+										</div>										
 									</div>
-									<div class="row">
-										<textarea rows="3" ng-model = "com.currentComment" name="comment" id="comment" ng-minlenght="2" ng-submit="postComment(op.id,com.commentId)"></textarea> <button ng-click="postComment(op.recordId,com.currentComment)">Comment</button>
+									
+
+									<div class="multi_comment_comments">
+										<div class="comment_box">
+											<div class="row">
+												<div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
+													<textarea rows="3" placeholder="Write a comment..." ng-model = "com.currentComment" name="comment" id="comment" ng-minlenght="2" ng-submit="postComment(op.id,com.commentId)"></textarea>
+												</div>
+												<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+													<button class="post_button" ng-click="postComment(op.recordId,com.currentComment)">Comment</button>
+												</div>
+											</div>
+											 
+										</div>
 									</div>
-							</div>							
+								</div>
+							</div>
+
 						</div>
+
+
 
 					</div>
 				</div>

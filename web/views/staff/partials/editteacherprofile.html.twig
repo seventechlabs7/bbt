@@ -93,7 +93,7 @@ button.left_bar_but.selected
 .pro_pic_upd_cont {
     display: inline-block;
     width: 100%;
-    padding: 20px;
+    padding: 20px 0;
 }
 
 .center_l_block, .center_l_label, .center_l_txt_cont,.center_l_txtarea {
@@ -135,8 +135,8 @@ textarea.center_l_txtarea {
 img.pro_pic_upd_img {
     display: inline-block;
     border-radius: 100%;
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
     margin: 0 auto;
     border: 0;
 }
@@ -170,7 +170,7 @@ ul.unedit_ul {
 .pro_pic_cont {
     display: inline-block;
     width: 100%;
-    padding: 20px 20px 0 20px;
+    padding: 0;
     text-align: center;
 }
 .body_main_text > .biggerText {
@@ -240,26 +240,34 @@ ul.unedit_ul {
 		  <form id="profile" name="profile">
 			<div class="profile_head_cont">
 				<div class="row">
-					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+					<div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
 						<div class="pro_pic_upd_cont">
 							<div class="pro_pic_cont">
+							<div class="image_and_select">
 							<input type="file" class="upload_text" placeholder="Avatar" accept="image/jpg,image/jpeg,image/png"  name="avatar_file" ngf-select="selectAvatar(teacher.avatarFile)" ng-model="teacher.avatarFile"/>
-								<img  ng-if="imageSelected" ngf-src="teacher.avatarFile" class="pro_pic_upd_img">
-								<img ng-if="!imageSelected" src="{{profileImageUrl}}" class="pro_pic_upd_img">
+							<img  ng-if="imageSelected" ngf-src="teacher.avatarFile" class="pro_pic_upd_img">
+							<img ng-if="!imageSelected" src="{{profileImageUrl}}" class="pro_pic_upd_img">
+							</div>
 							</div>							
 							<button class="upload_pic_but" ng-click="uploadAvatar()">
 								Upload Photo
 							</button>
 						</div>
 					</div>
-					<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-						  
+					<div class="col-lg-10 col-md-10 col-sm-10 col-xs-9 text-left">
+					<div class="edit_elements_form">	  
 						
 						  <div class="row">
 						  	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 						    <div class="form-group">
-						      <label for="name">Name </label>
-						      <input type="text" class="form-control" id="email" placeholder="Enter name" name="name" ng-model="teacherstatus.name" ng-minlength="2" ng-maxlength="30" ng-pattern="/^[a-zA-Z ]*$/" required>
+						    <div class="row">
+						      <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 text-right">
+							   		<label for="name">Name </label>
+							  </div>
+							  <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 text-right">
+							  		<input type="text" class="form-control" id="email" placeholder="Enter name" name="name" ng-model="teacherstatus.name" ng-minlength="2" ng-maxlength="30" ng-pattern="/^[a-zA-Z ]*$/" required>
+							  </div>
+						    </div>
 						    </div>
 						    <div ng-messages="profile.name.$error" ng-show="profile.name.$touched">
 							       <div ng-messages-include="js/messages.html"></div>
@@ -267,10 +275,16 @@ ul.unedit_ul {
 						    </div>
 						    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 							   <div class="form-group">
-						      		<label for="name">Sur Name </label>
-						      <input type="text" class="form-control" id="email" placeholder="Enter surname" name="surname" 
-						      ng-model="teacherstatus.surname" ng-minlength="2" ng-maxlength="30" ng-pattern="/^[a-zA-Z ]*$/"
-						      required>
+							   <div class="row">
+							   		<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 text-right">
+							   			<label for="name">Sur Name </label>
+							   		</div>
+							   		<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 text-right">
+							   			<input type="text" class="form-control" id="email" placeholder="Enter surname" name="surname"  ng-model="teacherstatus.surname" ng-minlength="2" ng-maxlength="30" ng-pattern="/^[a-zA-Z ]*$/" required>
+							   		</div>
+							   </div>
+						      
+						      
 						    </div> 
 						    <div ng-messages="profile.surname.$error" ng-show="profile.surname.$touched">
 							       <div ng-messages-include="js/messages.html"></div>
@@ -280,9 +294,14 @@ ul.unedit_ul {
 						    <div class="row">
 						  	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 						    <div class="form-group">
-						      <label for="email">Email</label>
-						      <input type="email" class="form-control" id="email" ng-model="teacherstatus.email" placeholder="Enter email" name="email" 
-						      ng-model="teacherstatus.email" ng-pattern="/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,30}$/" required>
+						    	<div class="row">
+							   		<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 text-right">
+							   			<label for="email">Email</label>
+							   		</div>
+						      		<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 text-right">
+						      			<input type="email" class="form-control" id="email" ng-model="teacherstatus.email" placeholder="Enter email" name="email" ng-model="teacherstatus.email" ng-pattern="/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,30}$/" required>
+						      		</div>
+						      	</div>
 						    </div>
 						    <div ng-messages="profile.email.$error" ng-show="profile.email.$touched">
 							       <div ng-messages-include="js/messages.html"></div>
@@ -290,10 +309,14 @@ ul.unedit_ul {
 						    </div>
 						    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 							 <div class="form-group">
-						      <label for="university">University</label>
-						      <input type="text" class="form-control" id="university" placeholder="Enter university" name="university" 
-						      ng-model="teacherstatus.university" ng-minlength="2" ng-maxlength="30" ng-pattern="/^[a-zA-Z ]*$/"
-						       required>
+							 	<div class="row">
+							   		<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 text-right">
+							   			<label for="university">University</label>
+							   		</div>
+						      		<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 text-right">
+						      			<input type="text" class="form-control" id="university" placeholder="Enter university" name="university" ng-model="teacherstatus.university" ng-minlength="2" ng-maxlength="30" ng-pattern="/^[a-zA-Z ]*$/" required>
+						      		</div>
+						      	</div>
 						    </div>
 						    <div ng-messages="profile.university.$error" ng-show="profile.university.$touched">
 							       <div ng-messages-include="js/messages.html"></div>
@@ -302,7 +325,7 @@ ul.unedit_ul {
 						    </div>
 						    
 
-						
+					</div>
 					</div>
 					
 				</div>
@@ -353,7 +376,7 @@ ul.unedit_ul {
 								Tell the world who you are:
 							</div>
 							<div class="center_l_txt_cont">
-								<textarea class="center_l_txtarea" ng-model="teacherstatus.about" name="about" id="about" 
+								<textarea class="center_l_txtarea colored" ng-model="teacherstatus.about" name="about" id="about" 
 								ng-minlength="2" ng-maxlength="150" ng-pattern="/^[a-zA-Z ]*$/"
 								 required></textarea>
 							</div>
@@ -364,7 +387,7 @@ ul.unedit_ul {
 								Where do you teach?
 							</div>
 							<div class="center_l_txt_cont">
-								<textarea class="center_l_txtarea" ng-model="teacherstatus.teach_place" id="teach_place" name="teach_place" 
+								<textarea class="center_l_txtarea colored" ng-model="teacherstatus.teach_place" id="teach_place" name="teach_place" 
 								ng-minlength="2" ng-maxlength="150" ng-pattern="/^[a-zA-Z ]*$/"
 								required></textarea>
 							</div>
@@ -375,7 +398,7 @@ ul.unedit_ul {
 								Do you work?
 							</div>
 							<div class="center_l_txt_cont">
-								<textarea class="center_l_txtarea" ng-model="teacherstatus.work" id="work" name="work"
+								<textarea class="center_l_txtarea colored" ng-model="teacherstatus.work" id="work" name="work"
 								ng-minlength="2" ng-maxlength="150" ng-pattern="/^[a-zA-Z ]*$/"
 								 required></textarea>
 							</div>

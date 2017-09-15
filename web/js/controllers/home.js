@@ -20,6 +20,12 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 			}
 		});
 
+
+        $scope.openclosecmt = function(a)
+        {
+        	$('#multiwhole'+a).slideToggle(500);
+        }
+
 		$scope.messageFile = "js/messages.html";
 
         $scope.currentPage ="home";
