@@ -935,7 +935,7 @@ button.head_login_but.gradient,.form_submit_but.gradient {
 
 .comment_box .post_button {
     display: inline-block;
-    width: 150px;
+    width: auto;
     border: 0;
     padding: 7px 15px;
     text-align: center;
@@ -975,6 +975,9 @@ textarea.colored {
     padding: 20px;
     font-size: 20px;
     color: #010e9b;
+}
+td,th{
+    width: 15% !important;
 }
 /*Eo POst COmment*/
 /*==========  Non-Mobile First Method  ==========*/
