@@ -408,7 +408,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 					$scope.teacherstatus.teach_place = $scope.teacher.teach_place;
 					$scope.teacherstatus.work = $scope.teacher.work;
 					$scope.profileImageUrl = success.data.profileImageUrl ;
-					$scope.profileImageUrl = success.data.profileImageUrl+"/"+$scope.teacher.id+".jpeg";
+					$scope.profileImageUrl = success.data.profileImageUrl+"/"+$scope.teacher.id+".png";
 					if(!$scope.teacher.virtual_money)
 						$scope.teacher.virtual_money = "25000.00";
 					$scope.teacher.id = $scope.teacher.id;
@@ -529,6 +529,20 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 	    		}
 	    	}
 	    }
+
+	    $scope.dashBoard = function()
+       {
+       	$http({
+				method: 'POST',
+				url: 'api/ranking/dashboard',
+				data:{uId :  $stateParams.teacher_id }
+			}).then(function(success){
+				var data = success.data;
+				$scope.report = data.report;							
+			},function(error){
+
+			});
+       }
 
 	    $scope.initSettings = function()
 		{/*

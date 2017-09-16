@@ -83,8 +83,6 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				data:{uId :  $stateParams.teacher_id }
 			}).then(function(success){
 				var data = success.data;
-				console.log("list");
-				console.log(data)
 				$scope.report = data.report;							
 			},function(error){
 
@@ -406,8 +404,9 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 			}
 			$scope.checkTime = function(index)
 		{	
-			notify.closeAll();	
-			$scope.pastDateCheck();
+			notify.closeAll();
+			if(!$scope.DisableStartDate)	
+			    $scope.pastDateCheck();
 			if($scope.teacher.start_date && $scope.teacher.end_date)
 			{
 				var from = new Date($scope.teacher.start_date.split("/").reverse().join("-"));
