@@ -1017,6 +1017,28 @@ select.blue_select {
     background: #010e9b;
     color: #fff !important;
 }
+.modal_image_container,.modal_image {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}
+
+.modal_image img {
+    display: inline-block;
+    width: 100%;
+}
+
+.modal_image_container {
+    max-width: 200px;
+}
+.before_boxes
+{
+    display: inline-block;
+    width:100%;
+    text-align: right;
+    padding: 20px; 
+    font-weight: 600;
+}
 /*Eo POst COmment*/
 
 

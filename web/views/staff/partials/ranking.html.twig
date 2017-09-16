@@ -297,44 +297,49 @@ h1{
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-					
+				<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+					<p class="before_boxes">
+						General Statistics
+					</p>
 				</div>
-				<div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
-					
+				<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+					<div class="green_box">
+				      <div class="row">
+				      	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
+				      		<span>Number of students</span>
+				      	</div>
+				      	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+				      		{{report.count}}
+				      	</div>
+				      	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
+				      		<span>Total number of operations</span>
+				      	</div>
+				      	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+				      		{{report.operations}}
+				      	</div>
+				      	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
+				      		<span>Total Profitability</span>
+				      	</div>
+				      	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+				      		{{report.percentage}} %
+				      	</div>
+				      	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
+				      		<span>Total Benefits</span>
+				      	</div>
+				      	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+				      		{{report.benefits}}
+				      	</div>
+
+				      </div>
+					</div>
 				</div>
 				<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-					
+					<div class="modal_image_container">
+						<div class="modal_image">
+							<img src="imgs/chart_line.png" class="modal_banner">
+						</div>
+					</div>
 				</div>
-			</div>
-			<div class="green_box">
-		      <div class="row">
-		      	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
-		      		<span>Number of students</span>
-		      	</div>
-		      	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-		      		{{report.count}}
-		      	</div>
-		      	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
-		      		<span>Total number of operations</span>
-		      	</div>
-		      	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-		      		{{report.operations}}
-		      	</div>
-		      	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
-		      		<span>Total Profitability</span>
-		      	</div>
-		      	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-		      		{{report.percentage}} %
-		      	</div>
-		      	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
-		      		<span>Total Benefits</span>
-		      	</div>
-		      	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-		      		{{report.benefits}}
-		      	</div>
-
-		      </div>
 			</div>
 			<div class="row">
 					<div id="clockdiv">

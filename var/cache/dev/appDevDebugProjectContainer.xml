@@ -152,7 +152,7 @@
     <parameter key="mailer_password">optisol-7</parameter>
     <parameter key="secret">48ec05b8b3c5247f643fe5665fe350704b280aef</parameter>
     <parameter key="jwt_key_pass_phrase">secretbbt</parameter>
-    <parameter key="avatar_dir_teachers">C:/xampp/htdocs/Media/avatars/teachers</parameter>
+    <parameter key="avatar_dir_teachers">/../../../web/imgs/iconos/</parameter>
     <parameter key="mail_file">D:/bbt/mail</parameter>
     <parameter key="salt_key">bbtKey</parameter>
     <parameter key="locale">en</parameter>
@@ -677,7 +677,7 @@
     </service>
     <service id="AppBundle\Service\CustomQuery" class="AppBundle\Service\CustomQuery" public="false" autowire="true" autoconfigure="true"/>
     <service id="AppBundle\Service\FileUploader" class="AppBundle\Service\FileUploader" public="false" autowire="true" autoconfigure="true">
-      <argument>C:/xampp/htdocs/Media/avatars/teachers</argument>
+      <argument>/../../../web/imgs/iconos/</argument>
     </service>
     <service id="AppBundle\Service\MailerService" class="AppBundle\Service\MailerService" public="false" autowire="true" autoconfigure="true">
       <argument type="service" id="swiftmailer.mailer.default"/>
@@ -882,7 +882,7 @@
       <tag name="monolog.logger" channel="cache"/>
       <argument></argument>
       <argument>0</argument>
-      <argument>Y15ZsKdckHJecQDJ6G7ix4</argument>
+      <argument>RIOC9D+klxw9AFT51hfbQk</argument>
       <argument>C:\xampp\htdocs\bbt_new\bbt\var\cache\dev/pools</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
@@ -892,7 +892,7 @@
       <tag name="monolog.logger" channel="cache"/>
       <argument></argument>
       <argument>0</argument>
-      <argument>Y15ZsKdckHJecQDJ6G7ix4</argument>
+      <argument>RIOC9D+klxw9AFT51hfbQk</argument>
       <call method="setLogger">
         <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       </call>
@@ -3157,12 +3157,12 @@
     </service>
     <service id="security.authentication.listener.anonymous.main" class="Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener" public="false">
       <argument type="service" id="security.token_storage"/>
-      <argument>59bbe77b8bad19.98000313</argument>
+      <argument>59bd1da04d5105.70092449</argument>
       <argument type="service" id="monolog.logger.security" on-invalid="null"/>
       <argument type="service" id="security.authentication.manager"/>
     </service>
     <service id="security.authentication.provider.anonymous.main" class="Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider" public="false">
-      <argument>59bbe77b8bad19.98000313</argument>
+      <argument>59bd1da04d5105.70092449</argument>
     </service>
     <service id="security.exception_listener.main" class="Symfony\Component\Security\Http\Firewall\ExceptionListener" public="false">
       <argument type="service" id="security.token_storage"/>
@@ -6152,7 +6152,7 @@
     <service id="cache.system.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface" public="false" lazy="true">
       <argument>6Vw4e9ner3</argument>
       <argument>0</argument>
-      <argument>Y15ZsKdckHJecQDJ6G7ix4</argument>
+      <argument>RIOC9D+klxw9AFT51hfbQk</argument>
       <argument>C:\xampp\htdocs\bbt_new\bbt\var\cache\dev/pools</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
@@ -6160,7 +6160,7 @@
     <service id="cache.validator.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface" public="false" lazy="true">
       <argument>kLsrtfw+iR</argument>
       <argument>0</argument>
-      <argument>Y15ZsKdckHJecQDJ6G7ix4</argument>
+      <argument>RIOC9D+klxw9AFT51hfbQk</argument>
       <argument>C:\xampp\htdocs\bbt_new\bbt\var\cache\dev/pools</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
@@ -6168,7 +6168,7 @@
     <service id="cache.serializer.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface" public="false" lazy="true">
       <argument>3B59-WOVqz</argument>
       <argument>0</argument>
-      <argument>Y15ZsKdckHJecQDJ6G7ix4</argument>
+      <argument>RIOC9D+klxw9AFT51hfbQk</argument>
       <argument>C:\xampp\htdocs\bbt_new\bbt\var\cache\dev/pools</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
@@ -6176,7 +6176,7 @@
     <service id="cache.annotations.recorder_inner" class="Symfony\Component\Cache\Adapter\AdapterInterface" public="false" lazy="true">
       <argument>FvnzS9nUCS</argument>
       <argument>0</argument>
-      <argument>Y15ZsKdckHJecQDJ6G7ix4</argument>
+      <argument>RIOC9D+klxw9AFT51hfbQk</argument>
       <argument>C:\xampp\htdocs\bbt_new\bbt\var\cache\dev/pools</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
