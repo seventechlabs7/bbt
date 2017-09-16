@@ -18,6 +18,12 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 			}).then(function(success){
 				console.log(success);
 				$scope.teacher = success.data.data;
+				if(!$scope.teacher.isGroup)			
+						{
+							$state.go('app.profile', {
+					    		teacher_id: $stateParams.teacher_id
+							});	
+						}
 				console.log($scope.teacher);
 				for(var i in $scope.teacher){					
 					$scope.teacher.id = $scope.teacher.id;			

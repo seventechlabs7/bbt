@@ -599,6 +599,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 							classes:'alert-success',
 							duration:3000
 						});
+				$scope.profileImageUrl = "";
 				$scope.imageSelected =false;
 				$scope.getteacherdetails();
 						return;					

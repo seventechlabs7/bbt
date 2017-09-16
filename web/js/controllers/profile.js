@@ -215,6 +215,12 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 				
 						$scope.teacherstatus ={};
 					console.log($scope.teacher);
+					if(!$scope.teacher.isGroup)			
+						{
+							$state.go('app.profile', {
+					    		teacher_id: $stateParams.teacher_id
+							});	
+						}
 					$scope.teacherstatus.name = $scope.teacher.name;
 					$scope.teacherstatus.surname =$scope.teacher.surname;
 					$scope.teacherstatus.email = $scope.teacher.email;
@@ -225,7 +231,7 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 					$scope.teacherstatus.work = $scope.teacher.work;
 					$scope.teacherstatus.id =	$scope.teacher.id;
 					$scope.profileImageUrl = success.data.profileImageUrl ;
-					$scope.profileImageUrl = success.data.profileImageUrl+"/"+$scope.teacher.id+".jpeg";
+					//$scope.profileImageUrl = success.data.profileImageUrl+"/"+$scope.teacher.id+".jpeg";
 					if(!$scope.teacher.virtual_money)
 						$scope.teacher.virtual_money = "25.00";
 					$scope.teacher.id = $scope.teacher.id;
@@ -376,6 +382,7 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 							duration:3000
 						});
 				$scope.imageSelected =false;
+				$scope.profileImageUrl ="";
 				$scope.getteacherdetails();
 						return;					
 			},function(error){

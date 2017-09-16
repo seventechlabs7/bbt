@@ -156,13 +156,14 @@ class UniversityController extends Controller
         if(count($post) >0)
         {
         	$isGroup =true;
+        	
         }
         else
         	$isGroup =false;
         $user  = $em->getRepository('AppBundle:UserPurchaseHistory')
                 ->findUserIdByTeacherId($profile['id']);
                 if($user)
-        			$profileImageUrl = "/imgs/iconos".$user['image'];
+        			$profileImageUrl = "/imgs/iconos/".$user['image'];
        			else
        				$profileImageUrl = "";
         $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'] ;
