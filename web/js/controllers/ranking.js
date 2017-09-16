@@ -18,6 +18,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 			}).then(function(success){
 				console.log(success);
 				$scope.teacher = success.data.data;
+				$scope.teacher.isGroup = success.data.isGroup;
 				if(!$scope.teacher.isGroup)			
 						{
 							$state.go('app.profile', {

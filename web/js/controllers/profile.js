@@ -211,6 +211,7 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 			}).then(function(success){
 				console.log(success);
 				$scope.teacher = success.data.data;
+				$scope.teacher.isGroup = success.data.isGroup;
 				console.log($scope.teacher);
 				
 						$scope.teacherstatus ={};
