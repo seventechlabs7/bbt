@@ -259,7 +259,7 @@ class UserPurchaseRepository extends EntityRepository
                    UPDATE  chats set  messages =:messages  where members = :members  
                     ';
             $stmt = $conn->prepare($sql);
-             $stmt->execute(array('members'=>$members ,'messages' =>"<p>".$newmessage));
+             $stmt->execute(array('members'=>$members ,'messages' =>$newmessage));
             //$final = $stmt->fetch();   
             //var_dump($final);die;         
             return ($stmt);

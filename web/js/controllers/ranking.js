@@ -1,8 +1,8 @@
 'use strict';
 
 
-angular.module('app').controller('ranking', ['$scope','$document','$rootScope','$stateParams','$http','$state','$timeout','uiGmapGoogleMapApi','$filter','Upload','notify','NgTableParams',
-    function($scope,$document,$rootScope,$stateParams,$http,$state,$timeout,uiGmapGoogleMapApi,$filter,Upload,notify,NgTableParams) {
+angular.module('app').controller('ranking', ['$scope','$document','$rootScope','$stateParams','$http','$state','$timeout','uiGmapGoogleMapApi','$filter','Upload','notify','NgTableParams','blockUI',
+    function($scope,$document,$rootScope,$stateParams,$http,$state,$timeout,uiGmapGoogleMapApi,$filter,Upload,notify,NgTableParams,blockUI) {
         
        $scope.screen = "start";
        $scope.init = function(gId)
@@ -624,34 +624,17 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 
 		$scope.chatNow = function(row)
 		{
+			$scope.chatUserId = row;
+			$scope.chat = {};
 			$http({
 				method: 'POST',
 				url: 'api/chat/get',
-				data:{tId : 815 ,uId:row.userId }
+				data:{tId : $stateParams.teacher_id ,uId : $scope.chatUserId }
 				}).then(function(success){
 				var data = success.data.list;
+				$scope.processMessages(data,success.data.myName);
 				$scope.curEncUID = success.data.encUID;
-						swal({
-							title: "Chat with "+row.name,
-							text: data.messages,
-							type: "input",
-							showCancelButton: true,
-							closeOnConfirm: false,
-							animation: "slide-from-top",
-							inputPlaceholder: "type your message here",
-							html:true,
-							showLoaderOnConfirm: true,
-						},
-						function(inputValue){
-						if (inputValue === false) 
-							return false;
-						if (inputValue === "") {
-							swal.showInputError("You need to write something!");
-							return false
-						}
-						$scope.sendMessage(815,row.userId,inputValue);
 						
-						});
 
 				$scope.changeScreen('start');			
 				},function(error){
@@ -659,15 +642,68 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				});
 		}
 
-		$scope.sendMessage = function(uId,tId,inputValue)
+		//$scope.sendMessage($stateParams.teacher_id,row.userId,inputValue);
+		$scope.processMessages = function(data,myName)
 		{
+			console.log(data);
+			$scope.messageList = [];
+			$scope.chat = {};
+			$scope.chat.partnerName = data.username;
+			var messages = data.messages.split(/<p>(.*?)<em>/);
+			console.log(messages);
+			for(var i = 0 ; i <messages.length;i++)
+			{
+				var message = messages[i];
+				if(message)
+				{
+					var finalOj = {};
+					var newObj = message.split(":");
+					var j = 0;
+					if(newObj.length == 2)
+					{						
+						finalOj.user = newObj[0];
+						finalOj.myName = myName;
+						if(finalOj.user == myName)
+							finalOj.type = "right";
+						else
+							finalOj.type = "left";
+						finalOj.message = newObj[1];
+						$scope.messageList.push(finalOj);
+						j++;
+					}
+					/*else
+					{
+						finalOj.time = message;
+						$scope.messageList.splice(j, 0, finalOj);
+					}*/
+					
+					
+				}
+			}
+			$scope.chatActive = true;
+			$scope.chat.messages = [];
+			$scope.chat.messages = $scope.messageList;
+			console.log($scope.chat);
+		}
+
+		$scope.chatType = function(message)
+		{
+			if(message.user != message.myName)
+				return "message-partner";
+		}
+
+		$scope.sendMessage = function()
+		{
+			var message = $scope.chat.newMessage;
+			$scope.chat.newMessage = "";
+			blockUI.stop();
 			$http({
 				method: 'POST',
 				url: 'api/chat/send',
-				data:{uId :uId ,tId:tId ,'message':$scope.curEncUID+":"+inputValue }
+				data:{uId :$scope.chatUserId ,tId:$stateParams.teacher_id ,'message':$scope.curEncUID+":"+message }
 				}).then(function(success){
 				var data = success.data;
-				swal("Success!", "Your message has been sent");
+				$scope.chatNow($scope.chatUserId);
 						
 				},function(error){
 

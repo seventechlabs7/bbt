@@ -183,18 +183,23 @@ class RankingController extends Controller
     $reqData = $request->request->all();
     $uId = $reqData['uId'];
     $tId = $reqData['tId'];
+    $em = $this->getDoctrine()->getManager();
+    $user = $em->getRepository('AppBundle:UserPurchaseHistory')
+                ->findUserIdByTeacherId($tId);
+
+    $tId = $user['userId'];                
     $members1 = $tId.'##'.$uId;
     $members2 = $uId.'##'.$tId;
-      $em = $this->getDoctrine()->getManager();
+    ($members1);
      $list  = $em->getRepository('AppBundle:UserPurchaseHistory')
                 ->getChat($uId,$tId);
 
       $encUID = $bbtCrypt ->encrypt($uId); 
       $encTID = $bbtCrypt ->encrypt($tId);
       $remove = [$encUID, $encTID,'##@@last_message@@##'];
-      $replace = [$this->getUserNames($uId)['username'], $this->getUserNames($tId)['username']];
+      $replace = [$this->getUserNames($uId)['username'], $this->getUserNames($tId)['username'],""];
       $list['messages'] = str_replace($remove, $replace, $list['messages']);
-    return new JsonResponse(array('status' => 'success','list'=>$list,'encUID' => $encUID,'reason' => 'page loaded','reaponse' => 200));
+    return new JsonResponse(array('status' => 'success','list'=>$list,'encUID' => $encTID,'myName'=>$this->getUserNames($tId)['username'],'reason' => 'page loaded','reaponse' => 200));
 
   }
 
@@ -203,6 +208,11 @@ class RankingController extends Controller
     $reqData = $request->request->all();
     $uId = $reqData['uId'];
     $tId = $reqData['tId'];
+    $em = $this->getDoctrine()->getManager();
+    $user = $em->getRepository('AppBundle:UserPurchaseHistory')
+                ->findUserIdByTeacherId($tId);
+
+    $tId = $user['userId'];    
     $newmessage = $reqData['message'];
     $cssfrom = "css".$bbtCrypt->encrypt($uId);;
     $encuserid = $bbtCrypt->encrypt($tId); 
@@ -211,7 +221,6 @@ class RankingController extends Controller
       $response = [];
       $roomExists = false;
 
-     $em = $this->getDoctrine()->getManager();
      $list  = $em->getRepository('AppBundle:UserPurchaseHistory')
                 ->selectUsers($uId,$tId);
 
