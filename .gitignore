@@ -47,3 +47,4 @@ Temporary Items
 .apdisk
 var/cache/*
 var/jwt
+web/imgs/iconos

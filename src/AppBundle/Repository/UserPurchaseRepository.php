@@ -403,4 +403,23 @@ class UserPurchaseRepository extends EntityRepository
                // var_dump($final);die;         
                 return ($final);
     }
+
+    public function findUserIdByTeacherId($tId)
+    {
+        $sql1 = 
+                '
+                    SELECT  user.id_admin as userId ,icono as image
+                    from users as user ,teachers as t 
+                    where t.id = :tId and  t.email = user.email ; 
+                ';
+
+                $conn = $this->getEntityManager()
+                ->getConnection();
+                $sql = $sql1;
+                $stmt = $conn->prepare($sql);
+                $stmt->execute(array('tId' => $tId));
+                $final = $stmt->fetch();   
+               // var_dump($final);die;         
+                return ($final);
+    }
 }

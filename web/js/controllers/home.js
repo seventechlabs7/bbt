@@ -408,7 +408,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 					$scope.teacherstatus.teach_place = $scope.teacher.teach_place;
 					$scope.teacherstatus.work = $scope.teacher.work;
 					$scope.profileImageUrl = success.data.profileImageUrl ;
-					$scope.profileImageUrl = success.data.profileImageUrl+"/"+$scope.teacher.id+".png";
+					//$scope.profileImageUrl = success.data.profileImageUrl+"/"+$scope.teacher.id+".png";
 					if(!$scope.teacher.virtual_money)
 						$scope.teacher.virtual_money = "25000.00";
 					$scope.teacher.id = $scope.teacher.id;
@@ -599,6 +599,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 							classes:'alert-success',
 							duration:3000
 						});
+				$scope.profileImageUrl = "";
 				$scope.imageSelected =false;
 				$scope.getteacherdetails();
 						return;					

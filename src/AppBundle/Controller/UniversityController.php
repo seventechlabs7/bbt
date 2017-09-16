@@ -156,12 +156,17 @@ class UniversityController extends Controller
         if(count($post) >0)
         {
         	$isGroup =true;
+        	
         }
         else
         	$isGroup =false;
-        $profileImageUrl = $fileUploader->getTargetDir();
-        $profileImageUrl =  explode("htdocs",$profileImageUrl)[1]; //$profileImageUrl.split("htdocs")[1];
-        $url = 'http://'.$_SERVER['SERVER_NAME'].':'."80" ;
+        $user  = $em->getRepository('AppBundle:UserPurchaseHistory')
+                ->findUserIdByTeacherId($profile['id']);
+                if($user)
+        			$profileImageUrl = "/imgs/iconos/".$user['image'];
+       			else
+       				$profileImageUrl = "";
+        $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'] ;
         $profileImageUrl = $url.$profileImageUrl ;
        	return $this->json(array('status' => 'success',
        		'data' => $profile,
@@ -445,7 +450,26 @@ class UniversityController extends Controller
     {    	    	
 		$uId = $request->request->get('userId');		
 		$file = $request->files->get('file');
-		$fileName = $fileUploader->upload($file,$uId);
+		
+
+		$em = $this->getDoctrine()->getManager();
+		$user = $em->getRepository('AppBundle:UserPurchaseHistory')
+                ->findUserIdByTeacherId($uId);
+
+       $fileName = $fileUploader->upload($file,$user['userId']);
+       if(isset($user['image']))
+       		$removeFile = $fileUploader->removeFile($user['image']);
+         $sql = '
+				UPDATE users set  icono = :url  where id_admin = :id 
+				
+				';
+				$statement3 = $em->getConnection()->prepare($sql);
+				// Set parameters 
+
+				$statement3->execute(array(
+				'url' =>$fileName,
+				'id' => $user['userId']));
+
         return new JsonResponse($fileName);
 	}
 

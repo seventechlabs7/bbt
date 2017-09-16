@@ -27,6 +27,7 @@ angular.module('app', [
    'ngMessages',
    'angular-storage',
    'ngTable',
+   'blockUI'
        //'angular-loading-bar', 
     //'ng-token-auth',
     //'ngFileUpload',
