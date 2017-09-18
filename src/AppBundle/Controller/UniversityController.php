@@ -197,7 +197,7 @@ class UniversityController extends Controller
 			$group->setGroup_name('Group'.rand());
 		}
 		$group->setLeague_name($teacher['league_name']);//TODO		
-		$group->setVirtual_money($teacher['virtual_money']);
+		$group->setVirtual_money($utils->getNumberFromLocaleString($teacher['virtual_money']));
 		$group->setStart_date($teacher['start_date']);
 		$group->setEnd_date($teacher['end_date']);
 		$group->setCreated_by(1);

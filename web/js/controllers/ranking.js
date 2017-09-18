@@ -90,7 +90,8 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				data:{uId :  $stateParams.teacher_id }
 			}).then(function(success){
 				var data = success.data;
-				$scope.report = data.report;							
+				$scope.report = data.report;
+				$scope.report.benefits = parseFloat($scope.report.benefits).toLocaleString("de-DE");							
 			},function(error){
 
 			});
@@ -102,11 +103,11 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 	       	for(var i=0;i<$scope.rankingList.length;i++)
 	       	{
 	       		var obj = $scope.rankingList[i];
-	       		obj.benefitPercent = ((parseFloat(obj.newamount)-25000.00)/25000.00) * 100 ; 
+	       		obj.benefitPercent = (((parseFloat(obj.newamount)-2500000)/2500000) * 100).toFixed(2) ; 
 	       		obj.position = parseInt(obj.position);
-	       		obj.amount = parseFloat(obj.amount);
+	       		obj.amount = parseFloat(obj.amount).toLocaleString("de-DE");;
 	       		obj.operations = parseInt(obj.operations);
-	       		obj.benefits =parseFloat(obj.benefits) ;      	
+	       		obj.benefits =parseFloat(obj.benefits).toLocaleString("de-DE"); ;      	
 	       	}
        	    $scope.rankTable = createUsingFullOptionsRanking();
        }
@@ -373,8 +374,8 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 			    $scope.teacher.start_date = $filter('date')($scope.teacher.start_date, 'dd/MM/yyyy');
 			    $scope.teacher.end_date = $filter('date')($scope.teacher.end_date, 'dd/MM/yyyy');
 
-				$scope.teacher.virtual_money = data.league.virtual_money;
-				
+				$scope.teacher.virtual_money = parseFloat(data.league.virtual_money).toLocaleString("de-DE");
+
 				$scope.teacher.assets = data.assets.split(',');
 				$scope.teacher.feedback = data.feedback.split(',');
 				console.log($scope.teacher.assets)
@@ -820,11 +821,11 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 	       	for(var i=0;i<$scope.purchaseData.length;i++)
 	       	{
 	       		var obj = $scope.purchaseData[i];
-	       		obj.purchasePrice = parseFloat(obj.purchasePrice);
-	       		obj.purchaseShare = parseFloat(obj.purchaseShare); 
+	       		obj.purchasePrice = parseFloat(obj.purchasePrice).toLocaleString("de-DE");;
+	       		obj.purchaseShare = parseFloat(obj.purchaseShare).toLocaleString("de-DE");; 
 				obj.purchaseDate = moment(new Date(obj.purchaseDate)).format("DD/MM/YYYY");
-				obj.currentPrice = parseFloat(obj.current_price);
-				obj.benefits = parseFloat(obj.benefit);
+				obj.currentPrice = parseFloat(obj.current_price).toLocaleString("de-DE");;
+				obj.benefits = parseFloat(obj.benefit).toLocaleString("de-DE");;
 	       	}
        	  $scope.purchaseTable = createUsingFullOptionsPurchase();
        }
@@ -834,11 +835,11 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 	       	for(var i=0;i<$scope.operationsData.length;i++)
 	       	{
 	       		var obj = $scope.operationsData[i];
-	       		obj.purchasePrice 		= parseFloat(obj.purchasePrice);
-	       		obj.purchaseShare 		= parseFloat(obj.purchaseShare);
-	       		obj.salePrice 	  		= parseFloat(obj.salePrice);
-	       		obj.saleShare     		= parseFloat(obj.saleShare);   
-	       		obj.benefits      		= parseFloat(obj.benefits);
+	       		obj.purchasePrice 		= parseFloat(obj.purchasePrice).toLocaleString("de-DE");;
+	       		obj.purchaseShare 		= parseFloat(obj.purchaseShare).toLocaleString("de-DE");;
+	       		obj.salePrice 	  		= parseFloat(obj.salePrice).toLocaleString("de-DE");;
+	       		obj.saleShare     		= parseFloat(obj.saleShare).toLocaleString("de-DE");;   
+	       		obj.benefits      		= parseFloat(obj.benefits).toLocaleString("de-DE");;
 	       		obj.benefitPercentage 	= parseFloat(obj.benefitPercentage);  
 	       		
 	       		obj.purchaseDate = moment(new Date(obj.purchaseDate)).format("DD/MM/YYYY");

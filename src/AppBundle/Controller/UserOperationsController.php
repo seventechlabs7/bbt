@@ -20,6 +20,7 @@ use AppBundle\Service\CustomCrypt;
 use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
 use AppBundle\Entity\GroupAsset;
 use AppBundle\Entity\GroupFeedback;
+use AppBundle\Service\Utils;
 
 class UserOperationsController extends Controller
 {
@@ -480,7 +481,7 @@ foreach($feedbacks as $i => $item) {
     }
   }
 
-  public function updateLeagueAction(Request $request)
+  public function updateLeagueAction(Request $request ,Utils $utils)
   {
     $requestData  =  $request->request->all();
     $requestData = $requestData['data'];
@@ -488,7 +489,7 @@ foreach($feedbacks as $i => $item) {
     $em = $this->getDoctrine()->getManager();
     $TD =  $em->getRepository('AppBundle:Group')->find($requestData['gId']);
 
-
+    //return new JsonResponse($utils->getNumberFromLocaleString($requestData['virtual_money']));
 
       $RAW_QUERY1 = "
           DELETE FROM `group_assets` WHERE `group_assets`.`group_id` = :gId
@@ -502,7 +503,7 @@ foreach($feedbacks as $i => $item) {
     {
        $TD->setStart_date($requestData['start_date']);
        $TD->setEnd_date($requestData['end_date']);
-       $TD->setVirtual_money($requestData['virtual_money']);
+       $TD->setVirtual_money($utils->getNumberFromLocaleString($requestData['virtual_money']));
        $TD->setLeague_name($requestData['league_name']);
        $TD->setAssets("1");
        $em->flush($TD);

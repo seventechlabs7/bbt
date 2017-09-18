@@ -538,7 +538,9 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				data:{uId :  $stateParams.teacher_id }
 			}).then(function(success){
 				var data = success.data;
-				$scope.report = data.report;							
+				$scope.report = data.report;	
+				$scope.report.benefits = parseFloat($scope.report.benefits).toLocaleString("de-DE");	
+
 			},function(error){
 
 			});
