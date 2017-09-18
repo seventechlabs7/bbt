@@ -70,9 +70,9 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				if(list.length == 0 && !$scope.file)
 				{
 					notify({
-						message:'Enter valid emails or upload a email list file',
+						message:'Enter valid comma sepearated emails or upload a email list file',
 						classes:'alert-danger',
-						duration:2000
+						duration:4000
 					});
 					return;
 				}
@@ -568,6 +568,16 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 
 	    {
 	    	$scope.avatarFile = avatar;
+
+	    	if(avatar.type !="image/png" && avatar.type !="image/jpeg" && avatar.type !="image/gif")
+	    		{
+	    			notify({
+							message:'Please select valid image',
+							classes:'alert-warning',
+							duration:3000
+						});
+	    			return ;
+	    		}
 	    	if(avatar)
 	    		$scope.imageSelected = true;
 	    }
@@ -594,15 +604,27 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 			})
 			.then(function(success){
 				console.log(success)
-				notify({
-							message:'Avatar Uploaded Successfully',
-							classes:'alert-success',
-							duration:3000
-						});
-				$scope.profileImageUrl = "";
-				$scope.imageSelected =false;
-				$scope.getteacherdetails();
+				if(success.data.status == "success")
+				{
+					notify({
+								message: success.data.reason,
+								classes:'alert-success',
+								duration:3000
+							});
+					/*$scope.profileImageUrl = "";
+					$scope.imageSelected =false;
+					$scope.getteacherdetails();*/
+			     }
+			     else
+			     {
+			     	notify({
+								message: success.data.reason,
+								classes:'alert-danger',
+								duration:3000
+							});
+			     }
 						return;					
+			    
 			},function(error){
 
 			})

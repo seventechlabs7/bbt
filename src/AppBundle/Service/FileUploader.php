@@ -19,15 +19,28 @@ class FileUploader
         ($file->move(__DIR__.$this->getTargetDir(), $fileName));
         //$save = $this->getTargetDir(). strtolower($uId) .".png";
         //$img  = imagecreatefrompng($file);
-      return  $fileName;
         
-        return "success";
+       $fType = (mime_content_type((__DIR__.$this->getTargetDir().$fileName)));
+       if($fType != "image/png" &&  $fType != "image/jpeg" && $fType != "image/gif")
+        {
+            $removeFile = $fileUploader->removeFileFullPath($fileName);
+
+            return "failure";
+
+        }
+        
+        return $fileName;
     }
 
     public function removeFile($image)
     {
         if(file_exists(__DIR__.$this->getTargetDir().$image))
         unlink(__DIR__.$this->getTargetDir().$image);
+    }
+    public function removeFileFullPath($image)
+    {
+        if(file_exists($image))
+            unlink($image);
     }
      public function getImagePath()
     {       

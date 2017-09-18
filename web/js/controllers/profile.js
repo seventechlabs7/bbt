@@ -349,6 +349,15 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 
 	    {
 	    	$scope.avatarFile = avatar;
+	    	if(avatar.type !="image/png" && avatar.type !="image/jpeg" && avatar.type !="image/gif")
+	    		{
+	    			notify({
+							message:'Please select valid image',
+							classes:'alert-warning',
+							duration:3000
+						});
+	    			return ;
+	    		}
 	    	if(avatar)
 	    		$scope.imageSelected = true;
 	    }
@@ -377,15 +386,25 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 			})
 			.then(function(success){
 				console.log(success)
-				notify({
-							message:'Avatar Uploaded Successfully',
-							classes:'alert-success',
-							duration:3000
-						});
-				$scope.imageSelected =false;
-				$scope.profileImageUrl ="";
-				$scope.getteacherdetails();
-						return;					
+				if(success.data.status == "success")
+				{
+					notify({
+								message: success.data.reason,
+								classes:'alert-success',
+								duration:3000
+							});
+					/*$scope.profileImageUrl = "";
+					$scope.imageSelected =false;
+					$scope.getteacherdetails();*/
+			     }
+			     else
+			     {
+			     	notify({
+								message: success.data.reason,
+								classes:'alert-danger',
+								duration:3000
+							});
+			     }				
 			},function(error){
 
 			})

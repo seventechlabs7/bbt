@@ -309,6 +309,7 @@ ul.unedit_ul {
 					<div class="col-lg-7 col-md-8 col-sm-12 col-xs-12">
 						<div class="center_r_block">
 						<div class="post_cont">
+							
 							<div class="single_post" ng-repeat="op in timeLine ">
 								<div class="single_profile">
 									<div class="row">
@@ -336,7 +337,7 @@ ul.unedit_ul {
 											
 
 										</div>
-										<div class="col-lg-10 col-md-10 col-sm-10 col-xs-9">
+										<div class="col-lg-10 col-md-10 col-sm-10 col-xs-9" ng-if="op.comments.length > 0">
 											<div class="multi_comment_whole" id="multiwhole{{$index}}">
 												<div class="multi_comment_block" ng-repeat="com in op.comments">
 													<div class="row">
@@ -368,23 +369,29 @@ ul.unedit_ul {
 									
 
 									<div class="multi_comment_comments">
+										<ng-form id="commentForm" name="commentForm">
 										<div class="comment_box">
 											<div class="row">
 												<div class="col-lg-9 col-md-7 col-sm-6 col-xs-12">
-													<textarea rows="3" placeholder="Write a comment..." ng-model = "com.currentComment" name="comment" id="comment" ng-minlenght="2" ng-submit="postComment(op.id,com.commentId)"></textarea>
+													<textarea rows="3" placeholder="Write a comment..." ng-model = "com.currentComment" name="comment" id="comment" ng-minlength="2" ng-maxlength="25" ng-submit="postComment(op.id,com.commentId)" required></textarea>
+													<div ng-messages="commentForm.comment.$error" ng-show="commentForm.comment.$touched">
+									      		 <div ng-messages-include="js/messages.html"></div>
+											    </div>
 												</div>
+												
 												<div class="col-lg-3 col-md-5 col-sm-6 col-xs-12">
-													<button class="post_button" ng-click="postComment(op.recordId,com.currentComment)">Comment</button>
+													<button class="post_button" ng-click="postComment(op.recordId,com.currentComment)" ng-disabled="!commentForm.$valid">Comment</button>
 												</div>
 											</div>
 											 
 										</div>
+										</ng-form>
 									</div>
 								</div>
 							</div>
 
 						</div>
-
+					
 
 
 					</div>

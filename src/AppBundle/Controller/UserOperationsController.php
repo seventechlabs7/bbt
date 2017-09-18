@@ -597,7 +597,7 @@ foreach($feedbacks as $i => $item) {
            return new JsonResponse(array('status' => 'success','response' => 200));
         }  
         else
-           return new JsonResponse(array('status' => 'failure','reason' => 'incorrect current password','reaponse' => 200));    
+           return new JsonResponse(array('status' => 'failure','reason' => 'Incorrect current password','reaponse' => 200));    
       return new JsonResponse($pwEN);
     }
     

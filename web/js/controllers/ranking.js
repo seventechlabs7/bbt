@@ -374,6 +374,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 			    $scope.teacher.end_date = $filter('date')($scope.teacher.end_date, 'dd/MM/yyyy');
 
 				$scope.teacher.virtual_money = data.league.virtual_money;
+				
 				$scope.teacher.assets = data.assets.split(',');
 				$scope.teacher.feedback = data.feedback.split(',');
 				console.log($scope.teacher.assets)

@@ -99,12 +99,13 @@ class UniversityController extends Controller
         $emailCheck1 = $this->CheckDupeEmail($teacher['email']);
         if(!$emailCheck1)
         	$emailvalidate =1;
-		
+		$teacher['username'] = ucfirst($teacher['username']);
+		$teacher['surname'] = ucfirst($teacher['surname']);
 		if($emailvalidate === 1){
 			$em = $this->getDoctrine()->getManager();
 			$TD = new Teacher();
-			$TD->setName($teacher['username']);
-			$TD->setSurname($teacher['surname']);
+			$TD->setName(ucfirst($teacher['username']));
+			$TD->setSurname(ucfirst($teacher['surname']));
 			$TD->setEmail($teacher['email']);
 			$TD->setPassword($teacher['password']);
 			$TD->setUniversity($teacher['university']);
@@ -364,8 +365,8 @@ class UniversityController extends Controller
     			}
     		
     		$TD->setId($teacher['id']);
-			$TD->setName($teacher['name']);
-			$TD->setSurname($teacher['surname']);
+			$TD->setName(ucfirst($teacher['name']));
+			$TD->setSurname(($teacher['surname']));
 			
 		/*	if(isset($teacher['password']))
 				{
@@ -457,6 +458,10 @@ class UniversityController extends Controller
                 ->findUserIdByTeacherId($uId);
 
        $fileName = $fileUploader->upload($file,$user['userId']);
+       if($fileName == "failure")
+       {
+       		return new JsonResponse(array('status' => 'failure','reason' => 'Select valid image','reaponse' => 401));
+       }
        if(isset($user['image']))
        		$removeFile = $fileUploader->removeFile($user['image']);
          $sql = '
@@ -470,7 +475,7 @@ class UniversityController extends Controller
 				'url' =>$fileName,
 				'id' => $user['userId']));
 
-        return new JsonResponse($fileName);
+       return new JsonResponse(array('status' => 'success','reason' => 'Image uploaded Successfully','reaponse' => 200));
 	}
 
 	public function verifySignupteacherAction(Request $request ,CustomCrypt $crypt,$verifyLink)
