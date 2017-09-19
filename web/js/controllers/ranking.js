@@ -422,7 +422,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 
 			$scope.stopcountdownFun = function(index)
 			{
-				$scope.pastDateCheck();
+				//$scope.pastDateCheck();
 				$scope.stopcountdown = true;
 				$scope.checkTime(index);
 			}
@@ -430,7 +430,10 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 		{	
 			notify.closeAll();
 			if(!$scope.DisableStartDate)	
-			    $scope.pastDateCheck();
+			    {
+			    	$scope.pastDateCheck();
+			    }
+
 			if($scope.teacher.start_date && $scope.teacher.end_date)
 			{
 				var from = new Date($scope.teacher.start_date.split("/").reverse().join("-"));
@@ -445,6 +448,19 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 		      	notify.closeAll();
 		      	notify({
 		      		message: 'Invalid End Date',
+		      		classes: 'alert-danger',
+		      		duration: 2000
+		      	});
+		      	$scope.teacher.end_date = null;
+		      	return;
+		      }
+		      var curDate = new Date();
+		      var curDate1 = curDate.setHours(0,0,0,0);
+		       if(to.getTime() < curDate.getTime())
+		      {
+		      	notify.closeAll();
+		      	notify({
+		      		message: 'End date is less than current date',
 		      		classes: 'alert-danger',
 		      		duration: 2000
 		      	});
