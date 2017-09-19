@@ -653,7 +653,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				$scope.curEncUID = success.data.encUID;
 						
 
-				$scope.changeScreen('start');			
+				//$scope.changeScreen('start');			
 				},function(error){
 
 				});
@@ -707,6 +707,11 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 		{
 			if(message.user != message.myName)
 				return "message-partner";
+		}
+
+		$scope.closeChat = function()
+		{
+			$scope.chatActive = false;
 		}
 
 		$scope.sendMessage = function()

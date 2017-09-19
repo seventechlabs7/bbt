@@ -768,7 +768,7 @@ h1{
 		      </div>
 		      <div class="chatbox-icons">
 		        <a href="javascript:void(0);"><i class="fa fa-minus chat_ui_button"></i></a>
-		        <a href="javascript:void(0);"><i class="fa fa-times chat_ui_button"></i></a>       
+		        <a href="javascript:void(0);"><i class="fa fa-times chat_ui_button" ng-click="closeChat()"></i></a>       
 		      </div>      
 		    </div>
 		    
@@ -821,13 +821,13 @@ h1{
 		</div>
 		  <script type="text/javascript">
 				$(function(){
-				 $(this).closest('.chatbox').hide();
+				 //$(this).closest('.chatbox').hide();
 		          $('.fa-minus.chat_ui_button').click(function(){    
 		            $(this).closest('.chatbox').toggleClass('chatbox-min');
 		          });
-		          $('.fa-close.chat_ui_button').click(function(){
-		            $(this).closest('.chatbox').hide();
-		          });
+		          /*$('.fa-times.chat_ui_button').click(function(){
+		            $(this).closest('.chatbox').toggleClass('hidden');
+		          });*/
 		        });
 	  </script>
 	  </div>
