@@ -177,7 +177,7 @@ class UniversityController extends Controller
        
     }
 
-    public function saveTeacherAction(Request $request,CustomCrypt $crypt,MailerService $mailerService)
+    public function saveTeacherAction(Request $request,CustomCrypt $crypt,MailerService $mailerService , Utils $utils)
     {    	    	
 		$teacher = $request->request->get('teacher');		
 		$file = $request->files->get('file');		
