@@ -641,11 +641,22 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				}).then(function(success){
 					console.log(success)
 					$scope.timeLine = success.data;
+					$scope.processTimeline();
 					console.log("timeLine")
 					console.log($scope.timeLine);
 				},function(error){
 
 				});
+	    }
+
+	    $scope.processTimeline = function()
+	    {
+	    	for (var i = 0; i < $scope.timeLine.length; i++) 
+	    	{
+	    		var obj = $scope.timeLine[i];
+	    		obj.shares = parseFloat(obj.shares).toLocaleString("de-DE");
+	    		obj.amount = parseFloat(obj.amount).toLocaleString("de-DE");
+	    	}
 	    }
 	    
 		//$("#signup").validate();

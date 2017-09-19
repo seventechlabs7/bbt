@@ -565,6 +565,9 @@ class UniversityController extends Controller
 
 						 $stmt =$em2->getConnection()->prepare($RAW_QUERY1);
              			 $stmt->execute(array('active' => 1,'username' => "firstName"." "."lastName" ,'email' => $result1['email'],'password' => $encPassStud,'role' => 'ROLE_STUDENT' ,'reg_type' => 'Reg.Normal' ,'datetime1' => date_format(date_create(null),"Y-m-d H:i:s") ,'date1' =>  date_format(date_create(null),"Y-m-d") ,'date2' => date_format(date_create(null),"Y-m-d")));
+
+             			 /*dummydata*/
+             			$this->studentDummyData($email);
              			  //$stmt->fetch();
              			 
              			// return new JsonResponse($stmt);             			  
@@ -690,6 +693,34 @@ class UniversityController extends Controller
 
 			}
 		}
+	}
+
+	public function studentDummyData($email)
+	{
+			$em = $this->getDoctrine()->getManager();
+
+			$result = $em->getRepository('AppBundle:UserPurchaseHistory')
+            ->findEmail($email);
+
+            if($result)
+            {
+            	$RAW_QUERY1 = "
+				INSERT INTO `hist_user_compra` (`id`, `id_liga`, `id_user`, `id_empresa`, `prec_apertura_compra`, `fecha_apertura_compra`, `volumen`, `volumen_ya_vendido`)
+
+					 VALUES (NULL, '1', :userId, 'EURUSD=X', :value1, '2017-05-25 17:25:21', :value2, '0.0000');";
+
+					 $stmt =$em->getConnection()->prepare($RAW_QUERY1);
+         			 $stmt->execute(array('userId' => $result['id'] , 'value1' => rand(10.0000,100.0000)/10 , 'value2'=> rand(100000.0000,500000.0000)/10));
+
+				$RAW_QUERY2 = "
+				INSERT INTO `hist_user_compra` (`id`, `id_liga`, `id_user`, `id_empresa`, `prec_apertura_compra`, `fecha_apertura_compra`, `volumen`, `volumen_ya_vendido`)
+
+					 VALUES (NULL, '1', :userId, 'EURUSD=X', :value1, '2017-05-25 17:25:21',:value2, '0.0000');";
+
+					 $stmt1 =$em->getConnection()->prepare($RAW_QUERY2);
+         			 $stmt1->execute(array('userId' => $result['id'] , 'value1' => rand(1.0000,10.0000) , 'value2'=> rand(100000.0000,500000.0000)/10));
+            }
+
 	}
 
 

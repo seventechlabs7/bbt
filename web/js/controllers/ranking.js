@@ -381,6 +381,8 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				console.log($scope.teacher.assets)
 				$scope.oldObj = angular.copy($scope.teacher);
 				$scope.unsaved =true;
+				if($scope.screen == "start")
+					$scope.unsaved = false;
 				},function(error){
 
 				});
