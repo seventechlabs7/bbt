@@ -513,7 +513,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 			for (var i = 0; i < $scope.teacher.assets.length; i++) {
 				var a = $scope.teacher.assets[i];
 				console.log(a)
-				if(a)
+				if(a =="1" )
 					{
 						$scope.assetsCheck = true;
 						break;
@@ -592,7 +592,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 			for (var i = 0; i < $scope.teacher.feedback.length; i++) {
 				var a = $scope.teacher.feedback[i];
 				console.log(a)
-				if(a)
+				if(a == "1")
 					{
 						$scope.feedbackCheck = true;
 						break;
@@ -648,7 +648,8 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				url: 'api/chat/get',
 				data:{tId : $stateParams.teacher_id ,uId : $scope.chatUserId }
 				}).then(function(success){
-				var data = success.data.list;
+				var data = success.data;
+
 				$scope.processMessages(data,success.data.myName);
 				$scope.curEncUID = success.data.encUID;
 						
@@ -665,8 +666,8 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 			console.log(data);
 			$scope.messageList = [];
 			$scope.chat = {};
-			$scope.chat.partnerName = data.username;
-			var messages = data.messages.split(/<p>(.*?)<em>/);
+			$scope.chat.partnerName = data.partnerName;
+			var messages = data.list.messages.split(/<p>(.*?)<em>/);
 			console.log(messages);
 			for(var i = 0 ; i <messages.length;i++)
 			{
@@ -716,6 +717,28 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 
 		$scope.sendMessage = function()
 		{
+			notify.closeAll();
+			if(!$scope.chat.newMessage)
+			{
+				notify({
+					message: 'Enter a message',
+					classes:'alert-warning',
+					duration:2000
+					});
+				return;
+			}
+			else
+			{
+				if($scope.chat.newMessage.trim().length >30)
+				{
+					notify({
+					message: 'Message length too long',
+					classes:'alert-warning',
+					duration:2000
+					});
+					return;
+				}
+			}
 			var message = $scope.chat.newMessage;
 			$scope.chat.newMessage = "";
 			blockUI.stop();

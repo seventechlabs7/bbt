@@ -199,7 +199,7 @@ class RankingController extends Controller
       $remove = [$encUID, $encTID,'##@@last_message@@##'];
       $replace = [$this->getUserNames($uId)['username'], $this->getUserNames($tId)['username'],""];
       $list['messages'] = str_replace($remove, $replace, $list['messages']);
-    return new JsonResponse(array('status' => 'success','list'=>$list,'encUID' => $encTID,'myName'=>$this->getUserNames($tId)['username'],'reason' => 'page loaded','reaponse' => 200));
+    return new JsonResponse(array('status' => 'success','list'=>$list,'encUID' => $encTID,'myName'=>$this->getUserNames($tId)['username'],'reason' => 'page loaded','partnerName' =>$this->getUserNames($uId)['username'],'reaponse' => 200));
 
   }
 

@@ -104,7 +104,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 			for (var i = 0; i < $scope.teacher.assets.length; i++) {
 				var a = $scope.teacher.assets[i];
 				console.log(a)
-				if(a)
+				if(a =="1")
 					{
 						$scope.assetsCheck = true;
 						break;
@@ -146,7 +146,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				$scope.teacher.feedback = [];
 			for (var i = 0; i < $scope.teacher.feedback.length; i++) {
 				var a = $scope.teacher.feedback[i];
-				if(a)
+				if(a == "1")
 					{
 						$scope.feedbackCheck = true;
 						break;
@@ -266,7 +266,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				$scope.teacher.assets = [];
 			for (var i = 0; i < $scope.teacher.assets.length; i++) {
 				var a = $scope.teacher.assets[i];
-				if(a)
+				if(a == "1")
 					{
 						$scope.assetsCheck = true;
 						break;
@@ -308,7 +308,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 			console.log($scope.teacher.feedback)
 			for (var i = 0; i < $scope.teacher.feedback.length; i++) {
 				var a = $scope.teacher.feedback[i];
-				if(a)
+				if(a == "1")
 					{
 						$scope.feedbackCheck = true;
 						break;
