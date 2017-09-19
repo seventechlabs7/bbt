@@ -20,6 +20,7 @@ use AppBundle\Service\FileUploader;
 use AppBundle\Service\MailerService;
 use AppBundle\Service\CustomCrypt;
 use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
+use AppBundle\Service\Utils;
 
 class UniversityController extends Controller
 {
