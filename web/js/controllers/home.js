@@ -40,7 +40,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				if($scope.teacher.mail_list)
 				{
 					list = $scope.teacher.mail_list.split(',');
-					var emailregex = /\S+@\S+\.\S+/;
+					var emailregex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;;
 		      		notify.closeAll();
 					for (var i = 0; i < list.length; i++) 
 					{
@@ -53,7 +53,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 							});
 							return;
 						}
-						if(!list[i].match(emailregex))
+						if(!emailregex.test(list[i]))
 						{
 							notify({
 								message:'Invalid Mail Id',
@@ -215,7 +215,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 			if($scope.teacher.mail_list)
 			{
 				var list = $scope.teacher.mail_list.split(',');
-				var emailregex = /\S+@\S+\.\S+/;
+				var emailregex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;;
 	      		notify.closeAll();
 				for (var i = 0; i < list.length; i++) 
 				{
@@ -228,7 +228,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 						});
 						return;
 					}
-					if(!list[i].match(emailregex))
+					if(!emailregex.test(list[i]))
 					{
 						notify({
 							message:'Invalid Mail Id',
@@ -349,7 +349,8 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				}
 			})
 			.then(function(success){
-				console.log(success)
+				console.log(success);
+				$scope.response = success.data;
 				if(success.data.status == 'success')
 				{
 					$scope.shiftTab(4);

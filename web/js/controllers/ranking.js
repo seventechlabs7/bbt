@@ -279,36 +279,46 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 			{
 				$scope.teacher.id = $stateParams.teacher_id;	
 				
+				var list =[];
 				if($scope.teacher.mail_list)
-			{	
-				var list = $scope.teacher.mail_list.split(',');
-				var emailregex = /\S+@\S+\.\S+/;
-	      		notify.closeAll();
-				for (var i = 0; i < list.length; i++) 
 				{
-					if(list[i] == null)
+					list = $scope.teacher.mail_list.split(',');
+					var emailregex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		      		notify.closeAll();
+					for (var i = 0; i < list.length; i++) 
 					{
-						notify({
-							message:'Should Seperate by single comma',
-							classes:'alert-danger',
-							duration:2000
-						});
+						if(list[i] == null)
+						{
+							notify({
+								message:'Should be Seperated by single comma',
+								classes:'alert-danger',
+								duration:2000
+							});
+							return;
+						}
+						if(!emailregex.test(list[i]))
+						{
+							notify({
+								message:'Invalid Mail Id',
+								classes:'alert-danger',
+								duration:2000
+							});
 						return;
-					}
-					if(!list[i].match(emailregex))
-					{
-						notify({
-							message:'Invalid Mail Id',
-							classes:'alert-danger',
-							duration:2000
-						});
-					return;
 
+						}
 					}
+				}	
+				else
+					$scope.teacher.mail_list = "";
+				if(list.length == 0 && !$scope.file)
+				{
+					notify({
+						message:'Enter valid comma sepearated emails or upload a email list file',
+						classes:'alert-danger',
+						duration:4000
+					});
+					return;
 				}
-			}
-			else
-				$scope.teacher.mail_list = "";
 
 				swal({
 				title: "Upload Students",
