@@ -560,7 +560,7 @@ h1{
 				</div>
 				
 			</div>
-			<div class="center_container" ng-if="screen == 'editfeedback'">
+			<div class="center_container" ng-if="screen == 'editfeedback'" ng-init="processArrays()">
 			<div class="profile_head_cont">
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -573,25 +573,25 @@ h1{
 							<ul class="check_cont_ul"> 
 								<li> 
 									<label class="check_label">   
-										<input type="checkbox" ng-checked="teacher.feedback[0] == 1" ng-true-value="1" ng-false-vlaue="0" ng-model="teacher.feedback[0]">
-										<span class="check_text">Benefits</span>
+										<input type="checkbox"  ng-true-value="'1'" ng-false-value="'0'" value="true" ng-model="teacher.feedback[0]">
+										<span class="check_text">Benefits </span>
 									</label>
 								</li>
 								<li> 
 									<label class="check_label">   
-										<input type="checkbox" ng-checked="teacher.feedback[1] == 2" ng-true-value="2" ng-false-vlaue="0" ng-model="teacher.feedback[1]">
+										<input type="checkbox"  ng-true-value="'1'" ng-false-value="'0'" ng-model="teacher.feedback[1]">
 										<span class="check_text">Number of Operations</span>
 									</label>
 								</li>
 								<li> 
 									<label class="check_label">   
-										<input type="checkbox" ng-checked="teacher.feedback[2] == 3" ng-true-value="3" ng-false-vlaue="0" ng-model="teacher.feedback[2]">
+										<input type="checkbox" ng-true-value="'1'" ng-false-value="'0'" ng-model="teacher.feedback[2]">
 										<span class="check_text">Total Profitability</span>
 									</label>
 								</li>
 								<li> 
 									<label class="check_label">   
-										<input type="checkbox" ng-checked="teacher.feedback[3] == 4" ng-true-value="4" ng-false-vlaue="0" ng-model="teacher.feedback[3]">
+										<input type="checkbox"  ng-true-value="'1'" ng-false-value="'0'" ng-model="teacher.feedback[3]">
 										<span class="check_text">Average Profitability per person</span>
 									</label>
 								</li>
@@ -657,19 +657,19 @@ h1{
 																	<ul class="check_cont_ul"> 
 																		<li> 
 																			<label class="check_label">   
-																				<input type="checkbox"  ng-checked="teacher.assets[0] == 1" ng-true-value="1" ng-false-vlaue="0" ng-model="teacher.assets[0]">
+																				<input type="checkbox"  ng-true-value="'1'" ng-false-value="'0'" ng-model="teacher.assets[0]">
 																				<span class="check_text">Ibex35</span>
 																			</label>
 																		</li>
 																		<li> 
 																			<label class="check_label">   
-																				<input type="checkbox"  ng-checked="teacher.assets[1] == 2" ng-true-value="2" ng-false-vlaue="0" ng-model="teacher.assets[1]">
+																				<input type="checkbox"   ng-true-value="'1'" ng-false-value="'0'" ng-model="teacher.assets[1]">
 																				<span class="check_text">Mercado continuo</span>
 																			</label>
 																		</li>
 																		<li> 
 																			<label class="check_label">   
-																				<input type="checkbox"  ng-checked="teacher.assets[2] == 3" ng-true-value="3" ng-false-vlaue="0" ng-model="teacher.assets[2]">
+																				<input type="checkbox"  ng-true-value="'1'" ng-false-value="'0'" ng-model="teacher.assets[2]">
 																				<span class="check_text">Forex</span>
 																			</label>
 																		</li>

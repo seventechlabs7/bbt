@@ -252,7 +252,10 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 			{
 				$scope.screen = screen;
 				if(screen == "start")
-					$scope.type = "ranking"
+					{
+						$scope.type = "ranking";
+						$scope.unsaved = false;
+					}
 				$scope.teacher ={};
 				$scope.teacher.gId = $scope.groupData.id;
 				$scope.teacher.mail_list = "";
@@ -376,9 +379,11 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 
 				$scope.teacher.virtual_money = parseFloat(data.league.virtual_money).toLocaleString("de-DE");
 
-				$scope.teacher.assets = data.assets.split(',');
-				$scope.teacher.feedback = data.feedback.split(',');
-				console.log($scope.teacher.assets)
+				$scope.teacher.assets =(data.assets).split(',');
+
+				$scope.teacher.feedback = (data.feedback).split(',');
+				console.log($scope.teacher.feedback)
+				//$scope.processArrays();
 				$scope.oldObj = angular.copy($scope.teacher);
 				$scope.unsaved =true;
 				if($scope.screen == "start")
@@ -388,6 +393,14 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				});
 			}
 
+/*			$scope.processArrays = function()
+			{
+				for (var i = 0; i < $scope.teacher.feedback.length; i++) {
+					var obj = JSON.stringify($scope.teacher.feedback[i]);
+
+				}
+				console.log($scope.teacher.feedback)
+			}*/
 			$scope.editVirtualMoney = function()
 			{
 				if(!$scope.teacher.start_date )
