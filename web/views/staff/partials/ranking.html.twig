@@ -559,7 +559,7 @@ h1{
 				</div>
 				
 			</div>
-			<div class="center_container" ng-if="screen == 'editfeedback'">
+			<div class="center_container" ng-if="screen == 'editfeedback'" ng-init="processArrays()">
 			<div class="profile_head_cont">
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -572,25 +572,25 @@ h1{
 							<ul class="check_cont_ul"> 
 								<li> 
 									<label class="check_label">   
-										<input type="checkbox" ng-checked="teacher.feedback[0] == 1" ng-true-value="1" ng-false-vlaue="0" ng-model="teacher.feedback[0]">
-										<span class="check_text">Benefits</span>
+										<input type="checkbox"  ng-true-value="'1'" ng-false-value="'0'" value="true" ng-model="teacher.feedback[0]">
+										<span class="check_text">Benefits </span>
 									</label>
 								</li>
 								<li> 
 									<label class="check_label">   
-										<input type="checkbox" ng-checked="teacher.feedback[1] == 2" ng-true-value="2" ng-false-vlaue="0" ng-model="teacher.feedback[1]">
+										<input type="checkbox"  ng-true-value="'1'" ng-false-value="'0'" ng-model="teacher.feedback[1]">
 										<span class="check_text">Number of Operations</span>
 									</label>
 								</li>
 								<li> 
 									<label class="check_label">   
-										<input type="checkbox" ng-checked="teacher.feedback[2] == 3" ng-true-value="3" ng-false-vlaue="0" ng-model="teacher.feedback[2]">
+										<input type="checkbox" ng-true-value="'1'" ng-false-value="'0'" ng-model="teacher.feedback[2]">
 										<span class="check_text">Total Profitability</span>
 									</label>
 								</li>
 								<li> 
 									<label class="check_label">   
-										<input type="checkbox" ng-checked="teacher.feedback[3] == 4" ng-true-value="4" ng-false-vlaue="0" ng-model="teacher.feedback[3]">
+										<input type="checkbox"  ng-true-value="'1'" ng-false-value="'0'" ng-model="teacher.feedback[3]">
 										<span class="check_text">Average Profitability per person</span>
 									</label>
 								</li>
@@ -656,19 +656,19 @@ h1{
 																	<ul class="check_cont_ul"> 
 																		<li> 
 																			<label class="check_label">   
-																				<input type="checkbox"  ng-checked="teacher.assets[0] == 1" ng-true-value="1" ng-false-vlaue="0" ng-model="teacher.assets[0]">
+																				<input type="checkbox"  ng-true-value="'1'" ng-false-value="'0'" ng-model="teacher.assets[0]">
 																				<span class="check_text">Ibex35</span>
 																			</label>
 																		</li>
 																		<li> 
 																			<label class="check_label">   
-																				<input type="checkbox"  ng-checked="teacher.assets[1] == 2" ng-true-value="2" ng-false-vlaue="0" ng-model="teacher.assets[1]">
+																				<input type="checkbox"   ng-true-value="'1'" ng-false-value="'0'" ng-model="teacher.assets[1]">
 																				<span class="check_text">Mercado continuo</span>
 																			</label>
 																		</li>
 																		<li> 
 																			<label class="check_label">   
-																				<input type="checkbox"  ng-checked="teacher.assets[2] == 3" ng-true-value="3" ng-false-vlaue="0" ng-model="teacher.assets[2]">
+																				<input type="checkbox"  ng-true-value="'1'" ng-false-value="'0'" ng-model="teacher.assets[2]">
 																				<span class="check_text">Forex</span>
 																			</label>
 																		</li>
@@ -767,7 +767,7 @@ h1{
 		      </div>
 		      <div class="chatbox-icons">
 		        <a href="javascript:void(0);"><i class="fa fa-minus chat_ui_button"></i></a>
-		        <a href="javascript:void(0);"><i class="fa fa-times chat_ui_button"></i></a>       
+		        <a href="javascript:void(0);"><i class="fa fa-times chat_ui_button" ng-click="closeChat()"></i></a>       
 		      </div>      
 		    </div>
 		    
@@ -812,30 +812,21 @@ h1{
 		    </div>
 		    
 		    <div class="chat-input-holder">
-		      <textarea class="chat-input" ng-model="chat.newMessage" required ng-maxlength="30"></textarea>
+		      <textarea class="chat-input" ng-model="chat.newMessage" required ></textarea>
 		      <input type="submit" value="Send" class="message-send" ng-click="sendMessage();"/>
 		    </div>
-		    <div class="attachment-panel">
-		      <a href="#" class="fa fa-thumbs-up"></a>
-		      <a href="#" class="fa fa-camera"></a>
-		      <a href="#" class="fa fa-video-camera"></a>
-		      <a href="#" class="fa fa-image"></a>
-		      <a href="#" class="fa fa-paperclip"></a>
-		      <a href="#" class="fa fa-link"></a>
-		      <a href="#" class="fa fa-trash-o"></a>
-		      <a href="#" class="fa fa-search"></a>
-		    </div>
+		    
 		  </div>
 		</div>
 		  <script type="text/javascript">
 				$(function(){
-				 $(this).closest('.chatbox').hide();
+				 //$(this).closest('.chatbox').hide();
 		          $('.fa-minus.chat_ui_button').click(function(){    
 		            $(this).closest('.chatbox').toggleClass('chatbox-min');
 		          });
-		          $('.fa-close.chat_ui_button').click(function(){
-		            $(this).closest('.chatbox').hide();
-		          });
+		          /*$('.fa-times.chat_ui_button').click(function(){
+		            $(this).closest('.chatbox').toggleClass('hidden');
+		          });*/
 		        });
 	  </script>
 	  </div>

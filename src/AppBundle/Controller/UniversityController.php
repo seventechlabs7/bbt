@@ -20,6 +20,7 @@ use AppBundle\Service\FileUploader;
 use AppBundle\Service\MailerService;
 use AppBundle\Service\CustomCrypt;
 use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
+use AppBundle\Service\Utils;
 
 class UniversityController extends Controller
 {
@@ -177,17 +178,55 @@ class UniversityController extends Controller
        
     }
 
-    public function saveTeacherAction(Request $request,CustomCrypt $crypt,MailerService $mailerService)
+    public function saveTeacherAction(Request $request,CustomCrypt $crypt,MailerService $mailerService , Utils $utils)
     {    	    	
 		$teacher = $request->request->get('teacher');		
 		$file = $request->files->get('file');		
 		
-			$em = $this->getDoctrine()->getManager();
-			//return	$teacher['mail_list'];
-		//if($teacher['mail_list'] != Undefined){	
-			$emails_list = $teacher['mail_list'];
-			$emails = explode(',', $emails_list);		
-		//}
+		$em = $this->getDoctrine()->getManager();
+
+		$emails_list = $teacher['mail_list'];
+		$emails = explode(',', $emails_list);		
+		$contents = [];
+		if($file)
+		{	
+				$absolute_path = getcwd();
+				$fileCo = file_get_contents($file);
+				file_put_contents('temp.xls', $fileCo);
+				$reader = $this->get("arodiss.xls.reader");
+				$path = $absolute_path."/temp.xls";
+				$path = str_replace('/', '//', $path);
+				$content = $reader->readAll($path);
+				
+		}
+		$contentsNew = [];
+		foreach ($content as $key ) {
+			 array_push($contentsNew, array_values($key)[0]);	
+		}
+		
+		$emails = array_merge($emails,$contentsNew);
+		$emails = array_intersect_key($emails, array_unique(array_map('strtolower', $emails)));
+
+		//new version
+		$invalidArray = [];
+		$dupelicateArray = [];
+		$invalidArray = [];
+		foreach ($emails as $email) 
+	    {
+	    	$valid = $this->CheckValidEmail($email);
+	    	if(!$valid)
+    		{
+    			//add to invalid mail list	
+    			array_push($invalidArray, $email);
+    		}
+	    	$exists = $this->CheckDupeEmail($email);
+	    	if($exists)
+	    	{
+	    		array_push($dupelicateArray, $email);
+	    	}
+	    }
+
+	   // return new JsonResponse (array('array'=>$emails ,'invalidArray'=> $invalidArray,'dupelicateArray'=>$dupelicateArray ));
 		$group = new Group();
 		$group->setTeacher_id($teacher['id']);
 		if(array_key_exists('group_name',$teacher) && $teacher['group_name'] != null)
@@ -197,7 +236,7 @@ class UniversityController extends Controller
 			$group->setGroup_name('Group'.rand());
 		}
 		$group->setLeague_name($teacher['league_name']);//TODO		
-		$group->setVirtual_money($teacher['virtual_money']);
+		$group->setVirtual_money($utils->getNumberFromLocaleString($teacher['virtual_money']));
 		$group->setStart_date($teacher['start_date']);
 		$group->setEnd_date($teacher['end_date']);
 		$group->setCreated_by(1);
@@ -339,7 +378,8 @@ class UniversityController extends Controller
 		    	$em->flush();
 			}*/	    
 
-    	return $this->json(array('status' => 'success','reason' => 'Group Saved Successfully','reaponse' => 200));
+    	return $this->json(array('status' => 'success','reason' => 'Group Saved Successfully','reaponse' => 200 ,
+    							 'invalidArray' =>$invalidArray ,'dupelicateArray'=>$dupelicateArray));
 
     }
 
@@ -565,6 +605,9 @@ class UniversityController extends Controller
 
 						 $stmt =$em2->getConnection()->prepare($RAW_QUERY1);
              			 $stmt->execute(array('active' => 1,'username' => "firstName"." "."lastName" ,'email' => $result1['email'],'password' => $encPassStud,'role' => 'ROLE_STUDENT' ,'reg_type' => 'Reg.Normal' ,'datetime1' => date_format(date_create(null),"Y-m-d H:i:s") ,'date1' =>  date_format(date_create(null),"Y-m-d") ,'date2' => date_format(date_create(null),"Y-m-d")));
+
+             			 /*dummydata*/
+             			$this->studentDummyData($email);
              			  //$stmt->fetch();
              			 
              			// return new JsonResponse($stmt);             			  
@@ -690,6 +733,34 @@ class UniversityController extends Controller
 
 			}
 		}
+	}
+
+	public function studentDummyData($email)
+	{
+			$em = $this->getDoctrine()->getManager();
+
+			$result = $em->getRepository('AppBundle:UserPurchaseHistory')
+            ->findEmail($email);
+
+            if($result)
+            {
+            	$RAW_QUERY1 = "
+				INSERT INTO `hist_user_compra` (`id`, `id_liga`, `id_user`, `id_empresa`, `prec_apertura_compra`, `fecha_apertura_compra`, `volumen`, `volumen_ya_vendido`)
+
+					 VALUES (NULL, '1', :userId, 'EURUSD=X', :value1, '2017-05-25 17:25:21', :value2, '0.0000');";
+
+					 $stmt =$em->getConnection()->prepare($RAW_QUERY1);
+         			 $stmt->execute(array('userId' => $result['id'] , 'value1' => rand(10.0000,100.0000)/10 , 'value2'=> rand(100000.0000,500000.0000)/10));
+
+				$RAW_QUERY2 = "
+				INSERT INTO `hist_user_compra` (`id`, `id_liga`, `id_user`, `id_empresa`, `prec_apertura_compra`, `fecha_apertura_compra`, `volumen`, `volumen_ya_vendido`)
+
+					 VALUES (NULL, '1', :userId, 'EURUSD=X', :value1, '2017-05-25 17:25:21',:value2, '0.0000');";
+
+					 $stmt1 =$em->getConnection()->prepare($RAW_QUERY2);
+         			 $stmt1->execute(array('userId' => $result['id'] , 'value1' => rand(1.0000,10.0000) , 'value2'=> rand(100000.0000,500000.0000)/10));
+            }
+
 	}
 
 

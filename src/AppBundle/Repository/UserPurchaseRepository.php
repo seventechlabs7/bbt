@@ -16,7 +16,7 @@ class UserPurchaseRepository extends EntityRepository
             $conn = $this->getEntityManager()
          	->getConnection();
        		$sql = '
-            SELECT purchase.id as recordId , user.username,user.id_admin as userId ,company.nom_empresa ,purchase.prec_apertura_compra as amount, purchase.volumen as shares  FROM `hist_user_compra` as purchase, users as user ,empresas as company , group_emails as ge , groups as g
+            SELECT purchase.id as recordId , user.username,user.id_admin as userId ,company.nom_empresa ,ROUND(purchase.prec_apertura_compra,2) as amount, ROUND(purchase.volumen,2) as shares  FROM `hist_user_compra` as purchase, users as user ,empresas as company , group_emails as ge , groups as g
 
              WHERE company.id = purchase.id_empresa and user.id_admin = purchase.id_user 
             and g.id = ge.group_id and g.teacher_id = :tid and user.email = ge.email 
@@ -126,9 +126,9 @@ class UserPurchaseRepository extends EntityRepository
                   and g.id = ge.group_id and g.teacher_id = :tid and user.email = ge.email group by user.id_admin 
                 ';*/
             $sql1 = '
-                        SELECT amounttable.patrimonio as amount ,
-                        pos.patrimonio_total as newamount , pos.posicion as position ,pos.posicion_ant as old_position,
-                        pos.beneficio_total as benefits ,  
+                        SELECT ROUND(amounttable.patrimonio,2) as amount ,
+                        ROUND(pos.patrimonio_total,2) as newamount , pos.posicion as position ,pos.posicion_ant as old_position,
+                        ROUND(pos.beneficio_total,2)as benefits ,  
                         user.username as name,user.id_admin as userId , count(op.id_user) as operations ,
                         IFNull(chat.total, 0) as total 
                         from hist_teacher_league_ranking as pos, users as user 
@@ -315,8 +315,8 @@ class UserPurchaseRepository extends EntityRepository
             $sql1 = 
                 '
                     SELECT 
-                    sum(pos.beneficio_total) as benefits ,  
-                    ((pos.patrimonio_total -25000.00)/25000 ) * 100 as percentage
+                    ROUND(sum(pos.beneficio_total),2) as benefits ,  
+                    ROUND(((pos.patrimonio_total -25000.00)/25000 ) * 100,2) as percentage
                     , count(op.id) as operations 
                    
                     from hist_teacher_league_ranking as pos, users as user 
@@ -342,9 +342,9 @@ class UserPurchaseRepository extends EntityRepository
             $sql1 = 
                 '
                     SELECT  com.nom_empresa as asset ,
-                    op.fecha_compra  as purchaseDate ,op.prec_compra as purchasePrice ,op.volumen_compra as purchaseShare,
-                    op.prec_venta as salePrice ,op.fecha_venta as saleDate ,op.volumen_operacion as saleShare ,
-                    op.beneficios as benefits , ((op.prec_venta - op.prec_compra) / op.prec_compra)*100 as benefitPercentage 
+                    op.fecha_compra  as purchaseDate ,ROUND(op.prec_compra,2) as purchasePrice ,ROUND(op.volumen_compra,2) as purchaseShare,
+                    ROUND(op.prec_venta,2) as salePrice ,op.fecha_venta as saleDate ,ROUND(op.volumen_operacion,2) as saleShare ,
+                    ROUND(op.beneficios,2) as benefits , ROUND(((op.prec_venta - op.prec_compra) / op.prec_compra)*100,2) as benefitPercentage 
                     from hist_user_operaciones as op  ,empresas as com 
                     where
                      com.id = op.id_empresa /*and op.id_user = :sid*/
@@ -366,8 +366,8 @@ class UserPurchaseRepository extends EntityRepository
             $sql1 = 
                 '
                     SELECT  com.nom_empresa as asset ,
-                    op.fecha_apertura_compra  as purchaseDate ,op.prec_apertura_compra as purchasePrice ,op.volumen as purchaseShare ,
-                    com.current_price as current_price , ((op.prec_apertura_compra * op.volumen) - (com.current_price )* (op.volumen - op.volumen_ya_vendido)) as benefit
+                    op.fecha_apertura_compra  as purchaseDate ,ROUND(op.prec_apertura_compra,2) as purchasePrice ,ROUND(op.volumen,2) as purchaseShare ,
+                    ROUND(com.current_price,2) as current_price , ROUND(((op.prec_apertura_compra * op.volumen) - (com.current_price )* (op.volumen - op.volumen_ya_vendido)),2) as benefit
                     from hist_user_compra as op  ,empresas as com 
                     where
                      com.id = op.id_empresa /*and op.id_user = :sid*/

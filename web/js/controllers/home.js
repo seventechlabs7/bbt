@@ -40,7 +40,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				if($scope.teacher.mail_list)
 				{
 					list = $scope.teacher.mail_list.split(',');
-					var emailregex = /\S+@\S+\.\S+/;
+					var emailregex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;;
 		      		notify.closeAll();
 					for (var i = 0; i < list.length; i++) 
 					{
@@ -53,7 +53,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 							});
 							return;
 						}
-						if(!list[i].match(emailregex))
+						if(!emailregex.test(list[i]))
 						{
 							notify({
 								message:'Invalid Mail Id',
@@ -104,7 +104,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 			for (var i = 0; i < $scope.teacher.assets.length; i++) {
 				var a = $scope.teacher.assets[i];
 				console.log(a)
-				if(a)
+				if(a =="1")
 					{
 						$scope.assetsCheck = true;
 						break;
@@ -146,7 +146,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				$scope.teacher.feedback = [];
 			for (var i = 0; i < $scope.teacher.feedback.length; i++) {
 				var a = $scope.teacher.feedback[i];
-				if(a)
+				if(a == "1")
 					{
 						$scope.feedbackCheck = true;
 						break;
@@ -215,7 +215,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 			if($scope.teacher.mail_list)
 			{
 				var list = $scope.teacher.mail_list.split(',');
-				var emailregex = /\S+@\S+\.\S+/;
+				var emailregex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;;
 	      		notify.closeAll();
 				for (var i = 0; i < list.length; i++) 
 				{
@@ -228,7 +228,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 						});
 						return;
 					}
-					if(!list[i].match(emailregex))
+					if(!emailregex.test(list[i]))
 					{
 						notify({
 							message:'Invalid Mail Id',
@@ -266,7 +266,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				$scope.teacher.assets = [];
 			for (var i = 0; i < $scope.teacher.assets.length; i++) {
 				var a = $scope.teacher.assets[i];
-				if(a)
+				if(a == "1")
 					{
 						$scope.assetsCheck = true;
 						break;
@@ -308,7 +308,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 			console.log($scope.teacher.feedback)
 			for (var i = 0; i < $scope.teacher.feedback.length; i++) {
 				var a = $scope.teacher.feedback[i];
-				if(a)
+				if(a == "1")
 					{
 						$scope.feedbackCheck = true;
 						break;
@@ -349,7 +349,8 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				}
 			})
 			.then(function(success){
-				console.log(success)
+				console.log(success);
+				$scope.response = success.data;
 				if(success.data.status == 'success')
 				{
 					$scope.shiftTab(4);
@@ -538,7 +539,9 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				data:{uId :  $stateParams.teacher_id }
 			}).then(function(success){
 				var data = success.data;
-				$scope.report = data.report;							
+				$scope.report = data.report;	
+				$scope.report.benefits = parseFloat($scope.report.benefits).toLocaleString("de-DE");	
+
 			},function(error){
 
 			});
@@ -639,11 +642,22 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				}).then(function(success){
 					console.log(success)
 					$scope.timeLine = success.data;
+					$scope.processTimeline();
 					console.log("timeLine")
 					console.log($scope.timeLine);
 				},function(error){
 
 				});
+	    }
+
+	    $scope.processTimeline = function()
+	    {
+	    	for (var i = 0; i < $scope.timeLine.length; i++) 
+	    	{
+	    		var obj = $scope.timeLine[i];
+	    		obj.shares = parseFloat(obj.shares).toLocaleString("de-DE");
+	    		obj.amount = parseFloat(obj.amount).toLocaleString("de-DE");
+	    	}
 	    }
 	    
 		//$("#signup").validate();

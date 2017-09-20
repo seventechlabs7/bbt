@@ -90,7 +90,8 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				data:{uId :  $stateParams.teacher_id }
 			}).then(function(success){
 				var data = success.data;
-				$scope.report = data.report;							
+				$scope.report = data.report;
+				$scope.report.benefits = parseFloat($scope.report.benefits).toLocaleString("de-DE");							
 			},function(error){
 
 			});
@@ -102,11 +103,11 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 	       	for(var i=0;i<$scope.rankingList.length;i++)
 	       	{
 	       		var obj = $scope.rankingList[i];
-	       		obj.benefitPercent = ((parseFloat(obj.newamount)-25000.00)/25000.00) * 100 ; 
+	       		obj.benefitPercent = (((parseFloat(obj.newamount)-2500000)/2500000) * 100).toFixed(2) ; 
 	       		obj.position = parseInt(obj.position);
-	       		obj.amount = parseFloat(obj.amount);
+	       		obj.amount = parseFloat(obj.amount).toLocaleString("de-DE");;
 	       		obj.operations = parseInt(obj.operations);
-	       		obj.benefits =parseFloat(obj.benefits) ;      	
+	       		obj.benefits =parseFloat(obj.benefits).toLocaleString("de-DE"); ;      	
 	       	}
        	    $scope.rankTable = createUsingFullOptionsRanking();
        }
@@ -251,7 +252,10 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 			{
 				$scope.screen = screen;
 				if(screen == "start")
-					$scope.type = "ranking"
+					{
+						$scope.type = "ranking";
+						$scope.unsaved = false;
+					}
 				$scope.teacher ={};
 				$scope.teacher.gId = $scope.groupData.id;
 				$scope.teacher.mail_list = "";
@@ -275,36 +279,46 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 			{
 				$scope.teacher.id = $stateParams.teacher_id;	
 				
+				var list =[];
 				if($scope.teacher.mail_list)
-			{	
-				var list = $scope.teacher.mail_list.split(',');
-				var emailregex = /\S+@\S+\.\S+/;
-	      		notify.closeAll();
-				for (var i = 0; i < list.length; i++) 
 				{
-					if(list[i] == null)
+					list = $scope.teacher.mail_list.split(',');
+					var emailregex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		      		notify.closeAll();
+					for (var i = 0; i < list.length; i++) 
 					{
-						notify({
-							message:'Should Seperate by single comma',
-							classes:'alert-danger',
-							duration:2000
-						});
+						if(list[i] == null)
+						{
+							notify({
+								message:'Should be Seperated by single comma',
+								classes:'alert-danger',
+								duration:2000
+							});
+							return;
+						}
+						if(!emailregex.test(list[i]))
+						{
+							notify({
+								message:'Invalid Mail Id',
+								classes:'alert-danger',
+								duration:2000
+							});
 						return;
-					}
-					if(!list[i].match(emailregex))
-					{
-						notify({
-							message:'Invalid Mail Id',
-							classes:'alert-danger',
-							duration:2000
-						});
-					return;
 
+						}
 					}
+				}	
+				else
+					$scope.teacher.mail_list = "";
+				if(list.length == 0 && !$scope.file)
+				{
+					notify({
+						message:'Enter valid comma sepearated emails or upload a email list file',
+						classes:'alert-danger',
+						duration:4000
+					});
+					return;
 				}
-			}
-			else
-				$scope.teacher.mail_list = "";
 
 				swal({
 				title: "Upload Students",
@@ -373,18 +387,30 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 			    $scope.teacher.start_date = $filter('date')($scope.teacher.start_date, 'dd/MM/yyyy');
 			    $scope.teacher.end_date = $filter('date')($scope.teacher.end_date, 'dd/MM/yyyy');
 
-				$scope.teacher.virtual_money = data.league.virtual_money;
-				
-				$scope.teacher.assets = data.assets.split(',');
-				$scope.teacher.feedback = data.feedback.split(',');
-				console.log($scope.teacher.assets)
+				$scope.teacher.virtual_money = parseFloat(data.league.virtual_money).toLocaleString("de-DE");
+
+				$scope.teacher.assets =(data.assets).split(',');
+
+				$scope.teacher.feedback = (data.feedback).split(',');
+				console.log($scope.teacher.feedback)
+				//$scope.processArrays();
 				$scope.oldObj = angular.copy($scope.teacher);
 				$scope.unsaved =true;
+				if($scope.screen == "start")
+					$scope.unsaved = false;
 				},function(error){
 
 				});
 			}
 
+/*			$scope.processArrays = function()
+			{
+				for (var i = 0; i < $scope.teacher.feedback.length; i++) {
+					var obj = JSON.stringify($scope.teacher.feedback[i]);
+
+				}
+				console.log($scope.teacher.feedback)
+			}*/
 			$scope.editVirtualMoney = function()
 			{
 				if(!$scope.teacher.start_date )
@@ -406,7 +432,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 
 			$scope.stopcountdownFun = function(index)
 			{
-				$scope.pastDateCheck();
+				//$scope.pastDateCheck();
 				$scope.stopcountdown = true;
 				$scope.checkTime(index);
 			}
@@ -414,7 +440,10 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 		{	
 			notify.closeAll();
 			if(!$scope.DisableStartDate)	
-			    $scope.pastDateCheck();
+			    {
+			    	$scope.pastDateCheck();
+			    }
+
 			if($scope.teacher.start_date && $scope.teacher.end_date)
 			{
 				var from = new Date($scope.teacher.start_date.split("/").reverse().join("-"));
@@ -429,6 +458,19 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 		      	notify.closeAll();
 		      	notify({
 		      		message: 'Invalid End Date',
+		      		classes: 'alert-danger',
+		      		duration: 2000
+		      	});
+		      	$scope.teacher.end_date = null;
+		      	return;
+		      }
+		      var curDate = new Date();
+		      var curDate1 = curDate.setHours(0,0,0,0);
+		       if(to.getTime() < curDate.getTime())
+		      {
+		      	notify.closeAll();
+		      	notify({
+		      		message: 'End date is less than current date',
 		      		classes: 'alert-danger',
 		      		duration: 2000
 		      	});
@@ -497,7 +539,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 			for (var i = 0; i < $scope.teacher.assets.length; i++) {
 				var a = $scope.teacher.assets[i];
 				console.log(a)
-				if(a)
+				if(a =="1" )
 					{
 						$scope.assetsCheck = true;
 						break;
@@ -576,7 +618,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 			for (var i = 0; i < $scope.teacher.feedback.length; i++) {
 				var a = $scope.teacher.feedback[i];
 				console.log(a)
-				if(a)
+				if(a == "1")
 					{
 						$scope.feedbackCheck = true;
 						break;
@@ -632,12 +674,13 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				url: 'api/chat/get',
 				data:{tId : $stateParams.teacher_id ,uId : $scope.chatUserId }
 				}).then(function(success){
-				var data = success.data.list;
+				var data = success.data;
+
 				$scope.processMessages(data,success.data.myName);
 				$scope.curEncUID = success.data.encUID;
 						
 
-				$scope.changeScreen('start');			
+				//$scope.changeScreen('start');			
 				},function(error){
 
 				});
@@ -649,8 +692,8 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 			console.log(data);
 			$scope.messageList = [];
 			$scope.chat = {};
-			$scope.chat.partnerName = data.username;
-			var messages = data.messages.split(/<p>(.*?)<em>/);
+			$scope.chat.partnerName = data.partnerName;
+			var messages = data.list.messages.split(/<p>(.*?)<em>/);
 			console.log(messages);
 			for(var i = 0 ; i <messages.length;i++)
 			{
@@ -693,8 +736,35 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				return "message-partner";
 		}
 
+		$scope.closeChat = function()
+		{
+			$scope.chatActive = false;
+		}
+
 		$scope.sendMessage = function()
 		{
+			notify.closeAll();
+			if(!$scope.chat.newMessage)
+			{
+				notify({
+					message: 'Enter a message',
+					classes:'alert-warning',
+					duration:2000
+					});
+				return;
+			}
+			else
+			{
+				if($scope.chat.newMessage.trim().length >30)
+				{
+					notify({
+					message: 'Message length too long',
+					classes:'alert-warning',
+					duration:2000
+					});
+					return;
+				}
+			}
 			var message = $scope.chat.newMessage;
 			$scope.chat.newMessage = "";
 			blockUI.stop();
@@ -820,11 +890,11 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 	       	for(var i=0;i<$scope.purchaseData.length;i++)
 	       	{
 	       		var obj = $scope.purchaseData[i];
-	       		obj.purchasePrice = parseFloat(obj.purchasePrice);
-	       		obj.purchaseShare = parseFloat(obj.purchaseShare); 
+	       		obj.purchasePrice = parseFloat(obj.purchasePrice).toLocaleString("de-DE");;
+	       		obj.purchaseShare = parseFloat(obj.purchaseShare).toLocaleString("de-DE");; 
 				obj.purchaseDate = moment(new Date(obj.purchaseDate)).format("DD/MM/YYYY");
-				obj.currentPrice = parseFloat(obj.current_price);
-				obj.benefits = parseFloat(obj.benefit);
+				obj.currentPrice = parseFloat(obj.current_price).toLocaleString("de-DE");;
+				obj.benefits = parseFloat(obj.benefit).toLocaleString("de-DE");;
 	       	}
        	  $scope.purchaseTable = createUsingFullOptionsPurchase();
        }
@@ -834,11 +904,11 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 	       	for(var i=0;i<$scope.operationsData.length;i++)
 	       	{
 	       		var obj = $scope.operationsData[i];
-	       		obj.purchasePrice 		= parseFloat(obj.purchasePrice);
-	       		obj.purchaseShare 		= parseFloat(obj.purchaseShare);
-	       		obj.salePrice 	  		= parseFloat(obj.salePrice);
-	       		obj.saleShare     		= parseFloat(obj.saleShare);   
-	       		obj.benefits      		= parseFloat(obj.benefits);
+	       		obj.purchasePrice 		= parseFloat(obj.purchasePrice).toLocaleString("de-DE");;
+	       		obj.purchaseShare 		= parseFloat(obj.purchaseShare).toLocaleString("de-DE");;
+	       		obj.salePrice 	  		= parseFloat(obj.salePrice).toLocaleString("de-DE");;
+	       		obj.saleShare     		= parseFloat(obj.saleShare).toLocaleString("de-DE");;   
+	       		obj.benefits      		= parseFloat(obj.benefits).toLocaleString("de-DE");;
 	       		obj.benefitPercentage 	= parseFloat(obj.benefitPercentage);  
 	       		
 	       		obj.purchaseDate = moment(new Date(obj.purchaseDate)).format("DD/MM/YYYY");
