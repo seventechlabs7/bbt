@@ -13,6 +13,7 @@ use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationExc
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
+use AppBundle\Entity\User;
 
 class TokenAuthenticator extends AbstractGuardAuthenticator
 {
@@ -63,16 +64,31 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         $data = $this->jwtEncoder->decode($credentials);
-        var_dump($data);
+       // var_dump($data);
         if ($data === false) {
             throw new CustomUserMessageAuthenticationException('Invalid Token');
         }
 
         $username = $data['username'];
 
-        return $this->em
+        /*$user =  $this->em
             ->getRepository('AppBundle:User')
-            ->findOneBy(['email' => $username]);
+            ->findOneBy(['email' => $username]);*/
+
+            // = $this->getDoctrine()->getManager();
+            $user = $this->em->getRepository('AppBundle:UserPurchaseHistory')
+            ->authenticate($username);
+            var_dump($user);
+            $u = new User();
+            if($user)
+            {
+                $u->setEmail($user["email"]);
+                $u->setPassword($user['password']);
+                $u->setUsername($user['email']);
+                return $u;
+            }
+            var_dump($u);
+            return $u;
     }
 
     /**

@@ -18,14 +18,50 @@ use Doctrine\ORM\Mapping\Column;
  * @AttributeOverrides({
  *      @AttributeOverride(name="usernameCanonical",
  *          column=@Column(
+ *              name=     "nombre",
  *              type     = "string",
- *              length   = 155,
  *          )
  *      ),
  *      @AttributeOverride(name="emailCanonical",
  *          column=@Column(
+ *              name     = "telefono",
+ *             
+ *          )
+ *      ),
+ *      @AttributeOverride(name="enabled",
+ *          column=@Column(
+ *              type     = "boolean",
+ * 				 name=     "activo",
+ *          )
+ *      ),
+ *      @AttributeOverride(name="salt",
+ *          column=@Column(
  *              type     = "string",
- *              length   = 155,
+ * 				name      ="nombre_completo",
+ *          )
+ *      ),
+ *      @AttributeOverride(name="lastLogin",
+ *          column=@Column(
+ *              type     = "datetime",
+ * 				name = "fecha_alta",
+ *          )
+ *      ),
+ *      @AttributeOverride(name="confirmationToken",
+ *          column=@Column(
+ *              type     = "string",
+ *				name     = "direccion",
+ *          )
+ *      ),
+ *      @AttributeOverride(name="passwordRequestedAt",
+ *          column=@Column(
+ *              type     = "datetime",
+ *  			name     = "fecha_max_prueba",
+ *          )
+ *      ),
+ *      @AttributeOverride(name="id",
+ *          column=@Column(
+ *              name=    "id_admin",
+ *              type     = "integer",
  *          )
  *      )
  * })
@@ -37,7 +73,7 @@ class User extends BaseUser
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id_admin", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */

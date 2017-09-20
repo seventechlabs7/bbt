@@ -120,6 +120,12 @@ class RankingController extends Controller
 
   public function dashBoardAction(Request $request)
   {
+
+     if (isset($_SESSION['user'])) {
+     return true;
+   } else {
+     return false;
+   }
      $ranking = $request->request->all();
 
       $teacherId = $ranking['uId'];
