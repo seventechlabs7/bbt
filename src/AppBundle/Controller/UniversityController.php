@@ -187,7 +187,7 @@ class UniversityController extends Controller
 
 		$emails_list = $teacher['mail_list'];
 		$emails = explode(',', $emails_list);		
-		$contents = [];
+		$content = [];
 		if($file)
 		{	
 				$absolute_path = getcwd();
@@ -197,6 +197,7 @@ class UniversityController extends Controller
 				$path = $absolute_path."/temp.xls";
 				$path = str_replace('/', '//', $path);
 				$content = $reader->readAll($path);
+				unlink($path);
 				
 		}
 		$contentsNew = [];
@@ -313,7 +314,7 @@ class UniversityController extends Controller
 
 	    }
 			//path 		
-			if($file)
+			/*if($file)
 			{	
 					$absolute_path = getcwd();
 					$fileCo = file_get_contents($file);
@@ -343,7 +344,7 @@ class UniversityController extends Controller
 			    	//return $this->json($content);
 			    }
 			    unlink($path);
-		}
+		}*/
 		    //return $this->json(($path));
 /*
 			for($i=0;$i<$content;$i++)
