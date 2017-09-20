@@ -1,7 +1,10 @@
 <?php
+
 namespace AppBundle\Controller;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -10,13 +13,15 @@ use AppBundle\Entity\User;
 use AppBundle\Service\MyUserManager;
 use AppBundle\Service\BbtCrypt;
 use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
+
 class LoginController extends Controller
 {
     use \AppBundle\Helper\ControllerHelper;
 
-    public function loginAction(Request $request,BbtCrypt $bbtCrypt)
+     public function loginAction(Request $request,BbtCrypt $bbtCrypt)
     {
-         $reqData = $request->request->all();
+
+        $reqData = $request->request->all();
         $userName = $reqData['email'];
         $password = $reqData['password'];
         $encpassword = $bbtCrypt->decrypt($password);
@@ -60,7 +65,8 @@ class LoginController extends Controller
     $response = new Response($this->serialize(['status'=>'success','token' => $token,'id' =>$user1['id']]), Response::HTTP_OK);
  
     return $this->setBaseHeaders($response);
-    }
+}
+ 
     /**
      * Returns token for user.
      *
@@ -68,14 +74,15 @@ class LoginController extends Controller
      *
      * @return array
      */
-    public function getToken(User $user)
+    public function getToken($username)
     {
         return $this->container->get('lexik_jwt_authentication.encoder')
                 ->encode([
-                    'username' => $user->getUsername(),
+                    'username' => $username,
                     'exp' => $this->getTokenExpiryDateTime(),
                 ]);
     }
+     
     /**
      * Returns token expiration datetime.
      *
@@ -86,6 +93,7 @@ class LoginController extends Controller
         $tokenTtl = $this->container->getParameter('lexik_jwt_authentication.token_ttl');
         $now = new \DateTime();
         $now->add(new \DateInterval('PT'.$tokenTtl.'S'));
+     
         return $now->format('U');
-    }
+}
 }
