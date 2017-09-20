@@ -11,17 +11,18 @@
 			</div>
 			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-10">
 				<div class="header_right_cont">
+				<form id="login" id="loginForm" ng-submit="loginNow()">
 					<div class="row">
 						<div class="col-lg-2 col-md-2 col-xs-2">
 						</div>
 						<div class="col-lg-4 col-md-4 col-xs-12 bigger_p0">
-							<input type="" name="" placeholder="Email" class="form_inputtext">
+							<input type="text" name="" placeholder="Email" ng-model="login.email" class="form_inputtext">
 						</div>
 						<div class="col-lg-4 col-md-4 col-xs-12 ">
-							<input type="" name="" placeholder="Password" class="form_inputtext">
+							<input type="password" name="" placeholder="Password" ng-model="login.password" class="form_inputtext">
 						</div>
 						<div class="col-lg-2 col-md-2 col-xs-12 bigger_p0">
-							<button class="head_login_but gradient">Log In</button>
+							<button class="head_login_but gradient" >Log In</button>
 						</div>
 					</div>
 					<div class="row">
@@ -31,6 +32,7 @@
 							</div>
 						</div>
 					</div>
+					</form>
 				</div>
 			</div>
 		</div>
@@ -58,8 +60,9 @@
 									<h5 class="form_text text-center"> Specially Prepared for Teachers </h5>									
 								</div>
 							</div>
-							<div class="card_body" ng-if="!completed">
-								<form  id="signup" name="signup" autocomplete="off" formnovalidate="formnovalidate">
+							<div class="card_body" >
+								{{signupReason}}
+								<form  id="signup" name="signup" autocomplete="off" formnovalidate="formnovalidate" novalidate ng-submit="shiftTab(1);teacher_signup()">
 								<div class="row">
 									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 										<div class="form_input_cont">
@@ -111,7 +114,7 @@
 								<div class="row">
 									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-											<button class="form_submit_but gradient" ng-click="shiftTab(1);teacher_signup()" ng-disabled="!signup.$valid">Join now</button>
+											<button class="form_submit_but gradient"  ng-disabled="!signup.$valid">Join now</button>
 										</div>
 									</div>
 									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -120,11 +123,12 @@
 										</div>
 									</div>
 								</div>
+								
 								</form>
 							</div>
-							<div class="card_body" ng-if="completed">
+							<!-- <div class="card_body" ng-if="completed">
 									{{signupReason}}
-							</div>
+							</div> -->
 						</div>
 					</div>
 				</div>

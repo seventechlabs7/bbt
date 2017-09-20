@@ -16,7 +16,7 @@ class UserPurchaseRepository extends EntityRepository
             $conn = $this->getEntityManager()
          	->getConnection();
        		$sql = '
-            SELECT purchase.id as recordId , user.username,user.id_admin as userId ,company.nom_empresa ,purchase.prec_apertura_compra as amount, purchase.volumen as shares  FROM `hist_user_compra` as purchase, users as user ,empresas as company , group_emails as ge , groups as g
+            SELECT purchase.id as recordId , user.username,user.id_admin as userId ,company.nom_empresa ,ROUND(purchase.prec_apertura_compra,2) as amount, ROUND(purchase.volumen,2) as shares  FROM `hist_user_compra` as purchase, users as user ,empresas as company , group_emails as ge , groups as g
 
              WHERE company.id = purchase.id_empresa and user.id_admin = purchase.id_user 
             and g.id = ge.group_id and g.teacher_id = :tid and user.email = ge.email 
@@ -126,12 +126,17 @@ class UserPurchaseRepository extends EntityRepository
                   and g.id = ge.group_id and g.teacher_id = :tid and user.email = ge.email group by user.id_admin 
                 ';*/
             $sql1 = '
-            SELECT pos.patrimonio_total as amount ,pos.posicion as position , pos.posicion_ant as old_position,
-            user.username as name,user.id_admin as userId ,
-            IFNull(chat.total, 0) as total 
-            from hist_teacher_league_ranking as pos, users as user left join chats_sin_leer as chat on chat.id_user =:idUser and chat.id_user_send = user.id_admin
-            where pos.id_user = user.id_admin group by pos.id_user order by pos.posicion_ant ASC
-            ';
+                        SELECT ROUND(amounttable.patrimonio,2) as amount ,
+                        ROUND(pos.patrimonio_total,2) as newamount , pos.posicion as position ,pos.posicion_ant as old_position,
+                        ROUND(pos.beneficio_total,2)as benefits ,  
+                        user.username as name,user.id_admin as userId , count(op.id_user) as operations ,
+                        IFNull(chat.total, 0) as total 
+                        from hist_teacher_league_ranking as pos, users as user 
+                        left join chats_sin_leer as chat on chat.id_user =:idUser and chat.id_user_send = user.id_admin
+                        left join hist_user_operaciones as op   on  op.id_user = user.id_admin
+                        left join hist_patrimonio as amounttable on amounttable.id_user = user.id_admin
+                        where pos.id_user = user.id_admin group by pos.id_user order by pos.posicion ASC
+                    ';
 
                 $conn = $this->getEntityManager()
                 ->getConnection();
@@ -254,9 +259,167 @@ class UserPurchaseRepository extends EntityRepository
                    UPDATE  chats set  messages =:messages  where members = :members  
                     ';
             $stmt = $conn->prepare($sql);
-             $stmt->execute(array('members'=>$members ,'messages' =>"<p>".$newmessage));
+             $stmt->execute(array('members'=>$members ,'messages' =>$newmessage));
             //$final = $stmt->fetch();   
             //var_dump($final);die;         
             return ($stmt);
+    }
+
+     public function authenticate($user)
+    {
+            $conn = $this->getEntityManager()
+                         ->getConnection();
+            $sql = '
+                   select id_admin, email ,password from users  where email = :email limit 1
+                   ';
+             $stmt = $conn->prepare($sql);
+             $stmt->execute(array('email' => $user));
+            $final = $stmt->fetch();   
+           // var_dump($final);die;         
+            return ($final);
+    }
+     public function getTeacherId($user)
+    {
+            $conn = $this->getEntityManager()
+                         ->getConnection();
+            $sql = '
+                   select id from teachers  where email = :email limit 1
+                   ';
+             $stmt = $conn->prepare($sql);
+             $stmt->execute(array('email' => $user));
+            $final = $stmt->fetch();   
+           // var_dump($final);die;         
+            return ($final);
+    }
+
+     public function totalUsers($user)
+    {
+            $conn = $this->getEntityManager()
+                         ->getConnection();
+            $sql = '
+                   SELECT count(user.id_admin) as totalUsers  FROM  users as user  , group_emails as ge , groups as g
+
+             WHERE 
+             g.id = ge.group_id and g.teacher_id = :tid and user.email = ge.email 
+            
+                    ';
+             $stmt = $conn->prepare($sql);
+             $stmt->execute(array('tid' => $user));
+            $final = $stmt->fetch();   
+           // var_dump($final);die;         
+            return ($final);
+    }
+
+        public function dashBoard($tid)
+    {
+            $sql1 = 
+                '
+                    SELECT 
+                    ROUND(sum(pos.beneficio_total),2) as benefits ,  
+                    ROUND(((pos.patrimonio_total -25000.00)/25000 ) * 100,2) as percentage
+                    , count(op.id) as operations 
+                   
+                    from hist_teacher_league_ranking as pos, users as user 
+                   
+                    left join hist_user_operaciones as op   on  op.id_user = user.id_admin
+                    
+                    where pos.id_user = user.id_admin 
+                ';
+
+                $conn = $this->getEntityManager()
+                ->getConnection();
+                $sql = $sql1;
+                $stmt = $conn->prepare($sql);
+                $stmt->execute(array('idUser' => $tid ));
+                $final = $stmt->fetch();   
+               // var_dump($final);die;         
+                return ($final);
+
+    }
+
+      public function operationsOfStudent($tid,$sid,$gid)
+    {
+            $sql1 = 
+                '
+                    SELECT  com.nom_empresa as asset ,
+                    op.fecha_compra  as purchaseDate ,ROUND(op.prec_compra,2) as purchasePrice ,ROUND(op.volumen_compra,2) as purchaseShare,
+                    ROUND(op.prec_venta,2) as salePrice ,op.fecha_venta as saleDate ,ROUND(op.volumen_operacion,2) as saleShare ,
+                    ROUND(op.beneficios,2) as benefits , ROUND(((op.prec_venta - op.prec_compra) / op.prec_compra)*100,2) as benefitPercentage 
+                    from hist_user_operaciones as op  ,empresas as com 
+                    where
+                     com.id = op.id_empresa /*and op.id_user = :sid*/
+                ';
+
+                $conn = $this->getEntityManager()
+                ->getConnection();
+                $sql = $sql1;
+                $stmt = $conn->prepare($sql);
+                $stmt->execute(array('sid' => $sid ));
+                $final = $stmt->fetchAll();   
+               // var_dump($final);die;         
+                return ($final);
+
+    }
+
+      public function studentPurchase($tid,$sid,$gid)
+    {
+            $sql1 = 
+                '
+                    SELECT  com.nom_empresa as asset ,
+                    op.fecha_apertura_compra  as purchaseDate ,ROUND(op.prec_apertura_compra,2) as purchasePrice ,ROUND(op.volumen,2) as purchaseShare ,
+                    ROUND(com.current_price,2) as current_price , ROUND(((op.prec_apertura_compra * op.volumen) - (com.current_price )* (op.volumen - op.volumen_ya_vendido)),2) as benefit
+                    from hist_user_compra as op  ,empresas as com 
+                    where
+                     com.id = op.id_empresa /*and op.id_user = :sid*/
+                ';
+
+                $conn = $this->getEntityManager()
+                ->getConnection();
+                $sql = $sql1;
+                $stmt = $conn->prepare($sql);
+                $stmt->execute(array('sid' => $sid ));
+                $final = $stmt->fetchAll();   
+               // var_dump($final);die;         
+                return ($final);
+
+    }
+
+    public function studentList($tId,$gId)
+    {
+        $sql1 = 
+                '
+                    SELECT  user.id_admin as userId , user.email as email ,user.username 
+                    from users as user , groups as g ,group_emails as ge 
+                    where g.id = :gId and  ge.group_id = g.id and ge.email = user.email and g.teacher_id = :tId; 
+
+                ';
+
+                $conn = $this->getEntityManager()
+                ->getConnection();
+                $sql = $sql1;
+                $stmt = $conn->prepare($sql);
+                $stmt->execute(array('gId' => $gId ,'tId' => $tId));
+                $final = $stmt->fetchAll();   
+               // var_dump($final);die;         
+                return ($final);
+    }
+
+    public function findUserIdByTeacherId($tId)
+    {
+        $sql1 = 
+                '
+                    SELECT  user.id_admin as userId ,icono as image
+                    from users as user ,teachers as t 
+                    where t.id = :tId and  t.email = user.email ; 
+                ';
+
+                $conn = $this->getEntityManager()
+                ->getConnection();
+                $sql = $sql1;
+                $stmt = $conn->prepare($sql);
+                $stmt->execute(array('tId' => $tId));
+                $final = $stmt->fetch();   
+               // var_dump($final);die;         
+                return ($final);
     }
 }

@@ -17,6 +17,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use AppBundle\Entity\UserPurchaseHistory;
 use AppBundle\Service\MailerService;
 use AppBundle\Service\CustomCrypt;
+use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
+use AppBundle\Entity\GroupAsset;
+use AppBundle\Entity\GroupFeedback;
+use AppBundle\Service\Utils;
 
 class UserOperationsController extends Controller
 {
@@ -419,8 +423,45 @@ class UserOperationsController extends Controller
     '
 )->setParameter('id',$gId);
 $products = $query->setMaxResults(1)->getOneOrNullResult();
+
+    $query1 = $em->createQuery(
+    'SELECT ga.asset_id  
+  
+    FROM AppBundle:Group g , AppBundle:GroupAsset as ga
+    where ga.group_id = g.id 
+    and g.id = :id
+    '
+)->setParameter('id',$gId);
+$assets = $query1->getResult();
+
+/*feedback*/
+
+ $query2 = $em->createQuery(
+    'SELECT gf.feedback_id  
+  
+    FROM AppBundle:Group g , AppBundle:GroupFeedback as gf
+    where gf.group_id = g.id 
+    and g.id = :id
+    '
+)->setParameter('id',$gId);
+$feedbacks = $query2->getResult();
+
+$as = [];
+foreach($assets as $i => $item) {
+     
+    $as[$i] = $item['asset_id'];
+     // $array[$i] is same as $item
+}
+
+$fb = [];
+foreach($feedbacks as $i => $item) {
+     
+    $fb[$i] = $item['feedback_id'];
+     // $array[$i] is same as $item
+}
+//return new JsonResponse($as);
 //$products = $query->getResult();
- return new JsonResponse($products);
+ return new JsonResponse(array('league'=>$products,'assets'=>implode(',', ($as)) ,'feedback'=>implode(',', ($fb)) ));
 
     $leagueData = new Group();
     $res = $em->getRepository('AppBundle:Group')->findOneById($gId);
@@ -440,21 +481,93 @@ $products = $query->setMaxResults(1)->getOneOrNullResult();
     }
   }
 
-  public function updateLeagueAction(Request $request)
+  public function updateLeagueAction(Request $request ,Utils $utils)
   {
     $requestData  =  $request->request->all();
     $requestData = $requestData['data'];
    
     $em = $this->getDoctrine()->getManager();
     $TD =  $em->getRepository('AppBundle:Group')->find($requestData['gId']);
+
+    //return new JsonResponse($utils->getNumberFromLocaleString($requestData['virtual_money']));
+
+      $RAW_QUERY1 = "
+          DELETE FROM `group_assets` WHERE `group_assets`.`group_id` = :gId
+      ";
+
+      $stmt =$em->getConnection()->prepare($RAW_QUERY1);
+      $stmt->execute(array('gId'=>$requestData['gId']));
+
+
     if($TD)
     {
        $TD->setStart_date($requestData['start_date']);
        $TD->setEnd_date($requestData['end_date']);
+       $TD->setVirtual_money($utils->getNumberFromLocaleString($requestData['virtual_money']));
+       $TD->setLeague_name($requestData['league_name']);
+       $TD->setAssets("1");
+       $em->flush($TD);
+
+        $assets = $requestData['assets'];
+      foreach ($assets as $asset) 
+      {
+        
+          $GA = new GroupAsset;
+          $GA->setGroup_id($TD->getId());
+          $GA->setAsset_id($asset);
+          $em->persist($GA);
+          $em->flush();
+        
+      }
+
+       return new JsonResponse(array('status' => 'success','reason' => 'updated successfully','reaponse' => 200));
+    }
+     return new JsonResponse(array('status' => 'failure','reason' => 'something went wrong','reaponse' => 200));
+
+  }
+
+    public function updateFeedbackAction(Request $request)
+  {
+    $requestData  =  $request->request->all();
+    $requestData = $requestData['data'];
+   
+    $em = $this->getDoctrine()->getManager();
+    $TD =  $em->getRepository('AppBundle:Group')->find($requestData['gId']);
+
+
+    $feedbacks = $requestData['feedback'];
+    if(count($feedbacks) == 0)
+        return new JsonResponse(array('status' => 'failure','reason' => 'Select atleast one feedback','reaponse' => 200));
+      $RAW_QUERY1 = "
+          DELETE FROM `group_feedback` WHERE `group_feedback`.`group_id` = :gId
+      ";
+
+      $stmt =$em->getConnection()->prepare($RAW_QUERY1);
+      $stmt->execute(array('gId'=>$requestData['gId']));
+
+
+    if($TD)
+    {
+       /*$TD->setStart_date($requestData['start_date']);
+       $TD->setEnd_date($requestData['end_date']);
        $TD->setVirtual_money($requestData['virtual_money']);
        $TD->setLeague_name($requestData['league_name']);
-       $TD->setAssets($requestData['assets']);
-       $em->flush($TD);
+       $TD->setAssets("1");
+       $em->flush($TD);*/
+
+        
+
+      foreach ($feedbacks as $feedback) 
+      {
+        
+          $GF = new GroupFeedback;
+          $GF->setGroup_id($TD->getId());
+          $GF->setFeedback_id($feedback);
+          $em->persist($GF);
+          $em->flush();
+        
+      }
+
        return new JsonResponse(array('status' => 'success','reason' => 'updated successfully','reaponse' => 200));
     }
      return new JsonResponse(array('status' => 'failure','reason' => 'something went wrong','reaponse' => 200));
@@ -468,6 +581,7 @@ $products = $query->setMaxResults(1)->getOneOrNullResult();
     $tId = $requestData['tId'];
     $em = $this->getDoctrine()->getManager();
     $TD =  $em->getRepository('AppBundle:Teacher')->find($tId);
+
     if($TD)
     {
       $em = $this->getDoctrine()->getManager();
@@ -475,12 +589,16 @@ $products = $query->setMaxResults(1)->getOneOrNullResult();
       $user = $em->getRepository('AppBundle:UserPurchaseHistory')
                   ->findEmail($TD->getEmail()); // TODO from session
 
-        if($password == $user['password'])
+         $encoder = new MessageDigestPasswordEncoder();
+         //return new JsonResponse($user);
+         $isValid =  $encoder->isPasswordValid($user['password'], $password ,'');
+          
+        if($isValid)
         {
            return new JsonResponse(array('status' => 'success','response' => 200));
         }  
         else
-           return new JsonResponse(array('status' => 'failure','reason' => 'incorrect current password','reaponse' => 200));    
+           return new JsonResponse(array('status' => 'failure','reason' => 'Incorrect current password','reaponse' => 200));    
       return new JsonResponse($pwEN);
     }
     
@@ -491,6 +609,7 @@ $products = $query->setMaxResults(1)->getOneOrNullResult();
   {
     $requestData  =  $request->request->all();
     $password = $requestData['password'];
+    $currentPassword = $password['currentPassword'];
     $tId = $requestData['tId'];
     $em = $this->getDoctrine()->getManager();
     $TD =  $em->getRepository('AppBundle:Teacher')->find($tId);
@@ -501,13 +620,17 @@ $products = $query->setMaxResults(1)->getOneOrNullResult();
       $user = $em->getRepository('AppBundle:UserPurchaseHistory')
                   ->findEmail($TD->getEmail()); // TODO from session
 
-
-        if($password['currentPassword'] == $user['password'])
+     $encoder = new MessageDigestPasswordEncoder();
+         //return new JsonResponse($password);
+         $curEncPassword =   $encoder->encodePassword($password['currentPassword'], '');
+         $encPassword =   $encoder->encodePassword($password['password'], '');
+         //return new JsonResponse($encodePassword."---------".$user['password']);
+        if($curEncPassword == $user['password'])
         {
             if($password['password'] != $user['password'])
             {
                  $passwordupdate = $em->getRepository('AppBundle:UserPurchaseHistory')
-                  ->updatePassword($TD->getEmail(),$password['password']); 
+                  ->updatePassword($TD->getEmail(),$encPassword); 
             }
             else
             {

@@ -1,6 +1,10 @@
 app:
     resource: '@AppBundle/Controller/'
     type: annotation
+    defaults:
+        _format: json
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
 
 home:
     path:     /index
@@ -63,6 +67,14 @@ ranking :
     path :     /api/ranking/load
     defaults: { _controller: AppBundle:Ranking:show }
     methods:  [POST]
+studenData :
+    path :     /api/ranking/student
+    defaults: { _controller: AppBundle:Ranking:studentData }
+    methods:  [POST]
+dashboard :
+    path :     /api/ranking/dashboard
+    defaults: { _controller: AppBundle:Ranking:dashboard }
+    methods:  [POST]
 rankingList :
     path :     /api/ranking/list
     defaults: { _controller: AppBundle:Ranking:rankingList }
@@ -82,7 +94,11 @@ leaguedata:
 leagueupdate:
     path:     /api/league/update
     defaults: { _controller: AppBundle:UserOperations:updateLeague }
-    methods:  [POST]    
+    methods:  [POST]  
+feedbackupdate:
+    path:     /api/feedback/update
+    defaults: { _controller: AppBundle:UserOperations:updateFeedback }
+    methods:  [POST]   
 currentpasswordcheck:
     path:     /api/password/current
     defaults: { _controller: AppBundle:UserOperations:checkCurrentPassword }
@@ -103,4 +119,12 @@ sendmessage :
     path:     api/chat/send
     defaults: { _controller: AppBundle:Ranking:sendMessage}
     methods:  [POST] 
-
+login:
+    path:     auth/login
+    defaults: { _controller: AppBundle:Login:login}
+    methods:  [POST] 
+feedbackdata:
+    path:     api/feedback/load
+    defaults: { _controller: AppBundle:Feedback:show}
+    methods:  [POST] 
+    

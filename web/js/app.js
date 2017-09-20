@@ -24,7 +24,10 @@ angular.module('app', [
    'ngTable',
    'ngFileUpload',
    'cgNotify',
-   'ngMessages'
+   'ngMessages',
+   'angular-storage',
+   'ngTable',
+   'blockUI'
        //'angular-loading-bar', 
     //'ng-token-auth',
     //'ngFileUpload',
@@ -34,6 +37,36 @@ angular.module('app', [
     //'angular-image-cropper'
     //'htmlSortable'
 ])
+
+.service('UserService', function(store) {
+    var service = this,
+        currentUser = null;
+    service.setCurrentUser = function(user) {
+        currentUser = user;
+        store.set('user', user);
+        return currentUser;
+    };
+    service.getCurrentUser = function() {
+        if (!currentUser) {
+            currentUser = store.get('user');
+        }
+        return currentUser;
+    };
+})
+.service('APIInterceptor', function($rootScope, UserService) {
+    var service = this;
+    service.request = function(config) {
+        var currentUser = UserService.getCurrentUser(),
+            access_token = currentUser ? currentUser.access_token : null;
+        if (access_token) {
+            config.headers.authorization = access_token;
+        }
+        return config;
+    };
+    service.responseError = function(response) {
+        return response;
+    };
+})
 
 window.paceOptions = {
     document: true, // disabled

@@ -1,11 +1,12 @@
 
 angular.module('app')
     .config(
-        ['$stateProvider', '$urlRouterProvider', 'JQ_CONFIG',
-            function($stateProvider, $urlRouterProvider, JQ_CONFIG) {
+        ['$stateProvider', '$urlRouterProvider', 'JQ_CONFIG','$httpProvider',
+            function($stateProvider, $urlRouterProvider, JQ_CONFIG,$httpProvider) {
              
                 $urlRouterProvider
                     .otherwise('/dashboard');
+                $httpProvider.interceptors.push('APIInterceptor');// new for token
                 $stateProvider
                    .state('app', {
                         abstract: true,
@@ -52,6 +53,17 @@ angular.module('app')
                             deps: ['uiLoad',
                                 function(uiLoad) {
                                     return uiLoad.load(['js/controllers/ranking.js']);
+                                }
+                            ]
+                        }
+                    })
+                    .state('app.feedback', {
+                        url: '/feedback/:teacher_id',
+                        templateUrl: 'views/staff/partials/feedback.html.twig',
+                        resolve: {
+                            deps: ['uiLoad',
+                                function(uiLoad) {
+                                    return uiLoad.load(['js/controllers/feedback.js']);
                                 }
                             ]
                         }

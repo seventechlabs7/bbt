@@ -1,8 +1,8 @@
 'use strict';
 
 
-angular.module('app').controller('homepage', ['$scope','$document','$rootScope','$stateParams','$http','$state','$timeout','uiGmapGoogleMapApi','$filter','Upload','notify',
-    function($scope,$document,$rootScope,$stateParams,$http,$state,$timeout,uiGmapGoogleMapApi,$filter,Upload,notify) {
+angular.module('app').controller('homepage', ['$scope','$document','$rootScope','$stateParams','$http','$state','$timeout','uiGmapGoogleMapApi','$filter','Upload','notify','UserService',
+    function($scope,$document,$rootScope,$stateParams,$http,$state,$timeout,uiGmapGoogleMapApi,$filter,Upload,notify,UserService) {
         
         $scope.profileName ="Home";
         $scope.c_next_index = 1;
@@ -20,16 +20,155 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 			}
 		});
 
+
+        $scope.openclosecmt = function(a)
+        {
+        	$('#multiwhole'+a).slideToggle(500);
+        }
+
 		$scope.messageFile = "js/messages.html";
 
         $scope.currentPage ="home";
 
         $scope.shiftTab = function(index)
         {
+        	notify.closeAll();
+        	if(index == 2)
+        	{
+
+				var list =[];
+				if($scope.teacher.mail_list)
+				{
+					list = $scope.teacher.mail_list.split(',');
+					var emailregex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;;
+		      		notify.closeAll();
+					for (var i = 0; i < list.length; i++) 
+					{
+						if(list[i] == null)
+						{
+							notify({
+								message:'Should be Seperated by single comma',
+								classes:'alert-danger',
+								duration:2000
+							});
+							return;
+						}
+						if(!emailregex.test(list[i]))
+						{
+							notify({
+								message:'Invalid Mail Id',
+								classes:'alert-danger',
+								duration:2000
+							});
+						return;
+
+						}
+					}
+				}	
+				else
+					$scope.teacher.mail_list = "";
+				if(list.length == 0 && !$scope.file)
+				{
+					notify({
+						message:'Enter valid comma sepearated emails or upload a email list file',
+						classes:'alert-danger',
+						duration:4000
+					});
+					return;
+				}
+        	}
+        	if(index == 3)
+        	{
+        			if(!$scope.teacher.start_date)
+			{				
+				notify({
+					message:'Fill Start Date',
+					classes:'alert-danger',
+					duration:2000
+				});
+				return;
+			}
+			if(!$scope.teacher.end_date)
+			{				
+				notify({
+					message:'Fill End Date',
+					classes:'alert-danger',
+					duration:2000
+				});
+				return;
+			}
+			console.log($scope.teacher.assets)
+			$scope.assetsCheck = false;
+			if(!$scope.teacher.assets)
+				$scope.teacher.assets = [];
+			for (var i = 0; i < $scope.teacher.assets.length; i++) {
+				var a = $scope.teacher.assets[i];
+				console.log(a)
+				if(a =="1")
+					{
+						$scope.assetsCheck = true;
+						break;
+					}
+
+			}
+			if(!$scope.assetsCheck)
+			{				
+				notify({
+					message:'Select Assets',
+					classes:'alert-danger',
+					duration:2000
+				});
+				return;
+			}
+			if(!$scope.teacher.league_name)
+			{				
+				notify({
+					message:'Enter League Name',
+					classes:'alert-danger',
+					duration:2000
+				});
+				return;
+			}
+			if(!$scope.teacher.virtual_money)
+			{				
+				notify({
+					message:'Enter Virtual Money',
+					classes:'alert-danger',
+					duration:2000
+				});
+				return;
+			}
+        	}
+        	if(index == 4)
+        {
+        	$scope.feedbackCheck = false;
+			if(!$scope.teacher.feedback)
+				$scope.teacher.feedback = [];
+			for (var i = 0; i < $scope.teacher.feedback.length; i++) {
+				var a = $scope.teacher.feedback[i];
+				if(a == "1")
+					{
+						$scope.feedbackCheck = true;
+						break;
+					}
+
+			}
+			if(!$scope.feedbackCheck)
+			{				
+				notify({
+					message:'Select Feedback',
+					classes:'alert-danger',
+					duration:2000
+				});
+				return;
+			}
+        }
         	$('.step_head_li').removeClass('active');
         	$('#step_head_'+index).addClass('active');
         	$('.step_body_li').removeClass('active');
         	$('#step_body_'+index).addClass('active');
+
+						
         }
 
         $scope.teacher = {};
@@ -47,9 +186,13 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 		$scope.nextstep = function()
 		{
 			if($scope.step == 1)
-				$scope.step = 2;
+				{
+					$scope.step = 2;
+				}
 			else if($scope.step == 2)
-				$scope.step = 3;
+				{
+					$scope.step = 3;
+				}
 		}
 
 		$scope.prevstep = function()
@@ -69,34 +212,38 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 		$scope.start = function()
 		{
 			$scope.teacher.id = $stateParams.teacher_id;//$scope.teacher.mail_list == undefined || 
-			
-			var list = $scope.teacher.mail_list.split(',');
-			var emailregex = /\S+@\S+\.\S+/;
-      
-			for (var i = 0; i < list.length; i++) 
+			if($scope.teacher.mail_list)
 			{
-				if(list[i] == null)
+				var list = $scope.teacher.mail_list.split(',');
+				var emailregex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;;
+	      		notify.closeAll();
+				for (var i = 0; i < list.length; i++) 
 				{
-					notify({
-						message:'Should Seperate by single comma',
-						classes:'alert-danger',
-						duration:2000
-					});
+					if(list[i] == null)
+					{
+						notify({
+							message:'Should Seperate by single comma',
+							classes:'alert-danger',
+							duration:2000
+						});
+						return;
+					}
+					if(!emailregex.test(list[i]))
+					{
+						notify({
+							message:'Invalid Mail Id',
+							classes:'alert-danger',
+							duration:2000
+						});
 					return;
-				}
-				if(!list[i].match(emailregex))
-				{
-					notify({
-						message:'Invalid Mail Id',
-						classes:'alert-danger',
-						duration:2000
-					});
-				return;
 
+					}
 				}
 			}	
+			else
+				$scope.teacher.mail_list = "";
 					
-			if($scope.teacher.start_date == undefined || $scope.teacher.start_date == null)
+			if(!$scope.teacher.start_date)
 			{				
 				notify({
 					message:'Fill Start Date',
@@ -105,7 +252,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				});
 				return;
 			}
-			if($scope.teacher.end_date == undefined || $scope.teacher.end_date == null)
+			if(!$scope.teacher.end_date)
 			{				
 				notify({
 					message:'Fill End Date',
@@ -114,7 +261,18 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				});
 				return;
 			}
-			if($scope.teacher.assets == undefined || $scope.teacher.assets == 0)
+			$scope.assetsCheck = false;
+			if(!$scope.teacher.assets)
+				$scope.teacher.assets = [];
+			for (var i = 0; i < $scope.teacher.assets.length; i++) {
+				var a = $scope.teacher.assets[i];
+				if(a == "1")
+					{
+						$scope.assetsCheck = true;
+						break;
+					}
+			}
+			if(!$scope.assetsCheck)
 			{				
 				notify({
 					message:'Select Assets',
@@ -123,7 +281,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				});
 				return;
 			}
-			if($scope.teacher.league_name == undefined || $scope.teacher.league_name == null)
+			if(!$scope.teacher.league_name)
 			{				
 				notify({
 					message:'Enter League Name',
@@ -132,7 +290,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				});
 				return;
 			}
-			if($scope.teacher.virtual_money == undefined || $scope.teacher.virtual_money == null)
+			if(!$scope.teacher.virtual_money)
 			{				
 				notify({
 					message:'Enter Virtual Money',
@@ -141,7 +299,23 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				});
 				return;
 			}
-			if($scope.teacher.feedback == undefined || $scope.teacher.feedback == null)
+			else
+				$scope.teacher.virtual_money = parseFloat($scope.teacher.virtual_money);
+
+			$scope.feedbackCheck = false;
+			if(!$scope.teacher.feedback)
+				$scope.teacher.feedback = [];
+			console.log($scope.teacher.feedback)
+			for (var i = 0; i < $scope.teacher.feedback.length; i++) {
+				var a = $scope.teacher.feedback[i];
+				if(a == "1")
+					{
+						$scope.feedbackCheck = true;
+						break;
+					}
+
+			}
+			if(!$scope.feedbackCheck)
 			{				
 				notify({
 					message:'Select Feedback',
@@ -154,10 +328,16 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 			console.log($scope.teacher)
 
 			if($scope.teacher.start_date != undefined && $scope.teacher.start_date != null)
-				$scope.teacher.start_date = $filter('date')($scope.teacher.start_date, 'yyyy-MM-dd');
+				{
+					 $scope.teacher.start_date = new Date($scope.teacher.start_date.split("/").reverse().join("-"));
 			
+					$scope.teacher.start_date = $filter('date')($scope.teacher.start_date, 'yyyy-MM-dd');
+				}
 			if($scope.teacher.end_date != undefined && $scope.teacher.end_date != null)
-				$scope.teacher.end_date = $filter('date')($scope.teacher.end_date, 'yyyy-MM-dd');
+				{
+					 $scope.teacher.end_date = new Date($scope.teacher.end_date.split("/").reverse().join("-"));
+					$scope.teacher.end_date = $filter('date')($scope.teacher.end_date, 'yyyy-MM-dd');
+				}
 			console.log($scope.teacher)
 
 			Upload.upload({
@@ -169,7 +349,8 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				}
 			})
 			.then(function(success){
-				console.log(success)
+				console.log(success);
+				$scope.response = success.data;
 				if(success.data.status == 'success')
 				{
 					$scope.shiftTab(4);
@@ -182,11 +363,14 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 
 		$scope.checkTime = function(index)
 		{			
+			notify.closeAll();
 			$scope.pastDateCheck();
-			if($scope.teacher.start_date != undefined && $scope.teacher.start_date != null)
+			var from = new Date($scope.teacher.start_date.split("/").reverse().join("-"));
+			var to = new Date($scope.teacher.end_date.split("/").reverse().join("-"));
+			/*if($scope.teacher.start_date != undefined && $scope.teacher.start_date != null)
 				var from = $scope.teacher.start_date;
 			if($scope.teacher.end_date != undefined && $scope.teacher.end_date != null)
-		      	var to = $scope.teacher.end_date;
+		      	var to = $scope.teacher.end_date;*/
 		      var timeDiff = Math.abs(to.getTime() - from.getTime());
 		      var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));  
 		      if(to.getTime() < from.getTime())
@@ -209,29 +393,35 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 			}).then(function(success){
 				console.log(success);
 				$scope.teacher = success.data.data;
+				$scope.teacher.assets = [0,0,0];
+
+				$scope.teacher.feedback = [0,0,0,0];
+				$scope.teacher.isGroup = success.data.isGroup;
 				console.log($scope.teacher);
-				for(var i in $scope.teacher){
-					console.log($scope.teacher[i]);
-					$scope.teacherdetail.name = $scope.teacher[i].name;
-					$scope.teacherdetail.surname =$scope.teacher[i].surname;
-					$scope.teacherdetail.email = $scope.teacher[i].email;
-					$scope.teacherdetail.university = $scope.teacher[i].university;
+			
+					console.log($scope.teacher);
+					$scope.teacherdetail.name = $scope.teacher.name;
+					$scope.teacherdetail.surname =$scope.teacher.surname;
+					$scope.teacherdetail.email = $scope.teacher.email;
+					$scope.teacherdetail.university = $scope.teacher.university;
 					$scope.teacherstatus ={};
-					$scope.teacherstatus.about = $scope.teacher[i].about;
-					$scope.teacherstatus.teach_place = $scope.teacher[i].teach_place;
-					$scope.teacherstatus.work = $scope.teacher[i].work;
+					$scope.teacherstatus.about = $scope.teacher.about;
+					$scope.teacherstatus.teach_place = $scope.teacher.teach_place;
+					$scope.teacherstatus.work = $scope.teacher.work;
 					$scope.profileImageUrl = success.data.profileImageUrl ;
-					$scope.profileImageUrl = success.data.profileImageUrl+"/"+$scope.teacher[i].id+".jpeg";
+					//$scope.profileImageUrl = success.data.profileImageUrl+"/"+$scope.teacher.id+".png";
 					if(!$scope.teacher.virtual_money)
 						$scope.teacher.virtual_money = "25000.00";
-					$scope.teacher.id = $scope.teacher[i].id;
+					$scope.teacher.id = $scope.teacher.id;
 					$timeout(function() {
 			    $scope.teacher.start_date = new Date();
+			    $scope.teacher.start_date = $filter('date')($scope.teacher.start_date, 'dd/MM/yyyy');
 			}, 100);
-				}	
-				$scope.getTimeLine();
-				if(!$scope.teacherstatus.about)			
+					//alert($scope.teacher.isGroup)
+				if(!$scope.teacher.isGroup)			
 					$('#addStudent').modal('show');
+				$scope.getTimeLine();
+				
 				$scope.shiftTab(1);
 			},function(error){
 				
@@ -264,7 +454,9 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 
 
 		$scope.teacher_signup = function()
-		{						
+		{				
+			$scope.login ={};
+			notify.closeAll();		
 				console.log($scope.teacher)
 				$http({
 					method: 'POST',
@@ -274,17 +466,21 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 					console.log(success)
 					if(success.data.status == 'success')
 					{
-						$scope.teacher.id = success.data.teacher_id;
-						$scope.teacher_id = $scope.teacher.id;
+						/*$scope.teacher.id = success.data.teacher_id;
+						$scope.teacher_id = $scope.teacher.id;*/
+						$scope.teacher ={};
+						$scope.signup.$setPristine();
+						$scope.signup.$setUntouched();
 						notify({
 						message: success.data.reason,
 						classes:'alert-success',
-						duration:3000
+						duration:5000,
+						position:'center'
 					});
 					/*$state.go('app.profile', {
 					    teacher_id: $scope.teacher_id 
 					});	*/
-					$scope.completed = true;	
+					//$scope.completed = true;	
 					$scope.signupReason = success.data.reason;		
 					}else if(success.data.status == 'failed')
 					{
@@ -316,9 +512,11 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 	    //faiyaz
 	    $scope.pastDateCheck = function()
 	    {
+	    	notify.closeAll();
 	    	if($scope.teacher.start_date)
 	    	{
-	    		var date = new Date($scope.teacher.start_date)	    		
+	    		var date = new Date($scope.teacher.start_date.split("/").reverse().join("-"));
+	    		//var date = new Date($scope.teacher.start_date)	    		
 	    		if(date.setHours(0,0,0,0) < new Date().setHours(0,0,0,0))
 	    		{
 	    			$scope.teacher.start_date = undefined;
@@ -333,8 +531,24 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 	    	}
 	    }
 
+	    $scope.dashBoard = function()
+       {
+       	$http({
+				method: 'POST',
+				url: 'api/ranking/dashboard',
+				data:{uId :  $stateParams.teacher_id }
+			}).then(function(success){
+				var data = success.data;
+				$scope.report = data.report;	
+				$scope.report.benefits = parseFloat($scope.report.benefits).toLocaleString("de-DE");	
+
+			},function(error){
+
+			});
+       }
+
 	    $scope.initSettings = function()
-		{
+		{/*
 			var input = document.getElementById("sDateField");
 			var today = new Date();
 			var day = today.getDate();
@@ -347,7 +561,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 			var date = new String( yr + '-' + mon + '-' + day );
 
 			input.disabled = false; 
-			input.setAttribute('min', date);
+			input.setAttribute('min', date);*/
 			
 			   
 			   // $('#sDateField').val(today);
@@ -357,10 +571,32 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 
 	    {
 	    	$scope.avatarFile = avatar;
+
+	    	if(avatar.type !="image/png" && avatar.type !="image/jpeg" && avatar.type !="image/gif")
+	    		{
+	    			notify({
+							message:'Please select valid image',
+							classes:'alert-warning',
+							duration:3000
+						});
+	    			return ;
+	    		}
+	    	if(avatar)
+	    		$scope.imageSelected = true;
 	    }
 
 	    $scope.uploadAvatar = function()
 	    {
+	    	notify.closeAll();
+	    	if(!$scope.avatarFile)
+	    	{
+	    		notify({
+							message:'Please select image',
+							classes:'alert-warning',
+							duration:3000
+						});
+	    		return;
+	    	}
 	    	Upload.upload({
 				method: 'POST',				
 				url: 'api/avatar',
@@ -371,13 +607,27 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 			})
 			.then(function(success){
 				console.log(success)
-				notify({
-							message:'Avatar Uploaded Successfully',
-							classes:'alert-danger',
-							duration:3000
-						});
-				$scope.getteacherdetails();
+				if(success.data.status == "success")
+				{
+					notify({
+								message: success.data.reason,
+								classes:'alert-success',
+								duration:3000
+							});
+					/*$scope.profileImageUrl = "";
+					$scope.imageSelected =false;
+					$scope.getteacherdetails();*/
+			     }
+			     else
+			     {
+			     	notify({
+								message: success.data.reason,
+								classes:'alert-danger',
+								duration:3000
+							});
+			     }
 						return;					
+			    
 			},function(error){
 
 			})
@@ -392,11 +642,22 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				}).then(function(success){
 					console.log(success)
 					$scope.timeLine = success.data;
+					$scope.processTimeline();
 					console.log("timeLine")
 					console.log($scope.timeLine);
 				},function(error){
 
 				});
+	    }
+
+	    $scope.processTimeline = function()
+	    {
+	    	for (var i = 0; i < $scope.timeLine.length; i++) 
+	    	{
+	    		var obj = $scope.timeLine[i];
+	    		obj.shares = parseFloat(obj.shares).toLocaleString("de-DE");
+	    		obj.amount = parseFloat(obj.amount).toLocaleString("de-DE");
+	    	}
 	    }
 	    
 		//$("#signup").validate();
@@ -466,6 +727,90 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 					    teacher_id: $scope.teacher.id 
 					});	
 			}
+			else if(page == 'profile')
+			{
+				$state.go('app.profile', {
+					    teacher_id: $scope.teacher.id 
+					});	
+			}
+			else if(page == 'feedback')
+			{
+				$state.go('app.feedback', {
+					    teacher_id: $scope.teacher.id 
+					});	
+			}
+
 		}
+		$scope.login = {};
+		$scope.loginNow = function()
+		{
+			if($scope.blocked)
+				return;
+			notify.closeAll();
+			if($scope.login.email && $scope.login.password)
+			{
+				$scope.blocked = true;
+				$http({
+					method: 'POST',
+					url: 'auth/login',
+					data: $scope.login,
+				}).then(function(success){
+					$scope.blocked = false;
+					if(success.data.status =="success")
+					{
+						var user ={};
+						 user.access_token = success.data.token;
+		                 UserService.setCurrentUser(user);
+		                 $rootScope.$broadcast('authorized');
+		                 $state.go('app.profile', {
+					    		teacher_id: success.data.id 
+							});	
+					}
+					else
+						{
+							notify.closeAll();
+							notify({
+							message: success.data.reason,
+							classes:'alert-danger',
+							duration:5000
+							});
+
+						}
+				},function(error){
+					$scope.blocked = false;
+					notify.closeAll();
+					notify({
+							message: 'Invalid Credentials 1',
+							classes:'alert-danger',
+							duration:5000
+							});
+				});
+			}
+			else
+			{
+				notify.closeAll();
+					notify({
+							message: 'Enter valid email and password',
+							classes:'alert-danger',
+							duration:5000
+						});
+				return ;
+			}
+		}
+
+		$scope.logout = function()
+		{
+			window.location.href = "/index";
+		}
+
+		/*initialiser for date*/
+
+		/*$scope.dateinitialize = function()
+		{
+		        console.log("date called")
+		             $("#picker1").datepicker();
+		             $('[data-toggle="datepicker"]').datepicker();
+		}*/
+
     }
     ]);

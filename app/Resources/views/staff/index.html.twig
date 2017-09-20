@@ -7,15 +7,18 @@
     
    <title>BBT</title>
    {% block stylesheets %}
-       <link  rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
-       <link  rel="stylesheet" href="css/font-awesome.min.css" >
-       <link  rel="stylesheet" href="css/angular-chart.css" >
-       <link  rel="stylesheet" type="text/css" href="css/ng-table.min.css">
-       <link  rel="stylesheet" href="css/easytabs.css">
-       <link  rel="stylesheet" href="css/main.css">
-        <link  rel="stylesheet" href="css/pace.css">
+        <link  rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
+        <link  rel="stylesheet" href="css/font-awesome.min.css" >
+        <link  rel="stylesheet" href="css/angular-chart.css" >
+        <link  rel="stylesheet" type="text/css" href="css/ng-table.min.css">
+        <link  rel="stylesheet" href="css/easytabs.css">
+        <link  rel="stylesheet" href="css/main.css">
+        <!-- <link  rel="stylesheet" href="css/pace.css"> -->
+        <link  rel="stylesheet" href="css/angular-block-ui.min.css">
         <link  rel="stylesheet" href="css/sweetalert.css">
-       <link rel="stylesheet" type="text/css" href="bower_components/angular-notify/dist/angular-notify.min.css" />
+        <link  rel="stylesheet" href="css/sweetalert.css">
+        <link  rel="stylesheet" href="css/datepicker.css">
+        <link rel="stylesheet" type="text/css" href="bower_components/angular-notify/dist/angular-notify.min.css" />
     {% endblock %}
 
     {% block javascripts %}
@@ -29,7 +32,7 @@
     <!-- <script  src="js/bootstrap-datepicker.js"></script> -->
     <script  src="js/moment.min.js"></script>
     <script  src="js/bootstrap-datetimepicker.min.js"></script>
-
+    <script  src="js/datepicker.js"></script>
 
     <!--Angular Dependencies-->
     <script  src="js/angular-sanitize.min.js"></script>
@@ -43,14 +46,14 @@
 
     <script  src="js/app.js"></script>
     <script  src="js/app.config.js"></script>
-    <script  src="js/pace.min.js"></script>
+   <!--  <script  src="js/pace.min.js"></script> -->
+    <script  src="js/angular-block-ui.min.js"></script>
     <script  src="js/sweetalert.min.js"></script>
     <script  src="js/app.lazyload.js"></script>
     <!-- <script  src="js/app.router.js"></script> -->
     <script  src="js/jq/chart.js"></script>
     <script  src="js/jq/chartconfig.js"></script>
     <script  src="js/jq/legend.js"></script>
-    <script  src="js/jq/moment.js"></script>
     <script  src="js/directives/easytabs.js"></script>
     <script  src="js/app.main.js"></script>
 
@@ -74,6 +77,7 @@
     <script  src="js/app.router.js"></script>
     <script  src="js/controllers/home.js"></script>
     <script  src="js/controllers/profile.js"></script>
+    <script src="//cdn.rawgit.com/auth0/angular-storage/master/dist/angular-storage.js"></script>
     {% endblock %}
 
 

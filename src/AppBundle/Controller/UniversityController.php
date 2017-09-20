@@ -19,6 +19,8 @@ use AppBundle\Entity\BbtUser;
 use AppBundle\Service\FileUploader;
 use AppBundle\Service\MailerService;
 use AppBundle\Service\CustomCrypt;
+use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
+use AppBundle\Service\Utils;
 
 class UniversityController extends Controller
 {
@@ -98,12 +100,13 @@ class UniversityController extends Controller
         $emailCheck1 = $this->CheckDupeEmail($teacher['email']);
         if(!$emailCheck1)
         	$emailvalidate =1;
-		
+		$teacher['username'] = ucfirst($teacher['username']);
+		$teacher['surname'] = ucfirst($teacher['surname']);
 		if($emailvalidate === 1){
 			$em = $this->getDoctrine()->getManager();
 			$TD = new Teacher();
-			$TD->setName($teacher['username']);
-			$TD->setSurname($teacher['surname']);
+			$TD->setName(ucfirst($teacher['username']));
+			$TD->setSurname(ucfirst($teacher['surname']));
 			$TD->setEmail($teacher['email']);
 			$TD->setPassword($teacher['password']);
 			$TD->setUniversity($teacher['university']);
@@ -122,7 +125,7 @@ class UniversityController extends Controller
 			$mailerService->indexAction($mailObject);
 			return $this->json(array('status' => 'success','teacher_id' => $TD->getId(),'reason' => 'Teacher Saved Successfully . please verify your email','reaponse' => 200));
 		}else{
-			return $this->json(array('status' => 'failed','reason' => 'Email already Exits'));
+			return $this->json(array('status' => 'failed','reason' => 'Email already Exists'));
 		}
 	}
 
@@ -148,29 +151,82 @@ class UniversityController extends Controller
          ->where($qb->expr()->like('t.id', ':teacherEmail'))
             ->setParameter('teacherEmail', $teacherEmail);
         $query = $qb->getQuery();
-        $profile = $query->getResult();
-        $profileImageUrl = $fileUploader->getTargetDir();
-        $profileImageUrl =  explode("htdocs",$profileImageUrl)[1]; //$profileImageUrl.split("htdocs")[1];
-        $url = 'http://'.$_SERVER['SERVER_NAME'].':'."80" ;
+        $profile = $query->getSingleResult();
+       // return new JsonResponse($profile);
+        $em = $this->getDoctrine()->getManager();
+        $post = $em->getRepository('AppBundle:Group')->findBy(array('teacher_id' => $profile['id']));
+        if(count($post) >0)
+        {
+        	$isGroup =true;
+        	
+        }
+        else
+        	$isGroup =false;
+        $user  = $em->getRepository('AppBundle:UserPurchaseHistory')
+                ->findUserIdByTeacherId($profile['id']);
+                if($user)
+        			$profileImageUrl = "/imgs/iconos/".$user['image'];
+       			else
+       				$profileImageUrl = "";
+        $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'] ;
         $profileImageUrl = $url.$profileImageUrl ;
        	return $this->json(array('status' => 'success',
        		'data' => $profile,
        		'profileImageUrl' =>$profileImageUrl,
+       		 'isGroup' =>$isGroup,
        		'reaponse' => 200));
        
     }
 
-    public function saveTeacherAction(Request $request,CustomCrypt $crypt,MailerService $mailerService)
+    public function saveTeacherAction(Request $request,CustomCrypt $crypt,MailerService $mailerService , Utils $utils)
     {    	    	
 		$teacher = $request->request->get('teacher');		
 		$file = $request->files->get('file');		
 		
-			$em = $this->getDoctrine()->getManager();
-			//return	$teacher['mail_list'];
-		//if($teacher['mail_list'] != Undefined){	
-			$emails_list = $teacher['mail_list'];
-			$emails = explode(',', $emails_list);		
-		//}
+		$em = $this->getDoctrine()->getManager();
+
+		$emails_list = $teacher['mail_list'];
+		$emails = explode(',', $emails_list);		
+		$contents = [];
+		if($file)
+		{	
+				$absolute_path = getcwd();
+				$fileCo = file_get_contents($file);
+				file_put_contents('temp.xls', $fileCo);
+				$reader = $this->get("arodiss.xls.reader");
+				$path = $absolute_path."/temp.xls";
+				$path = str_replace('/', '//', $path);
+				$content = $reader->readAll($path);
+				
+		}
+		$contentsNew = [];
+		foreach ($content as $key ) {
+			 array_push($contentsNew, array_values($key)[0]);	
+		}
+		
+		$emails = array_merge($emails,$contentsNew);
+		$emails = array_intersect_key($emails, array_unique(array_map('strtolower', $emails)));
+
+		//new version
+		$invalidArray = [];
+		$dupelicateArray = [];
+		$invalidArray = [];
+		foreach ($emails as $email) 
+	    {
+	    	$valid = $this->CheckValidEmail($email);
+	    	if(!$valid)
+    		{
+    			//add to invalid mail list	
+    			array_push($invalidArray, $email);
+    		}
+	    	$exists = $this->CheckDupeEmail($email);
+	    	if($exists)
+	    	{
+	    		array_push($dupelicateArray, $email);
+	    	}
+	    }
+
+	   // return new JsonResponse (array('array'=>$emails ,'invalidArray'=> $invalidArray,'dupelicateArray'=>$dupelicateArray ));
 		$group = new Group();
 		$group->setTeacher_id($teacher['id']);
 		if(array_key_exists('group_name',$teacher) && $teacher['group_name'] != null)
@@ -180,7 +236,7 @@ class UniversityController extends Controller
 			$group->setGroup_name('Group'.rand());
 		}
 		$group->setLeague_name($teacher['league_name']);//TODO		
-		$group->setVirtual_money($teacher['virtual_money']);
+		$group->setVirtual_money($utils->getNumberFromLocaleString($teacher['virtual_money']));
 		$group->setStart_date($teacher['start_date']);
 		$group->setEnd_date($teacher['end_date']);
 		$group->setCreated_by(1);
@@ -188,7 +244,7 @@ class UniversityController extends Controller
 		$em->persist($group);
 	    $em->flush();
 	    //return "hi";
-	    $assets = $teacher['assets'];
+	   /* $assets = $teacher['assets'];
 	    foreach ($assets as $asset) 
 	    {
 	    	if($asset)
@@ -212,32 +268,30 @@ class UniversityController extends Controller
 	    		$em->persist($GF);
 	    		$em->flush();
 	    	}	    	
-	    }
+	    }*/
 
 	    $assets = $teacher['assets'];
 	    foreach ($assets as $asset) 
 	    {
-	    	if($asset)
-	    	{
+	    	
 	    		$GA = new GroupAsset;
 	    		$GA->setGroup_id($group->getId());
 	    		$GA->setAsset_id($asset);
 	    		$em->persist($GA);
 	    		$em->flush();
-	    	}
+	    	
 	    }
 
 	    $feedbacks = $teacher['feedback'];
 	    foreach ($feedbacks as $feedback) 
 	    {
-	    	if($feedbacks)
-	    	{
+	    	
 	    		$GF = new GroupFeedback;
 	    		$GF->setGroup_id($group->getId());
 	    		$GF->setFeedback_id($feedback);
 	    		$em->persist($GF);
 	    		$em->flush();
-	    	}	    	
+	    	    	
 	    }
 
 	    foreach ($emails as $email) 
@@ -324,7 +378,8 @@ class UniversityController extends Controller
 		    	$em->flush();
 			}*/	    
 
-    	return $this->json(array('status' => 'success','reason' => 'Group Saved Successfully','reaponse' => 200));
+    	return $this->json(array('status' => 'success','reason' => 'Group Saved Successfully','reaponse' => 200 ,
+    							 'invalidArray' =>$invalidArray ,'dupelicateArray'=>$dupelicateArray));
 
     }
 
@@ -332,6 +387,11 @@ class UniversityController extends Controller
     {
     	$em = $this->getDoctrine()->getManager();
 		$teacher = $request->request->get('teacher');
+		$isEmailChanged = isset($teacher['oldemail']);
+		if($isEmailChanged)
+			$emailold = $teacher['oldemail'];
+		else
+			$emailold = null;
     		$TD = $em->getRepository('AppBundle:Teacher')->find($teacher['id']);
     		$mailFlag =false;
     		if($teacher['email'] != $TD->getEmail())
@@ -345,33 +405,22 @@ class UniversityController extends Controller
     			}
     		
     		$TD->setId($teacher['id']);
-			$TD->setName($teacher['name']);
-			$TD->setSurname($teacher['surname']);
+			$TD->setName(ucfirst($teacher['name']));
+			$TD->setSurname(($teacher['surname']));
 			
-			if(isset($teacher['password']))
+		/*	if(isset($teacher['password']))
 				{
 					$TD->setPassword($teacher['password']);		
 					$password = $teacher['password'];
-				}	
+				}	*/
 			$TD->setUniversity($teacher['university']);
+			$TD->setAbout($teacher['about']);
+			$TD->setTeachplace($teacher['teach_place']);
+			$TD->setWork($teacher['work']);
 			$TD->setCreated_by(1);
 			$em->persist($TD);
 		    $em->flush();
-			if(!isset($teacher['password']))
-				$password=	$TD->getPassword();
-		  /*  $conn = $this->getEntityManager()
-            ->getConnection();*/
-            $sql = '
-            UPDATE users set username = :username , email = :email1 , password =:password where email = :email2 
-            ';
-            $statement3 = $em->getConnection()->prepare($sql);
-				// Set parameters 
-			
-             $statement3->execute(array('username' => $teacher['name'].".".$teacher['surname'],
-             	'email1' =>$teacher['email'],
-             	'password' =>	$password ,
-             	'email2' => $teacher['oldemail']));
-
+		    
              if($mailFlag)
              	$this->mailUpdateLink($oldemail,$teacher['email'],$crypt, $mailerService);
 
@@ -442,8 +491,31 @@ class UniversityController extends Controller
     {    	    	
 		$uId = $request->request->get('userId');		
 		$file = $request->files->get('file');
-		$fileName = $fileUploader->upload($file,$uId);
-          return new JsonResponse($fileName);
+		
+
+		$em = $this->getDoctrine()->getManager();
+		$user = $em->getRepository('AppBundle:UserPurchaseHistory')
+                ->findUserIdByTeacherId($uId);
+
+       $fileName = $fileUploader->upload($file,$user['userId']);
+       if($fileName == "failure")
+       {
+       		return new JsonResponse(array('status' => 'failure','reason' => 'Select valid image','reaponse' => 401));
+       }
+       if(isset($user['image']))
+       		$removeFile = $fileUploader->removeFile($user['image']);
+         $sql = '
+				UPDATE users set  icono = :url  where id_admin = :id 
+				
+				';
+				$statement3 = $em->getConnection()->prepare($sql);
+				// Set parameters 
+
+				$statement3->execute(array(
+				'url' =>$fileName,
+				'id' => $user['userId']));
+
+       return new JsonResponse(array('status' => 'success','reason' => 'Image uploaded Successfully','reaponse' => 200));
 	}
 
 	public function verifySignupteacherAction(Request $request ,CustomCrypt $crypt,$verifyLink)
@@ -470,18 +542,19 @@ class UniversityController extends Controller
 				
 				if($result1)
 				{
+					 $encoder = new MessageDigestPasswordEncoder();
+    				 $pwencoded = $encoder->encodePassword($result1['password'], '');
+					 $em2 = $this->getDoctrine()->getManager();
 
-						 $em2 = $this->getDoctrine()->getManager();
+					$RAW_QUERY1 = "
 
-						$RAW_QUERY1 = "
+					INSERT INTO `users` 
+					(`id_admin`, `activo`, `enPrueba2dias`, `chat_color`, `fecha_alta`, `fecha_max_prueba`, `fecha_nacimiento`, `nif`, 
+					`username`, `nombre`, `apellidos`, `telefono`, `email`, `password`, `roles`, `nombre_completo`, `direccion`, `localidad`, `cp`, `id_provincia`, `id_pais`, `otra_ciudad`, `bloqueado`, `causa_bloqueo`, `aceptaLOPD`, `mi_descripcion`, `mis_trabajos`, `mis_estudios`, `id_universidad`, `empresa`, `icono`, `se_registro_desde`, `fotoFB`, `fb_id`)
+					 VALUES (NULL,:active,0,'0',:datetime1,:date1,:date2,'0',:username, '0', '0', '0', :email, :password,:role, '0', '0', '0', '0', '0', 0, '0', 0,'0', 0, '0', '0', '0', 0, '0', '0', :reg_type, '0', '0');";
 
-						INSERT INTO `users` 
-						(`id_admin`, `activo`, `enPrueba2dias`, `chat_color`, `fecha_alta`, `fecha_max_prueba`, `fecha_nacimiento`, `nif`, 
-						`username`, `nombre`, `apellidos`, `telefono`, `email`, `password`, `roles`, `nombre_completo`, `direccion`, `localidad`, `cp`, `id_provincia`, `id_pais`, `otra_ciudad`, `bloqueado`, `causa_bloqueo`, `aceptaLOPD`, `mi_descripcion`, `mis_trabajos`, `mis_estudios`, `id_universidad`, `empresa`, `icono`, `se_registro_desde`, `fotoFB`, `fb_id`)
-						 VALUES (NULL,:active,0,'0',:datetime1,:date1,:date2,'0',:username, '0', '0', '0', :email, :password,:role, '0', '0', '0', '0', '0', 0, '0', 0,'0', 0, '0', '0', '0', 0, '0', '0', :reg_type, '0', '0');";
-
-						 $stmt =$em2->getConnection()->prepare($RAW_QUERY1);
-             			 $stmt->execute(array('active' => 1,'username' => $result1['username']." ".$result1['surname'],'email' => $result1['email'],'password' => $result1['password'],'role' => 'ROLE_TEACHER' ,'reg_type' => 'Reg.Normal' ,'datetime1' => date_format(date_create(null),"Y-m-d H:i:s") ,'date1' =>  date_format(date_create(null),"Y-m-d") ,'date2' => date_format(date_create(null),"Y-m-d")));
+					 $stmt =$em2->getConnection()->prepare($RAW_QUERY1);
+         			 $stmt->execute(array('active' => 1,'username' => $result1['username']." ".$result1['surname'],'email' => $result1['email'],'password' => $pwencoded,'role' => 'ROLE_TEACHER' ,'reg_type' => 'Reg.Normal' ,'datetime1' => date_format(date_create(null),"Y-m-d H:i:s") ,'date1' =>  date_format(date_create(null),"Y-m-d") ,'date2' => date_format(date_create(null),"Y-m-d")));
              			  //$stmt->fetch();
              			 
              			// return new JsonResponse($stmt);             			  
@@ -519,6 +592,8 @@ class UniversityController extends Controller
 				if($result1)
 				{
 
+					 $encoder = new MessageDigestPasswordEncoder();
+    				 $encPassStud = $encoder->encodePassword('bbt@123', '');
 						 $em2 = $this->getDoctrine()->getManager();
 
 						$RAW_QUERY1 = "
@@ -529,7 +604,10 @@ class UniversityController extends Controller
 						 VALUES (NULL,:active,0,'0',:datetime1,:date1,:date2,'0',:username, '0', '0', '0', :email, :password,:role, '0', '0', '0', '0', '0', 0, '0', 0,'0', 0, '0', '0', '0', 0, '0', '0', :reg_type, '0', '0');";
 
 						 $stmt =$em2->getConnection()->prepare($RAW_QUERY1);
-             			 $stmt->execute(array('active' => 1,'username' => "firstName"." "."lastName" ,'email' => $result1['email'],'password' => "bbtbbt",'role' => 'ROLE_STUDENT' ,'reg_type' => 'Reg.Normal' ,'datetime1' => date_format(date_create(null),"Y-m-d H:i:s") ,'date1' =>  date_format(date_create(null),"Y-m-d") ,'date2' => date_format(date_create(null),"Y-m-d")));
+             			 $stmt->execute(array('active' => 1,'username' => "firstName"." "."lastName" ,'email' => $result1['email'],'password' => $encPassStud,'role' => 'ROLE_STUDENT' ,'reg_type' => 'Reg.Normal' ,'datetime1' => date_format(date_create(null),"Y-m-d H:i:s") ,'date1' =>  date_format(date_create(null),"Y-m-d") ,'date2' => date_format(date_create(null),"Y-m-d")));
+
+             			 /*dummydata*/
+             			$this->studentDummyData($email);
              			  //$stmt->fetch();
              			 
              			// return new JsonResponse($stmt);             			  
@@ -579,13 +657,20 @@ class UniversityController extends Controller
 
 	public function mailUpdateLink($email,$newEmail,CustomCrypt $crypt,MailerService $mailerService)
 	{
-			$mailObject = new \stdClass();
-			$mailObject->toMail = $email;
+			/*$mailObject = new \stdClass();
+			$mailObject->toMail = $newEmail;
 			$mailObject->name = 'user';
-			
-			/*$mailObject->temppassword = "bbt@123";*/
 			$mailObject->encryptedLink = urlencode($crypt->encrypt($newEmail));
+			
 			$mailerService->mailChangeLink($mailObject);
+
+
+			$mailObject1 = new \stdClass();
+			$mailObject1->toMail 	= $email;
+			$mailObject1->name 		= 'user';
+			$mailObject1->newmail 	= $email; //preg_replace('/(?:^|@).\K|\.[^@]*$(*SKIP)(*F)|.(?=.*?\.)/', '*', $newmail);
+
+			$mailerService->mailChangeLink($mailObject1);*/
 	}
 
 
@@ -648,6 +733,34 @@ class UniversityController extends Controller
 
 			}
 		}
+	}
+
+	public function studentDummyData($email)
+	{
+			$em = $this->getDoctrine()->getManager();
+
+			$result = $em->getRepository('AppBundle:UserPurchaseHistory')
+            ->findEmail($email);
+
+            if($result)
+            {
+            	$RAW_QUERY1 = "
+				INSERT INTO `hist_user_compra` (`id`, `id_liga`, `id_user`, `id_empresa`, `prec_apertura_compra`, `fecha_apertura_compra`, `volumen`, `volumen_ya_vendido`)
+
+					 VALUES (NULL, '1', :userId, 'EURUSD=X', :value1, '2017-05-25 17:25:21', :value2, '0.0000');";
+
+					 $stmt =$em->getConnection()->prepare($RAW_QUERY1);
+         			 $stmt->execute(array('userId' => $result['id'] , 'value1' => rand(10.0000,100.0000)/10 , 'value2'=> rand(100000.0000,500000.0000)/10));
+
+				$RAW_QUERY2 = "
+				INSERT INTO `hist_user_compra` (`id`, `id_liga`, `id_user`, `id_empresa`, `prec_apertura_compra`, `fecha_apertura_compra`, `volumen`, `volumen_ya_vendido`)
+
+					 VALUES (NULL, '1', :userId, 'EURUSD=X', :value1, '2017-05-25 17:25:21',:value2, '0.0000');";
+
+					 $stmt1 =$em->getConnection()->prepare($RAW_QUERY2);
+         			 $stmt1->execute(array('userId' => $result['id'] , 'value1' => rand(1.0000,10.0000) , 'value2'=> rand(100000.0000,500000.0000)/10));
+            }
+
 	}
 
 

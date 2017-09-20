@@ -70,7 +70,7 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 		$scope.start = function()
 		{
 			$scope.teacher.id = $stateParams.teacher_id;//$scope.teacher.mail_list == undefined || 
-			
+			notify.closeAll();
 			var list = $scope.teacher.mail_list.split(',');
 			var emailregex = /\S+@\S+\.\S+/;
       
@@ -182,7 +182,8 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 		}
 
 		$scope.checkTime = function(index)
-		{			
+		{		
+		  notify.closeAll();	
 			$scope.pastDateCheck();
 			if($scope.teacher.start_date != undefined && $scope.teacher.start_date != null)
 				var from = $scope.teacher.start_date;
@@ -210,29 +211,37 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 			}).then(function(success){
 				console.log(success);
 				$scope.teacher = success.data.data;
+				$scope.teacher.isGroup = success.data.isGroup;
 				console.log($scope.teacher);
-				for(var i in $scope.teacher){
+				
 						$scope.teacherstatus ={};
-					console.log($scope.teacher[i]);
-					$scope.teacherstatus.name = $scope.teacher[i].name;
-					$scope.teacherstatus.surname =$scope.teacher[i].surname;
-					$scope.teacherstatus.email = $scope.teacher[i].email;
-					$scope.teacherstatus.oldemail = angular.copy( $scope.teacher[i].email);
-					$scope.teacherstatus.university = $scope.teacher[i].university;
-					$scope.teacherstatus.about = $scope.teacher[i].about;
-					$scope.teacherstatus.teach_place = $scope.teacher[i].teach_place;
-					$scope.teacherstatus.work = $scope.teacher[i].work;
-					$scope.teacherstatus.id =	$scope.teacher[i].id;
+					console.log($scope.teacher);
+					if(!$scope.teacher.isGroup)			
+						{
+							$state.go('app.profile', {
+					    		teacher_id: $stateParams.teacher_id
+							});	
+						}
+					$scope.teacherstatus.name = $scope.teacher.name;
+					$scope.teacherstatus.surname =$scope.teacher.surname;
+					$scope.teacherstatus.email = $scope.teacher.email;
+					$scope.teacherstatus.oldemail = angular.copy( $scope.teacher.email);
+					$scope.teacherstatus.university = $scope.teacher.university;
+					$scope.teacherstatus.about = $scope.teacher.about;
+					$scope.teacherstatus.teach_place = $scope.teacher.teach_place;
+					$scope.teacherstatus.work = $scope.teacher.work;
+					$scope.teacherstatus.id =	$scope.teacher.id;
 					$scope.profileImageUrl = success.data.profileImageUrl ;
-					$scope.profileImageUrl = success.data.profileImageUrl+"/"+$scope.teacher[i].id+".jpeg";
+					//$scope.profileImageUrl = success.data.profileImageUrl+"/"+$scope.teacher.id+".jpeg";
 					if(!$scope.teacher.virtual_money)
 						$scope.teacher.virtual_money = "25.00";
-					$scope.teacher.id = $scope.teacher[i].id;
+					$scope.teacher.id = $scope.teacher.id;
 					$timeout(function() {
 			    $scope.teacher.start_date = new Date();
 			}, 200);
-				}				
+							
 				//$('#addStudent').modal('show');
+				$scope.oldteacherstatus = angular.copy($scope.teacherstatus);
 				$scope.shiftTab(1);
 			},function(error){
 				
@@ -265,7 +274,8 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 
 
 		$scope.teacher_signup = function()
-		{						
+		{			
+		      notify.closeAll();			
 				console.log($scope.teacher)
 				$http({
 					method: 'POST',
@@ -315,6 +325,7 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 	    //faiyaz
 	    $scope.pastDateCheck = function()
 	    {
+	    	notify.closeAll();
 	    	if($scope.teacher.start_date)
 	    	{
 	    		var date = new Date($scope.teacher.start_date)	    		
@@ -338,10 +349,33 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 
 	    {
 	    	$scope.avatarFile = avatar;
+	    	if(avatar.type !="image/png" && avatar.type !="image/jpeg" && avatar.type !="image/gif")
+	    		{
+	    			notify({
+							message:'Please select valid image',
+							classes:'alert-warning',
+							duration:3000
+						});
+	    			return ;
+	    		}
+	    	if(avatar)
+	    		$scope.imageSelected = true;
 	    }
 
 	    $scope.uploadAvatar = function()
 	    {
+	    	notify.closeAll();
+
+	    		if(!$scope.avatarFile)
+	    	{
+	    		notify({
+							message:'Please select image',
+							classes:'alert-warning',
+							duration:3000
+						});
+	    		 return;
+	    	}
+
 	    	Upload.upload({
 				method: 'POST',				
 				url: 'api/avatar',
@@ -352,21 +386,114 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 			})
 			.then(function(success){
 				console.log(success)
-				notify({
-							message:'Avatar Uploaded Successfully',
-							classes:'alert-danger',
-							duration:3000
-						});
-				$scope.getteacherdetails();
-						return;					
+				if(success.data.status == "success")
+				{
+					notify({
+								message: success.data.reason,
+								classes:'alert-success',
+								duration:3000
+							});
+					/*$scope.profileImageUrl = "";
+					$scope.imageSelected =false;
+					$scope.getteacherdetails();*/
+			     }
+			     else
+			     {
+			     	notify({
+								message: success.data.reason,
+								classes:'alert-danger',
+								duration:3000
+							});
+			     }				
 			},function(error){
 
 			})
 	    }
 
 		$scope.saveChanges = function()
-		{			
-			$http({
+		{	
+			$scope.teacherstatus.id = $stateParams.teacher_id;
+			notify.closeAll();	
+			if(!$scope.teacherstatus.name)
+			{
+				notify({
+					message:'Enter first name',
+					classes:'alert-danger',
+					duration:2000
+				});
+				return;
+			}
+			if(!$scope.teacherstatus.surname)
+			{
+				notify({
+					message:'Enter sur name',
+					classes:'alert-danger',
+					duration:2000
+				});
+				return;
+			}
+			if(!$scope.teacherstatus.email)
+			{
+				notify({
+					message:'Enter email',
+					classes:'alert-danger',
+					duration:2000
+				});
+				return;
+			}
+			if(!$scope.teacherstatus.university)
+			{
+				notify({
+					message:'Enter university',
+					classes:'alert-danger',
+					duration:2000
+				});
+				return;
+			}
+			if(!$scope.teacherstatus.about)
+			{
+				notify({
+					message:'Enter about',
+					classes:'alert-danger',
+					duration:2000
+				});
+				return;
+			}
+			if(!$scope.teacherstatus.teach_place)
+			{
+				notify({
+					message:'Enter teach place',
+					classes:'alert-danger',
+					duration:2000
+				});
+				return;
+			}
+			if(!$scope.teacherstatus.work)
+			{
+				notify({
+					message:'Enter work',
+					classes:'alert-danger',
+					duration:2000
+				});
+				return;
+			}
+			if($scope.teacherstatus.oldemail != $scope.teacherstatus.email)
+			{
+				swal({
+				title: "Email changed",
+				text: "Are you sure you want to update email ? You will have to verify email to update email",
+				type: "warning",
+				showCancelButton: true,
+				confirmButtonColor: "#DD6B55",
+				confirmButtonText: "Yes",
+				cancelButtonText: "Cancel!",
+				closeOnConfirm: true,
+				closeOnCancel: true,
+			},
+			function(isConfirm){
+				if (isConfirm) {
+
+				$http({
 				method: 'POST',
 				url: 'api/teacher/update',
 				data:{				
@@ -382,6 +509,12 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 						classes:'alert-success',
 						duration:3000
 					});
+
+					$timeout(function() {
+			  	$state.go('app.profile', {
+					    teacher_id: $stateParams.teacher_id
+					});	
+			}, 3000);
 				}
 				else
 				{
@@ -395,6 +528,53 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 			},function(error){
 				
 			});
+				
+					
+				} else {
+					return;
+				}
+			});
+					return;
+			}
+			else
+			{
+				$http({
+				method: 'POST',
+				url: 'api/teacher/update',
+				data:{				
+				teacher :$scope.teacherstatus,
+			}
+			}).then(function(success){
+				console.log(success);
+				if(success.data.status == 'success')
+				{
+					notify.closeAll();
+					notify({
+						message:success.data.reason,
+						classes:'alert-success',
+						duration:3000
+					});
+
+					$timeout(function() {
+			  	$state.go('app.profile', {
+					    teacher_id: $stateParams.teacher_id
+					});	
+			}, 3000);
+				}
+				else
+				{
+					notify.closeAll();
+					notify({
+						message:success.data.reason,
+						classes:'alert-danger',
+						duration:3000
+					});
+				}
+			},function(error){
+				
+			});
+			}
+		
 		}
 
 		$scope.passwordCheck =function()
@@ -411,6 +591,9 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 
 		$scope.checkCurrentPassword = function()
 		{
+			notify.closeAll();
+			if(!$scope.password.currentPassword)
+				return ;
 			$http({
 				method: 'POST',
 				url: 'api/password/current',
@@ -428,11 +611,10 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 				{
 					$scope.password.currentPassword ='';
 					notify.closeAll();
-					notify({
-						message: success.data.reason,
-						classes:'alert-danger',
-						duration:3000
-					});
+					swal("Failed!", success.data.reason, "error", {
+						  confirmButtonText: "Try Again!",
+						});
+					
 				}
 			},function(error){
 				
@@ -441,23 +623,27 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 
 		$scope.updatePassword = function()
 		{
+			notify.closeAll();
+			if(!$scope.password.currentPassword)
+			{
+				swal("Failed!", "Please enter current password", "warning", {
+						  confirmButtonText: "Try Again!",
+						});		
+				return;
+			}
 			if($scope.password.password != $scope.password.confirm)
 			{
-				notify({
-							message:'Both passwords should match',
-							classes:'alert-danger',
-							duration:3000
-						});
+				swal("Failed!", "Password and confirm password should be same!", "error", {
+						  confirmButtonText: "Try Again!",
+						});			
 						return;		
 			}
 			if($scope.password.password == $scope.password.currentPassword)
 			{
 				{
-					notify({
-							message: 'New password should not be same as current password',
-							classes:'alert-danger',
-							duration:3000
-						});
+					swal("Failed!", "New password should not be same as current password!", "error", {
+						  confirmButtonText: "Try Again!",
+						});					
 						return;		
 				}
 			}
@@ -473,25 +659,85 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 				if(success.data.status == 'success')
 				{
 					notify.closeAll();
-					notify({
-						message:success.data.reason,
-						classes:'alert-success',
-						duration:3000
-					});
+					swal("Success!", success.data.reason, "success", {
+						  confirmButtonText: "Close",
+						});
 				}
 				else
 				{
 					notify.closeAll();
-					notify({
-						message:success.data.reason,
-						classes:'alert-danger',
-						duration:3000
-					});
+					swal("failed!", success.data.reason, "error", {
+						  confirmButtonText: "Try Again",
+						});				
+						return;	
+				
 				}
 			},function(error){
 				
 			});
 		}
 
+		$scope.changeNav = function(page)
+		{
+			if(!angular.equals($scope.oldteacherstatus, $scope.teacherstatus))
+				{
+						swal({
+				title: "unsaved Data",
+				text: "Are you sure you want to leave page ?",
+				type: "warning",
+				showCancelButton: true,
+				confirmButtonColor: "#DD6B55",
+				confirmButtonText: "Yes",
+				cancelButtonText: "Cancel!",
+				closeOnConfirm: true,
+				closeOnCancel: true,
+			},
+			function(isConfirm){
+				if (isConfirm) {
+
+					if(page == 'ranking')
+				{
+					$state.go('app.ranking', {
+						    teacher_id: $stateParams.teacher_id
+						});	
+				}
+				if(page == 'profile')
+				{
+					$state.go('app.profile', {
+						    teacher_id: $stateParams.teacher_id
+						});	
+				}
+				
+					
+				} else {
+					return;
+				}
+			});
+					return;
+				}
+			else
+			{
+				if(page == 'ranking')
+				{
+					$state.go('app.ranking', {
+						    teacher_id: $stateParams.teacher_id
+						});	
+				}
+				if(page == 'profile')
+				{
+					$state.go('app.profile', {
+						    teacher_id: $stateParams.teacher_id
+						});	
+				}
+			}
+
+		}
+
+		$scope.logout = function()
+		{
+			window.location.href = "/index";
+		}
+
+		
     }
     ]);

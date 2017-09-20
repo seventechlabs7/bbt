@@ -36,6 +36,13 @@ services:
     # AppBundle\Service\ExampleService:
     #     arguments:
     #         $someArgument: 'some_value'
+    my_user_manager:
+        class: AppBundle\Service\MyUserManager
+        arguments:
+                - '@fos_user.util.password_updater'
+                - '@fos_user.util.canonical_fields_updater'
+                - '@doctrine.orm.default_entity_manager'
+                - '%fos_user.model.user.class%'  
 
     #file upload
     AppBundle\Service\FileUploader:
@@ -50,5 +57,17 @@ services:
     AppBundle\Service\CustomCrypt:
         arguments: 
            $key: '%salt_key%'
-    AppBundle\Service\Utils:           
+    AppBundle\Service\Utils: 
+
+    token_authenticator:
+        class: AppBundle\Security\TokenAuthenticator
+        arguments: ['@lexik_jwt_authentication.jwt_encoder', '@doctrine.orm.entity_manager']
+    # fos_user:
+    #     db_driver: orm # other valid values are 'mongodb' and 'couchdb'
+    #     firewall_name: main
+    #     user_class: AppBundle\Entity\User
+    #     from_email:
+    #         address: "%mailer_user%"
+    #         sender_name: "%mailer_user%"
+        
 
