@@ -15,7 +15,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use AppBundle\Entity\UserPurchaseHistory;
 use AppBundle\Service\BbtCrypt;
 use AppBundle\Service\Utils;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
+/**
+ * @Security("is_granted('ROLE_USER')")
+ */
 class RankingController extends Controller
 {
 

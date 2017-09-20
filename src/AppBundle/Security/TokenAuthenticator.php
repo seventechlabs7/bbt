@@ -42,11 +42,13 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     public function getCredentials(Request $request)
     {
         $extractor = new AuthorizationHeaderTokenExtractor(
-            'Bearer',
+             'Bearer',
             'Authorization'
+           
         );
 
         $token = $extractor->extract($request);
+       // var_dump($token);
 
         if (!$token) {
             return;
@@ -61,7 +63,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         $data = $this->jwtEncoder->decode($credentials);
-
+        var_dump($data);
         if ($data === false) {
             throw new CustomUserMessageAuthenticationException('Invalid Token');
         }
@@ -70,7 +72,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
 
         return $this->em
             ->getRepository('AppBundle:User')
-            ->findOneBy(['username' => $username]);
+            ->findOneBy(['email' => $username]);
     }
 
     /**
