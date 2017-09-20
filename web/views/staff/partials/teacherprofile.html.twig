@@ -1,9 +1,9 @@
 <style type="text/css">
 
-.left_bar_cont {
+.left-mainsidebar.left_bar_cont {
     display: inline-block;
     width: 100%;
-    max-width: 300px;
+    max-width: 225px;
     position: fixed;
     left: 0;
     top: 0;
@@ -34,11 +34,13 @@
     width: 100%;
 }
 
-.left_logo_text {
+.left-mainsidebar .left_logo_text {
     display: inline-block;
     width: 100%;
     padding: 10px 0;
     color: #fff;
+	font-size:18px;
+	text-transform:uppercase;	
 }
 
 .left_bar_content {
@@ -59,10 +61,6 @@ ul.bar_but_ul,ul.bar_but_ul
     width: 100%;
 }
 
-ul.bar_but_ul
- li {
-    padding: 20px 0;
-}
 
 button.left_bar_but {
     border-radius: 7px;
@@ -202,7 +200,7 @@ ul.unedit_ul {
 </style>
 <div ng-controller="homepage" ng-init="initSettings();getteacherdetails();dashBoard();">
 	<div class="whole_container">
-		<div class="left_bar_cont">
+		<div class="left_bar_cont left-mainsidebar">
 			<div class="left_bar">
 				<div class="left_bar_logo">
 					<div class="left_logo">
@@ -213,29 +211,29 @@ ul.unedit_ul {
 					</div>
 				</div>
 				<div class="left_bar_content">
-					<div class="left_bar_buttons">
+					<div class="left_bar_buttons main-sidebar">
 						<ul class="bar_but_ul"> 
 							<li>
-								<button class="left_bar_but selected" ng-click="changeNav('profile')">Profile</button>
+								<a class="btn color" ng-click="changeNav('profile')"><i class="fa fa-user" aria-hidden="true"></i>Profile</a>
 							</li>
 							<li>
-								<button class="left_bar_but" ng-click="changeNav('ranking')">Ranking</button>
+								<a class="btn color" ng-click="changeNav('ranking')"><i class="fa fa-file-text" aria-hidden="true"></i>Ranking</a>
 							</li>
 							<!-- <li>
 								<button class="left_bar_but" ng-click="changeNav('feedback')">Feedback</button>
 							</li> -->
 							<li>
-								<button class="left_bar_but" ng-click="logout()" >Logout</button>
+								<a class="btn color" ng-click="logout()"><i class="fa fa-power-off" aria-hidden="true"></i>Logout</a>
 							</li>
 						</ul>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="center_container">
+		<div class="center_container main-content-section">
 			<div class="profile_head_cont">
 				<div class="row">
-					<div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+					<div class="col-lg-2 col-md-3 col-sm-4 col-xs-12">
 						<div class="pro_pic_upd_cont">
 							<div class="pro_pic_cont">
 							<div class="image_and_select">
@@ -245,61 +243,69 @@ ul.unedit_ul {
 							</div>
 							</div>							
 							<button class="upload_pic_but" ng-click="uploadAvatar()">
+							<i class="fa fa-camera m-r-5"></i>
 								Upload Photo
 							</button>
 						</div>
 					</div>
-					<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+					<div class="col-lg-8 col-md-7 col-sm-6 col-xs-12">
 						<div class="unedit_cont">
 							<ul class="unedit_ul"> 
-								<li class="unedit_li">
+								<li class="unedit_li name">
 									{{teacherdetail.name}} {{teacherdetail.surname}}
 								</li>
-								<li class="unedit_li">
+								<li class="unedit_li mail">
 									{{teacherdetail.email}}
 								</li>
-								<li class="unedit_li">
+								<li class="unedit_li university">
 									{{teacherdetail.university}}
 								</li>
 							</ul>
 						</div>
 					</div>
-					<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-						<div class="edit_page_icon">							
-							<img src="imgs/settingsicon.png" ng-click="editProfile()">
+					<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+						<div class="setting-menu">	
+						 <a ng-click="editProfile()"><i class="fa fa-gear"></i>Settings</a>		
 						</div>						
 					</div>
 				</div>
 			</div> 
-			<div class="profile_body_cont">
+			<div class="">
 				<div class="row">
 					<div class="col-lg-5 col-md-4 col-sm-12 col-xs-12">
 						<div class="center_l_block">
-							<div class="green_box" style="width: 90%">
+							<div class="green_box">
 						      <div class="row">
-						      	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
-						      		<span>Number of students</span>
+							    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								 <h2>General Statistics</h2>
+								</div>
+						      	<div class="col-lg-7 col-md-8 col-sm-8 col-xs-6">
+						      		<label>Number of Students</label>
+									<span class="pull-right"><b>:</b></span>
 						      	</div>
-						      	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-						      		{{report.count}}
+						      	<div class="col-lg-5 col-md-4 col-sm-4 col-xs-6">
+						      		<p>{{report.count}}</p>
 						      	</div>
-						      	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
-						      		<span>Total number of operations</span>
+						      	<div class="col-lg-7 col-md-8 col-sm-8 col-xs-6">
+						      		<label>Total Number of Operations</label>
+									<span class="pull-right"><b>:</b></span>
 						      	</div>
-						      	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-						      		{{report.operations}}
+						      	<div class="col-lg-5 col-md-4 col-sm-4 col-xs-6">
+						      		<p>{{report.operations}}</p>
 						      	</div>
-						      	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
-						      		<span>Total Profitability</span>
+						      	<div class="col-lg-7 col-md-8 col-sm-8 col-xs-6">
+						      		<label>Total Profitability</label>
+									<span class="pull-right"><b>:</b></span>
 						      	</div>
-						      	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-						      		{{report.percentage}} %
+						      	<div class="col-lg-5 col-md-4 col-sm-4 col-xs-6">
+						      		<p>{{report.percentage}} %</p>
 						      	</div>
-						      	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
-						      		<span>Total Benefits</span>
+						      	<div class="col-lg-7 col-md-8 col-sm-8 col-xs-6">
+						      		<label>Total Benefits</label>
+									<span class="pull-right"><b>:</b></span>
 						      	</div>
-						      	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-						      		{{report.benefits}}
+						      	<div class="col-lg-5 col-md-4 col-sm-4 col-xs-6">
+						      		<p>{{report.benefits}}</p>
 						      	</div>
 
 						      </div>
@@ -307,13 +313,13 @@ ul.unedit_ul {
 						</div>										
 					</div>
 					<div class="col-lg-7 col-md-8 col-sm-12 col-xs-12">
-						<div class="center_r_block">
-						<div class="post_cont">
-							
+						<div class="center_r_block post-comment-sec">
+						<div class="post_cont">		
+						  <h2>timeline</h2>					
 							<div class="single_post" ng-repeat="op in timeLine ">
 								<div class="single_profile">
-									<div class="row">
-										<div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
+									<div class="row m-t-10">
+										<div class="col-lg-2 col-md-2 col-sm-2 col-xs-3 p-l-0">
 											<div class="post_image big">
 												 <img src="http://dummyimage.com/50x50/f0f/fff" />
 											</div>
@@ -327,6 +333,7 @@ ul.unedit_ul {
 											</div>
 											<div class="post_line">
 												<p>
+
 													<a href="javascript:void()" class="like_a" ng-click="postLike(op.recordId)"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a>{{op.likes.length}}    <a href="javascript:void(0)" ng-click="openclosecmt($index)"> Comments({{op.comments.length}})</a>
 												</p>
 											</div>
@@ -372,15 +379,16 @@ ul.unedit_ul {
 										<ng-form id="commentForm" name="commentForm">
 										<div class="comment_box">
 											<div class="row">
-												<div class="col-lg-9 col-md-7 col-sm-6 col-xs-12">
+												<div class="col-lg-10 col-md-7 col-sm-6 col-xs-12 p-r-0 p-l-0">
 													<textarea rows="3" placeholder="Write a comment..." ng-model = "com.currentComment" name="comment" id="comment" ng-minlength="2" ng-maxlength="25" ng-submit="postComment(op.id,com.commentId)" required></textarea>
 													<div ng-messages="commentForm.comment.$error" ng-show="commentForm.comment.$touched">
 									      		 <div ng-messages-include="js/messages.html"></div>
 											    </div>
 												</div>
 												
-												<div class="col-lg-3 col-md-5 col-sm-6 col-xs-12">
-													<button class="post_button" ng-click="postComment(op.recordId,com.currentComment)" ng-disabled="!commentForm.$valid">Comment</button>
+												<div class="col-lg-2 col-md-5 col-sm-6 col-xs-12 p-r-0 text-right">
+													<button class="post_button" ng-click="postComment(op.recordId,com.currentComment)" ng-disabled="!commentForm.$valid">Post
+													</button>
 												</div>
 											</div>
 											 
@@ -401,7 +409,7 @@ ul.unedit_ul {
 	</div>
 	<div class="container">
 	  <div class="modal fade" id="addStudent" role="dialog" data-backdrop="static" data-keyboard="false">
-	    <div class="modal-dialog">   
+	    <div class="modal-dialog signup-popover">   
 	      <div class="modal-content">
 	        <div class="modal-header">
 	          <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -415,48 +423,48 @@ ul.unedit_ul {
 	        <div class="modal-body">
 	        	<div class="step_body_container">
 	        		<ul class="step_body_ul">
-	        			<li class="step_body_li" id="step_body_1">
+	        			<li class="step_body_li p-0 signupstep-sec" id="step_body_1">
 	        				<div class="form_container">
-	        					<div class="row">
-	        						<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+	        					<div class="row">								
+	        						<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 m-t-10 p-0">
 	        							<div class="form_head_text">
 			        						Do you have students? Add them
 			        					</div>
 	        							<div class="row">
-	        								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-			        							<div class="input_upload">
-			        								<input type="text" class="field_text" placeholder="Copy and Paste your mailing list" name="maillist"  ng-model="teacher.mail_list"/>
+	        								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
+			        							<div class="input_upload m-b-0">
+			        								<input type="text" class="field_text" placeholder="Enter comma separated emails" name="maillist"  ng-model="teacher.mail_list"/>
 			        							</div>
-			        							<small>Enter comma seperated emails</small>
 		        							</div>
-		        							(or)
-		        							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 txt-or">(or)</div>		        							
+		        							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
 			        							<div class="input_upload">
-			        								<input type="file" class="upload_text" placeholder="Find Your File(csv./other)" name="maillistfile" name="file" ngf-select="selectFile(teacher.mail_list_file)" ng-model="teacher.mail_list_file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
-			        								<small>Enter xls ,xlxs documents with emails</small>
+			        								<input type="file" class="upload_text p-0" placeholder="Find Your File(csv./other)" name="maillistfile" name="file" ngf-select="selectFile(teacher.mail_list_file)" ng-model="teacher.mail_list_file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
+			        								<small class="upload-info">File format: (XLS / XLSX / .CSV)</small>
 			        								<!-- <button class="upload_button">Upload</button> -->
 			        							</div>
 		        							</div>
 	        							</div>
-	        							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p0">
+	        							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p0 m-t-10">
 		    								<div class="form_head_text">
 				        						Want to create a group with them ?
 				        					</div>
-				        					<div class="input_text p15">
+				        					<div class="input_text m-t-10">
 				        						<input type="text" class="field_text" placeholder="Name of the Group" name="groupname" ng-model="teacher.group_name" />
 				        					</div>
 		    							</div>
 	        						</div>
-	        						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+									<div class="col-lg-4 col-lg-offset-0 col-md-4 col-sm-4 col-xs-12 text-center p-0" style="margin-top: 8%;">
 	        							<div class="modal_image_container">
 	        								<div class="modal_image">
 	        									<img src="imgs/want_to_create.png" class="modal_banner">
 	        								</div>
 	        							</div>
 	        						</div>
+	        						
 	        					</div>
-	        					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-	        						<div class="modal_but_cont">        							
+	        					<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 m-t-10 p-0">
+	        						<div class="modal_but_cont p-0 m-t-10 text-right">        							
 	        							<button class="modal_nxt_bt" ng-click="shiftTab(2)">Next</button>
 	        						</div>
 	        					</div>
@@ -468,38 +476,40 @@ ul.unedit_ul {
 	        						Create a virtual bag league for your students:
 	        					</div>
 	        					<div class="row">
-	        						<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+	        						<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 p-0">
 		        						<div class="custom_num_list">
-		        							<ul class="cust_num_ul"> 
+		        							<ul class="cust_num_ul p-0"> 
 		        								<li class="cust_num_li">
 		        									<div class="cust_list_q">
-		        										<span class="li_num">1</span>
+		        										<span class="li_num">1. </span>
 		        										<span class="li_q">How long will it last for? </span>
 		        									</div>
-		        									<div class="cust_list_ans">         						
+													<div class="col-md-9 p-0" style="padding:0 !important;">
+		        									 <div class="cust_list_ans p-0">         						
 														<div class="row">
-															<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-
-																<b>Start Date : </b>
+															<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 p-l-0">
+																<b style="font-size: 12px; color: #666666;">Start Date : </b>
 																<!-- <input id="sDateField" type="date" class="date_form"  placeholder="Start Date" name="maillistfile" ng-model="teacher.start_date" ng-change="checkTime('start')" /> -->
 																<input type="text" ng-click="dateinitialize()" class="form-control docs-date" id="picker1" name="sdate"   ng-model="teacher.start_date" ng-change="checkTime('start')" placeholder="dd/mm/yyyy" data-toggle="datepicker" />
 															</div>
-															<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-																<b>End Date : </b> 
+															<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 p-0">
+																<b style="font-size: 12px; color: #666666;">End Date : </b> 
 																<!-- <input type="date"  class="date_form" name="startdate"  ng-model="teacher.end_date" ng-change="checkTime('end')"/> -->
 																<input type="text" ng-click="dateinitialize()" class="form-control docs-date" id="picker2" name="edate"   ng-model="teacher.end_date" ng-change="checkTime('end')" placeholder="dd/mm/yyyy" data-toggle="datepicker" />
 															</div>
 														</div>
-		        									</div>       									
+		        									</div>      
+												   </div>	
+													 									
 		        								</li>
 		        								<li class="cust_num_li">
 		        									<div class="cust_list_q">
-		        										<span class="li_num">2</span>
+		        										<span class="li_num">2. </span>
 		        										<span class="li_q">Which assets do you want to have?</span>
 		        									</div>
-		        									<div class="cust_list_ans">         						
+		        									<div class="cust_list_ans p-0">         						
 														<div class="row">
-															<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+															<div class="col-lg-9 col-md-12 col-sm-12 col-xs-12 p-0">
 																<div class="checkbox_cont">
 																	<ul class="check_cont_ul"> 
 																		<li> 
@@ -528,12 +538,12 @@ ul.unedit_ul {
 		        								</li>
 		        								<li class="cust_num_li">
 		        									<div class="cust_list_q">
-		        										<span class="li_num">3</span>
+		        										<span class="li_num">3. </span>
 		        										<span class="li_q">How do you want to call your league?</span>
 		        									</div>
-		        									<div class="cust_list_ans">
+		        									<div class="cust_list_ans p-0">
 		        										<div class="row">
-		        											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		        											<div class="col-lg-9 col-md-12 col-sm-12 col-xs-12 p-0">
 		        												<input type="text" class="field_text ft2 blue" placeholder="League Name" name="leaguename" ng-model="teacher.league_name" />
 		        											</div>	
 		        										</div>
@@ -541,16 +551,15 @@ ul.unedit_ul {
 		        								</li>
 		        								<li class="cust_num_li">
 		        									<div class="cust_list_q">
-		        										<span class="li_num">4</span>
+		        										<span class="li_num">4. </span>
 		        										<span class="li_q">Virtual money to start:</span>
 		        									</div>
-		        									<div class="cust_list_ans">
+		        									<div class="cust_list_ans p-0">
 		        										<div class="row">
-		        											<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
-		        												<input type="text" class="field_text ft2 blue"  placeholder="" name="virtualmoney" ng-model="teacher.virtual_money" /> 
+		        											<div class="col-lg-9 col-md-10 col-sm-10 col-xs-10 p-0">
+		        											 <input type="text" class="field_text ft2 blue"  placeholder="" name="virtualmoney" ng-model="teacher.virtual_money" /> 
 		        											</div>	
-		        											<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="padding-left: 0%;
-    															padding-top: 2%;">
+		        											<div class="col-lg-1 col-md-2 col-sm-2 col-xs-2" style="padding-top: 2%;">
 		        											&euro;
 		        											</div>
 		        										</div>
@@ -559,7 +568,7 @@ ul.unedit_ul {
 		        							</ul>
 		        						</div>
 	        						</div>
-	        						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+	        						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 p-0">
 	        							<div class="modal_image_container">
 	        								<div class="modal_image">
 	        									<img src="imgs/virtual_money.png" class="modal_banner">
@@ -567,28 +576,29 @@ ul.unedit_ul {
 	        							</div>
 	        						</div>
 	        					</div>
-	        					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-	        						<div class="modal_but_cont">
+	        					<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 p-0">
+	        						<div class="modal_but_cont p-l-0 p-r-0 text-right">
 	        							<button class="modal_nxt_bt" ng-click="shiftTab(1)">Back</button>
 	        							<button class="modal_nxt_bt" ng-click="shiftTab(3)">Next</button>
 	        						</div>
+
 	        					</div>        					
 	        				</div>
 	        			</li>
-	        			<li class="step_body_li" id="step_body_3">
+	        			<li class="step_body_li p-0" id="step_body_3">
 	        				<div class="form_container">
 	        					<div class="form_head_text">
 	        						What do you want to see?
 	        					</div>
 	        					<div class="row">
-	        						<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+	        						<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 p-0">
 	        							<div class="row">
-	        								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-			        							<div class="form_head_text">
-					        						Select the feedback.
+	        								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
+			        							<div class="cust_list_q">
+					        						1. Select the feedback.
 					        					</div>
 		        							</div>
-		        							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		        							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
 		        								<div class="checkbox_cont">
 													<ul class="check_cont_ul"> 
 														<li> 
@@ -620,7 +630,7 @@ ul.unedit_ul {
 		        							</div>
 	        							</div>
 	        						</div>
-	        						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+	        						<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-center">
 	        							<div class="modal_image_container">
 	        								<div class="modal_image">
 	        									<img src="imgs/average_profitability.png" class="modal_banner">
@@ -628,8 +638,8 @@ ul.unedit_ul {
 	        							</div>
 	        						</div>
 	        					</div>
-	        					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-	        						<div class="modal_but_cont">
+	        					<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 p-0">
+	        						<div class="modal_but_cont p-l-0 p-r-0 text-right">
 	        							<button class="modal_nxt_bt" ng-click="shiftTab(2)">Back</button>
 	        							<button class="modal_nxt_bt" ng-click="start()">Start Now</button>
 	        						</div>
@@ -639,10 +649,10 @@ ul.unedit_ul {
 	        			<li class="step_body_li" id="step_body_4">
 	        				<div class="form_container">
 	        					<div class="row">
-	        						<p>Saved Successfully </p>
-	        					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-	        						<div class="modal_but_cont">        							
-	        							<button class="modal_nxt_bt" data-dismiss="modal">Close</button>
+	        						<p class="form_head_text">Congrats! You have created your added your students successfully.</p>
+	        					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 m-t-10">
+	        						<div class="modal_but_cont m-t-10" style="text-align:center !important;">        							
+	        							<button class="modal_nxt_bt" data-dismiss="modal">OK</button>
 	        						</div>
 	        					</div>
 	        				</div>
