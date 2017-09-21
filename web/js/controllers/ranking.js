@@ -90,6 +90,8 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				data:{uId :  $stateParams.teacher_id }
 			}).then(function(success){
 				var data = success.data;
+				console.log("===data====");
+				console.log(data);
 				$scope.report = data.report;
 				$scope.report.benefits = parseFloat($scope.report.benefits).toLocaleString("de-DE");							
 			},function(error){

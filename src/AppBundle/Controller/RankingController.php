@@ -16,11 +16,10 @@ use AppBundle\Entity\UserPurchaseHistory;
 use AppBundle\Service\BbtCrypt;
 use AppBundle\Service\Utils;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use AppBundle\Controller\TokenAuthenticatedController;
 
-/**
- * @Security("is_granted('ROLE_USER')")
- */
-class RankingController extends Controller
+
+class RankingController extends Controller implements TokenAuthenticatedController
 {
 
 	public function getUserOperationsAction(Request $request)
@@ -120,12 +119,7 @@ class RankingController extends Controller
 
   public function dashBoardAction(Request $request)
   {
-
-     if (isset($_SESSION['user'])) {
-     return true;
-   } else {
-     return false;
-   }
+    
      $ranking = $request->request->all();
 
       $teacherId = $ranking['uId'];

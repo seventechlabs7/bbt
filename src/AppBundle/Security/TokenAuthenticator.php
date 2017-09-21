@@ -71,12 +71,17 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
 
         $username = $data['username'];
 
+         //METHOD 1 
+
         /*$user =  $this->em
             ->getRepository('AppBundle:User')
             ->findOneBy(['email' => $username]);*/
 
             // = $this->getDoctrine()->getManager();
-            $user = $this->em->getRepository('AppBundle:UserPurchaseHistory')
+
+            //method 2
+
+            /*$user = $this->em->getRepository('AppBundle:UserPurchaseHistory')
             ->authenticate($username);
             var_dump($user);
             $u = new User();
@@ -88,7 +93,16 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
                 return $u;
             }
             var_dump($u);
-            return $u;
+            return $u;*/
+
+            //method 3
+             $user =  $this->em->getRepository('AppBundle:User')->createQueryBuilder('u')
+            ->andWhere('u.email= :email')
+            ->setParameter('email', $username)
+           /* ->select('u.email ,u.username,u.password')*/
+            ->getQuery()
+            ->getScalarResult();
+            var_dump($user);
     }
 
     /**

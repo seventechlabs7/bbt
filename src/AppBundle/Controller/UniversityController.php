@@ -22,11 +22,10 @@ use AppBundle\Service\CustomCrypt;
 use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
 use AppBundle\Service\Utils;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use AppBundle\Controller\TokenAuthenticatedController;
 
-/**
- * @Security("is_granted('ROLE_USER')")
- */
-class UniversityController extends Controller
+
+class UniversityController extends Controller implements  TokenAuthenticatedController
 {
 
 

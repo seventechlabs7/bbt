@@ -66,6 +66,9 @@ angular.module('app', [
         return config;
     };
     service.responseError = function(response) {
+      console.log(response);
+      if(response.status == 403)
+         alert("Unauthorized");
         return response;
     };
 })

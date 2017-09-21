@@ -800,6 +800,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 
 		$scope.logout = function()
 		{
+			UserService.setCurrentUser(null);
 			window.location.href = "/index";
 		}
 

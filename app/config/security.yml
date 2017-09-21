@@ -20,6 +20,3 @@ security:
  
             logout:       true
             anonymous:    true
-            guard:
-                authenticators:
-                    - 'token_authenticator'
