@@ -1,27 +1,32 @@
 <?php
-// src/AppBundle/Entity/User.php
-
+ 
+// src/UserBundle/Entity/User.php
+ 
 namespace AppBundle\Entity;
-
+ 
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
-
+use Doctrine\ORM\Mapping\AttributeOverride;
+use Doctrine\ORM\Mapping\AttributeOverrides;
+use Doctrine\ORM\Mapping\Column;
+ 
 /**
+ * User.
+ *
+ * @ORM\Table("users")
  * @ORM\Entity
- * @ORM\Table(name="users")
  */
-class User extends BaseUser
+class User 
 {
+    const ROLE_ADMIN = 'ROLE_ADMIN';
+ 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="id_admin", type="integer")
      * @ORM\Id
-     * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
-    public function __construct()
-    {
-        parent::__construct();
-        // your own logic
-    }
+    private $email;
 }

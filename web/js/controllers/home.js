@@ -460,7 +460,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				console.log($scope.teacher)
 				$http({
 					method: 'POST',
-					url: 'api/teacher/signup',
+					url: 'anon/teacher/signup',
 					data:$scope.teacher
 				}).then(function(success){
 					console.log(success)
@@ -752,7 +752,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				$scope.blocked = true;
 				$http({
 					method: 'POST',
-					url: 'auth/login',
+					url: 'anon/login',
 					data: $scope.login,
 				}).then(function(success){
 					$scope.blocked = false;
@@ -800,6 +800,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 
 		$scope.logout = function()
 		{
+			UserService.setCurrentUser(null);
 			window.location.href = "/index";
 		}
 

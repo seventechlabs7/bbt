@@ -14,7 +14,7 @@ security:
  
     firewalls:
         main:
-            pattern: ^/
+            pattern: /api/
             anonymous: true
             stateless: true
  

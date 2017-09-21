@@ -13,6 +13,7 @@ use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationExc
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
+use AppBundle\Entity\User;
 
 class TokenAuthenticator extends AbstractGuardAuthenticator
 {
@@ -42,11 +43,13 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     public function getCredentials(Request $request)
     {
         $extractor = new AuthorizationHeaderTokenExtractor(
-            'Bearer',
+             'Bearer',
             'Authorization'
+           
         );
 
         $token = $extractor->extract($request);
+       // var_dump($token);
 
         if (!$token) {
             return;
@@ -61,16 +64,45 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         $data = $this->jwtEncoder->decode($credentials);
-
+       // var_dump($data);
         if ($data === false) {
             throw new CustomUserMessageAuthenticationException('Invalid Token');
         }
 
         $username = $data['username'];
 
-        return $this->em
+         //METHOD 1 
+
+        /*$user =  $this->em
             ->getRepository('AppBundle:User')
-            ->findOneBy(['username' => $username]);
+            ->findOneBy(['email' => $username]);*/
+
+            // = $this->getDoctrine()->getManager();
+
+            //method 2
+
+            /*$user = $this->em->getRepository('AppBundle:UserPurchaseHistory')
+            ->authenticate($username);
+            var_dump($user);
+            $u = new User();
+            if($user)
+            {
+                $u->setEmail($user["email"]);
+                $u->setPassword($user['password']);
+                $u->setUsername($user['email']);
+                return $u;
+            }
+            var_dump($u);
+            return $u;*/
+
+            //method 3
+             $user =  $this->em->getRepository('AppBundle:User')->createQueryBuilder('u')
+            ->andWhere('u.email= :email')
+            ->setParameter('email', $username)
+           /* ->select('u.email ,u.username,u.password')*/
+            ->getQuery()
+            ->getScalarResult();
+            var_dump($user);
     }
 
     /**

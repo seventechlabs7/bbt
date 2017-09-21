@@ -15,8 +15,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use AppBundle\Entity\UserPurchaseHistory;
 use AppBundle\Service\BbtCrypt;
 use AppBundle\Service\Utils;
+use AppBundle\Controller\TokenAuthenticatedController;
 
-class FeedbackController extends Controller
+class FeedbackController extends Controller implements TokenAuthenticatedController
 {
 
 	
