@@ -1726,7 +1726,7 @@ input[type=date]::-webkit-inner-spin-button {
     position:relative;
 	display:block;
 }
-
+.main-content-section .table td .warning,
 .main-content-section .table td .success,
 .main-content-section .table td .danger
 {

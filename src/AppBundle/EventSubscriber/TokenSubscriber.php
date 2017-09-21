@@ -66,8 +66,15 @@ class TokenSubscriber implements EventSubscriberInterface
         if (!$token) {
              throw new AccessDeniedHttpException('This action needs a valid token!');
         }
- 
-         $data = $this->jwtEncoder->decode($token);
+        
+
+        try {
+    $data = $this->jwtEncoder->decode($token);
+} catch (\Exception $e) {
+   throw new AccessDeniedHttpException('Re Login to continue');
+}
+
+         //$data = $this->jwtEncoder->decode($token);
         $user = $this->em->getRepository('AppBundle:UserPurchaseHistory')
             ->authenticate($data['username']);
 

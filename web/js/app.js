@@ -53,7 +53,7 @@ angular.module('app', [
         return currentUser;
     };
 })
-.service('APIInterceptor', function($rootScope, UserService) {
+.service('APIInterceptor', function($rootScope, UserService,$state) {
     var service = this;
     service.request = function(config) {
         console.log(config);
@@ -68,7 +68,15 @@ angular.module('app', [
     service.responseError = function(response) {
       console.log(response);
       if(response.status == 403)
-         alert("Unauthorized");
+        {
+      swal({
+        title: "Please Login to continue",        
+        timer: 2000
+      });
+          $state.go('app.home', {
+                    
+                });
+        } 
         return response;
     };
 })

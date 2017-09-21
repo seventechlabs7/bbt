@@ -17,19 +17,19 @@ teachersignup:
 
 teachersignupverify:
     path:     anon/teacher/verify/{verifyLink}
-    defaults: { _controller: AppBundle:University:verifySignupteacher}
+    defaults: { _controller: AppBundle:Default:verifySignupteacher}
     methods:  [GET]
 studentsignupverify:
     path:     anon/student/verify/{verifyLink}
-    defaults: { _controller: AppBundle:University:verifySignupStudent}
+    defaults: { _controller: AppBundle:Default:verifySignupStudent}
     methods:  [GET]
 login:
     path:     anon/login
     defaults: { _controller: AppBundle:Login:login}
     methods:  [POST] 
 emailupdateteacherverify:
-    path:     api/teacher/emailchange/{verifyLink}
-    defaults: { _controller: AppBundle:University:emailChangeTeacherVerify}
+    path:     anon/teacher/emailchange/{verifyLink}
+    defaults: { _controller: AppBundle:Default:emailChangeTeacherVerify}
     methods:  [GET]
 
 teacherdetails:

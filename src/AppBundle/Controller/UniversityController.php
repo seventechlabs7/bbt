@@ -438,7 +438,7 @@ class UniversityController extends Controller implements  TokenAuthenticatedCont
 
 	public function mailUpdateLink($email,$newEmail,CustomCrypt $crypt,MailerService $mailerService)
 	{
-			/*$mailObject = new \stdClass();
+			$mailObject = (Object) [] ;//new \stdClass();
 			$mailObject->toMail = $newEmail;
 			$mailObject->name = 'user';
 			$mailObject->encryptedLink = urlencode($crypt->encrypt($newEmail));
@@ -446,12 +446,12 @@ class UniversityController extends Controller implements  TokenAuthenticatedCont
 			$mailerService->mailChangeLink($mailObject);
 
 
-			$mailObject1 = new \stdClass();
+			$mailObject1 =(Object) [] ;// new \stdClass();
 			$mailObject1->toMail 	= $email;
 			$mailObject1->name 		= 'user';
-			$mailObject1->newmail 	= $email; //preg_replace('/(?:^|@).\K|\.[^@]*$(*SKIP)(*F)|.(?=.*?\.)/', '*', $newmail);
+			$mailObject1->newmail 	= $newEmail; //preg_replace('/(?:^|@).\K|\.[^@]*$(*SKIP)(*F)|.(?=.*?\.)/', '*', $newmail);
 
-			$mailerService->mailChangeLink($mailObject1);*/
+			$mailerService->mailChangeNotify($mailObject1);
 	}
 
 

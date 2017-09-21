@@ -110,6 +110,12 @@ button.left_bar_but.selected
     padding: 5px;
     font-weight: 600;
 }
+.center_label {
+    text-align: center;
+    padding: 5px;
+    font-weight: 600;
+}
+
 
 textarea.center_l_txtarea {
     border-radius: 6px;
@@ -505,22 +511,28 @@ h1{
 			   </div>
 			</div>
 
-			<div class="center_container" ng-if="screen == 'addstudents'">
+			<div class="center_container main-content-section" ng-if="screen == 'addstudents'" style=" border: 1px solid lightgrey;padding: 5%;margin: 5%;">
 			<div class="profile_head_cont">
 				<div class="row">
-					<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+					<div class="col-lg-2 col-md-2 col-sm-8 col-xs-12">
+					</div>
+					<div class="col-lg-6 col-md-6 col-sm-8 col-xs-12">
 						<div class="form_head_text">
     						Do you have students? Add them
     					</div>
 						<div class="row">
-							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
     							<div class="input_upload">
     								<input type="text" class="field_text" placeholder="Copy and Paste your mailing list" name="maillist"  ng-model="teacher.mail_list"/>
     								<small>Enter comma seperated emails</small>
     							</div>
 							</div>
+						</div>
+						<div class="row">
 							(or)
-							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						</div>
+						<div class="row">
+							<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
     							<div class="input_upload">
     								<input type="file" class="upload_text" placeholder="Find Your File(csv./other)" name="maillistfile" name="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" ngf-select="selectFile(teacher.mail_list_file)" ng-model="teacher.mail_list_file"/>
     								<small>Enter xls ,xlxs documents with emails</small>
@@ -539,31 +551,35 @@ h1{
 					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 						<div class="modal_image_container">
 							<div class="modal_image">
-								<img src="" class="modal_banner">
+								<img src="imgs/want_to_create.png" class="modal_banner">
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="row">
-				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<!-- <div class="row">
+				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 					<div class="modal_but_cont">        							
 						<button class="modal_nxt_bt" ng-click="addStudents()">upload Students</button>
 					</div>
 				</div>
-				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 					<div class="modal_but_cont">        							
 						<button class="modal_nxt_bt" ng-click="changeScreen('start')">View Ranking</button>
 					</div>
 				</div>
-				</div>
+				</div> -->
+				<div class="col-lg-12 col-sm-12 col-xs-12  p-0">
+					 <button class="upload_pic_but m-t-10" ng-click="changeScreen('start')">View Ranking</button>
+					 <button class="upload_pic_but m-t-10" ng-click="addStudents()">upload Students</button>
+				 </div>
 				</div>
 				
 			</div>
-			<div class="center_container" ng-if="screen == 'editfeedback'" ng-init="processArrays()">
+			<div class="center_container main-content-section" ng-if="screen == 'editfeedback'" ng-init="processArrays()">
 			<div class="profile_head_cont">
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<div class="form_head_text">
+						<div class="form_head_text center_label">
 							Select the feedback.
 						</div>
 					</div>
@@ -616,7 +632,7 @@ h1{
 				</div>
 				
 			</div>
-			<div class="center_container" ng-if="screen == 'league'">
+			<div class="center_container main-content-section" ng-if="screen == 'league'">
 			<div class="profile_head_cont">
 				<!-- league -->
 				<div class="row">
@@ -686,7 +702,7 @@ h1{
 		        									<div class="cust_list_ans">
 		        										<div class="row">
 		        											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-		        												<input type="text" class="field_text ft2 blue" placeholder="League Name" name="leaguename" ng-model="teacher.league_name" />
+		        												<input type="text" class="field_text ft2 blue" placeholder="League Name" name="leaguename" ng-model="teacher.league_name" required/>
 		        											</div>	
 		        										</div>
 		        									</div>
@@ -719,19 +735,20 @@ h1{
 	        							</div>
 	        						</div>
 	        					</div>
-	        					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-	        						<div class="modal_but_cont">
-	        							<button class="modal_nxt_bt" ng-click="updateLeague()">Update</button>
-	        							
-	        						</div>
-	        					</div>
-				<div class="row">
-				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<div class="modal_but_cont">        							
-						<button class="modal_nxt_bt" ng-click="changeScreen('start')">View Ranking</button>
-					</div>
-				</div>
-				</div>
+	        					
+								<div class="row">
+									<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+		        						<div class="modal_but_cont">
+		        							<button class="modal_nxt_bt" ng-click="updateLeague()">Update</button>
+		        							
+		        						</div>
+		        					</div>
+									<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+										<div class="modal_but_cont">        							
+											<button class="modal_nxt_bt" ng-click="changeScreen('start')">View Ranking</button>
+										</div>
+									</div>
+								</div>
 				</div>
 
 					 <script type="text/javascript">
