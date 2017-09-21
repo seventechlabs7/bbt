@@ -407,7 +407,10 @@ h1{
 								text-shadow: 1px 1px 1px #ccc;
 								font-size: 1.5em;"></i> </td> -->
 							</tr>
-						</table>						
+						</table>
+						<div ng-if="rankingList.length ==0">
+							<h4>No data available yet</h4>
+						</div>						
 						       <div class="col-md-6 text-left p-0">
 									<button class="modal_nxt_bt" ng-click="changeScreen('addstudents')">Upload Students</button>
 									<button class="modal_nxt_bt" ng-click="changeScreen('league')">League Settings</button>
@@ -635,7 +638,8 @@ h1{
 			<div class="center_container main-content-section" ng-if="screen == 'league'">
 			<div class="profile_head_cont">
 				<!-- league -->
-				<div class="row">
+				<form id="leagueForm" name="leagueForm" formnovalidate="formnovalidate" novalidate>
+							<div class="row">
 	        						<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
 		        						<div class="custom_num_list">
 		        							<ul class="cust_num_ul"> 
@@ -650,12 +654,20 @@ h1{
 
 																<b>Start Date : </b>
 																<!-- <input type="date" class="date_form"  placeholder="Start Date" name="maillistfile" ng-model="teacher.start_date" ng-change="stopcountdownFun('start')"  /> -->
-																<input type="text"  class="form-control docs-date" id="picker3" name="sdate"   ng-model="teacher.start_date" ng-change="stopcountdownFun('start')" placeholder="dd/mm/yyyy" data-toggle="datepicker" ng-disabled="DisableStartDate"/>
+																<input type="text"  class="form-control docs-date" id="picker3" name="sdate"   ng-model="teacher.start_date" ng-change="stopcountdownFun('start')" placeholder="dd/mm/yyyy" data-toggle="datepicker" ng-disabled="DisableStartDate"
+																required  />
 															</div>
+														<div class="text-left error" ng-messages="leagueForm.teach_place.$error" ng-show="leagueForm.sdate.$touched">
+															<div ng-messages-include="js/messages.html"></div>
+														</div>
 															<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 																<b>End Date : </b> 
 																<!-- <input type="date"  class="date_form" name="startdate"  ng-model="teacher.end_date" ng-change="stopcountdownFun('end')"/> -->
-																<input type="text"  class="form-control docs-date" id="picker4" name="edate"   ng-model="teacher.end_date" ng-change="stopcountdownFun('end')" placeholder="dd/mm/yyyy" data-toggle="datepicker" />
+																<input type="text"  class="form-control docs-date" id="picker4" name="edate"   ng-model="teacher.end_date" ng-change="stopcountdownFun('end')" placeholder="dd/mm/yyyy" data-toggle="datepicker" 
+																required />
+																 <div class="text-left error" ng-messages="sdate.edate.$error" ng-show="leagueForm.edate.$touched">
+															       <div ng-messages-include="js/messages.html"></div>
+															 	</div>
 															</div>
 														</div>
 		        									</div>       									
@@ -702,8 +714,12 @@ h1{
 		        									<div class="cust_list_ans">
 		        										<div class="row">
 		        											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-		        												<input type="text" class="field_text ft2 blue" placeholder="League Name" name="leaguename" ng-model="teacher.league_name" required/>
+		        												<input type="text" class="field_text ft2 blue" placeholder="League Name" name="leaguename" ng-model="teacher.league_name" ng-minlength="2" ng-maxlength=100 required />
+		        												 <div class="text-left error" ng-messages="leagueForm.leaguename.$error" ng-show="leagueForm.leaguename.$touched">
+															       <div ng-messages-include="js/messages.html"></div>
+															 	</div>
 		        											</div>	
+
 		        										</div>
 		        									</div>
 		        								</li>
@@ -715,7 +731,11 @@ h1{
 		        									<div class="cust_list_ans">
 		        										<div class="row">
 		        											<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
-		        												<input type="text" class="field_text ft2 blue"  placeholder="" name="virtualmoney" ng-model="teacher.virtual_money" ng-disabled="editVirtualMoney()"/> 
+		        												<input type="text" class="field_text ft2 blue"  placeholder="" name="virtualmoney" ng-model="teacher.virtual_money" ng-disabled="editVirtualMoney()"
+		        												 required ng-pattern="/^[0-9.,]*$/" ng-maxlength="12"/> 
+		        												 <div class="text-left error" ng-messages="leagueForm.virtualmoney.$error" ng-show="leagueForm.virtualmoney.$touched">
+															       <div ng-messages-include="js/messages.html"></div>
+															 	</div>
 		        											</div>	
 		        											<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="padding-left: 0%;
     															padding-top: 2%;">
@@ -735,11 +755,12 @@ h1{
 	        							</div>
 	        						</div>
 	        					</div>
+	        				</form>
 	        					
 								<div class="row">
 									<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 		        						<div class="modal_but_cont">
-		        							<button class="modal_nxt_bt" ng-click="updateLeague()">Update</button>
+		        							<button class="modal_nxt_bt" ng-disabled="!leagueForm.$valid" ng-click="updateLeague()">Update</button>
 		        							
 		        						</div>
 		        					</div>
