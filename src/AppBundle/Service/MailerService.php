@@ -53,7 +53,7 @@ class MailerService
 {
         $page ='Emails/mailchange.html.twig' ; 
         $message = (new \Swift_Message('BBT - Email Change Confirmation'))
-        ->setFrom('admin123@bbt.com')
+        ->setFrom('profesores@bigbangtrading.com')
         ->setTo($mailObject->{'toMail'})
         ->setBody(           
                 $this->templating->render(
@@ -73,7 +73,7 @@ public function mailChangeNotify($mailObject)
 {
         $page ='Emails/mailnotify.html.twig' ; 
         $message = (new \Swift_Message('BBT - Email Change Confirmation'))
-        ->setFrom('admin123@bbt.com')
+        ->setFrom('profesores@bigbangtrading.com')
         ->setTo($mailObject->{'toMail'})
         ->setBody(           
                 $this->templating->render(
