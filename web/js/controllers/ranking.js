@@ -75,8 +75,9 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				console.log("list");
 				console.log(data)
 				$scope.rankingList = data;
-				$scope.processRankingTable();
-				$scope.dashBoard();								
+				
+				$scope.dashBoard();		
+
 			},function(error){
 
 			});
@@ -90,7 +91,21 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				data:{uId :  $stateParams.teacher_id }
 			}).then(function(success){
 				var data = success.data;
+				console.log("===data====");
+				console.log(data);
 				$scope.report = data.report;
+				if($scope.report)
+				{
+					if($scope.report.count == 0)
+					{
+						$scope.report.benefits = parseFloat("00.0000");
+						$scope.report.operations = 0;
+						$scope.report.percentage = "0.00";
+						$scope.rankingList = [];
+					}
+					else
+						$scope.processRankingTable();	
+				}
 				$scope.report.benefits = parseFloat($scope.report.benefits).toLocaleString("de-DE");							
 			},function(error){
 

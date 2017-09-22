@@ -20,18 +20,13 @@ class LoginController extends Controller
 
      public function loginAction(Request $request,BbtCrypt $bbtCrypt)
     {
-
+        session_start();
         $reqData = $request->request->all();
         $userName = $reqData['email'];
         $password = $reqData['password'];
         $encpassword = $bbtCrypt->decrypt($password);
         $encoder = new MessageDigestPasswordEncoder();
         $pwencoded = $encoder->encodePassword($password, '');
-         //return new JsonResponse($pwencoded);
- /*
-        $user = $this->getDoctrine()
-            ->getRepository('AppBundle:User')
-            ->findOneBy(['email' => $userName]);*/
 
           $em = $this->getDoctrine()->getManager();
             $user = $em->getRepository('AppBundle:UserPurchaseHistory')
@@ -51,6 +46,7 @@ class LoginController extends Controller
                     return new JsonResponse(array('status' => 'failure','reason' => 'Inactive account . Plesae activate link shared to your registered email id','response' => 200));
                  }
              }
+             
             return new JsonResponse(array('status' => 'failure','reason' => 'Invalid User','response' => 200));
            // throw $this->createNotFoundException();
         }
@@ -67,6 +63,11 @@ class LoginController extends Controller
     $user1 = $em->getRepository('AppBundle:UserPurchaseHistory')
             ->getTeacherId($userName);
     $token = $this->getToken($userName);
+             // session_start(); 
+
+              $_SESSION['user'] = $user1['id'];
+              $_SESSION['user_email'] = $userName;
+
     $response = new Response($this->serialize(['status'=>'success','token' => $token,'id' =>$user1['id']]), Response::HTTP_OK);
  
     return $this->setBaseHeaders($response);

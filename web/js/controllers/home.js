@@ -460,7 +460,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				console.log($scope.teacher)
 				$http({
 					method: 'POST',
-					url: 'api/teacher/signup',
+					url: 'anon/teacher/signup',
 					data:$scope.teacher
 				}).then(function(success){
 					console.log(success)
@@ -540,6 +540,15 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 			}).then(function(success){
 				var data = success.data;
 				$scope.report = data.report;	
+				if($scope.report)
+				{
+					if($scope.report.count == 0)
+					{
+						$scope.report.benefits = parseFloat("00.0000");
+						$scope.report.operations = 0;
+						$scope.report.percentage = "0.00"
+					}
+				}
 				$scope.report.benefits = parseFloat($scope.report.benefits).toLocaleString("de-DE");	
 
 			},function(error){
@@ -752,7 +761,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				$scope.blocked = true;
 				$http({
 					method: 'POST',
-					url: 'auth/login',
+					url: 'anon/login',
 					data: $scope.login,
 				}).then(function(success){
 					$scope.blocked = false;
@@ -800,6 +809,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 
 		$scope.logout = function()
 		{
+			UserService.setCurrentUser(null);
 			window.location.href = "/index";
 		}
 

@@ -1,9 +1,9 @@
 <style type="text/css">
 
-.left_bar_cont {
+.left-mainsidebar.left_bar_cont {
     display: inline-block;
     width: 100%;
-    max-width: 300px;
+    max-width: 225px;
     position: fixed;
     left: 0;
     top: 0;
@@ -34,11 +34,13 @@
     width: 100%;
 }
 
-.left_logo_text {
+.left-mainsidebar .left_logo_text {
     display: inline-block;
     width: 100%;
     padding: 10px 0;
     color: #fff;
+	font-size:18px;
+	text-transform:uppercase;	
 }
 
 .left_bar_content {
@@ -61,7 +63,7 @@ ul.bar_but_ul,ul.bar_but_ul
 
 ul.bar_but_ul
  li {
-    padding: 20px 0;
+    padding: 5px 0;
 }
 
 button.left_bar_but {
@@ -86,7 +88,8 @@ button.left_bar_but.selected
 .profile_head_cont,.profile_body_cont {
     display: inline-block;
     width: 100%;
-    padding-left: 300px;
+    padding-left: 30px;
+    padding-right: 30px;
     text-align: center;
 }
 
@@ -107,6 +110,12 @@ button.left_bar_but.selected
     padding: 5px;
     font-weight: 600;
 }
+.center_label {
+    text-align: center;
+    padding: 5px;
+    font-weight: 600;
+}
+
 
 textarea.center_l_txtarea {
     border-radius: 6px;
@@ -212,20 +221,18 @@ h1{
 	font-weight: 100;
 	text-align: center;
 	font-size: 30px;
+	margin-top:20px;
 }
-
-#clockdiv > div{
-    padding: 10px;
-    border-radius: 3px;
-    border: 1px solid #010e9b;
-    background: #00B050;
-    display: inline-block;
+#clockdiv > div {
+  border-radius: 3px;
+  color: #000;
+  display: inline-block;
 }
-
 #clockdiv div > span{
-    padding: 15px;
+    padding: 18px 25px;
     border-radius: 3px;
-    background: #00B050;
+    background: #414CB1;
+	color: #ffffff;
     display: inline-block;
 }
 
@@ -245,12 +252,13 @@ h1{
     background: #010e9b;
     border-bottom-right-radius: 7px;
     border-top-right-radius: 7px;
+
 }
 }
 </style>
 <div ng-controller="ranking" ng-init="init();">
 	<div class="whole_container">
-		<div class="left_bar_cont">
+		<div class="left_bar_cont left-mainsidebar">
 			<div class="left_bar">
 				<div class="left_bar_logo">
 					<div class="left_logo">
@@ -261,19 +269,22 @@ h1{
 					</div>
 				</div>
 				<div class="left_bar_content">
-					<div class="left_bar_buttons">
+					<div class="left_bar_buttons main-sidebar">
 						<ul class="bar_but_ul"> 
 							<li>
-								<button class="left_bar_but " ng-click="changeNav('profile')">Profile</button>
+							 <a class="btn color" ng-click="changeNav('profile')">
+								<i class="fa fa-user" aria-hidden="true"></i>Profile</a>
 							</li>
 							<li>
-								<button class="left_bar_but selected" ng-click="changeNav('ranking')">Ranking</button>
+							 <a class="btn color" ng-click="changeNav('ranking')">
+								<i class="fa fa-file-text" aria-hidden="true"></i>Ranking</a>
 							</li>
 							<!-- <li>
 								<button class="left_bar_but" ng-click="changeNav('feedback')">Feedback</button>
 							</li> -->
 							<li>
-								<button class="left_bar_but" ng-click="logout()" >Logout</button>
+							 <a class="btn color" ng-click="logout()">
+								<i class="fa fa-power-off" aria-hidden="true"></i>Logout</a>
 							</li>
 						</ul>
 					</div>
@@ -281,12 +292,12 @@ h1{
 			</div>
 		</div>
 		<!-- ranking list -->
-		<div class="center_container" ng-if="type=='ranking'">
+		<div class="center_container main-content-section" ng-if="type=='ranking'">
 			<div class="profile_head_cont" ng-if="screen != 'addstudents' && screen != 'editfeedback'">
 			<div class="row">
 				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-					<div class="form-group">
-						<label for="sel1">Select Group   </label>
+					<div class="form-group m-t-10">
+						<label for="sel1" class="form_head_text pull-left">Select Group</label>
 					<!-- 	<select class="form-control" id="gId" name="gId" placeholder="Select group" ng-model="currentGroupId" ng-selected="currentGroupId" ng-change="loadRanking(currentGroupId)" >
 						<option ng-repeat="group in groups" value="{{group.id}}">{{group.id}}{{group.group_name}}</option>
 						</select> -->
@@ -296,53 +307,57 @@ h1{
 					</div>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-					<p class="before_boxes">
-						General Statistics
-					</p>
-				</div>
-				<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+			<div class="row">				
+				<div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
 					<div class="green_box">
 				      <div class="row">
-				      	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
-				      		<span>Number of students</span>
+					    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						  <h2>General Statistics</h2>
+						</div>
+				      	<div class="col-lg-7 col-md-8 col-sm-8 col-xs-6">
+				      		<label>Number of Students</label>
+							<span class="pull-right"><b>:</b></span>
 				      	</div>
-				      	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-				      		{{report.count}}
+				      	<div class="col-lg-5 col-md-4 col-sm-4 col-xs-6">
+				      		<p>{{report.count}}</p>
 				      	</div>
-				      	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
-				      		<span>Total number of operations</span>
+				      	<div class="col-lg-7 col-md-8 col-sm-8 col-xs-6">
+				      		<label>Total Number of Operations</label>
+							<span class="pull-right"><b>:</b></span>
 				      	</div>
-				      	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-				      		{{report.operations}}
+				      	<div class="col-lg-5 col-md-4 col-sm-4 col-xs-6">
+				      		<p>{{report.operations}}</p>
 				      	</div>
-				      	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
-				      		<span>Total Profitability</span>
+				      	<div class="col-lg-7 col-md-8 col-sm-8 col-xs-6">
+				      		<label>Total Profitability</label>
+							<span class="pull-right"><b>:</b></span>
 				      	</div>
-				      	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-				      		{{report.percentage}} %
+				      	<div class="col-lg-5 col-md-4 col-sm-4 col-xs-6">
+				      		<p>{{report.percentage}} %</p>
 				      	</div>
-				      	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
-				      		<span>Total Benefits</span>
+				      	<div class="col-lg-7 col-md-8 col-sm-8 col-xs-6">
+				      		<label>Total Benefits</label>
+							<span class="pull-right"><b>:</b></span>
 				      	</div>
-				      	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-				      		{{report.benefits}}
+				      	<div class="col-lg-5 col-md-4 col-sm-4 col-xs-6">
+				      		<p>{{report.benefits}}</p>
 				      	</div>
 
 				      </div>
 					</div>
-				</div>
-				<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-					<div class="modal_image_container">
-						<div class="modal_image">
-							<img src="imgs/chart_line.png" class="modal_banner">
-						</div>
+				</div>		
+				
+			<!--	<div class="col-md-12">
+				<div class="cls_progress">
+					<p>{{timeTillEvent.hours}}</p>
+					<div class="cls_main">
+						<div class="avatar-container connection-{{timeTillEvent.hours}}"></div>
 					</div>
 				</div>
-			</div>
-			<div class="row">
-					<div id="clockdiv">
+				</div>-->
+						
+				<div class="col-lg-5 col-lg-offset-1 col-md-4 col-sm-12 col-xs-12" style="margin-top: 4%;">
+				 <div id="clockdiv">
 					<div>
 						<span class="days">{{timeTillEvent.days}}</span>
 						<div class="smalltext">Days</div>
@@ -359,9 +374,9 @@ h1{
 						<span class="seconds">{{timeTillEvent.seconds}}</span>
 						<div class="smalltext">Seconds</div>
 					</div> 
-				</div>
-			</div>
-				
+				  </div>
+				</div>				
+			  </div>				
 			</div> 
 				<div class="profile_body_cont" ng-if="screen == 'start'"> <!-- <button class="modal_nxt_bt" ng-click="loadRankingList()">Reload</button> -->
 					<div class="row">
@@ -393,81 +408,74 @@ h1{
 								font-size: 1.5em;"></i> </td> -->
 							</tr>
 						</table>
-						<div>
-				
-						</div>									
-					</div>
-						<div class="row">
-							<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-								<div class="modal_but_cont">        							
-									
+						<div ng-if="rankingList.length ==0">
+							<h4>No data available yet</h4>
+						</div>						
+						       <div class="col-md-6 text-left p-0">
 									<button class="modal_nxt_bt" ng-click="changeScreen('addstudents')">Upload Students</button>
-								</div>
-							</div>
-							<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-								<div class="modal_but_cont">        							
 									<button class="modal_nxt_bt" ng-click="changeScreen('league')">League Settings</button>
-								</div>
-							</div>
-							<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-								<div class="modal_but_cont">        							
 									<button class="modal_nxt_bt" ng-click="changeScreen('editfeedback')">Modify Feedback</button>
-								</div>
-							</div>
-						</div>
-
-			</div>
-			</div>
+								</div>														
+							   </div>
+							  </div>
+							 </div>
 
 			<!-- student feedback -->
-			<div class="center_container" ng-if="type=='studentFeedback'">
+			<div class="center_container main-content-section" ng-if="type=='studentFeedback'">
 			   <div class="profile_head_cont" >
 			      <div class="row">
 			         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-			            <div class="form-group">
-			               <label for="sel1">Select Student   </label>
+			            <div class="form-group m-t-10">
+			               <label for="sel1" class="form_head_text pull-left">Select Student</label>
 			               <select class="form-control blue_select" ng-model="studentId" 
 			                  ng-options="user.userId as user.username  for user in students" ng-change="userBasedFeedBack(studentId)">
 			               </select>
 			            </div>
 			         </div>
-			          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-			            <div class="modal_but_cont">        							
-						<button class="modal_nxt_bt" ng-click="changeScreen('start')">View Ranking</button>
-					</div>
+			         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+			          <div class="modal_but_cont p-r-0 text-right">        							
+					   <button class="modal_nxt_bt" ng-click="changeScreen('start')">View Ranking</button>
+					  </div>
 			         </div>
-
-			      </div>
-			      <div class="green_box">
+  			        </div>					
+					<div class="col-md-12">					
+			         <div class="green_box">
 				      <div class="row">
-				      	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
-				      		<span>Number of students</span>
+					    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						  <h2>General Statistics</h2>
+						</div>
+				      	<div class="col-lg-7 col-md-8 col-sm-8 col-xs-6">
+				      		<label>Number of students</label>
+							<span class="pull-right"><b>:</b></span>
 				      	</div>
-				      	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-				      		{{report.count}}
+				      	<div class="col-lg-5 col-md-4 col-sm-4 col-xs-6">
+				      		<p>{{report.count}}</p>
 				      	</div>
-				      	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
-				      		<span>Total number of operations</span>
+				      	<div class="col-lg-7 col-md-8 col-sm-8 col-xs-6">
+				      		<label>Total number of operations</label>
+							<span class="pull-right"><b>:</b></span>
 				      	</div>
-				      	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-				      		{{report.operations}}
+				      	<div class="col-lg-5 col-md-4 col-sm-4 col-xs-6">
+				      		<p>{{report.operations}}</p>
 				      	</div>
-				      	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
-				      		<span>Total Profitability</span>
+				      	<div class="col-lg-7 col-md-8 col-sm-8 col-xs-6">
+				      		<label>Total Profitability</label>
+							<span class="pull-right"><b>:</b></span>
 				      	</div>
-				      	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-				      		{{report.percentage}} %
+				      	<div class="col-lg-5 col-md-4 col-sm-4 col-xs-6">
+				      		<p>{{report.percentage}} %</p>
 				      	</div>
-				      	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
-				      		<span>Total Benefits</span>
+				      	<div class="col-lg-7 col-md-8 col-sm-8 col-xs-6">
+				      		<label>Total Benefits</label>
+							<span class="pull-right"><b>:</b></span>
 				      	</div>
-				      	<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-				      		{{report.benefits}}
+				      	<div class="col-lg-5 col-md-4 col-sm-4 col-xs-6">
+				      		<p>{{report.benefits}}</p>
 				      	</div>
 
 				      </div>
 			     </div>
-			         
+				    </div>			         
 			   </div>
 			   <div class="profile_body_cont" ng-if="screen == 'start'">
 			      <!-- <button class="modal_nxt_bt" ng-click="loadRankingList()">Reload</button> -->
@@ -506,22 +514,28 @@ h1{
 			   </div>
 			</div>
 
-			<div class="center_container" ng-if="screen == 'addstudents'">
+			<div class="center_container main-content-section" ng-if="screen == 'addstudents'" style=" border: 1px solid lightgrey;padding: 5%;margin: 5%;">
 			<div class="profile_head_cont">
 				<div class="row">
-					<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+					<div class="col-lg-2 col-md-2 col-sm-8 col-xs-12">
+					</div>
+					<div class="col-lg-6 col-md-6 col-sm-8 col-xs-12">
 						<div class="form_head_text">
     						Do you have students? Add them
     					</div>
 						<div class="row">
-							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
     							<div class="input_upload">
     								<input type="text" class="field_text" placeholder="Copy and Paste your mailing list" name="maillist"  ng-model="teacher.mail_list"/>
     								<small>Enter comma seperated emails</small>
     							</div>
 							</div>
+						</div>
+						<div class="row">
 							(or)
-							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						</div>
+						<div class="row">
+							<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
     							<div class="input_upload">
     								<input type="file" class="upload_text" placeholder="Find Your File(csv./other)" name="maillistfile" name="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" ngf-select="selectFile(teacher.mail_list_file)" ng-model="teacher.mail_list_file"/>
     								<small>Enter xls ,xlxs documents with emails</small>
@@ -540,31 +554,35 @@ h1{
 					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 						<div class="modal_image_container">
 							<div class="modal_image">
-								<img src="" class="modal_banner">
+								<img src="imgs/want_to_create.png" class="modal_banner">
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="row">
-				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<!-- <div class="row">
+				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 					<div class="modal_but_cont">        							
 						<button class="modal_nxt_bt" ng-click="addStudents()">upload Students</button>
 					</div>
 				</div>
-				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 					<div class="modal_but_cont">        							
 						<button class="modal_nxt_bt" ng-click="changeScreen('start')">View Ranking</button>
 					</div>
 				</div>
-				</div>
+				</div> -->
+				<div class="col-lg-12 col-sm-12 col-xs-12  p-0">
+					 <button class="upload_pic_but m-t-10" ng-click="changeScreen('start')">View Ranking</button>
+					 <button class="upload_pic_but m-t-10" ng-click="addStudents()">upload Students</button>
+				 </div>
 				</div>
 				
 			</div>
-			<div class="center_container" ng-if="screen == 'editfeedback'" ng-init="processArrays()">
+			<div class="center_container main-content-section" ng-if="screen == 'editfeedback'" ng-init="processArrays()">
 			<div class="profile_head_cont">
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<div class="form_head_text">
+						<div class="form_head_text center_label">
 							Select the feedback.
 						</div>
 					</div>
@@ -617,10 +635,11 @@ h1{
 				</div>
 				
 			</div>
-			<div class="center_container" ng-if="screen == 'league'">
+			<div class="center_container main-content-section" ng-if="screen == 'league'">
 			<div class="profile_head_cont">
 				<!-- league -->
-				<div class="row">
+				<form id="leagueForm" name="leagueForm" formnovalidate="formnovalidate" novalidate>
+							<div class="row">
 	        						<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
 		        						<div class="custom_num_list">
 		        							<ul class="cust_num_ul"> 
@@ -635,12 +654,20 @@ h1{
 
 																<b>Start Date : </b>
 																<!-- <input type="date" class="date_form"  placeholder="Start Date" name="maillistfile" ng-model="teacher.start_date" ng-change="stopcountdownFun('start')"  /> -->
-																<input type="text"  class="form-control docs-date" id="picker3" name="sdate"   ng-model="teacher.start_date" ng-change="stopcountdownFun('start')" placeholder="dd/mm/yyyy" data-toggle="datepicker" ng-disabled="DisableStartDate"/>
+																<input type="text"  class="form-control docs-date" id="picker3" name="sdate"   ng-model="teacher.start_date" ng-change="stopcountdownFun('start')" placeholder="dd/mm/yyyy" data-toggle="datepicker" ng-disabled="DisableStartDate"
+																required  />
 															</div>
+														<div class="text-left error" ng-messages="leagueForm.teach_place.$error" ng-show="leagueForm.sdate.$touched">
+															<div ng-messages-include="js/messages.html"></div>
+														</div>
 															<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 																<b>End Date : </b> 
 																<!-- <input type="date"  class="date_form" name="startdate"  ng-model="teacher.end_date" ng-change="stopcountdownFun('end')"/> -->
-																<input type="text"  class="form-control docs-date" id="picker4" name="edate"   ng-model="teacher.end_date" ng-change="stopcountdownFun('end')" placeholder="dd/mm/yyyy" data-toggle="datepicker" />
+																<input type="text"  class="form-control docs-date" id="picker4" name="edate"   ng-model="teacher.end_date" ng-change="stopcountdownFun('end')" placeholder="dd/mm/yyyy" data-toggle="datepicker" 
+																required />
+																 <div class="text-left error" ng-messages="sdate.edate.$error" ng-show="leagueForm.edate.$touched">
+															       <div ng-messages-include="js/messages.html"></div>
+															 	</div>
 															</div>
 														</div>
 		        									</div>       									
@@ -687,8 +714,12 @@ h1{
 		        									<div class="cust_list_ans">
 		        										<div class="row">
 		        											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-		        												<input type="text" class="field_text ft2 blue" placeholder="League Name" name="leaguename" ng-model="teacher.league_name" />
+		        												<input type="text" class="field_text ft2 blue" placeholder="League Name" name="leaguename" ng-model="teacher.league_name" ng-minlength="2" ng-maxlength=100 required />
+		        												 <div class="text-left error" ng-messages="leagueForm.leaguename.$error" ng-show="leagueForm.leaguename.$touched">
+															       <div ng-messages-include="js/messages.html"></div>
+															 	</div>
 		        											</div>	
+
 		        										</div>
 		        									</div>
 		        								</li>
@@ -700,7 +731,11 @@ h1{
 		        									<div class="cust_list_ans">
 		        										<div class="row">
 		        											<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
-		        												<input type="text" class="field_text ft2 blue"  placeholder="" name="virtualmoney" ng-model="teacher.virtual_money" ng-disabled="editVirtualMoney()"/> 
+		        												<input type="text" class="field_text ft2 blue"  placeholder="" name="virtualmoney" ng-model="teacher.virtual_money" ng-disabled="editVirtualMoney()"
+		        												 required ng-pattern="/^[0-9.,]*$/" ng-maxlength="12"/> 
+		        												 <div class="text-left error" ng-messages="leagueForm.virtualmoney.$error" ng-show="leagueForm.virtualmoney.$touched">
+															       <div ng-messages-include="js/messages.html"></div>
+															 	</div>
 		        											</div>	
 		        											<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="padding-left: 0%;
     															padding-top: 2%;">
@@ -720,19 +755,21 @@ h1{
 	        							</div>
 	        						</div>
 	        					</div>
-	        					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-	        						<div class="modal_but_cont">
-	        							<button class="modal_nxt_bt" ng-click="updateLeague()">Update</button>
-	        							
-	        						</div>
-	        					</div>
-				<div class="row">
-				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<div class="modal_but_cont">        							
-						<button class="modal_nxt_bt" ng-click="changeScreen('start')">View Ranking</button>
-					</div>
-				</div>
-				</div>
+	        				</form>
+	        					
+								<div class="row">
+									<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+		        						<div class="modal_but_cont">
+		        							<button class="modal_nxt_bt" ng-disabled="!leagueForm.$valid" ng-click="updateLeague()">Update</button>
+		        							
+		        						</div>
+		        					</div>
+									<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+										<div class="modal_but_cont">        							
+											<button class="modal_nxt_bt" ng-click="changeScreen('start')">View Ranking</button>
+										</div>
+									</div>
+								</div>
 				</div>
 
 					 <script type="text/javascript">

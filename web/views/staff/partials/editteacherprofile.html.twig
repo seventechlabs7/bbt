@@ -1,14 +1,22 @@
 <style type="text/css">
 
-.left_bar_cont {
+.left-mainsidebar.left_bar_cont {
     display: inline-block;
     width: 100%;
-    max-width: 300px;
+    max-width: 225px;
     position: fixed;
     left: 0;
     top: 0;
     height: 100vh;
     background: #010e9b;
+}
+.left-mainsidebar .left_logo_text {
+    color: #fff;
+    display: inline-block;
+    font-size: 18px;
+    padding: 10px 0;
+    text-transform: uppercase;
+    width: 100%;
 }
 
 .left_bar {
@@ -34,7 +42,7 @@
     width: 100%;
 }
 
-.left_logo_text {
+left-mainsidebar.left_logo_text {
     display: inline-block;
     width: 100%;
     padding: 10px 0;
@@ -61,7 +69,7 @@ ul.bar_but_ul,ul.bar_but_ul
 
 ul.bar_but_ul
  li {
-    padding: 20px 0;
+    padding: 5px 0;
 }
 
 button.left_bar_but {
@@ -206,7 +214,7 @@ ul.unedit_ul {
 </style>
 <div ng-controller="profile" ng-init="getteacherdetails();">
 	<div class="whole_container">
-		<div class="left_bar_cont" >
+		<div class="left_bar_cont left-mainsidebar">
 			<div class="left_bar">
 				<div class="left_bar_logo">
 					<div class="left_logo">
@@ -217,30 +225,183 @@ ul.unedit_ul {
 					</div>
 				</div>
 				<div class="left_bar_content">
-					<div class="left_bar_buttons">
+					<div class="left_bar_buttons main-sidebar">
 						<ul class="bar_but_ul"> 
 							<li>
-								<button class="left_bar_but selected" ng-click="changeNav('profile')">Profile</button>
+								<a class="btn color" ng-click="changeNav('profile')"><i class="fa fa-user" aria-hidden="true"></i>Profile</a>
 							</li>
 							<li>
-								<button class="left_bar_but" ng-click="changeNav('ranking')">Ranking</button>
+								<a class="btn color" ng-click="changeNav('ranking')"><i class="fa fa-file-text" aria-hidden="true"></i>Ranking</a>
 							</li>
 							<!-- <li>
 								<button class="left_bar_but" ng-click="changeNav('feedback')">Feedback</button>
 							</li> -->
 							<li>
-								<button class="left_bar_but" ng-click="logout()" >Logout</button>
+								<a class="btn color" ng-click="logout()"><i class="fa fa-power-off" aria-hidden="true"></i>Logout</a>
 							</li>
 						</ul>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="center_container">
-		  <form id="profile" name="profile">
-			<div class="profile_head_cont">
-				<div class="row">
-					<div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
+		<div class="center_container main-content-section">
+		  <form id="profile" name="profile" formnovalidate="formnovalidate" novalidate>
+			<div class="profile_head_cont setting-form-sec">
+			 <h1>Edit Profile</h1>
+			  <div class="row">					
+				  <div class="col-lg-10 col-md-9 col-sm-12 col-xs-12 text-left">
+					<div class="edit_elements_form p-l-0 p-r-0">	  						
+						  <div class="row">
+						    <div class="col-md-12 p-0">
+						    <div class="form_head_text">Personal Details :</div>
+						   </div>
+						  	<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 p-0">						   
+						       <div class="row">
+						      <div class="col-lg-12 col-sm-12 col-xs-12 p-0">
+							   		<label for="name" class="pull-left center_l_label p-0">Name :</label>
+							  </div>
+							  <div class="col-lg-12 col-sm-12 col-xs-12 p-0">
+							  		<input type="text" class="form-control" id="email" placeholder="Enter name" name="name" ng-model="teacherstatus.name" ng-minlength="2" ng-maxlength="30" ng-pattern="/^[a-zA-Z ]*$/" required>
+							  </div>
+						    </div>						  
+						    <div class="col-md-12 p-0 error" ng-messages="profile.name.$error" ng-show="profile.name.$touched">
+							       <div ng-messages-include="js/messages.html"></div>
+							 </div>
+						    </div>
+						    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 p-0">							   
+							   <div class="row">
+							   		<div class="col-lg-12 col-sm-12 col-xs-12 p-r-0">
+							   			<label for="name" class="pull-left center_l_label p-0">Surname :</label>
+							   		</div>
+							   		<div class="col-lg-12 col-sm-12 col-xs-12 p-r-0">
+							   			<input type="text" class="form-control" id="email" placeholder="Enter surname" name="surname"  ng-model="teacherstatus.surname" ng-minlength="2" ng-maxlength="30" ng-pattern="/^[a-zA-Z ]*$/" required>
+							   		</div>
+							   </div>						
+						    <div class="col-md-12 error" ng-messages="profile.surname.$error" ng-show="profile.surname.$touched">
+							       <div ng-messages-include="js/messages.html"></div>
+							 </div>
+						    </div>						    
+						  	<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 p-0">						    
+						    	<div class="row">
+							   		<div class="col-lg-12 col-sm-12 col-xs-12 p-r-0">
+							   			<label for="email" class="pull-left center_l_label p-0">Email :</label>
+							   		</div>
+						      		<div class="col-lg-12 col-sm-12 col-xs-12 p-r-0">
+						      			<input type="email" class="form-control" id="email" ng-model="teacherstatus.email" placeholder="Enter email" name="email" ng-model="teacherstatus.email" ng-pattern="/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,30}$/" required>
+						      		</div>
+						      	</div>						  
+						    <div class="col-md-12 error" ng-messages="profile.email.$error" ng-show="profile.email.$touched">
+							       <div ng-messages-include="js/messages.html"></div>
+							 </div>
+						    </div>
+						    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 p-0">							
+							 	<div class="row">
+							   		<div class="col-lg-12 col-sm-12 col-xs-12 p-r-0">
+							   			<label for="university" class="pull-left center_l_label p-0">University :</label>
+							   		</div>
+						      		<div class="col-lg-12 col-sm-12 col-xs-12 p-r-0">
+						      			<input type="text" class="form-control" id="university" placeholder="Enter university" name="university" ng-model="teacherstatus.university" ng-minlength="2" ng-maxlength="30" ng-pattern="/^[a-zA-Z ]*$/" required>
+						      		</div>
+						      	</div>						  
+						    <div class="col-md-12 error" ng-messages="profile.university.$error" ng-show="profile.university.$touched">
+							       <div ng-messages-include="js/messages.html"></div>
+							 </div>
+						   </div>
+						  </div>
+					     </div>	
+				 <div class="edit_elements_form p-l-0 p-r-0"> 		 				
+				  <div class="row">
+				    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">				
+						<div class="center_l_block p-0">
+						<div class="form_head_text text-left">Professional Details :</div>
+						 <div class="col-lg-4 p-l-0">
+							<div class="center_l_label p-0">
+								Tell the world who you are ?
+							</div>
+							<div class="center_l_txt_cont p-0">
+								<textarea class="form-control center_l_txtarea colored" ng-model="teacherstatus.about" name="about" id="about" 
+								ng-minlength="2" rows="15" ng-maxlength="150" 
+								 required></textarea>
+							</div>
+							 <div class="text-left error" ng-messages="profile.about.$error" ng-show="profile.about.$touched">
+							       <div ng-messages-include="js/messages.html"></div>
+							 </div>
+					     </div>		 
+						 <div class="col-lg-4 p-l-0">
+							<div class="center_l_label p-0">
+								Where do you teach ?
+							</div>
+							<div class="center_l_txt_cont p-0">
+								<textarea class="form-control center_l_txtarea colored" ng-model="teacherstatus.teach_place" id="teach_place" name="teach_place" 
+								ng-minlength="2" rows="15" ng-maxlength="150" 
+								required></textarea>
+							</div>
+							 <div class="text-left error" ng-messages="profile.teach_place.$error" ng-show="profile.teach_place.$touched">
+							       <div ng-messages-include="js/messages.html"></div>
+							 </div>
+						 </div>
+						 <div class="col-lg-4 p-0">	 
+							<div class="center_l_label p-0">
+								Do you work ?
+							</div>
+							<div class="center_l_txt_cont p-0">
+								<textarea class="form-control center_l_txtarea colored" ng-model="teacherstatus.work" id="work" name="work"
+								ng-minlength="2" rows="15" ng-maxlength="150" 
+								 required></textarea>
+							</div>
+							<div class="text-left error" ng-messages="profile.work.$error" ng-show="profile.work.$touched">
+							       <div ng-messages-include="js/messages.html"></div>
+							 </div>
+						 </div>	 							
+						</div>	
+					</div>
+				  </div>	
+				 </div>
+				 <div class="col-lg-12 col-sm-12 col-xs-12 text-right p-0">
+					 <button class="upload_pic_but m-t-10" ng-click="changeNav('profile')">Cancel</button>
+					 <button class="upload_pic_but m-t-10" ng-click="saveChanges()">Save</button>
+				 </div>
+				 <div class="edit_elements_form p-l-0 p-r-0">
+				  <div class="row">	
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
+						<div class="center_r_block p-0">
+							<div class="form_head_text">Change Password :</div>
+							  <div class="row">
+							  <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 p-l-0">
+							    <div class="form-group">
+							      <label for="email" class="center_l_label p-0">Current Password :</label>
+							      <input type="password" class="form-control" id="email" placeholder="Enter current password" name="password" 
+							       ng-model="password.currentPassword" ng-blur="checkCurrentPassword()" ng-required>
+							    </div>
+							    </div>
+							  	<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 p-l-0">
+							    <div class="form-group">
+							      <label for="email" class="center_l_label p-0">New Password :</label>
+							      <input type="password" class="form-control" id="email" placeholder="Enter new password" name="password" 
+							      ng-model="password.password"  ng-required>
+							    </div>
+							    </div>
+							    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 p-0">
+								 <div class="form-group">
+							      <label for="university" class="center_l_label p-0">Confirm New Password :</label>
+							      <input type="password" class="form-control" id="email" placeholder="Re - Enter password" name="confirm" 
+							       ng-model="password.confirm" ng-required>
+							    </div>
+							    </div>
+								<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+								 <div class="form-group">
+								  <label class="center_l_label p-0"></label>
+							      <button class="upload_pic_but btn-success" ng-click="updatePassword()">Change</button>
+							  </div>
+							 </div>
+						    </div>							
+					   	   </div>																
+   					      </div>
+				         </div>
+				        </div>
+						
+				       </div>
+					<div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
 						<div class="pro_pic_upd_cont">
 							<div class="pro_pic_cont">
 							<div class="image_and_select">
@@ -250,177 +411,13 @@ ul.unedit_ul {
 							</div>
 							</div>							
 							<button class="upload_pic_but" ng-click="uploadAvatar()">
-								Upload Photo
+								<i class="fa fa-camera m-r-5"></i>Upload Photo
 							</button>
 						</div>
-					</div>
-					<div class="col-lg-10 col-md-10 col-sm-10 col-xs-9 text-left">
-					<div class="edit_elements_form">	  
-						
-						  <div class="row">
-						  	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-						    <div class="form-group">
-						    <div class="row">
-						      <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 text-right">
-							   		<label for="name">Name </label>
-							  </div>
-							  <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 text-right">
-							  		<input type="text" class="form-control" id="email" placeholder="Enter name" name="name" ng-model="teacherstatus.name" ng-minlength="2" ng-maxlength="30" ng-pattern="/^[a-zA-Z ]*$/" required>
-							  </div>
-						    </div>
-						    </div>
-						    <div ng-messages="profile.name.$error" ng-show="profile.name.$touched">
-							       <div ng-messages-include="js/messages.html"></div>
-							 </div>
-						    </div>
-						    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-							   <div class="form-group">
-							   <div class="row">
-							   		<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 text-right">
-							   			<label for="name">Sur Name </label>
-							   		</div>
-							   		<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 text-right">
-							   			<input type="text" class="form-control" id="email" placeholder="Enter surname" name="surname"  ng-model="teacherstatus.surname" ng-minlength="2" ng-maxlength="30" ng-pattern="/^[a-zA-Z ]*$/" required>
-							   		</div>
-							   </div>
-						      
-						      
-						    </div> 
-						    <div ng-messages="profile.surname.$error" ng-show="profile.surname.$touched">
-							       <div ng-messages-include="js/messages.html"></div>
-							 </div>
-						    </div>
-						    </div>
-						    <div class="row">
-						  	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-						    <div class="form-group">
-						    	<div class="row">
-							   		<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 text-right">
-							   			<label for="email">Email</label>
-							   		</div>
-						      		<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 text-right">
-						      			<input type="email" class="form-control" id="email" ng-model="teacherstatus.email" placeholder="Enter email" name="email" ng-model="teacherstatus.email" ng-pattern="/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,30}$/" required>
-						      		</div>
-						      	</div>
-						    </div>
-						    <div ng-messages="profile.email.$error" ng-show="profile.email.$touched">
-							       <div ng-messages-include="js/messages.html"></div>
-							 </div>
-						    </div>
-						    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-							 <div class="form-group">
-							 	<div class="row">
-							   		<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 text-right">
-							   			<label for="university">University</label>
-							   		</div>
-						      		<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 text-right">
-						      			<input type="text" class="form-control" id="university" placeholder="Enter university" name="university" ng-model="teacherstatus.university" ng-minlength="2" ng-maxlength="30" ng-pattern="/^[a-zA-Z ]*$/" required>
-						      		</div>
-						      	</div>
-						    </div>
-						    <div ng-messages="profile.university.$error" ng-show="profile.university.$touched">
-							       <div ng-messages-include="js/messages.html"></div>
-							 </div>
-						    </div>
-						    </div>
-						    
-
-					</div>
-					</div>
-					
+					</div>					
 				</div>
-			</div> 
-			<div class="profile_body_cont">
-				<div class="row">
-					<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-						<div class="center_r_block">
-							<div class="center_l_label">
-								Update Password
-							</div>
-							  <div class="row">
-							  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-							    <div class="form-group">
-							      <label for="email" class="center_l_label">Current Password</label>
-							      <input type="password" class="form-control" id="email" placeholder="Enter current password" name="password" 
-							       ng-model="password.currentPassword" ng-blur="checkCurrentPassword()" ng-required>
-							    </div>
-							    </div>
-							  	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-							    <div class="form-group">
-							      <label for="email" class="center_l_label">Enter new password</label>
-							      <input type="password" class="form-control" id="email" placeholder="Enter new password" name="password" 
-							      ng-model="password.password"  ng-required>
-							    </div>
-							    </div>
-							    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-								 <div class="form-group">
-							      <label for="university" class="center_l_label">Re - Enter password</label>
-							      <input type="password" class="form-control" id="email" placeholder="Re - Enter password" name="confirm" 
-							       ng-model="password.confirm" ng-required>
-							    </div>
-							    </div>
-						    </div>
-							<div class="row">
-								<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 " style="">
-									<button class="upload_pic_but" ng-click="updatePassword()">
-										update password
-									</button>
-								</div>
-							</div>
-						</div>	
-															
-					</div>
-					<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-						<div class="center_l_block">
-							<div class="center_l_label">
-								Tell the world who you are:
-							</div>
-							<div class="center_l_txt_cont">
-								<textarea class="center_l_txtarea colored" ng-model="teacherstatus.about" name="about" id="about" 
-								ng-minlength="2" ng-maxlength="150" 
-								 required></textarea>
-							</div>
-							 <div ng-messages="profile.about.$error" ng-show="profile.about.$touched">
-							       <div ng-messages-include="js/messages.html"></div>
-							 </div>
-							<div class="center_l_label">
-								Where do you teach?
-							</div>
-							<div class="center_l_txt_cont">
-								<textarea class="center_l_txtarea colored" ng-model="teacherstatus.teach_place" id="teach_place" name="teach_place" 
-								ng-minlength="2" ng-maxlength="150" 
-								required></textarea>
-							</div>
-							 <div ng-messages="profile.teach_place.$error" ng-show="profile.teach_place.$touched">
-							       <div ng-messages-include="js/messages.html"></div>
-							 </div>
-							<div class="center_l_label">
-								Do you work?
-							</div>
-							<div class="center_l_txt_cont">
-								<textarea class="center_l_txtarea colored" ng-model="teacherstatus.work" id="work" name="work"
-								ng-minlength="2" ng-maxlength="150" 
-								 required></textarea>
-							</div>
-							<div ng-messages="profile.work.$error" ng-show="profile.work.$touched">
-							       <div ng-messages-include="js/messages.html"></div>
-							 </div>
-							 <div class="row">
-								<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 " style="">
-									<button class="upload_pic_but" ng-click="saveChanges()">
-										Save  Changes
-									</button>
-								</div>
-							</div>
-							
-						</div>	
-					</div>
-					
-					
-					</div>
-					
-			</div>
-				</form>
+			</div> 			
+  		 </form>
 		</div>
-		</div>
+	  </div>
 	</div>

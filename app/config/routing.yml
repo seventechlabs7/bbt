@@ -8,24 +8,33 @@ fos_user:
 
 home:
     path:     /index
-    defaults: { _controller: AppBundle:University:home }
+    defaults: { _controller: AppBundle:Default:home }
+
+teachersignup:
+    path:     /anon/teacher/signup
+    defaults: { _controller: AppBundle:Default:signupTeacher }
+    methods:  [POST]
+
+teachersignupverify:
+    path:     anon/teacher/verify/{verifyLink}
+    defaults: { _controller: AppBundle:Default:verifySignupteacher}
+    methods:  [GET]
+studentsignupverify:
+    path:     anon/student/verify/{verifyLink}
+    defaults: { _controller: AppBundle:Default:verifySignupStudent}
+    methods:  [GET]
+login:
+    path:     anon/login
+    defaults: { _controller: AppBundle:Login:login}
+    methods:  [POST] 
+emailupdateteacherverify:
+    path:     anon/teacher/emailchange/{verifyLink}
+    defaults: { _controller: AppBundle:Default:emailChangeTeacherVerify}
+    methods:  [GET]
 
 teacherdetails:
     path:     api/getteacherdetails/{tid}
     defaults: { _controller: AppBundle:University:teacherProfile }
-    methods:  [GET]
-
-teachersignup:
-    path:     /api/teacher/signup
-    defaults: { _controller: AppBundle:University:signupTeacher }
-    methods:  [POST]
-teachersignupverify:
-    path:     api/teacher/verify/{verifyLink}
-    defaults: { _controller: AppBundle:University:verifySignupteacher}
-    methods:  [GET]
-studentsignupverify:
-    path:     api/student/verify/{verifyLink}
-    defaults: { _controller: AppBundle:University:verifySignupStudent}
     methods:  [GET]
 
 teacherstatus:
@@ -107,10 +116,6 @@ updatePasswordCheck:
     path:     /api/password/update
     defaults: { _controller: AppBundle:UserOperations:updatePassword }
     methods:  [POST] 
-emailupdateteacherverify:
-    path:     api/teacher/emailchange/{verifyLink}
-    defaults: { _controller: AppBundle:University:emailChangeTeacherVerify}
-    methods:  [GET]
 getchatbyuser:
     path:     api/chat/get
     defaults: { _controller: AppBundle:Ranking:getChat}
@@ -118,10 +123,6 @@ getchatbyuser:
 sendmessage :
     path:     api/chat/send
     defaults: { _controller: AppBundle:Ranking:sendMessage}
-    methods:  [POST] 
-login:
-    path:     auth/login
-    defaults: { _controller: AppBundle:Login:login}
     methods:  [POST] 
 feedbackdata:
     path:     api/feedback/load
