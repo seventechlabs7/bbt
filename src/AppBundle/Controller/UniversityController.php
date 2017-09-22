@@ -11,6 +11,8 @@ use AppBundle\Entity\Product;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use AppBundle\Entity\Group;
+use AppBundle\Entity\League;
+use AppBundle\Entity\GroupLeagues;
 use AppBundle\Entity\GroupEmail;
 use AppBundle\Entity\GroupAsset;
 use AppBundle\Entity\GroupFeedback;
@@ -62,7 +64,8 @@ class UniversityController extends Controller implements  TokenAuthenticatedCont
         }
         else
         	$isGroup =false;
-        $user  = $em->getRepository('AppBundle:UserPurchaseHistory')
+        
+        $user  = $em->getRepository('AppBundle:UserOperations')
                 ->findUserIdByTeacherId($profile['id']);
                 if($user)
         			$profileImageUrl = "/imgs/iconos/".$user['image'];
@@ -79,11 +82,14 @@ class UniversityController extends Controller implements  TokenAuthenticatedCont
     }
 
     public function saveTeacherAction(Request $request,CustomCrypt $crypt,MailerService $mailerService , Utils $utils)
-    {    	    	
+    { 
+     $em = $this->getDoctrine()->getManager();   
+     $em->getConnection()->beginTransaction();
+      try
+      {	    	
 		$teacher = $request->request->get('teacher');		
 		$file = $request->files->get('file');		
-		
-		$em = $this->getDoctrine()->getManager();
+	
 
 		$emails_list = $teacher['mail_list'];
 		$emails = explode(',', $emails_list);		
@@ -136,40 +142,32 @@ class UniversityController extends Controller implements  TokenAuthenticatedCont
 		{
 			$group->setGroup_name('Group'.rand());
 		}
-		$group->setLeague_name($teacher['league_name']);//TODO		
-		$group->setVirtual_money($utils->getNumberFromLocaleString($teacher['virtual_money']));
-		$group->setStart_date($teacher['start_date']);
-		$group->setEnd_date($teacher['end_date']);
-		$group->setCreated_by(1);
+		//$group->setLeague_name($teacher['league_name']);//TODO		
+		//$group->setVirtual_money($utils->getNumberFromLocaleString($teacher['virtual_money']));
+		//$group->setStart_date($teacher['start_date']);
+		//$group->setEnd_date($teacher['end_date']);
+		$group->setCreated_by(1);//TODO
 		//return "hi";
+		$group->setCreated_at(new \DateTime());
+		$group->setUpdated_at(new \DateTime());
 		$em->persist($group);
 	    $em->flush();
-	    //return "hi";
-	   /* $assets = $teacher['assets'];
-	    foreach ($assets as $asset) 
-	    {
-	    	if($asset)
-	    	{
-	    		$GA = new GroupAsset;
-	    		$GA->setGroup_id($group->getId());
-	    		$GA->setAsset_id($asset);
-	    		$em->persist($GA);
-	    		$em->flush();
-	    	}
-	    }
 
-	    $feedbacks = $teacher['feedback'];
-	    foreach ($feedbacks as $feedback) 
-	    {
-	    	if($feedbacks)
-	    	{
-	    		$GF = new GroupFeedback;
-	    		$GF->setGroup_id($group->getId());
-	    		$GF->setFeedback_id($feedback);
-	    		$em->persist($GF);
-	    		$em->flush();
-	    	}	    	
-	    }*/
+	    $league = new League();
+	    $league->setLeagueName($teacher['league_name']);
+	    $league->setStartDate(new \DateTime($teacher['start_date']));
+	    $league->setEndDate(new \DateTime($teacher['end_date']));
+	    $league->setActive(1);
+	    $league->setReset(0);
+	    $em->persist($league);
+	     $em->flush();
+
+	    $groupLeague =  new GroupLeagues();
+	    $groupLeague->setGroupId($group->getId());
+	    $groupLeague->setLeagueId($league->getId());
+	    $groupLeague->setVirtualMoney($utils->getNumberFromLocaleString($teacher['virtual_money']));
+	    $em->persist($groupLeague);
+	    $em->flush();
 
 	    $assets = $teacher['assets'];
 	    foreach ($assets as $asset) 
@@ -179,7 +177,7 @@ class UniversityController extends Controller implements  TokenAuthenticatedCont
 	    		$GA->setGroup_id($group->getId());
 	    		$GA->setAsset_id($asset);
 	    		$em->persist($GA);
-	    		$em->flush();
+	    		 $em->flush();
 	    	
 	    }
 
@@ -191,7 +189,7 @@ class UniversityController extends Controller implements  TokenAuthenticatedCont
 	    		$GF->setGroup_id($group->getId());
 	    		$GF->setFeedback_id($feedback);
 	    		$em->persist($GF);
-	    		$em->flush();
+	    		 $em->flush();
 	    	    	
 	    }
 
@@ -211,73 +209,16 @@ class UniversityController extends Controller implements  TokenAuthenticatedCont
 	    	$em->persist($GM);
 	    	$em->flush();
 	    	$this->sendEmailsToUser($email,$crypt,$mailerService);
+    	
 
+	    }   
+	    $em->getConnection()->commit();
 	    }
-			//path 		
-			/*if($file)
-			{	
-					$absolute_path = getcwd();
-					$fileCo = file_get_contents($file);
-					file_put_contents('temp.xls', $fileCo);
-					$reader = $this->get("arodiss.xls.reader");
-					$path = $absolute_path."/temp.xls";
-					$path = str_replace('/', '//', $path);
-					$content = $reader->readAll($path);
-					
-					 foreach ($content as $c) 
-			    {
-			    	$valid = $this->CheckValidEmail(array_values($c)[0]);
-			    	if(!$valid)
-			    		continue;
-			    	$exists = $this->CheckDupeEmail(array_values($c)[0]);
-					//return $this->json($exists);
-			    	if($exists)
-			    		continue;
-			    	$GM = new GroupEmail;
-			    	$GM->setGroup_id($group->getId());
-			    	$GM->setEmail(array_values($c)[0]);
-			    	$GM->setCreated_by(1);
-			    	$em->persist($GM);
-			    	$em->flush();
-			    	$this->sendEmailsToUser(array_values($c)[0],$crypt,$mailerService);
-			    	//var_dump($content)
-			    	//return $this->json($content);
-			    }
-			    unlink($path);
-		}*/
-		    //return $this->json(($path));
-/*
-			for($i=0;$i<$content;$i++)
+	    catch(Exception $e)
 	    {
-
-	    	$GM = new GroupEmail;
-	    	$GM->setGroup_id($group->getId());
-	    	$GM->setEmail($content[$i]);
-	    	$GM->setCreated_by(1);
-	    	$em->persist($GM);
-	    	$em->flush();
-	    	//var_dump($content)
-	    	return $this->json($content);
-	    }*/
-
-			//return $this->json($content);
-			//$excel = $this->get('os.excel');
-	    	//$excel->loadFile($path);
-			//$rows = $excel->getRowCount();
-			//$data = $excel->getSheetData();
-				//return $this->json(['count'=>$data]);
-			/*for($i=0;$i<$rows;$i++) 			
-			{
-				return $this->json( $excel->getCellData([0], [0]));
-				return $this->json(['count'=>$excel->getRowData([$i])]);
-				$data[] = $excel->getRowData([$i]);
-				$GM = new GroupEmail;
-		    	$GM->setGroup_id($group->getId());
-		    	$GM->setEmail($excel->getCellData([1], ['A']));
-		    	$GM->setCreated_by(1);
-		    	$em->persist($GM);
-		    	$em->flush();
-			}*/	    
+			 $em->getConnection()->rollBack();
+			    throw $e;
+	    } 
 
     	return $this->json(array('status' => 'success','reason' => 'Group Saved Successfully','reaponse' => 200 ,
     							 'invalidArray' =>$invalidArray ,'dupelicateArray'=>$dupelicateArray));
@@ -390,7 +331,7 @@ class UniversityController extends Controller implements  TokenAuthenticatedCont
 		
 
 		$em = $this->getDoctrine()->getManager();
-		$user = $em->getRepository('AppBundle:UserPurchaseHistory')
+		$user = $em->getRepository('AppBundle:UserOperations')
                 ->findUserIdByTeacherId($uId);
 
        $fileName = $fileUploader->upload($file,$user['userId']);

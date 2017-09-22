@@ -301,7 +301,7 @@ class DefaultController extends Controller
     {
             $em = $this->getDoctrine()->getManager();
 
-            $result = $em->getRepository('AppBundle:UserPurchaseHistory')
+            $result = $em->getRepository('AppBundle:UserOperations')
             ->findEmail($email);
 
             if($result)

@@ -22,6 +22,11 @@ class GroupAsset
      */
     private $group_id;
 
+     /**
+     * @ORM\Column(name="`league_id`",type="integer")
+     */
+    private $leagueId;
+
     /**
      * @ORM\Column(name="`asset_id`",type="integer")
      */
@@ -54,5 +59,14 @@ class GroupAsset
 	public function setAsset_id($asset_id){
 		$this->asset_id = $asset_id;
 	}
+
+	public function getLeagueId(){
+		return $this->league_id;
+	}
+
+	public function setLeagueId($leagueId){
+		$this->leagueId = $leagueId;
+	}
+
 
 }

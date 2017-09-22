@@ -12,7 +12,7 @@ use AppBundle\Entity\Likes;
 use AppBundle\Entity\Group;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use AppBundle\Entity\UserPurchaseHistory;
+use AppBundle\Entity\UserOperations;
 use AppBundle\Service\BbtCrypt;
 use AppBundle\Service\Utils;
 use AppBundle\Controller\TokenAuthenticatedController;
@@ -73,7 +73,7 @@ class FeedbackController extends Controller implements TokenAuthenticatedControl
   
  
        $em = $this->getDoctrine()->getManager();
-     $list  = $em->getRepository('AppBundle:UserPurchaseHistory')
+     $list  = $em->getRepository('AppBundle:UserOperations')
                 ->rankingList($TID);
      //get current user id
 
@@ -88,7 +88,7 @@ class FeedbackController extends Controller implements TokenAuthenticatedControl
     $members1 = $tId.'##'.$uId;
     $members2 = $uId.'##'.$tId;
       $em = $this->getDoctrine()->getManager();
-     $list  = $em->getRepository('AppBundle:UserPurchaseHistory')
+     $list  = $em->getRepository('AppBundle:UserOperations')
                 ->getChat($uId,$tId);
 
       $encUID = $bbtCrypt ->encrypt($uId); 
@@ -114,7 +114,7 @@ class FeedbackController extends Controller implements TokenAuthenticatedControl
       $roomExists = false;
 
      $em = $this->getDoctrine()->getManager();
-     $list  = $em->getRepository('AppBundle:UserPurchaseHistory')
+     $list  = $em->getRepository('AppBundle:UserOperations')
                 ->selectUsers($uId,$tId);
 
      $arrAsoc = array();
@@ -135,7 +135,7 @@ class FeedbackController extends Controller implements TokenAuthenticatedControl
             }
         }
 
-         $chats  = $em->getRepository('AppBundle:UserPurchaseHistory')
+         $chats  = $em->getRepository('AppBundle:UserOperations')
                 ->selectChats($room);
 
                      if(count($chats) >= 1){
@@ -153,7 +153,7 @@ class FeedbackController extends Controller implements TokenAuthenticatedControl
             if(!$roomExists)
               {
 
-                 $insertChat  = $em->getRepository('AppBundle:UserPurchaseHistory')
+                 $insertChat  = $em->getRepository('AppBundle:UserOperations')
                 ->insertChat($room,$newmessage);
                 
                 $remove = [$encuserid, $cssfrom];
@@ -171,7 +171,7 @@ class FeedbackController extends Controller implements TokenAuthenticatedControl
                 $precleanMessage = str_replace($preremove, $prereplace, $chats[0]["messages"]);
                 
 
-                  $updatechat  = $em->getRepository('AppBundle:UserPurchaseHistory')
+                  $updatechat  = $em->getRepository('AppBundle:UserOperations')
                 ->updateChat($room,$precleanMessage);
 
             }

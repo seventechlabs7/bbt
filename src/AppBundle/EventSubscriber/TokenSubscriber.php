@@ -75,7 +75,7 @@ class TokenSubscriber implements EventSubscriberInterface
 }
 
          //$data = $this->jwtEncoder->decode($token);
-        $user = $this->em->getRepository('AppBundle:UserPurchaseHistory')
+        $user = $this->em->getRepository('AppBundle:UserOperations')
             ->authenticate($data['username']);
 
             if(!$user)

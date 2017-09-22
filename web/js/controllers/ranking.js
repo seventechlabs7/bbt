@@ -45,7 +45,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				var data = success.data;
 				if(data.status == "success")
 				{
-					$scope.groupData =data.groupData[0];
+					$scope.groupData =data.groupData;
 					$scope.currentGroupId = $scope.groupData.id;
 					$scope.groups = data.groups;
 					

@@ -4,10 +4,10 @@ namespace AppBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class UserPurchaseRepository extends EntityRepository
+class UserOperationsRepository extends EntityRepository
 {
 	 /**
-     * @return UserPurchaseHistory[]
+     * @return UserOperations[]
      */
     public function findAllOperationsOfConnectedUsers($tid)
     {
@@ -419,6 +419,116 @@ class UserPurchaseRepository extends EntityRepository
                 $stmt = $conn->prepare($sql);
                 $stmt->execute(array('tId' => $tId));
                 $final = $stmt->fetch();   
+               // var_dump($final);die;         
+                return ($final);
+    }
+
+     public function findRankingDataBygroupId($gId)
+    {
+        $sql1 = 
+                '
+                   SELECT g.id, g.group_name, 
+                          l.fecha_inicio as start_date,l.fecha_fin as end_date
+                    from groups as g ,ligas as l  ,group_leagues as gl 
+                    where g.id = :gId and  gl.group_id = g.id and gl.league_id = l.id 
+                ';
+
+                $conn = $this->getEntityManager()
+                ->getConnection();
+                $sql = $sql1;
+                $stmt = $conn->prepare($sql);
+                $stmt->execute(array('gId' => $gId));
+                $final = $stmt->fetch();   
+               // var_dump($final);die;         
+                return ($final);
+    }
+
+
+    public function getLeagueData($gId)
+    {
+       $sql1 = 
+                '
+                  SELECT g.id, g.group_name, 
+                          l.fecha_inicio as start_date,l.fecha_fin as end_date
+                    from groups as g ,ligas as l  ,group_leagues as gl 
+                    where g.id = :gId and  gl.group_id = g.id and gl.league_id = l.id 
+                ';
+
+                $conn = $this->getEntityManager()
+                ->getConnection();
+                $sql = $sql1;
+                $stmt = $conn->prepare($sql);
+                $stmt->execute(array('gId' => $gId));
+                $final = $stmt->fetch();   
+               // var_dump($final);die;         
+                return ($final);
+    }
+
+     public function getLeagueDataMain($gId)
+    {
+       $sql1 = 
+                '
+                  SELECT  
+                          g.id, g.group_name, 
+                          l.nom_liga as league_name , l.fecha_inicio as start_date,l.fecha_fin as end_date, 
+                          gl.virtual_money 
+                  FROM 
+                          groups as g ,ligas as l  ,group_leagues as gl 
+                  WHERE 
+                          g.id = :gId and  gl.group_id = g.id and gl.league_id = l.id 
+                ';
+
+                $conn = $this->getEntityManager()
+                ->getConnection();
+                $sql = $sql1;
+                $stmt = $conn->prepare($sql);
+                $stmt->execute(array('gId' => $gId));
+                $final = $stmt->fetch();   
+               // var_dump($final);die;         
+                return ($final);
+    }
+
+
+      public function getLeagueAssets($gId)
+    {
+       $sql1 = 
+                '
+                  SELECT 
+                        ga.asset_id 
+                  FROM 
+                        group_assets as ga ,groups as g , group_leagues as gl
+                  WHERE 
+                       ga.group_id =g.id and g.id = :gId and gl.group_id = g.id
+                ';
+
+                $conn = $this->getEntityManager()
+                ->getConnection();
+                $sql = $sql1;
+                $stmt = $conn->prepare($sql);
+                $stmt->execute(array('gId' => $gId));
+                $final = $stmt->fetchAll();   
+               // var_dump($final);die;         
+                return ($final);
+    }
+
+     public function getLeagueFeedback($gId)
+    {
+       $sql1 = 
+                '
+                  SELECT 
+                      gf.feedback_id 
+                  FROM 
+                      group_feedback as gf ,groups as g , group_leagues as gl 
+                  WHERE
+                      gf.group_id =g.id and g.id = :gId and gl.group_id = g.id
+                ';
+
+                $conn = $this->getEntityManager()
+                ->getConnection();
+                $sql = $sql1;
+                $stmt = $conn->prepare($sql);
+                $stmt->execute(array('gId' => $gId));
+                $final = $stmt->fetchAll();   
                // var_dump($final);die;         
                 return ($final);
     }

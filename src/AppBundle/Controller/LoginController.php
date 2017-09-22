@@ -29,7 +29,7 @@ class LoginController extends Controller
         $pwencoded = $encoder->encodePassword($password, '');
 
           $em = $this->getDoctrine()->getManager();
-            $user = $em->getRepository('AppBundle:UserPurchaseHistory')
+            $user = $em->getRepository('AppBundle:UserOperations')
             ->authenticate($userName);
         //return new JsonResponse($result);
         if (!$user) {
@@ -60,7 +60,7 @@ class LoginController extends Controller
            // throw new BadCredentialsException();
             return new JsonResponse(array('status' => 'failure','reason' => 'Invalid Credentials','response' => 404));
         }
-    $user1 = $em->getRepository('AppBundle:UserPurchaseHistory')
+    $user1 = $em->getRepository('AppBundle:UserOperations')
             ->getTeacherId($userName);
     $token = $this->getToken($userName);
              // session_start(); 
