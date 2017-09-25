@@ -81,7 +81,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
 
             //method 2
 
-            /*$user = $this->em->getRepository('AppBundle:UserPurchaseHistory')
+            /*$user = $this->em->getRepository('AppBundle:UserOperations')
             ->authenticate($username);
             var_dump($user);
             $u = new User();

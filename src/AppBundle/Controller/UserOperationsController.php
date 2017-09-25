@@ -14,7 +14,7 @@ use AppBundle\Entity\Group;
 use AppBundle\Entity\GroupEmail;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use AppBundle\Entity\UserPurchaseHistory;
+use AppBundle\Entity\UserOperations;
 use AppBundle\Service\MailerService;
 use AppBundle\Service\CustomCrypt;
 use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
@@ -22,20 +22,20 @@ use AppBundle\Entity\GroupAsset;
 use AppBundle\Entity\GroupFeedback;
 use AppBundle\Service\Utils;
 
-class UserOperationsController extends Controller
+class UserOperationsController extends Controller implements TokenAuthenticatedController
 {
 
 	public function getUserOperationsAction(Request $request ,$tid)
 	{
 
 			 $em = $this->getDoctrine()->getManager();
-			$result = $em->getRepository('AppBundle:UserPurchaseHistory')
+			$result = $em->getRepository('AppBundle:UserOperations')
             ->findAllOperationsOfConnectedUsers($tid);
             
             $final = [];
             foreach ($result as $re) {
 
-			  $likes =    $em->getRepository('AppBundle:UserPurchaseHistory')
+			  $likes =    $em->getRepository('AppBundle:UserOperations')
            		 ->findUserLikes($re);
            		 $users = [];
 
@@ -56,7 +56,7 @@ class UserOperationsController extends Controller
                   }
                 }
 
-			 $comments =    $em->getRepository('AppBundle:UserPurchaseHistory')
+			 $comments =    $em->getRepository('AppBundle:UserOperations')
            		 ->findUserComments($re);
            		 // return new JsonResponse($comments);
            		 $usersComments = [];
@@ -119,7 +119,7 @@ class UserOperationsController extends Controller
     if($TD)
     {
        $em = $this->getDoctrine()->getManager();
-     $user_id  = $em->getRepository('AppBundle:UserPurchaseHistory')
+     $user_id  = $em->getRepository('AppBundle:UserOperations')
                 ->findEmail($TD->getEmail());
        if($user_id)
        {
@@ -254,7 +254,7 @@ class UserOperationsController extends Controller
 	public function getUserNames($id)
 	{
 		$em = $this->getDoctrine()->getManager();
-		return    $em->getRepository('AppBundle:UserPurchaseHistory')
+		return    $em->getRepository('AppBundle:UserOperations')
            		 	->findUserNames($id);
 	}
 
@@ -266,7 +266,7 @@ class UserOperationsController extends Controller
      $teacherId = $reqData['uId'];
      $em = $this->getDoctrine()->getManager();
 
-     $user = $em->getRepository('AppBundle:UserPurchaseHistory')
+     $user = $em->getRepository('AppBundle:UserOperations')
                 ->findEmailById($studentId);
     // return new JsonResponse($user['email']);
      $TD = $em->getRepository('AppBundle:GroupEmail')->findOneByEmail($user['email']);                
@@ -274,12 +274,12 @@ class UserOperationsController extends Controller
      {
        $em->remove($TD);
        $em->flush();
-       return new JsonResponse(array('status' => 'success','reason' => 'Student removed from group successfully','reaponse' => 200));
+       return new JsonResponse(array('status' => 'success','reason' => 'Student removed from group successfully','response' => 200));
 
      }
      else
      {
-       return new JsonResponse(array('status' => 'failure','reason' => 'Student not removed from group ! please try again','reaponse' => 200));
+       return new JsonResponse(array('status' => 'failure','reason' => 'Student not removed from group ! please try again','response' => 200));
      }
   }
 
@@ -344,7 +344,7 @@ class UserOperationsController extends Controller
           unlink($path);
     }
 
-       return new JsonResponse(array('status' => 'success','reason' => 'success','reaponse' => 200));
+       return new JsonResponse(array('status' => 'success','reason' => 'success','response' => 200));
   }
 
       public function CheckDupeEmail($email)
@@ -413,55 +413,67 @@ class UserOperationsController extends Controller
   {
     $league = $request->request->all();
     $gId = $league['gId'];
+
     $em = $this->getDoctrine()->getManager();
 
+       /* $query = $em->createQuery(
+        'SELECT g.id,g.league_name,g.start_date,g.end_date ,g.virtual_money ,g.assets 
+        FROM AppBundle:Group g
+        WHERE g.id = :id
+        '
+        )->setParameter('id',$gId);
+        $products = $query->setMaxResults(1)->getOneOrNullResult();*/
 
-    $query = $em->createQuery(
-    'SELECT g.id,g.league_name,g.start_date,g.end_date ,g.virtual_money ,g.assets 
-    FROM AppBundle:Group g
-    WHERE g.id = :id
-    '
-)->setParameter('id',$gId);
-$products = $query->setMaxResults(1)->getOneOrNullResult();
+      
 
-    $query1 = $em->createQuery(
-    'SELECT ga.asset_id  
-  
-    FROM AppBundle:Group g , AppBundle:GroupAsset as ga
-    where ga.group_id = g.id 
-    and g.id = :id
-    '
-)->setParameter('id',$gId);
-$assets = $query1->getResult();
+/*        $query1 = $em->createQuery(
+        'SELECT ga.asset_id  
 
-/*feedback*/
+        FROM AppBundle:Group g , AppBundle:GroupAsset as ga
+        where ga.group_id = g.id 
+        and g.id = :id
+        '
+        )->setParameter('id',$gId);
+        $assets = $query1->getResult();
+    */
+        /*feedback*/
 
- $query2 = $em->createQuery(
-    'SELECT gf.feedback_id  
-  
-    FROM AppBundle:Group g , AppBundle:GroupFeedback as gf
-    where gf.group_id = g.id 
-    and g.id = :id
-    '
-)->setParameter('id',$gId);
-$feedbacks = $query2->getResult();
+       /* $query2 = $em->createQuery(
+        'SELECT gf.feedback_id  
 
-$as = [];
-foreach($assets as $i => $item) {
-     
-    $as[$i] = $item['asset_id'];
-     // $array[$i] is same as $item
-}
+        FROM AppBundle:Group g , AppBundle:GroupFeedback as gf
+        where gf.group_id = g.id 
+        and g.id = :id
+        '
+        )->setParameter('id',$gId);
+        $feedbacks = $query2->getResult();*/
 
-$fb = [];
-foreach($feedbacks as $i => $item) {
-     
-    $fb[$i] = $item['feedback_id'];
-     // $array[$i] is same as $item
-}
+        $league = $em->getRepository('AppBundle:UserOperations')
+                ->getLeagueDataMain($gId);
+
+        $assets = $em->getRepository('AppBundle:UserOperations')
+                ->getLeagueAssets($gId);
+
+        $feedbacks = $em->getRepository('AppBundle:UserOperations')
+                ->getLeagueFeedback($gId);
+
+
+        $as = [];
+        foreach($assets as $i => $item) {
+
+        $as[$i] = $item['asset_id'];
+        // $array[$i] is same as $item
+        }
+
+        $fb = [];
+        foreach($feedbacks as $i => $item) {
+
+        $fb[$i] = $item['feedback_id'];
+        // $array[$i] is same as $item
+        }
 //return new JsonResponse($as);
 //$products = $query->getResult();
- return new JsonResponse(array('league'=>$products,'assets'=>implode(',', ($as)) ,'feedback'=>implode(',', ($fb)) ));
+ return new JsonResponse(array('league'=>$league,'assets'=>implode(',', ($as)) ,'feedback'=>implode(',', ($fb)) ));
 
     $leagueData = new Group();
     $res = $em->getRepository('AppBundle:Group')->findOneById($gId);
@@ -483,77 +495,101 @@ foreach($feedbacks as $i => $item) {
 
   public function updateLeagueAction(Request $request ,Utils $utils)
   {
+     $em = $this->getDoctrine()->getManager();   
+     $em->getConnection()->beginTransaction();
+    try
+    {
     $requestData  =  $request->request->all();
     $requestData = $requestData['data'];
-   
-    $em = $this->getDoctrine()->getManager();
-    $TD =  $em->getRepository('AppBundle:Group')->find($requestData['gId']);
-
-    //return new JsonResponse($utils->getNumberFromLocaleString($requestData['virtual_money']));
-
-      $RAW_QUERY1 = "
-          DELETE FROM `group_assets` WHERE `group_assets`.`group_id` = :gId
-      ";
-
-      $stmt =$em->getConnection()->prepare($RAW_QUERY1);
-      $stmt->execute(array('gId'=>$requestData['gId']));
-
-
-    if($TD)
+  
+    $G =  $em->getRepository('AppBundle:Group')->find($requestData['gId']);
+    if($G)
     {
-       $TD->setStart_date($requestData['start_date']);
-       $TD->setEnd_date($requestData['end_date']);
-       $TD->setVirtual_money($utils->getNumberFromLocaleString($requestData['virtual_money']));
-       $TD->setLeague_name($requestData['league_name']);
-       $TD->setAssets("1");
-       $em->flush($TD);
 
-        $assets = $requestData['assets'];
-      foreach ($assets as $asset) 
+      $GL = $em->getRepository('AppBundle:GroupLeagues')->findOneBy(array('groupId' => $requestData['gId']));
+      if($GL)
       {
-        
-          $GA = new GroupAsset;
-          $GA->setGroup_id($TD->getId());
-          $GA->setAsset_id($asset);
-          $em->persist($GA);
-          $em->flush();
-        
-      }
+      //  return ($GL->getLeagueId());
+        $RAW_QUERY1 = "
+            DELETE FROM `group_assets` WHERE `group_assets`.`group_id` = :gId and `group_assets`.`league_id` =:lId
+        ";
 
-       return new JsonResponse(array('status' => 'success','reason' => 'updated successfully','reaponse' => 200));
-    }
-     return new JsonResponse(array('status' => 'failure','reason' => 'something went wrong','reaponse' => 200));
+        $stmt =$em->getConnection()->prepare($RAW_QUERY1);
+        $stmt->execute(array('gId'=>$requestData['gId'],'lId'=>$GL->getLeagueId()));
+
+         $L = $em->getRepository('AppBundle:League')->find($GL->getLeagueId());
+         if($L)
+         {
+              $L->setStartDate(new \DateTime($requestData['start_date']));
+              $L->setEndDate(new \DateTime($requestData['end_date']));
+              $GL->setVirtualMoney($utils->getNumberFromLocaleString($requestData['virtual_money']));
+              $L->setLeagueName($requestData['league_name']);
+             
+              $em->flush($G);
+
+              $assets = $requestData['assets'];
+              foreach ($assets as $asset) 
+              {
+
+              $GA = new GroupAsset;
+              $GA->setGroup_id($G->getId());
+              if($asset != "1" && $asset !=1)
+                $GA->setAsset_id(0);
+              else
+                $GA->setAsset_id($asset);
+              $GA->setLeagueId($L->getId());
+              $em->persist($GA);
+              $em->flush();
+            
+              }
+                $em->getConnection()->commit();
+           return new JsonResponse(array('status' => 'success','reason' => 'updated successfully','response' => 200));
+          }
+        }
+  }
+    
+      }
+      catch(Exception $e)
+      {
+       $em->getConnection()->rollBack();
+          return new JsonResponse(array('status' => 'failure','reason' => 'something went wrong','response' => 200));
+      } 
+
+    
 
   }
 
     public function updateFeedbackAction(Request $request)
   {
+
+     $em = $this->getDoctrine()->getManager();   
+     $em->getConnection()->beginTransaction();
+    try
+    {
     $requestData  =  $request->request->all();
     $requestData = $requestData['data'];
-   
-    $em = $this->getDoctrine()->getManager();
+
     $TD =  $em->getRepository('AppBundle:Group')->find($requestData['gId']);
 
 
     $feedbacks = $requestData['feedback'];
     if(count($feedbacks) == 0)
-        return new JsonResponse(array('status' => 'failure','reason' => 'Select atleast one feedback','reaponse' => 200));
-      $RAW_QUERY1 = "
-          DELETE FROM `group_feedback` WHERE `group_feedback`.`group_id` = :gId
-      ";
-
-      $stmt =$em->getConnection()->prepare($RAW_QUERY1);
-      $stmt->execute(array('gId'=>$requestData['gId']));
+        return new JsonResponse(array('status' => 'failure','reason' => 'Select atleast one feedback','response' => 200));
+    
 
 
     if($TD)
     {
-       /*$TD->setStart_date($requestData['start_date']);
-       $TD->setEnd_date($requestData['end_date']);
-       $TD->setVirtual_money($requestData['virtual_money']);
-       $TD->setLeague_name($requestData['league_name']);
-       $TD->setAssets("1");
-       $em->flush($TD);*/
+       $GL = $em->getRepository('AppBundle:GroupLeagues')->findOneBy(array('groupId' => $requestData['gId']));
+      if($GL)
+      {
+       
+         $RAW_QUERY1 = "
+          DELETE FROM `group_feedback` WHERE `group_feedback`.`group_id` = :gId and `group_feedback`.`league_id` =:lId
+      ";
+
+      $stmt =$em->getConnection()->prepare($RAW_QUERY1);
+      $stmt->execute(array('gId'=>$requestData['gId'],'lId'=>$GL->getLeagueId()));
 
         
 
@@ -562,15 +598,25 @@ foreach($feedbacks as $i => $item) {
         
           $GF = new GroupFeedback;
           $GF->setGroup_id($TD->getId());
-          $GF->setFeedback_id($feedback);
+          if($feedback != "1" && $feedback !=1)
+                $GF->setFeedback_id(0);
+          else
+            $GF->setFeedback_id($feedback);
+          $GF->setLeagueId($GL->getleagueId());
           $em->persist($GF);
           $em->flush();
         
       }
-
-       return new JsonResponse(array('status' => 'success','reason' => 'updated successfully','reaponse' => 200));
     }
-     return new JsonResponse(array('status' => 'failure','reason' => 'something went wrong','reaponse' => 200));
+       $em->getConnection()->commit();
+       return new JsonResponse(array('status' => 'success','reason' => 'updated successfully','response' => 200));
+    }
+   }
+      catch(Exception $e)
+      {
+       $em->getConnection()->rollBack();
+          return new JsonResponse(array('status' => 'failure','reason' => 'something went wrong','response' => 200));
+      } 
 
   }
 
@@ -586,7 +632,7 @@ foreach($feedbacks as $i => $item) {
     {
       $em = $this->getDoctrine()->getManager();
 
-      $user = $em->getRepository('AppBundle:UserPurchaseHistory')
+      $user = $em->getRepository('AppBundle:UserOperations')
                   ->findEmail($TD->getEmail()); // TODO from session
 
          $encoder = new MessageDigestPasswordEncoder();
@@ -598,7 +644,7 @@ foreach($feedbacks as $i => $item) {
            return new JsonResponse(array('status' => 'success','response' => 200));
         }  
         else
-           return new JsonResponse(array('status' => 'failure','reason' => 'Incorrect current password','reaponse' => 200));    
+           return new JsonResponse(array('status' => 'failure','reason' => 'Incorrect current password','response' => 200));    
       return new JsonResponse($pwEN);
     }
     
@@ -617,7 +663,7 @@ foreach($feedbacks as $i => $item) {
     {
       $em = $this->getDoctrine()->getManager();
 
-      $user = $em->getRepository('AppBundle:UserPurchaseHistory')
+      $user = $em->getRepository('AppBundle:UserOperations')
                   ->findEmail($TD->getEmail()); // TODO from session
 
      $encoder = new MessageDigestPasswordEncoder();
@@ -629,17 +675,17 @@ foreach($feedbacks as $i => $item) {
         {
             if($password['password'] != $user['password'])
             {
-                 $passwordupdate = $em->getRepository('AppBundle:UserPurchaseHistory')
+                 $passwordupdate = $em->getRepository('AppBundle:UserOperations')
                   ->updatePassword($TD->getEmail(),$encPassword); 
             }
             else
             {
-               return new JsonResponse(array('status' => 'failure','reason' => 'New password should not be same as current password','reaponse' => 200));  
+               return new JsonResponse(array('status' => 'failure','reason' => 'New password should not be same as current password','response' => 200));  
             }
         }  
         else
-           return new JsonResponse(array('status' => 'failure','reason' => 'incorrect current password','reaponse' => 200));    
-      return new JsonResponse(array('status' => 'success','reason' => 'Password updated successfully','reaponse' => 200)); 
+           return new JsonResponse(array('status' => 'failure','reason' => 'incorrect current password','response' => 200));    
+      return new JsonResponse(array('status' => 'success','reason' => 'Password updated successfully','response' => 200)); 
     }
   }
 

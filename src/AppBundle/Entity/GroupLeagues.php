@@ -6,9 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="group_assets")
+ * @ORM\Table(name="group_leagues")
  */
-class GroupAsset
+class GroupLeagues
 {
 	/**
      * @ORM\Column(type="integer")
@@ -20,18 +20,17 @@ class GroupAsset
     /**
      * @ORM\Column(name="`group_id`",type="integer")
      */
-    private $group_id;
+    private $groupId;
 
-     /**
+    /**
      * @ORM\Column(name="`league_id`",type="integer")
      */
     private $leagueId;
 
-    /**
-     * @ORM\Column(name="`asset_id`",type="integer")
+     /**
+     * @ORM\Column(name="`virtual_money`",type="string")
      */
-    private $asset_id;
-
+    private $virtualMoney;
     
 
 
@@ -44,29 +43,28 @@ class GroupAsset
 		$this->id = $id;
 	}	
 
-		public function getGroup_id(){
-		return $this->group_id;
+		public function getGroupId(){
+		return $this->groupId;
 	}
 
-	public function setGroup_id($group_id){
-		$this->group_id = $group_id;
-	}
-
-	public function getAsset_id(){
-		return $this->asset_id;
-	}
-
-	public function setAsset_id($asset_id){
-		$this->asset_id = $asset_id;
+	public function setGroupId($groupId){
+		$this->groupId = $groupId;
 	}
 
 	public function getLeagueId(){
-		return $this->league_id;
+		return $this->leagueId;
 	}
 
 	public function setLeagueId($leagueId){
 		$this->leagueId = $leagueId;
 	}
 
+	public function getVirtualMoney(){
+		return $this->virtualMoney;
+	}
+
+	public function setVirtualMoney($virtualMoney){
+		$this->virtualMoney = $virtualMoney;
+	}
 
 }

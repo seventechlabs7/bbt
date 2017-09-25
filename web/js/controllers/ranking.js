@@ -45,10 +45,45 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				var data = success.data;
 				if(data.status == "success")
 				{
-					$scope.groupData =data.groupData[0];
-					$scope.currentGroupId = $scope.groupData.id;
-					$scope.groups = data.groups;
+					$scope.groupData =data.groupData;
+					$scope.feedbackData = data.feedback;
 					
+					$scope.groups = data.groups;
+					$scope.currentGroupId = parseInt($scope.groupData.id);
+					if($scope.groups.length < 1)
+					{
+						$scope.teacher.start_date = new Date();
+			   			$scope.teacher.start_date = $filter('date')($scope.teacher.start_date, 'dd/MM/yyyy');
+			   			$scope.teacher.virtual_money = "25000.00";
+			   			$scope.teacher.assets = [0,0,0];
+						$scope.teacher.feedback = [0,0,0,0];
+						$('#addStudent').modal('show');
+						$scope.shiftTab(1);
+					}
+					else if($scope.groups.length >0 && !$scope.groupData)
+					{
+						$scope.savedGroup = data.groups[0].id;
+						$scope.teacher.start_date = new Date();
+			   			$scope.teacher.start_date = $filter('date')($scope.teacher.start_date, 'dd/MM/yyyy');
+			   			$scope.teacher.virtual_money = "25000.00";
+			   			$scope.teacher.assets = [0,0,0];
+						$scope.teacher.feedback = [0,0,0,0];
+						$('#addStudent').modal('show');
+						$('.step_head_li').removeClass('active');
+				    	$('#step_head_'+2).addClass('active');
+				    	$('.step_body_li').removeClass('active');
+				    	$('#step_body_'+2).addClass('active'); 
+					}
+					else if($scope.feedbackData.length ==0)
+					{
+						$scope.savedGroup = data.groups[0].id;
+						$scope.teacher.feedback = [0,0,0,0];
+						$('#addStudent').modal('show');
+						$('.step_head_li').removeClass('active');
+				    	$('#step_head_'+3).addClass('active');
+				    	$('.step_body_li').removeClass('active');
+				    	$('#step_body_'+3).addClass('active'); 
+					}
 					$scope.groupData.start_date =   $filter('date')($scope.groupData.start_date, 'dd/MM/yyyy');
 					$scope.groupData.end_date =   $filter('date')($scope.groupData.end_date, 'dd/MM/yyyy');
 					var deadline = new Date($scope.groupData.end_date);
@@ -992,9 +1027,254 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
          		return 'warning';
          	if(a < 0)
          		return 'danger';
-         }       
+         } 
 
 
+           $scope.shiftTab = function(index)
+        {
+        	notify.closeAll();
+        	if(index == 2)
+        	{
+
+				var list =[];
+				if($scope.teacher.mail_list)
+				{
+					list = $scope.teacher.mail_list.split(',');
+					var emailregex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;;
+		      		notify.closeAll();
+					for (var i = 0; i < list.length; i++) 
+					{
+						if(list[i] == null)
+						{
+							notify({
+								message:'Should be Seperated by single comma',
+								classes:'alert-danger',
+								duration:2000
+							});
+							return;
+						}
+						if(!emailregex.test(list[i]))
+						{
+							notify({
+								message:'Invalid Mail Id',
+								classes:'alert-danger',
+								duration:2000
+							});
+						return;
+
+						}
+					}
+				}	
+				else
+					$scope.teacher.mail_list = "";
+				if(list.length == 0 && !$scope.file)
+				{
+					notify({
+						message:'Enter valid comma sepearated emails or upload a email list file',
+						classes:'alert-danger',
+						duration:4000
+					});
+					return;
+				}
+				$scope.currentStep = 1;
+				$scope.start(index);
+				return;
+        	}
+        	if(index == 3)
+        	{
+        	 if(!$scope.teacher.start_date)
+			{				
+				notify({
+					message:'Fill Start Date',
+					classes:'alert-danger',
+					duration:2000
+				});
+				return;
+			}
+			if(!$scope.teacher.end_date)
+			{				
+				notify({
+					message:'Fill End Date',
+					classes:'alert-danger',
+					duration:2000
+				});
+				return;
+			}
+			console.log($scope.teacher.assets)
+			$scope.assetsCheck = false;
+			if(!$scope.teacher.assets)
+				$scope.teacher.assets = [];
+			console.log($scope.teacher.assets);
+			for (var i = 0; i < $scope.teacher.assets.length; i++) {
+				var a = $scope.teacher.assets[i];
+				console.log(a)
+				if(a =="1" || a == 1)
+					{
+						$scope.assetsCheck = true;
+						break;
+					}
+
+			}
+			console.log($scope.teacher.assets)
+		
+			if(!$scope.assetsCheck)
+			{				
+				notify({
+					message:'Select Assets',
+					classes:'alert-danger',
+					duration:2000
+				});
+				return;
+			}
+			if(!$scope.teacher.league_name)
+			{				
+				notify({
+					message:'Enter League Name',
+					classes:'alert-danger',
+					duration:2000
+				});
+				return;
+			}
+			if(!$scope.teacher.virtual_money)
+			{				
+				notify({
+					message:'Enter Virtual Money',
+					classes:'alert-danger',
+					duration:2000
+				});
+				return;
+			}
+			$scope.currentStep =2;
+			 $scope.start(index);
+			 return;
+        	}
+        	if(index == 4)
+        {
+        	$scope.feedbackCheck = false;
+			if(!$scope.teacher.feedback)
+				$scope.teacher.feedback = [];
+			for (var i = 0; i < $scope.teacher.feedback.length; i++) {
+				var a = $scope.teacher.feedback[i];
+				if(a == "1")
+					{
+						$scope.feedbackCheck = true;
+						break;
+					}
+
+			}
+			if(!$scope.feedbackCheck)
+			{				
+				notify({
+					message:'Select Feedback',
+					classes:'alert-danger',
+					duration:2000
+				});
+				return;
+			}
+        	$scope.currentStep =3;
+        	$scope.start(index);
+        	return;
+        }
+		$('.step_head_li').removeClass('active');
+    	$('#step_head_'+index).addClass('active');
+    	$('.step_body_li').removeClass('active');
+    	$('#step_body_'+index).addClass('active');    	
+
+						
+        }      
+
+        	$scope.start = function(index)
+		{
+			$scope.teacher.save_step = $scope.currentStep;
+			$scope.teacher.id = $stateParams.teacher_id; 
+
+			console.log($scope.teacher)
+			if($scope.currentStep ==2)
+			{
+			if($scope.teacher.start_date != undefined && $scope.teacher.start_date != null)
+				{
+					 $scope.teacher.start_date = new Date($scope.teacher.start_date.split("/").reverse().join("-"));
+			
+					$scope.teacher.start_date = $filter('date')($scope.teacher.start_date, 'yyyy-MM-dd');
+				}
+			if($scope.teacher.end_date != undefined && $scope.teacher.end_date != null)
+				{
+					 $scope.teacher.end_date = new Date($scope.teacher.end_date.split("/").reverse().join("-"));
+					$scope.teacher.end_date = $filter('date')($scope.teacher.end_date, 'yyyy-MM-dd');
+				}
+			}
+			console.log($scope.teacher)
+
+			Upload.upload({
+				method: 'POST',				
+				url: 'api/saveteacher',
+				data:{
+
+					file: $scope.file,
+					teacher :$scope.teacher,
+					groupId : $scope.savedGroup,
+				}
+			})
+			.then(function(success){
+				console.log(success);
+				$scope.response = success.data;
+				if(success.data.status == 'success')
+				{
+					$scope.savedGroup = success.data.group;
+					$('.step_head_li').removeClass('active');
+			    	$('#step_head_'+index).addClass('active');
+			    	$('.step_body_li').removeClass('active');
+			    	$('#step_body_'+index).addClass('active'); 
+				    
+				}				
+			},function(error){
+
+			})
+		}
+
+		$scope.checkTime = function(index)
+		{			
+			notify.closeAll();
+			$scope.pastDateCheck();
+			var from = new Date($scope.teacher.start_date.split("/").reverse().join("-"));
+			var to = new Date($scope.teacher.end_date.split("/").reverse().join("-"));
+			/*if($scope.teacher.start_date != undefined && $scope.teacher.start_date != null)
+				var from = $scope.teacher.start_date;
+			if($scope.teacher.end_date != undefined && $scope.teacher.end_date != null)
+		      	var to = $scope.teacher.end_date;*/
+		      var timeDiff = Math.abs(to.getTime() - from.getTime());
+		      var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));  
+		      if(to.getTime() < from.getTime())
+		      {
+		      	notify({
+		      		message: 'Invalid End Date',
+		      		classes: 'alert-danger',
+		      		duration: 2000
+		      	});
+		      	$scope.teacher.end_date = null;
+		      	return;
+		      }
+		}
+		$scope.pastDateCheck = function()
+	    {
+	    	notify.closeAll();
+	    	if($scope.teacher.start_date)
+	    	{
+	    		var date = new Date($scope.teacher.start_date.split("/").reverse().join("-"));
+	    		//var date = new Date($scope.teacher.start_date)	    		
+	    		if(date.setHours(0,0,0,0) < new Date().setHours(0,0,0,0))
+	    		{
+	    			$scope.teacher.start_date = undefined;
+	    			notify({
+							message:'Past Dates Not Allowed',
+							classes:'alert-danger',
+							duration:3000
+						});
+						return;	
+	    			
+	    		}
+	    	}
+	    }
 			$scope.logout = function()
 		
 		{

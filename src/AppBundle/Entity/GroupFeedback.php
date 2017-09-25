@@ -27,7 +27,10 @@ class GroupFeedback
      */
     private $feedback_id;
 
-    
+     /**
+     * @ORM\Column(name="`league_id`",type="integer")
+     */
+    private $leagueId;
 
 
     public function getId()
@@ -103,5 +106,13 @@ class GroupFeedback
     public function getFeedbackId()
     {
         return $this->feedback_id;
+    }
+
+        public function getLeagueId(){
+        return $this->league_id;
+    }
+
+    public function setLeagueId($leagueId){
+        $this->leagueId = $leagueId;
     }
 }

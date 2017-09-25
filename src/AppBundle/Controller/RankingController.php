@@ -12,7 +12,7 @@ use AppBundle\Entity\Likes;
 use AppBundle\Entity\Group;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use AppBundle\Entity\UserPurchaseHistory;
+use AppBundle\Entity\UserOperations;
 use AppBundle\Service\BbtCrypt;
 use AppBundle\Service\Utils;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -25,12 +25,12 @@ class RankingController extends Controller implements TokenAuthenticatedControll
 	public function getUserOperationsAction(Request $request)
 	{
 			 $em = $this->getDoctrine()->getManager();
-			$result = $em->getRepository('AppBundle:UserPurchaseHistory')
+			$result = $em->getRepository('AppBundle:UserOperations')
             ->findAllOperationsOfConnectedUsers();
             
             $final = [];
             foreach ($result as $re) {
-			  $likes =    $em->getRepository('AppBundle:UserPurchaseHistory')
+			  $likes =    $em->getRepository('AppBundle:UserOperations')
            		 ->findUserLikes();
            		 $users = [];
            		   foreach ($likes as $like) {
@@ -40,7 +40,7 @@ class RankingController extends Controller implements TokenAuthenticatedControll
            		 	array_push($users,$username['username']);           		 	
            		 }           		 
 			}
-			 $comments =    $em->getRepository('AppBundle:UserPurchaseHistory')
+			 $comments =    $em->getRepository('AppBundle:UserOperations')
            		 ->findUserComments();
            		 // return new JsonResponse($comments);
            		 $usersComments = [];
@@ -74,7 +74,7 @@ class RankingController extends Controller implements TokenAuthenticatedControll
 	public function getUserNames($id)
 	{
 		$em = $this->getDoctrine()->getManager();
-		return    $em->getRepository('AppBundle:UserPurchaseHistory')
+		return    $em->getRepository('AppBundle:UserOperations')
            		 	->findUserNames($id);
 	}
 
@@ -104,17 +104,26 @@ class RankingController extends Controller implements TokenAuthenticatedControll
       {
         $groupId = $groups[0]['id'] ;
       }
+      
+      $em = $this->getDoctrine()->getManager();
+      $group =    $em->getRepository('AppBundle:UserOperations')
+               ->findRankingDataBygroupId($groupId);
 
-       $qb = $repository->createQueryBuilder('g');
+      $feedback = $em->getRepository('AppBundle:UserOperations')
+               ->getLeagueFeedback($groupId);
+
+     /* $opsRepo = $this->getDoctrine()->getRepository(UserOperations::class);
+      $qb = $repository->createQueryBuilder('g');
       $qb->select('g.id','g.group_name','g.start_date,g.end_date')
       ->where($qb->expr()->like('g.id', ':groupId'))
       ->setParameter('groupId', $groupId);
       $query1 = $qb->getQuery();
-      $group = $query1->getResult();
+      $group = $query1->getResult();*/
 
 
 
-     return new JsonResponse(array('status' => 'success','groups'=>$groups,'groupData'=>$group,'reason' => 'data loaded','reaponse' => 200));
+     return new JsonResponse(array('status' => 'success','groups'=>$groups,'groupData'=>$group,'feedback'=>$feedback,
+                                   'reason' => 'data loaded','response' => 200));
   }
 
   public function dashBoardAction(Request $request)
@@ -126,11 +135,11 @@ class RankingController extends Controller implements TokenAuthenticatedControll
      $report = new \stdClass();
 
      $em = $this->getDoctrine()->getManager();
-     $count  = $em->getRepository('AppBundle:UserPurchaseHistory')
+     $count  = $em->getRepository('AppBundle:UserOperations')
                 ->totalUsers($teacherId);
 
      $em = $this->getDoctrine()->getManager();
-     $dashboard  = $em->getRepository('AppBundle:UserPurchaseHistory')
+     $dashboard  = $em->getRepository('AppBundle:UserOperations')
                 ->dashBoard($teacherId);
 
 
@@ -139,7 +148,7 @@ class RankingController extends Controller implements TokenAuthenticatedControll
      $report->percentage = $dashboard['percentage'];
      $report->benefits   = $dashboard['benefits'];
 
-      return new JsonResponse(array('status' => 'success','report'=>$report,'reason' => 'data loaded','reaponse' => 200));
+      return new JsonResponse(array('status' => 'success','report'=>$report,'reason' => 'data loaded','response' => 200));
   }
 
    public function studentDataAction(Request $request)
@@ -153,18 +162,18 @@ class RankingController extends Controller implements TokenAuthenticatedControll
      $report = new \stdClass();
 
      $em = $this->getDoctrine()->getManager();
-     $op  = $em->getRepository('AppBundle:UserPurchaseHistory')
+     $op  = $em->getRepository('AppBundle:UserOperations')
                 ->operationsOfStudent($teacherId,$studentId,$groupId);
 
-     $purchase  = $em->getRepository('AppBundle:UserPurchaseHistory')
+     $purchase  = $em->getRepository('AppBundle:UserOperations')
                 ->studentPurchase($teacherId,$studentId,$groupId);
 
-      $studentList = $em->getRepository('AppBundle:UserPurchaseHistory')
+      $studentList = $em->getRepository('AppBundle:UserOperations')
                 ->studentList($teacherId,$groupId);
      
 
       return new JsonResponse(array('status' => 'success','operations'=>$op,'purchase'=>$purchase,'students' => $studentList,
-        'reason' => 'data loaded','reaponse' => 200));
+        'reason' => 'data loaded','response' => 200));
   }
 
     public function rankingListAction(Request $request)
@@ -175,7 +184,7 @@ class RankingController extends Controller implements TokenAuthenticatedControll
   
  
        $em = $this->getDoctrine()->getManager();
-     $list  = $em->getRepository('AppBundle:UserPurchaseHistory')
+     $list  = $em->getRepository('AppBundle:UserOperations')
                 ->rankingList($TID);
      //get current user id
 
@@ -188,14 +197,14 @@ class RankingController extends Controller implements TokenAuthenticatedControll
     $uId = $reqData['uId'];
     $tId = $reqData['tId'];
     $em = $this->getDoctrine()->getManager();
-    $user = $em->getRepository('AppBundle:UserPurchaseHistory')
+    $user = $em->getRepository('AppBundle:UserOperations')
                 ->findUserIdByTeacherId($tId);
 
     $tId = $user['userId'];                
     $members1 = $tId.'##'.$uId;
     $members2 = $uId.'##'.$tId;
     ($members1);
-     $list  = $em->getRepository('AppBundle:UserPurchaseHistory')
+     $list  = $em->getRepository('AppBundle:UserOperations')
                 ->getChat($uId,$tId);
 
       $encUID = $bbtCrypt ->encrypt($uId); 
@@ -203,7 +212,7 @@ class RankingController extends Controller implements TokenAuthenticatedControll
       $remove = [$encUID, $encTID,'##@@last_message@@##'];
       $replace = [$this->getUserNames($uId)['username'], $this->getUserNames($tId)['username'],""];
       $list['messages'] = str_replace($remove, $replace, $list['messages']);
-    return new JsonResponse(array('status' => 'success','list'=>$list,'encUID' => $encTID,'myName'=>$this->getUserNames($tId)['username'],'reason' => 'page loaded','partnerName' =>$this->getUserNames($uId)['username'],'reaponse' => 200));
+    return new JsonResponse(array('status' => 'success','list'=>$list,'encUID' => $encTID,'myName'=>$this->getUserNames($tId)['username'],'reason' => 'page loaded','partnerName' =>$this->getUserNames($uId)['username'],'response' => 200));
 
   }
 
@@ -213,7 +222,7 @@ class RankingController extends Controller implements TokenAuthenticatedControll
     $uId = $reqData['uId'];
     $tId = $reqData['tId'];
     $em = $this->getDoctrine()->getManager();
-    $user = $em->getRepository('AppBundle:UserPurchaseHistory')
+    $user = $em->getRepository('AppBundle:UserOperations')
                 ->findUserIdByTeacherId($tId);
 
     $tId = $user['userId'];    
@@ -225,7 +234,7 @@ class RankingController extends Controller implements TokenAuthenticatedControll
       $response = [];
       $roomExists = false;
 
-     $list  = $em->getRepository('AppBundle:UserPurchaseHistory')
+     $list  = $em->getRepository('AppBundle:UserOperations')
                 ->selectUsers($uId,$tId);
 
      $arrAsoc = array();
@@ -246,7 +255,7 @@ class RankingController extends Controller implements TokenAuthenticatedControll
             }
         }
 
-         $chats  = $em->getRepository('AppBundle:UserPurchaseHistory')
+         $chats  = $em->getRepository('AppBundle:UserOperations')
                 ->selectChats($room);
 
                      if(count($chats) >= 1){
@@ -264,7 +273,7 @@ class RankingController extends Controller implements TokenAuthenticatedControll
             if(!$roomExists)
               {
 
-                 $insertChat  = $em->getRepository('AppBundle:UserPurchaseHistory')
+                 $insertChat  = $em->getRepository('AppBundle:UserOperations')
                 ->insertChat($room,$newmessage);
                 
                 $remove = [$encuserid, $cssfrom];
@@ -282,7 +291,7 @@ class RankingController extends Controller implements TokenAuthenticatedControll
                 $precleanMessage = str_replace($preremove, $prereplace, $chats[0]["messages"]);
                 
 
-                  $updatechat  = $em->getRepository('AppBundle:UserPurchaseHistory')
+                  $updatechat  = $em->getRepository('AppBundle:UserOperations')
                 ->updateChat($room,$precleanMessage);
 
             }
