@@ -62,7 +62,7 @@ class FeedbackController extends Controller implements TokenAuthenticatedControl
       //$groups = $query->getResult();
          // $groupData = $query1->setMaxResults(1)->getOneOrNullResult();
       //return new JsonResponse($query1);
-     return new JsonResponse(array('status' => 'success','groups'=>$group,'groupData' => $group,'reason' => 'page loaded','reaponse' => 200));
+     return new JsonResponse(array('status' => 'success','groups'=>$group,'groupData' => $group,'reason' => 'page loaded','response' => 200));
   }
 
     public function rankingListAction(Request $request)
@@ -96,7 +96,7 @@ class FeedbackController extends Controller implements TokenAuthenticatedControl
       $remove = [$encUID, $encTID,'##@@last_message@@##'];
       $replace = [$this->getUserNames($uId)['username'], $this->getUserNames($tId)['username']];
       $list['messages'] = str_replace($remove, $replace, $list['messages']);
-    return new JsonResponse(array('status' => 'success','list'=>$list,'encUID' => $encUID,'reason' => 'page loaded','reaponse' => 200));
+    return new JsonResponse(array('status' => 'success','list'=>$list,'encUID' => $encUID,'reason' => 'page loaded','response' => 200));
 
   }
 

@@ -42,7 +42,7 @@ class UniversityController extends Controller implements  TokenAuthenticatedCont
 		$post->setTeachplace($profile['teacher']['teach_place']);
 		$post->setWork($profile['teacher']['work']);
 		$em->flush();
-		return $this->json(array('status' => 'success','reason' => 'Teacher Status Saved Successfully','reaponse' => 200));
+		return $this->json(array('status' => 'success','reason' => 'Teacher Status Saved Successfully','response' => 200));
 	}
     public function teacherProfileAction(Request $request,$tid,FileUploader $fileUploader)
     {
@@ -77,7 +77,7 @@ class UniversityController extends Controller implements  TokenAuthenticatedCont
        		'data' => $profile,
        		'profileImageUrl' =>$profileImageUrl,
        		 'isGroup' =>$isGroup,
-       		'reaponse' => 200));
+       		'response' => 200));
        
     }
 
@@ -89,111 +89,73 @@ class UniversityController extends Controller implements  TokenAuthenticatedCont
       {	    	
 		$teacher = $request->request->get('teacher');		
 		$file = $request->files->get('file');		
-	
-
-		$emails_list = $teacher['mail_list'];
-		$emails = explode(',', $emails_list);		
-		$content = [];
-		if($file)
-		{	
-				$absolute_path = getcwd();
-				$fileCo = file_get_contents($file);
-				file_put_contents('temp.xls', $fileCo);
-				$reader = $this->get("arodiss.xls.reader");
-				$path = $absolute_path."/temp.xls";
-				$path = str_replace('/', '//', $path);
-				$content = $reader->readAll($path);
-				unlink($path);
-				
-		}
-		$contentsNew = [];
-		foreach ($content as $key ) {
-			 array_push($contentsNew, array_values($key)[0]);	
-		}
-		
-		$emails = array_merge($emails,$contentsNew);
-		$emails = array_intersect_key($emails, array_unique(array_map('strtolower', $emails)));
-
-		//new version
+		$STEP = $teacher["save_step"] ;
 		$invalidArray = [];
 		$dupelicateArray = [];
-		$invalidArray = [];
-		foreach ($emails as $email) 
-	    {
-	    	$valid = $this->CheckValidEmail($email);
-	    	if(!$valid)
-    		{
-    			//add to invalid mail list	
-    			array_push($invalidArray, $email);
-    		}
-	    	$exists = $this->CheckDupeEmail($email);
-	    	if($exists)
-	    	{
-	    		array_push($dupelicateArray, $email);
-	    	}
-	    }
 
-	   // return new JsonResponse (array('array'=>$emails ,'invalidArray'=> $invalidArray,'dupelicateArray'=>$dupelicateArray ));
-		$group = new Group();
-		$group->setTeacher_id($teacher['id']);
-		if(array_key_exists('group_name',$teacher) && $teacher['group_name'] != null)
-			$group->setGroup_name($teacher['group_name']);
-		else
+		if($STEP == "1")
 		{
-			$group->setGroup_name('Group'.rand());
-		}
-		//$group->setLeague_name($teacher['league_name']);//TODO		
-		//$group->setVirtual_money($utils->getNumberFromLocaleString($teacher['virtual_money']));
-		//$group->setStart_date($teacher['start_date']);
-		//$group->setEnd_date($teacher['end_date']);
-		$group->setCreated_by(1);//TODO
-		//return "hi";
-		$group->setCreated_at(new \DateTime());
-		$group->setUpdated_at(new \DateTime());
-		$em->persist($group);
-	    $em->flush();
+			$emails_list = $teacher['mail_list'];
+			$emails = explode(',', $emails_list);		
+			$content = [];
+			if($file)
+			{	
+					$absolute_path = getcwd();
+					$fileCo = file_get_contents($file);
+					file_put_contents('temp.xls', $fileCo);
+					$reader = $this->get("arodiss.xls.reader");
+					$path = $absolute_path."/temp.xls";
+					$path = str_replace('/', '//', $path);
+					$content = $reader->readAll($path);
+					unlink($path);
+					
+			}
+			$contentsNew = [];
+			foreach ($content as $key ) {
+				 array_push($contentsNew, array_values($key)[0]);	
+			}
+			
+			$emails = array_merge($emails,$contentsNew);
+			$emails = array_intersect_key($emails, array_unique(array_map('strtolower', $emails)));
 
-	    $league = new League();
-	    $league->setLeagueName($teacher['league_name']);
-	    $league->setStartDate(new \DateTime($teacher['start_date']));
-	    $league->setEndDate(new \DateTime($teacher['end_date']));
-	    $league->setActive(1);
-	    $league->setReset(0);
-	    $em->persist($league);
-	     $em->flush();
+			//new version
 
-	    $groupLeague =  new GroupLeagues();
-	    $groupLeague->setGroupId($group->getId());
-	    $groupLeague->setLeagueId($league->getId());
-	    $groupLeague->setVirtualMoney($utils->getNumberFromLocaleString($teacher['virtual_money']));
-	    $em->persist($groupLeague);
-	    $em->flush();
+			foreach ($emails as $email) 
+		    {
+		    	$valid = $this->CheckValidEmail($email);
+		    	if(!$valid)
+	    		{
+	    			//add to invalid mail list	
+	    			array_push($invalidArray, $email);
+	    		}
+		    	$exists = $this->CheckDupeEmail($email);
+		    	if($exists)
+		    	{
+		    		array_push($dupelicateArray, $email);
+		    	}
+		    }
 
-	    $assets = $teacher['assets'];
-	    foreach ($assets as $asset) 
-	    {
-	    	
-	    		$GA = new GroupAsset;
-	    		$GA->setGroup_id($group->getId());
-	    		$GA->setAsset_id($asset);
-	    		$em->persist($GA);
-	    		 $em->flush();
-	    	
-	    }
+		   // return new JsonResponse (array('array'=>$emails ,'invalidArray'=> $invalidArray,'dupelicateArray'=>$dupelicateArray ));
+			$group = new Group();
+			$group->setTeacher_id($teacher['id']);
+			if(array_key_exists('group_name',$teacher) && $teacher['group_name'] != null)
+				$group->setGroup_name($teacher['group_name']);
+			else
+			{
+				$group->setGroup_name('Group'.rand());
+			}
+			//$group->setLeague_name($teacher['league_name']);//TODO		
+			//$group->setVirtual_money($utils->getNumberFromLocaleString($teacher['virtual_money']));
+			//$group->setStart_date($teacher['start_date']);
+			//$group->setEnd_date($teacher['end_date']);
+			$group->setCreated_by(1);//TODO
+			//return "hi";
+			$group->setCreated_at(new \DateTime());
+			$group->setUpdated_at(new \DateTime());
+			$em->persist($group);
+		    $em->flush();
 
-	    $feedbacks = $teacher['feedback'];
-	    foreach ($feedbacks as $feedback) 
-	    {
-	    	
-	    		$GF = new GroupFeedback;
-	    		$GF->setGroup_id($group->getId());
-	    		$GF->setFeedback_id($feedback);
-	    		$em->persist($GF);
-	    		 $em->flush();
-	    	    	
-	    }
-
-	    foreach ($emails as $email) 
+		     foreach ($emails as $email) 
 	    {
 	    	$valid = $this->CheckValidEmail($email);
 	    	if(!$valid)
@@ -212,16 +174,81 @@ class UniversityController extends Controller implements  TokenAuthenticatedCont
     	
 
 	    }   
+	    	$reason = "Group Created successfully";
+	    }
+	    if($STEP == "2")//2
+	    {
+	    	$group = $em->getRepository('AppBundle:Group')->find($request->request->get('groupId'));
+
+		    $league = new League();
+		    $league->setLeagueName($teacher['league_name']);
+		    $league->setStartDate(new \DateTime($teacher['start_date']));
+		    $league->setEndDate(new \DateTime($teacher['end_date']));
+		    $league->setActive(1);
+		    $league->setReset(0);
+		    $em->persist($league);
+		    $em->flush();
+
+		    $groupLeague =  new GroupLeagues();
+		    $groupLeague->setGroupId($group->getId());
+		    $groupLeague->setLeagueId($league->getId());
+		    $groupLeague->setVirtualMoney($utils->getNumberFromLocaleString($teacher['virtual_money']));
+		    $em->persist($groupLeague);
+		    $em->flush();
+
+		    $assets = $teacher['assets'];
+		    foreach ($assets as $asset) 
+		    {	    	
+				$GA = new GroupAsset;
+				$GA->setGroup_id($group->getId());
+				if($asset != "1" && $asset !=1)
+					$GA->setAsset_id(0);
+				else
+					$GA->setAsset_id($asset);
+				$GA->setLeagueId($league->getId());
+				$em->persist($GA);
+				$em->flush();		    	
+		    }
+		    $reason = "League created Successfully";
+	    }
+	    if($STEP == "3")//3
+	    {
+	    	$group = $em->getRepository('AppBundle:Group')->find($request->request->get('groupId'));
+
+	    	$leagueData = $em->getRepository('AppBundle:UserOperations')
+                		  ->getLeagueDataMain($group->getId());
+
+		    $feedbacks = $teacher['feedback'];
+		    foreach ($feedbacks as $feedback) 
+		    {
+		    	
+				$GF = new GroupFeedback;
+				$GF->setGroup_id($group->getId());
+				if($feedback != "1" && $feedback !=1)
+					$GF->setFeedback_id(0);
+				else
+					$GF->setFeedback_id($feedback);
+				$GF->setLeagueId($leagueData['id']);
+				$em->persist($GF);
+				$em->flush();
+		    	    	
+		    }
+
+		    $reason = "Feedback saved successfully";
+	    }
+
+	   
 	    $em->getConnection()->commit();
 	    }
 	    catch(Exception $e)
 	    {
 			 $em->getConnection()->rollBack();
-			    throw $e;
+			   // throw $e;
 	    } 
 
-    	return $this->json(array('status' => 'success','reason' => 'Group Saved Successfully','reaponse' => 200 ,
-    							 'invalidArray' =>$invalidArray ,'dupelicateArray'=>$dupelicateArray));
+    	return $this->json(array('status' => 'success','reason' => $reason,'response' => 200 ,
+    							 'invalidArray' =>$invalidArray ,'dupelicateArray'=>$dupelicateArray,
+    							  'group' =>$group->getId()));
 
     }
 
@@ -243,7 +270,7 @@ class UniversityController extends Controller implements  TokenAuthenticatedCont
     				$oldemail = $TD->getEmail();
     				$exists = $this->CheckDupeEmail($teacher['email']);
     				if($exists)
-    					return $this->json(array('status' => 'failure','reason' => 'Email Already in use','reaponse' => 200));
+    					return $this->json(array('status' => 'failure','reason' => 'Email Already in use','response' => 200));
     			}
     		
     		$TD->setId($teacher['id']);
@@ -266,7 +293,7 @@ class UniversityController extends Controller implements  TokenAuthenticatedCont
              if($mailFlag)
              	$this->mailUpdateLink($oldemail,$teacher['email'],$crypt, $mailerService);
 
-    	return $this->json(array('status' => 'success','reason' => 'updated Successfully','reaponse' => 200));
+    	return $this->json(array('status' => 'success','reason' => 'updated Successfully','response' => 200));
     }
     
 
@@ -337,7 +364,7 @@ class UniversityController extends Controller implements  TokenAuthenticatedCont
        $fileName = $fileUploader->upload($file,$user['userId']);
        if($fileName == "failure")
        {
-       		return new JsonResponse(array('status' => 'failure','reason' => 'Select valid image','reaponse' => 401));
+       		return new JsonResponse(array('status' => 'failure','reason' => 'Select valid image','response' => 401));
        }
        if(isset($user['image']))
        		$removeFile = $fileUploader->removeFile($user['image']);
@@ -352,7 +379,7 @@ class UniversityController extends Controller implements  TokenAuthenticatedCont
 				'url' =>$fileName,
 				'id' => $user['userId']));
 
-       return new JsonResponse(array('status' => 'success','reason' => 'Image uploaded Successfully','reaponse' => 200));
+       return new JsonResponse(array('status' => 'success','reason' => 'Image uploaded Successfully','response' => 200));
 	}
 
 	
@@ -394,11 +421,5 @@ class UniversityController extends Controller implements  TokenAuthenticatedCont
 
 			$mailerService->mailChangeNotify($mailObject1);
 	}
-
-
-
-
-
-
 
 }

@@ -62,7 +62,7 @@ class DefaultController extends Controller
             $mailObject->encryptedLink = urlencode($crypt->encrypt($teacher['email']));
 
             $mailerService->indexAction($mailObject);
-            return $this->json(array('status' => 'success','teacher_id' => $TD->getId(),'reason' => 'Teacher Saved Successfully . please verify your email','reaponse' => 200));
+            return $this->json(array('status' => 'success','teacher_id' => $TD->getId(),'reason' => 'Teacher Saved Successfully . please verify your email','response' => 200));
         }else{
             return $this->json(array('status' => 'failed','reason' => 'Email already Exists'));
         }

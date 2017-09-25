@@ -76,10 +76,13 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 					});
 					return;
 				}
+				$scope.currentStep = 1;
+				$scope.start(index);
+				return;
         	}
         	if(index == 3)
         	{
-        			if(!$scope.teacher.start_date)
+        	if(!$scope.teacher.start_date)
 			{				
 				notify({
 					message:'Fill Start Date',
@@ -138,6 +141,9 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				});
 				return;
 			}
+			$scope.currentStep =2;
+			 $scope.start(index);
+			 return;
         	}
         	if(index == 4)
         {
@@ -162,11 +168,14 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				});
 				return;
 			}
+        	$scope.currentStep =3;
+        	$scope.start(index);
+        	return;
         }
-        	$('.step_head_li').removeClass('active');
-        	$('#step_head_'+index).addClass('active');
-        	$('.step_body_li').removeClass('active');
-        	$('#step_body_'+index).addClass('active');
+		$('.step_head_li').removeClass('active');
+    	$('#step_head_'+index).addClass('active');
+    	$('.step_body_li').removeClass('active');
+    	$('#step_body_'+index).addClass('active');    	
 
 						
         }
@@ -209,9 +218,12 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 			$scope.file = file;
 		}
 
-		$scope.start = function()
+		$scope.start = function(index)
 		{
-			$scope.teacher.id = $stateParams.teacher_id;//$scope.teacher.mail_list == undefined || 
+			$scope.teacher.save_step = $scope.currentStep;
+			$scope.teacher.id = $stateParams.teacher_id; 
+			if($scope.currentStep ==1)
+			{
 			if($scope.teacher.mail_list)
 			{
 				var list = $scope.teacher.mail_list.split(',');
@@ -242,7 +254,9 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 			}	
 			else
 				$scope.teacher.mail_list = "";
-					
+		    }
+			if($scope.currentStep == 2)
+			{		
 			if(!$scope.teacher.start_date)
 			{				
 				notify({
@@ -301,7 +315,9 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 			}
 			else
 				$scope.teacher.virtual_money = parseFloat($scope.teacher.virtual_money);
-
+		   }
+		   if($scope.currentStep == 3)
+		   {
 			$scope.feedbackCheck = false;
 			if(!$scope.teacher.feedback)
 				$scope.teacher.feedback = [];
@@ -324,9 +340,10 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				});
 				return;
 			}
-
+		   }
 			console.log($scope.teacher)
-
+			if($scope.currentStep ==2)
+			{
 			if($scope.teacher.start_date != undefined && $scope.teacher.start_date != null)
 				{
 					 $scope.teacher.start_date = new Date($scope.teacher.start_date.split("/").reverse().join("-"));
@@ -338,14 +355,17 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 					 $scope.teacher.end_date = new Date($scope.teacher.end_date.split("/").reverse().join("-"));
 					$scope.teacher.end_date = $filter('date')($scope.teacher.end_date, 'yyyy-MM-dd');
 				}
+			}
 			console.log($scope.teacher)
 
 			Upload.upload({
 				method: 'POST',				
 				url: 'api/saveteacher',
 				data:{
+
 					file: $scope.file,
 					teacher :$scope.teacher,
+					groupId : $scope.savedGroup,
 				}
 			})
 			.then(function(success){
@@ -353,8 +373,11 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				$scope.response = success.data;
 				if(success.data.status == 'success')
 				{
-					$scope.shiftTab(4);
-					//$('#addStudent').modal('hide');
+					$scope.savedGroup = success.data.group;
+					$('.step_head_li').removeClass('active');
+			    	$('#step_head_'+index).addClass('active');
+			    	$('.step_body_li').removeClass('active');
+			    	$('#step_body_'+index).addClass('active'); 			    
 				}				
 			},function(error){
 
@@ -384,6 +407,26 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 		      	return;
 		      }
 		}
+		$scope.pastDateCheck = function()
+	    {
+	    	notify.closeAll();
+	    	if($scope.teacher.start_date)
+	    	{
+	    		var date = new Date($scope.teacher.start_date.split("/").reverse().join("-"));
+	    		//var date = new Date($scope.teacher.start_date)	    		
+	    		if(date.setHours(0,0,0,0) < new Date().setHours(0,0,0,0))
+	    		{
+	    			$scope.teacher.start_date = undefined;
+	    			notify({
+							message:'Past Dates Not Allowed',
+							classes:'alert-danger',
+							duration:3000
+						});
+						return;	
+	    			
+	    		}
+	    	}
+	    }
 
 		$scope.getteacherdetails = function(){
 			
@@ -510,26 +553,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 	    $scope.today = yyyy+'-'+mm+'-'+dd;
 	    console.log($scope.today);*/
 	    //faiyaz
-	    $scope.pastDateCheck = function()
-	    {
-	    	notify.closeAll();
-	    	if($scope.teacher.start_date)
-	    	{
-	    		var date = new Date($scope.teacher.start_date.split("/").reverse().join("-"));
-	    		//var date = new Date($scope.teacher.start_date)	    		
-	    		if(date.setHours(0,0,0,0) < new Date().setHours(0,0,0,0))
-	    		{
-	    			$scope.teacher.start_date = undefined;
-	    			notify({
-							message:'Past Dates Not Allowed',
-							classes:'alert-danger',
-							duration:3000
-						});
-						return;	
-	    			
-	    		}
-	    	}
-	    }
+
 
 	    $scope.dashBoard = function()
        {

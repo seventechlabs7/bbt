@@ -470,7 +470,7 @@ class UserOperationsRepository extends EntityRepository
                 '
                   SELECT  
                           g.id, g.group_name, 
-                          l.nom_liga as league_name , l.fecha_inicio as start_date,l.fecha_fin as end_date, 
+                          l.id,l.nom_liga as league_name , l.fecha_inicio as start_date,l.fecha_fin as end_date, 
                           gl.virtual_money 
                   FROM 
                           groups as g ,ligas as l  ,group_leagues as gl 

@@ -274,12 +274,12 @@ class UserOperationsController extends Controller implements TokenAuthenticatedC
      {
        $em->remove($TD);
        $em->flush();
-       return new JsonResponse(array('status' => 'success','reason' => 'Student removed from group successfully','reaponse' => 200));
+       return new JsonResponse(array('status' => 'success','reason' => 'Student removed from group successfully','response' => 200));
 
      }
      else
      {
-       return new JsonResponse(array('status' => 'failure','reason' => 'Student not removed from group ! please try again','reaponse' => 200));
+       return new JsonResponse(array('status' => 'failure','reason' => 'Student not removed from group ! please try again','response' => 200));
      }
   }
 
@@ -344,7 +344,7 @@ class UserOperationsController extends Controller implements TokenAuthenticatedC
           unlink($path);
     }
 
-       return new JsonResponse(array('status' => 'success','reason' => 'success','reaponse' => 200));
+       return new JsonResponse(array('status' => 'success','reason' => 'success','response' => 200));
   }
 
       public function CheckDupeEmail($email)
@@ -495,87 +495,101 @@ class UserOperationsController extends Controller implements TokenAuthenticatedC
 
   public function updateLeagueAction(Request $request ,Utils $utils)
   {
+     $em = $this->getDoctrine()->getManager();   
+     $em->getConnection()->beginTransaction();
+    try
+    {
     $requestData  =  $request->request->all();
     $requestData = $requestData['data'];
-   
-    $em = $this->getDoctrine()->getManager();
-    $TD =  $em->getRepository('AppBundle:Group')->find($requestData['gId']);
-
-    //return new JsonResponse($utils->getNumberFromLocaleString($requestData['virtual_money']));
-
-
-
-    if($TD)
+  
+    $G =  $em->getRepository('AppBundle:Group')->find($requestData['gId']);
+    if($G)
     {
 
       $GL = $em->getRepository('AppBundle:GroupLeagues')->findOneBy(array('groupId' => $requestData['gId']));
-
-      $RAW_QUERY1 = "
-          DELETE FROM `group_assets` WHERE `group_assets`.`group_id` = :gId and `group_assets`.`league_id` =:lId
-      ";
-
-      $stmt =$em->getConnection()->prepare($RAW_QUERY1);
-      $stmt->execute(array('gId'=>$requestData['gId'],'lId'=>$GL->getLeagueId()));
-
-       $L = $em->getRepository('AppBundle:Leagues')->find($GL->getLeagueId());
-       if($L)
-       {
-        
-       }
-
-       $TD->setStart_date($requestData['start_date']);
-       $TD->setEnd_date($requestData['end_date']);
-       $TD->setVirtual_money($utils->getNumberFromLocaleString($requestData['virtual_money']));
-       $TD->setLeague_name($requestData['league_name']);
-       $TD->setAssets("1");
-       $em->flush($TD);
-
-        $assets = $requestData['assets'];
-      foreach ($assets as $asset) 
+      if($GL)
       {
-        
-          $GA = new GroupAsset;
-          $GA->setGroup_id($TD->getId());
-          $GA->setAsset_id($asset);
-          $em->persist($GA);
-          $em->flush();
-        
-      }
+      //  return ($GL->getLeagueId());
+        $RAW_QUERY1 = "
+            DELETE FROM `group_assets` WHERE `group_assets`.`group_id` = :gId and `group_assets`.`league_id` =:lId
+        ";
 
-       return new JsonResponse(array('status' => 'success','reason' => 'updated successfully','reaponse' => 200));
-    }
-     return new JsonResponse(array('status' => 'failure','reason' => 'something went wrong','reaponse' => 200));
+        $stmt =$em->getConnection()->prepare($RAW_QUERY1);
+        $stmt->execute(array('gId'=>$requestData['gId'],'lId'=>$GL->getLeagueId()));
+
+         $L = $em->getRepository('AppBundle:League')->find($GL->getLeagueId());
+         if($L)
+         {
+              $L->setStartDate(new \DateTime($requestData['start_date']));
+              $L->setEndDate(new \DateTime($requestData['end_date']));
+              $GL->setVirtualMoney($utils->getNumberFromLocaleString($requestData['virtual_money']));
+              $L->setLeagueName($requestData['league_name']);
+             
+              $em->flush($G);
+
+              $assets = $requestData['assets'];
+              foreach ($assets as $asset) 
+              {
+
+              $GA = new GroupAsset;
+              $GA->setGroup_id($G->getId());
+              if($asset != "1" && $asset !=1)
+                $GA->setAsset_id(0);
+              else
+                $GA->setAsset_id($asset);
+              $GA->setLeagueId($L->getId());
+              $em->persist($GA);
+              $em->flush();
+            
+              }
+                $em->getConnection()->commit();
+           return new JsonResponse(array('status' => 'success','reason' => 'updated successfully','response' => 200));
+          }
+        }
+  }
+    
+      }
+      catch(Exception $e)
+      {
+       $em->getConnection()->rollBack();
+          return new JsonResponse(array('status' => 'failure','reason' => 'something went wrong','response' => 200));
+      } 
+
+    
 
   }
 
     public function updateFeedbackAction(Request $request)
   {
+
+     $em = $this->getDoctrine()->getManager();   
+     $em->getConnection()->beginTransaction();
+    try
+    {
     $requestData  =  $request->request->all();
     $requestData = $requestData['data'];
-   
-    $em = $this->getDoctrine()->getManager();
+
     $TD =  $em->getRepository('AppBundle:Group')->find($requestData['gId']);
 
 
     $feedbacks = $requestData['feedback'];
     if(count($feedbacks) == 0)
-        return new JsonResponse(array('status' => 'failure','reason' => 'Select atleast one feedback','reaponse' => 200));
-      $RAW_QUERY1 = "
-          DELETE FROM `group_feedback` WHERE `group_feedback`.`group_id` = :gId
-      ";
-
-      $stmt =$em->getConnection()->prepare($RAW_QUERY1);
-      $stmt->execute(array('gId'=>$requestData['gId']));
+        return new JsonResponse(array('status' => 'failure','reason' => 'Select atleast one feedback','response' => 200));
+    
 
 
     if($TD)
     {
-       /*$TD->setStart_date($requestData['start_date']);
-       $TD->setEnd_date($requestData['end_date']);
-       $TD->setVirtual_money($requestData['virtual_money']);
-       $TD->setLeague_name($requestData['league_name']);
-       $TD->setAssets("1");
-       $em->flush($TD);*/
+       $GL = $em->getRepository('AppBundle:GroupLeagues')->findOneBy(array('groupId' => $requestData['gId']));
+      if($GL)
+      {
+       
+         $RAW_QUERY1 = "
+          DELETE FROM `group_feedback` WHERE `group_feedback`.`group_id` = :gId and `group_feedback`.`league_id` =:lId
+      ";
+
+      $stmt =$em->getConnection()->prepare($RAW_QUERY1);
+      $stmt->execute(array('gId'=>$requestData['gId'],'lId'=>$GL->getLeagueId()));
 
         
 
@@ -584,15 +598,25 @@ class UserOperationsController extends Controller implements TokenAuthenticatedC
         
           $GF = new GroupFeedback;
           $GF->setGroup_id($TD->getId());
-          $GF->setFeedback_id($feedback);
+          if($feedback != "1" && $feedback !=1)
+                $GF->setFeedback_id(0);
+          else
+            $GF->setFeedback_id($feedback);
+          $GF->setLeagueId($GL->getleagueId());
           $em->persist($GF);
           $em->flush();
         
       }
-
-       return new JsonResponse(array('status' => 'success','reason' => 'updated successfully','reaponse' => 200));
     }
-     return new JsonResponse(array('status' => 'failure','reason' => 'something went wrong','reaponse' => 200));
+       $em->getConnection()->commit();
+       return new JsonResponse(array('status' => 'success','reason' => 'updated successfully','response' => 200));
+    }
+   }
+      catch(Exception $e)
+      {
+       $em->getConnection()->rollBack();
+          return new JsonResponse(array('status' => 'failure','reason' => 'something went wrong','response' => 200));
+      } 
 
   }
 
@@ -620,7 +644,7 @@ class UserOperationsController extends Controller implements TokenAuthenticatedC
            return new JsonResponse(array('status' => 'success','response' => 200));
         }  
         else
-           return new JsonResponse(array('status' => 'failure','reason' => 'Incorrect current password','reaponse' => 200));    
+           return new JsonResponse(array('status' => 'failure','reason' => 'Incorrect current password','response' => 200));    
       return new JsonResponse($pwEN);
     }
     
@@ -656,12 +680,12 @@ class UserOperationsController extends Controller implements TokenAuthenticatedC
             }
             else
             {
-               return new JsonResponse(array('status' => 'failure','reason' => 'New password should not be same as current password','reaponse' => 200));  
+               return new JsonResponse(array('status' => 'failure','reason' => 'New password should not be same as current password','response' => 200));  
             }
         }  
         else
-           return new JsonResponse(array('status' => 'failure','reason' => 'incorrect current password','reaponse' => 200));    
-      return new JsonResponse(array('status' => 'success','reason' => 'Password updated successfully','reaponse' => 200)); 
+           return new JsonResponse(array('status' => 'failure','reason' => 'incorrect current password','response' => 200));    
+      return new JsonResponse(array('status' => 'success','reason' => 'Password updated successfully','response' => 200)); 
     }
   }
 

@@ -109,6 +109,9 @@ class RankingController extends Controller implements TokenAuthenticatedControll
       $group =    $em->getRepository('AppBundle:UserOperations')
                ->findRankingDataBygroupId($groupId);
 
+      $feedback = $em->getRepository('AppBundle:UserOperations')
+               ->getLeagueFeedback($groupId);
+
      /* $opsRepo = $this->getDoctrine()->getRepository(UserOperations::class);
       $qb = $repository->createQueryBuilder('g');
       $qb->select('g.id','g.group_name','g.start_date,g.end_date')
@@ -119,7 +122,8 @@ class RankingController extends Controller implements TokenAuthenticatedControll
 
 
 
-     return new JsonResponse(array('status' => 'success','groups'=>$groups,'groupData'=>$group,'reason' => 'data loaded','reaponse' => 200));
+     return new JsonResponse(array('status' => 'success','groups'=>$groups,'groupData'=>$group,'feedback'=>$feedback,
+                                   'reason' => 'data loaded','response' => 200));
   }
 
   public function dashBoardAction(Request $request)
@@ -144,7 +148,7 @@ class RankingController extends Controller implements TokenAuthenticatedControll
      $report->percentage = $dashboard['percentage'];
      $report->benefits   = $dashboard['benefits'];
 
-      return new JsonResponse(array('status' => 'success','report'=>$report,'reason' => 'data loaded','reaponse' => 200));
+      return new JsonResponse(array('status' => 'success','report'=>$report,'reason' => 'data loaded','response' => 200));
   }
 
    public function studentDataAction(Request $request)
@@ -169,7 +173,7 @@ class RankingController extends Controller implements TokenAuthenticatedControll
      
 
       return new JsonResponse(array('status' => 'success','operations'=>$op,'purchase'=>$purchase,'students' => $studentList,
-        'reason' => 'data loaded','reaponse' => 200));
+        'reason' => 'data loaded','response' => 200));
   }
 
     public function rankingListAction(Request $request)
@@ -208,7 +212,7 @@ class RankingController extends Controller implements TokenAuthenticatedControll
       $remove = [$encUID, $encTID,'##@@last_message@@##'];
       $replace = [$this->getUserNames($uId)['username'], $this->getUserNames($tId)['username'],""];
       $list['messages'] = str_replace($remove, $replace, $list['messages']);
-    return new JsonResponse(array('status' => 'success','list'=>$list,'encUID' => $encTID,'myName'=>$this->getUserNames($tId)['username'],'reason' => 'page loaded','partnerName' =>$this->getUserNames($uId)['username'],'reaponse' => 200));
+    return new JsonResponse(array('status' => 'success','list'=>$list,'encUID' => $encTID,'myName'=>$this->getUserNames($tId)['username'],'reason' => 'page loaded','partnerName' =>$this->getUserNames($uId)['username'],'response' => 200));
 
   }
 

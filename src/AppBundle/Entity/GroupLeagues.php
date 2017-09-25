@@ -52,7 +52,7 @@ class GroupLeagues
 	}
 
 	public function getLeagueId(){
-		return $this->asset_id;
+		return $this->leagueId;
 	}
 
 	public function setLeagueId($leagueId){
