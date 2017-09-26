@@ -50,6 +50,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 					
 					$scope.groups = data.groups;
 					$scope.currentGroupId = parseInt($scope.groupData.id);
+
 					if($scope.groups.length < 1)
 					{
 						$scope.teacher.start_date = new Date();
@@ -62,7 +63,9 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 					}
 					else if($scope.groups.length >0 && !$scope.groupData)
 					{
+
 						$scope.savedGroup = data.groups[0].id;
+						$scope.currentGroupId = $scope.savedGroup;
 						$scope.teacher.start_date = new Date();
 			   			$scope.teacher.start_date = $filter('date')($scope.teacher.start_date, 'dd/MM/yyyy');
 			   			$scope.teacher.virtual_money = "25000.00";
@@ -330,6 +333,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				$scope.teacher.id = $stateParams.teacher_id;	
 				
 				var list =[];
+				notify.closeAll();
 				if($scope.teacher.mail_list)
 				{
 					list = $scope.teacher.mail_list.split(',');
@@ -364,6 +368,15 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				{
 					notify({
 						message:'Enter valid comma sepearated emails or upload a email list file',
+						classes:'alert-danger',
+						duration:4000
+					});
+					return;
+				}
+				if(list.length > 0 && $scope.file)
+				{
+					notify({
+						message:'Cannot add both mail list and file . Choose either of the two',
 						classes:'alert-danger',
 						duration:4000
 					});
@@ -488,6 +501,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 			}
 			$scope.checkTime = function(index)
 		{	
+
 			notify.closeAll();
 			if(!$scope.DisableStartDate)	
 			    {
@@ -836,8 +850,8 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 
 			var updateClockNg = function ()
 			 {
-			 	if($scope.stopcountdown)
-			 		return;
+			 	/*if($scope.stopcountdown)
+			 		return;*/
 			 	$scope.timeTillEvent = {};
 				var e = angular.copy($scope.currentEndDate);
 				e = new Date(e.split("/").reverse().join("-"));
@@ -1220,11 +1234,14 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				$scope.response = success.data;
 				if(success.data.status == 'success')
 				{
+
 					$scope.savedGroup = success.data.group;
 					$('.step_head_li').removeClass('active');
 			    	$('#step_head_'+index).addClass('active');
 			    	$('.step_body_li').removeClass('active');
 			    	$('#step_body_'+index).addClass('active'); 
+
+			    	$scope.loadRanking($scope.savedGroup);
 				    
 				}				
 			},function(error){
@@ -1232,7 +1249,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 			})
 		}
 
-		$scope.checkTime = function(index)
+		$scope.checkTime1 = function(index)
 		{			
 			notify.closeAll();
 			$scope.pastDateCheck();

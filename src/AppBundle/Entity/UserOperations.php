@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserOperationsRepository")
- * @ORM\Table(name="hist_user_compra")
+ * @ORM\Table(name="users")
  */
 class UserOperations
 {

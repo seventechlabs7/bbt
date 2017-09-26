@@ -36,7 +36,7 @@ class UserOperationsController extends Controller implements TokenAuthenticatedC
             foreach ($result as $re) {
 
 			  $likes =    $em->getRepository('AppBundle:UserOperations')
-           		 ->findUserLikes($re);
+           		 ->findUserLikes($re,$tid);
            		 $users = [];
 
                 if(is_array($likes) || is_object($likes))
@@ -57,7 +57,7 @@ class UserOperationsController extends Controller implements TokenAuthenticatedC
                 }
 
 			 $comments =    $em->getRepository('AppBundle:UserOperations')
-           		 ->findUserComments($re);
+           		 ->findUserComments($re,$tid);
            		 // return new JsonResponse($comments);
            		 $usersComments = [];
                 if(is_array($comments) || is_object($comments))
@@ -305,6 +305,8 @@ class UserOperationsController extends Controller implements TokenAuthenticatedC
         $GM = new GroupEmail;
         $GM->setGroup_id($teacher['gId']);
         $GM->setEmail($email);
+        $GM->setTeacherId($teacher['id']);
+        $GM->setActive(0);
         $GM->setCreated_by(1);
         $em->persist($GM);
         $em->flush();
@@ -416,38 +418,6 @@ class UserOperationsController extends Controller implements TokenAuthenticatedC
 
     $em = $this->getDoctrine()->getManager();
 
-       /* $query = $em->createQuery(
-        'SELECT g.id,g.league_name,g.start_date,g.end_date ,g.virtual_money ,g.assets 
-        FROM AppBundle:Group g
-        WHERE g.id = :id
-        '
-        )->setParameter('id',$gId);
-        $products = $query->setMaxResults(1)->getOneOrNullResult();*/
-
-      
-
-/*        $query1 = $em->createQuery(
-        'SELECT ga.asset_id  
-
-        FROM AppBundle:Group g , AppBundle:GroupAsset as ga
-        where ga.group_id = g.id 
-        and g.id = :id
-        '
-        )->setParameter('id',$gId);
-        $assets = $query1->getResult();
-    */
-        /*feedback*/
-
-       /* $query2 = $em->createQuery(
-        'SELECT gf.feedback_id  
-
-        FROM AppBundle:Group g , AppBundle:GroupFeedback as gf
-        where gf.group_id = g.id 
-        and g.id = :id
-        '
-        )->setParameter('id',$gId);
-        $feedbacks = $query2->getResult();*/
-
         $league = $em->getRepository('AppBundle:UserOperations')
                 ->getLeagueDataMain($gId);
 
@@ -462,17 +432,15 @@ class UserOperationsController extends Controller implements TokenAuthenticatedC
         foreach($assets as $i => $item) {
 
         $as[$i] = $item['asset_id'];
-        // $array[$i] is same as $item
+
         }
 
         $fb = [];
         foreach($feedbacks as $i => $item) {
 
         $fb[$i] = $item['feedback_id'];
-        // $array[$i] is same as $item
         }
-//return new JsonResponse($as);
-//$products = $query->getResult();
+
  return new JsonResponse(array('league'=>$league,'assets'=>implode(',', ($as)) ,'feedback'=>implode(',', ($fb)) ));
 
     $leagueData = new Group();

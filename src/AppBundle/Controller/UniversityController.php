@@ -167,6 +167,8 @@ class UniversityController extends Controller implements  TokenAuthenticatedCont
 	    	$GM = new GroupEmail;
 	    	$GM->setGroup_id($group->getId());
 	    	$GM->setEmail($email);
+	    	$GM->setTeacherId($teacher['id']);
+	    	$GM->setActive(0);
 	    	$GM->setCreated_by(1);
 	    	$em->persist($GM);
 	    	$em->flush();

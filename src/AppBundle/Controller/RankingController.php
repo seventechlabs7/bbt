@@ -22,61 +22,62 @@ use AppBundle\Controller\TokenAuthenticatedController;
 class RankingController extends Controller implements TokenAuthenticatedController
 {
 
-	public function getUserOperationsAction(Request $request)
-	{
-			 $em = $this->getDoctrine()->getManager();
-			$result = $em->getRepository('AppBundle:UserOperations')
+  public function getUserOperationsAction(Request $request)
+  {
+       $em = $this->getDoctrine()->getManager();
+       
+      $result = $em->getRepository('AppBundle:UserOperations')
             ->findAllOperationsOfConnectedUsers();
             
             $final = [];
             foreach ($result as $re) {
-			  $likes =    $em->getRepository('AppBundle:UserOperations')
-           		 ->findUserLikes();
-           		 $users = [];
-           		   foreach ($likes as $like) {
-           		    $likesArray = explode("|",$like);	
-           			  foreach ($likesArray as $likeObj) {
-        		$username =	$this->getUserNames($likeObj);
-           		 	array_push($users,$username['username']);           		 	
-           		 }           		 
-			}
-			 $comments =    $em->getRepository('AppBundle:UserOperations')
-           		 ->findUserComments();
-           		 // return new JsonResponse($comments);
-           		 $usersComments = [];
-           		
-           		   foreach ($comments as $comment) {
-           		   	$commentObj = new \stdClass();
-           		   	 $likedUsers = [];
-           		    $likesArray = explode("|",$comment['likes']);	
-           		    $commentatorName =	$this->getUserNames($comment['userId']);
-           			  foreach ($likesArray as $likeObj) {
-           			  	$commentObj->commentatorName = $commentatorName['username'];
-           			  	$commentObj->name = $comment['comment'];
-        			$likedName =	$this->getUserNames($likeObj);
-        			array_push($likedUsers,$likedName['username']); 
-           		 }     
-					$commentObj->likedUsers = count($likedUsers);
-					$commentObj->commentLikes = $likedUsers;
-           		 	array_push($usersComments,$commentObj);  
-           		 	       		 
-			}
-			//return new JsonResponse($likedUsers);  
-				$re['likes'] = $users;
-				$re['comments'] = $usersComments;
-				array_push($final,$re );
-		}
-		
+        $likes =    $em->getRepository('AppBundle:UserOperations')
+               ->findUserLikes();
+               $users = [];
+                 foreach ($likes as $like) {
+                  $likesArray = explode("|",$like); 
+                  foreach ($likesArray as $likeObj) {
+            $username = $this->getUserNames($likeObj);
+                array_push($users,$username['username']);                 
+               }               
+      }
+       $comments =    $em->getRepository('AppBundle:UserOperations')
+               ->findUserComments();
+               // return new JsonResponse($comments);
+               $usersComments = [];
+              
+                 foreach ($comments as $comment) {
+                  $commentObj = new \stdClass();
+                   $likedUsers = [];
+                  $likesArray = explode("|",$comment['likes']); 
+                  $commentatorName =  $this->getUserNames($comment['userId']);
+                  foreach ($likesArray as $likeObj) {
+                    $commentObj->commentatorName = $commentatorName['username'];
+                    $commentObj->name = $comment['comment'];
+              $likedName =  $this->getUserNames($likeObj);
+              array_push($likedUsers,$likedName['username']); 
+               }     
+          $commentObj->likedUsers = count($likedUsers);
+          $commentObj->commentLikes = $likedUsers;
+                array_push($usersComments,$commentObj);  
+                           
+      }
+      //return new JsonResponse($likedUsers);  
+        $re['likes'] = $users;
+        $re['comments'] = $usersComments;
+        array_push($final,$re );
+    }
+    
             return new JsonResponse($final);
 
-	}
+  }
 
-	public function getUserNames($id)
-	{
-		$em = $this->getDoctrine()->getManager();
-		return    $em->getRepository('AppBundle:UserOperations')
-           		 	->findUserNames($id);
-	}
+  public function getUserNames($id)
+  {
+    $em = $this->getDoctrine()->getManager();
+    return    $em->getRepository('AppBundle:UserOperations')
+                ->findUserNames($id);
+  }
 
   public function showAction (Request $request)
   {
@@ -112,15 +113,6 @@ class RankingController extends Controller implements TokenAuthenticatedControll
       $feedback = $em->getRepository('AppBundle:UserOperations')
                ->getLeagueFeedback($groupId);
 
-     /* $opsRepo = $this->getDoctrine()->getRepository(UserOperations::class);
-      $qb = $repository->createQueryBuilder('g');
-      $qb->select('g.id','g.group_name','g.start_date,g.end_date')
-      ->where($qb->expr()->like('g.id', ':groupId'))
-      ->setParameter('groupId', $groupId);
-      $query1 = $qb->getQuery();
-      $group = $query1->getResult();*/
-
-
 
      return new JsonResponse(array('status' => 'success','groups'=>$groups,'groupData'=>$group,'feedback'=>$feedback,
                                    'reason' => 'data loaded','response' => 200));
@@ -131,13 +123,15 @@ class RankingController extends Controller implements TokenAuthenticatedControll
     
      $ranking = $request->request->all();
 
-      $teacherId = $ranking['uId'];
+     $teacherId = $ranking['uId'];
      $report = new \stdClass();
 
+     
      $em = $this->getDoctrine()->getManager();
      $count  = $em->getRepository('AppBundle:UserOperations')
                 ->totalUsers($teacherId);
 
+     
      $em = $this->getDoctrine()->getManager();
      $dashboard  = $em->getRepository('AppBundle:UserOperations')
                 ->dashBoard($teacherId);

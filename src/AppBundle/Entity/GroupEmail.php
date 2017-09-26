@@ -27,6 +27,21 @@ class GroupEmail
      */
     private $email;
 
+     /**
+     * @ORM\Column(name="`teacher_id`",type="integer")
+    */
+    private $teacherId;
+
+    /**
+     * @ORM\Column(name="`student_id`",type="integer")
+    */
+    private $studentId;
+    
+    /**
+     * @ORM\Column(name="`active`",type="integer")
+    */
+    private $active;
+
     /**
      * @ORM\Column(name="`created_by`")
      */
@@ -54,13 +69,37 @@ class GroupEmail
 		$this->group_id = $group_id;
 	}
 
-	public function getEmail(){
-		return $this->email;
+      public function getEmail(){
+        return $this->email;
+    }
+
+    public function setEmail($email){
+        $this->email = $email;
+    }
+
+    public function getActive(){
+        return $this->active;
+    }
+
+    public function setActive($active){
+        $this->active = $active;
+    }
+
+	public function getTeacherId(){
+		return $this->teacherId;
 	}
 
-	public function setEmail($email){
-		$this->email = $email;
+	public function setTeacherId($teacherId){
+		$this->teacherId = $teacherId;
 	}
+
+    public function getStudentId(){
+        return $this->studentId;
+    }
+
+    public function setStudentId($studentId){
+        $this->studentId = $studentId;
+    }
 
 	public function getCreated_by(){
 		return $this->created_by;

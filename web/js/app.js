@@ -53,7 +53,7 @@ angular.module('app', [
         return currentUser;
     };
 })
-.service('APIInterceptor', function($rootScope, UserService,$state) {
+.service('APIInterceptor', function($rootScope, UserService,$state ,$timeout) {
     var service = this;
     service.request = function(config) {
         console.log(config);
@@ -69,13 +69,20 @@ angular.module('app', [
       console.log(response);
       if(response.status == 403)
         {
-      swal({
-        title: "Please Login to continue",        
-        timer: 2000
-      });
-          $state.go('app.home', {
+           window.onkeydown = null;
+          window.onfocus = null;
+          swal({
+            title: "Session Expired or unauthorized", 
+            text: "Please login to continue",       
+           
+          });
+          $timeout(function()
+          {
+             $state.go('app.home', {
                     
                 });
+           },2000);
+         
         } 
         return response;
     };

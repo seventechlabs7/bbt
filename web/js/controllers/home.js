@@ -76,6 +76,15 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 					});
 					return;
 				}
+				if(list.length > 0 && $scope.file)
+				{
+					notify({
+						message:'Cannot add both mail list and file . Choose either of the two',
+						classes:'alert-danger',
+						duration:4000
+					});
+					return;
+				}
 				$scope.currentStep = 1;
 				$scope.start(index);
 				return;

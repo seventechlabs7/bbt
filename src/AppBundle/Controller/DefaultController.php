@@ -122,6 +122,10 @@ class DefaultController extends Controller
 
     public function verifySignupteacherAction(Request $request ,CustomCrypt $crypt,$verifyLink)
     {
+        $em1 = $this->getDoctrine()->getManager();   
+        $em1->getConnection()->beginTransaction();
+        try
+        {
         $email = $crypt->decrypt(urldecode($verifyLink));
         if($email)
         {
@@ -132,21 +136,14 @@ class DefaultController extends Controller
             }
             else
             {
-                $em1 = $this->getDoctrine()->getManager();
+                //$em1 = $this->getDoctrine()->getManager();
 
-                $RAW_QUERY1 = 'SELECT * FROM teachers where teachers.email = :email LIMIT 1;';
-
-                $statement1 = $em1->getConnection()->prepare($RAW_QUERY1);
-                // Set parameters 
-                $statement1->bindValue('email', $email);
-                $statement1->execute();
-                $result1 = $statement1->fetch();
+                $result1 = $em1->getRepository('AppBundle:Teacher')->findOneByEmail($email);
                 
                 if($result1)
                 {
                      $encoder = new MessageDigestPasswordEncoder();
-                     $pwencoded = $encoder->encodePassword($result1['password'], '');
-                     $em2 = $this->getDoctrine()->getManager();
+                     $pwencoded = $encoder->encodePassword($result1->getPassword(), '');
 
                     $RAW_QUERY1 = "
 
@@ -155,21 +152,86 @@ class DefaultController extends Controller
                     `username`, `nombre`, `apellidos`, `telefono`, `email`, `password`, `roles`, `nombre_completo`, `direccion`, `localidad`, `cp`, `id_provincia`, `id_pais`, `otra_ciudad`, `bloqueado`, `causa_bloqueo`, `aceptaLOPD`, `mi_descripcion`, `mis_trabajos`, `mis_estudios`, `id_universidad`, `empresa`, `icono`, `se_registro_desde`, `fotoFB`, `fb_id`)
                      VALUES (NULL,:active,0,'0',:datetime1,:date1,:date2,'0',:username, '0', '0', '0', :email, :password,:role, '0', '0', '0', '0', '0', 0, '0', 0,'0', 0, '0', '0', '0', 0, '0', '0', :reg_type, '0', '0');";
 
-                     $stmt =$em2->getConnection()->prepare($RAW_QUERY1);
-                     $stmt->execute(array('active' => 1,'username' => $result1['username']." ".$result1['surname'],'email' => $result1['email'],'password' => $pwencoded,'role' => 'ROLE_TEACHER' ,'reg_type' => 'Reg.Normal' ,'datetime1' => date_format(date_create(null),"Y-m-d H:i:s") ,'date1' =>  date_format(date_create(null),"Y-m-d") ,'date2' => date_format(date_create(null),"Y-m-d")));
+                     $stmt =$em1->getConnection()->prepare($RAW_QUERY1);
+                     $stmt->execute(array('active' => 1,'username' => $result1->getName()." ".$result1->getSurname(),'email' => $result1->getEmail(),'password' => $pwencoded,'role' => 'ROLE_TEACHER' ,'reg_type' => 'Reg.Normal' ,'datetime1' => date_format(date_create(null),"Y-m-d H:i:s") ,'date1' =>  date_format(date_create(null),"Y-m-d") ,'date2' => date_format(date_create(null),"Y-m-d")));
                           //$stmt->fetch();
-                         
-                        // return new JsonResponse($stmt);                        
+                         $this->createTeachertables($result1->getId());
+                        // return new JsonResponse($stmt);    
+                          $em1->getConnection()->commit();                    
                 }
                 $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'] ;
-                return $this->redirect($url.'/index#/app/profile/'.$result1['id']);
+                return $this->redirect($url.'/index');
 
             }
+          }
         }
+         catch(Exception $e)
+        {
+             $em1->getConnection()->rollBack();
+            return new JsonResponse("Something went wrong");
+        }
+
+    }
+
+    public function createTeachertables($teacherId)
+    {
+       /* $em1 = $this->getDoctrine()->getManager();   
+        $em1->getConnection()->beginTransaction();
+        try
+        {*/
+            $em1 = $this->getDoctrine()->getManager();
+            $RAW_QUERY1 = "
+                            CREATE TABLE `bigbangt_aemin`.`hist_ranking_posiciones_proff_".$teacherId."`
+                             (
+                              `id` varchar(8) COLLATE utf8_spanish_ci NOT NULL,
+                              `id_liga` int(3) NOT NULL,                              
+                              `id_user` int(5) NOT NULL,
+                              `fecha` datetime NOT NULL,
+                              `posicion` int(4) NOT NULL,
+                              `patrimonio_total` double(16,4) NOT NULL,
+                              `beneficio_total` double(16,4) NOT NULL,
+                              `posicion_ant` int(4) NOT NULL,
+                              `patrimonio_ant` double(16,4) NOT NULL
+                            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+                            ALTER  TABLE `bigbangt_aemin`.`hist_ranking_posiciones_proff_".$teacherId."` ADD PRIMARY KEY (`id`);
+
+                            ";
+
+            $stmt1 =$em1->getConnection()->prepare($RAW_QUERY1);
+            $stmt1->execute();
+            $stmt1->closeCursor();
+
+            $RAW_QUERY2 = "
+                            CREATE TABLE `bigbangt_aemin`.`hist_user_compra_proff_".$teacherId."` 
+                            ( `id` int(11) NOT NULL, `id_liga` int(4) NOT NULL, `id_user` int(5) NOT NULL, `id_empresa` varchar(10) NOT NULL, `prec_apertura_compra` double(16,4) NOT NULL, `fecha_apertura_compra` datetime NOT NULL, `volumen` double(16,4) NOT NULL, `volumen_ya_vendido` double(16,4) NOT NULL ) ENGINE=InnoDB DEFAULT CHARSET=utf8; ALTER TABLE `bigbangt_aemin`.`hist_user_compra_proff_".$teacherId."` ADD PRIMARY KEY (`id`); ALTER TABLE `bigbangt_aemin`.`hist_user_compra_proff_".$teacherId."` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+                            ";
+
+            $stmt2 =$em1->getConnection()->prepare($RAW_QUERY2);
+            $stmt2->execute();
+            $stmt2->closeCursor();
+
+           $RAW_QUERY3 = "
+                            CREATE TABLE `bigbangt_aemin`.`hist_user_operaciones_proff_".$teacherId."`  ( `id` int(11) NOT NULL, `id_liga` int(4) NOT NULL, `id_user` int(5) NOT NULL, `id_empresa` varchar(10) NOT NULL, `prec_compra` double(16,4) NOT NULL, `fecha_compra` datetime NOT NULL, `volumen_compra` double(16,4) NOT NULL, `prec_venta` double(16,4) NOT NULL, `fecha_venta` datetime NOT NULL, `volumen_operacion` double(16,4) NOT NULL, `beneficios` double(16,4) NOT NULL, `reg_oculto` int(1) NOT NULL ) ENGINE=InnoDB DEFAULT CHARSET=utf8; ALTER TABLE `bigbangt_aemin`.`hist_user_operaciones_proff_".$teacherId."` ADD PRIMARY KEY (`id`); ALTER TABLE `bigbangt_aemin`.`hist_user_operaciones_proff_".$teacherId."` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+                         ";
+
+            $stmt3 =$em1->getConnection()->prepare($RAW_QUERY3);
+            $stmt3->execute();
+            $stmt3->closeCursor();
+
+        /*    $em1->getConnection()->commit();  
+        }
+        catch(Exception $e)
+        {
+
+        }*/
     }
 
     public function verifySignupStudentAction(Request $request ,CustomCrypt $crypt,$verifyLink)
     {
+            $em1 = $this->getDoctrine()->getManager();   
+            $em1->getConnection()->beginTransaction();
+        try
+        {
         $email = $crypt->decrypt(urldecode($verifyLink));
         if($email)
         {
@@ -180,23 +242,24 @@ class DefaultController extends Controller
             }
             else
             {
-                $em1 = $this->getDoctrine()->getManager();
-
                 
+
+                $result1 = $em1->getRepository('AppBundle:GroupEmail')->findOneByEmail($email);
+                /*
                 $RAW_QUERY1 = 'SELECT * FROM group_emails where group_emails.email = :email LIMIT 1;';
 
                 $statement1 = $em1->getConnection()->prepare($RAW_QUERY1);
                 // Set parameters 
                 $statement1->bindValue('email', $email);
                 $statement1->execute();
-                $result1 = $statement1->fetch();
+                $result1 = $statement1->fetch();*/
                 //return new JsonResponse($result1['id']); 
                 if($result1)
                 {
 
                      $encoder = new MessageDigestPasswordEncoder();
                      $encPassStud = $encoder->encodePassword('bbt@123', '');
-                         $em2 = $this->getDoctrine()->getManager();
+                        // $em2 = $this->getDoctrine()->getManager();
 
                         $RAW_QUERY1 = "
 
@@ -205,19 +268,32 @@ class DefaultController extends Controller
                         `username`, `nombre`, `apellidos`, `telefono`, `email`, `password`, `roles`, `nombre_completo`, `direccion`, `localidad`, `cp`, `id_provincia`, `id_pais`, `otra_ciudad`, `bloqueado`, `causa_bloqueo`, `aceptaLOPD`, `mi_descripcion`, `mis_trabajos`, `mis_estudios`, `id_universidad`, `empresa`, `icono`, `se_registro_desde`, `fotoFB`, `fb_id`)
                          VALUES (NULL,:active,0,'0',:datetime1,:date1,:date2,'0',:username, '0', '0', '0', :email, :password,:role, '0', '0', '0', '0', '0', 0, '0', 0,'0', 0, '0', '0', '0', 0, '0', '0', :reg_type, '0', '0');";
 
-                         $stmt =$em2->getConnection()->prepare($RAW_QUERY1);
-                         $stmt->execute(array('active' => 1,'username' => "firstName"." "."lastName" ,'email' => $result1['email'],'password' => $encPassStud,'role' => 'ROLE_STUDENT' ,'reg_type' => 'Reg.Normal' ,'datetime1' => date_format(date_create(null),"Y-m-d H:i:s") ,'date1' =>  date_format(date_create(null),"Y-m-d") ,'date2' => date_format(date_create(null),"Y-m-d")));
+                         $stmt =$em1->getConnection()->prepare($RAW_QUERY1);
+                         $stmt->execute(array('active' => 1,'username' => "firstName"." "."lastName" ,'email' => $result1->getEmail(),'password' => $encPassStud,'role' => 'ROLE_STUDENT' ,'reg_type' => 'Reg.Normal' ,'datetime1' => date_format(date_create(null),"Y-m-d H:i:s") ,'date1' =>  date_format(date_create(null),"Y-m-d") ,'date2' => date_format(date_create(null),"Y-m-d")));
 
+                         /*mark as active and set user id */
+                         $result1->setActive(1);
+                         $result1->setStudentId($em1->getConnection()->lastInsertId());
+                         $em1->persist($result1);
+                         $em1->flush();
+                         //return $em->lastInsertId();
                          /*dummydata*/
                         $this->studentDummyData($email);
                           //$stmt->fetch();
                          
-                        // return new JsonResponse($stmt);                        
+                        // return new JsonResponse($stmt);   
+                         $em1->getConnection()->commit();                     
                 }
                 $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'] ;
                 return $this->redirect('http://bigbangtrading.com/');
 
             }
+        }
+        }
+        catch(Exception $e)
+        {
+             $em1->getConnection()->rollBack();
+            return new JsonResponse("Something went wrong");
         }
     }
 

@@ -16,10 +16,18 @@ class UserOperationsRepository extends EntityRepository
             $conn = $this->getEntityManager()
          	->getConnection();
        		$sql = '
-            SELECT purchase.id as recordId , user.username,user.id_admin as userId ,company.nom_empresa ,ROUND(purchase.prec_apertura_compra,2) as amount, ROUND(purchase.volumen,2) as shares  FROM `hist_user_compra` as purchase, users as user ,empresas as company , group_emails as ge , groups as g
+            SELECT purchase.id as recordId , user.username,user.id_admin as userId ,company.nom_empresa ,
+            ROUND(purchase.prec_apertura_compra,2) as amount, 
+            ROUND(purchase.volumen,2) as shares  
+
+            FROM `hist_user_compra_proff_'.$tid.'` as purchase,
+                  users as user ,
+                  empresas as company , 
+                  group_emails as ge , 
+                  groups as g
 
              WHERE company.id = purchase.id_empresa and user.id_admin = purchase.id_user 
-            and g.id = ge.group_id and g.teacher_id = :tid and user.email = ge.email 
+             and g.id = ge.group_id and g.teacher_id = :tid and user.email = ge.email 
              group by purchase.id 
             ';
 	        $stmt = $conn->prepare($sql);
@@ -30,15 +38,20 @@ class UserOperationsRepository extends EntityRepository
     }
 
 
-     public function findUserLikes($re)
+     public function findUserLikes($re,$tid)
     {
 
             $dummyUserId = 1000;
             $conn = $this->getEntityManager()
             ->getConnection();
             $sql = '
-           SELECT likes.ids_like as likes FROM `hist_user_compra` as purchase ,operaciones_like as likes WHERE likes.id_compra =:purchaseId and purchase.id= likes.id_compra and likes.ids_like !=" "
-            ';
+                        SELECT likes.ids_like as likes
+                        FROM `hist_user_compra_proff_'.$tid.'` as purchase ,
+                        operaciones_like as likes 
+                        WHERE likes.id_compra =:purchaseId and 
+                        purchase.id= likes.id_compra and 
+                        likes.ids_like !=" "
+                  ';
             $stmt = $conn->prepare($sql);
             $stmt->execute(array('purchaseId' => $re['recordId']));
             $final = $stmt->fetch();   
@@ -46,14 +59,17 @@ class UserOperationsRepository extends EntityRepository
             return ($final);
     }
 
-     public function findUserComments($re)
+     public function findUserComments($re,$tid)
     {
 
             $dummyUserId = 1000;
             $conn = $this->getEntityManager()
             ->getConnection();
             $sql = '
-            SELECT com.id as commentId ,com.id_user as userId , com.ids_likes as likes , com.comentario as comment FROM `hist_user_compra` as purchase, users as user ,comentarios as com   WHERE purchase.id = com.id_compra and user.id_admin = com.id_user   and com.id_compra =:purchaseId 
+                  SELECT com.id as commentId ,com.id_user as userId , com.ids_likes as likes , com.comentario as comment 
+                  FROM `hist_user_compra_proff_'.$tid.'` as purchase,
+                  users as user ,comentarios as com   
+                  WHERE purchase.id = com.id_compra and user.id_admin = com.id_user   and com.id_compra =:purchaseId 
             ';
             $stmt = $conn->prepare($sql);
              $stmt->execute(array('purchaseId' => $re['recordId']));
@@ -117,26 +133,21 @@ class UserOperationsRepository extends EntityRepository
 
     public function rankingList($tid)
     {
-        /*$sql1 = ' 
-                  SELECT purchase.id as recordId , user.username,user.id_admin as userId ,purchase.prec_apertura_compra as purchaseAmount, sales.prec_cierre_venta as salesAmount , purchase.volumen as shares ,SUM( IFNull(g.virtual_money, 0)  + ( - IFNull(purchase.prec_apertura_compra, 0) ) + IFNull(sales.prec_cierre_venta, 0) )  as amount 
-                  FROM `hist_user_compra` as purchase  ,
-                  group_emails as ge , groups as g , users as user 
-                  left JOIN hist_user_venta as sales    on sales.id_user = user.id_admin WHERE
-                  user.id_admin = purchase.id_user 
-                  and g.id = ge.group_id and g.teacher_id = :tid and user.email = ge.email group by user.id_admin 
-                ';*/
-            $sql1 = '
-                        SELECT ROUND(amounttable.patrimonio,2) as amount ,
-                        ROUND(pos.patrimonio_total,2) as newamount , pos.posicion as position ,pos.posicion_ant as old_position,
-                        ROUND(pos.beneficio_total,2)as benefits ,  
-                        user.username as name,user.id_admin as userId , count(op.id_user) as operations ,
-                        IFNull(chat.total, 0) as total 
-                        from hist_teacher_league_ranking as pos, users as user 
-                        left join chats_sin_leer as chat on chat.id_user =:idUser and chat.id_user_send = user.id_admin
-                        left join hist_user_operaciones as op   on  op.id_user = user.id_admin
-                        left join hist_patrimonio as amounttable on amounttable.id_user = user.id_admin
-                        where pos.id_user = user.id_admin group by pos.id_user order by pos.posicion ASC
-                    ';
+              $sql1 = '
+                     SELECT 
+                            ROUND(amounttable.patrimonio,2) as amount ,
+                            ROUND(pos.patrimonio_total,2) as newamount , pos.posicion as position ,pos.posicion_ant as old_position,
+                            ROUND(pos.beneficio_total,2)as benefits ,  
+                            user.username as name,user.id_admin as userId , count(op.id_user) as operations ,
+                            IFNull(chat.total, 0) as total 
+                      FROM  
+                            hist_ranking_posiciones_proff_'.$tid.' as pos, 
+                            users as user 
+                            left join chats_sin_leer as chat on chat.id_user =:idUser and chat.id_user_send = user.id_admin
+                            left join hist_user_operaciones_proff_'.$tid.' as op   on  op.id_user = user.id_admin
+                            left join hist_patrimonio as amounttable on amounttable.id_user = user.id_admin
+                            where pos.id_user = user.id_admin group by pos.id_user order by pos.posicion ASC
+                ';
 
                 $conn = $this->getEntityManager()
                 ->getConnection();
@@ -300,7 +311,7 @@ class UserOperationsRepository extends EntityRepository
                    SELECT count(user.id_admin) as totalUsers  FROM  users as user  , group_emails as ge , groups as g
 
              WHERE 
-             g.id = ge.group_id and g.teacher_id = :tid and user.email = ge.email 
+             g.id = ge.group_id and g.teacher_id = :tid and user.email = ge.email and ge.active =1
             
                     ';
              $stmt = $conn->prepare($sql);
@@ -315,13 +326,14 @@ class UserOperationsRepository extends EntityRepository
             $sql1 = 
                 '
                     SELECT 
-                    ROUND(sum(pos.beneficio_total),2) as benefits ,  
-                    ROUND(((pos.patrimonio_total -25000.00)/25000 ) * 100,2) as percentage
-                    , count(op.id) as operations 
+                      ROUND(sum(pos.beneficio_total),2) as benefits ,  
+                      ROUND(((pos.patrimonio_total -25000.00)/25000 ) * 100,2) as percentage
+                      , count(op.id) as operations 
                    
-                    from hist_teacher_league_ranking as pos, users as user 
+                    FROM
+                     hist_ranking_posiciones_proff_'.$tid.' as pos, users as user 
                    
-                    left join hist_user_operaciones as op   on  op.id_user = user.id_admin
+                    left join hist_user_operaciones_proff_'.$tid.' as op   on  op.id_user = user.id_admin
                     
                     where pos.id_user = user.id_admin 
                 ';
@@ -341,13 +353,20 @@ class UserOperationsRepository extends EntityRepository
     {
             $sql1 = 
                 '
-                    SELECT  com.nom_empresa as asset ,
-                    op.fecha_compra  as purchaseDate ,ROUND(op.prec_compra,2) as purchasePrice ,ROUND(op.volumen_compra,2) as purchaseShare,
-                    ROUND(op.prec_venta,2) as salePrice ,op.fecha_venta as saleDate ,ROUND(op.volumen_operacion,2) as saleShare ,
-                    ROUND(op.beneficios,2) as benefits , ROUND(((op.prec_venta - op.prec_compra) / op.prec_compra)*100,2) as benefitPercentage 
-                    from hist_user_operaciones as op  ,empresas as com 
-                    where
-                     com.id = op.id_empresa /*and op.id_user = :sid*/
+                    SELECT  
+                        com.nom_empresa as asset ,
+                        op.fecha_compra  as purchaseDate ,
+                        ROUND(op.prec_compra,2) as purchasePrice,
+                        ROUND(op.volumen_compra,2) as purchaseShare,
+                        ROUND(op.prec_venta,2) as salePrice ,
+                        op.fecha_venta as saleDate ,
+                        ROUND(op.volumen_operacion,2) as saleShare,
+                        ROUND(op.beneficios,2) as benefits , 
+                        ROUND(((op.prec_venta - op.prec_compra) / op.prec_compra)*100,2) as benefitPercentage 
+                    FROM 
+                      hist_user_operaciones_proff_'.$tid.' as op  ,empresas as com 
+                    WHERE
+                      com.id = op.id_empresa 
                 ';
 
                 $conn = $this->getEntityManager()
@@ -365,12 +384,16 @@ class UserOperationsRepository extends EntityRepository
     {
             $sql1 = 
                 '
-                    SELECT  com.nom_empresa as asset ,
-                    op.fecha_apertura_compra  as purchaseDate ,ROUND(op.prec_apertura_compra,2) as purchasePrice ,ROUND(op.volumen,2) as purchaseShare ,
-                    ROUND(com.current_price,2) as current_price , ROUND(((op.prec_apertura_compra * op.volumen) - (com.current_price )* (op.volumen - op.volumen_ya_vendido)),2) as benefit
-                    from hist_user_compra as op  ,empresas as com 
-                    where
-                     com.id = op.id_empresa /*and op.id_user = :sid*/
+                    SELECT  
+                    com.nom_empresa as asset ,
+                    op.fecha_apertura_compra  as purchaseDate ,
+                    ROUND(op.prec_apertura_compra,2) as purchasePrice ,
+                    ROUND(op.volumen,2) as purchaseShare ,
+                    ROUND(com.current_price,2) as current_price , 
+                    ROUND(((op.prec_apertura_compra * op.volumen) - (com.current_price )* (op.volumen - op.volumen_ya_vendido)),2) as benefit
+                    from hist_user_compra_proff_'.$tid.' as op  ,empresas as com 
+                    WHERE
+                     com.id = op.id_empresa 
                 ';
 
                 $conn = $this->getEntityManager()
@@ -388,8 +411,12 @@ class UserOperationsRepository extends EntityRepository
     {
         $sql1 = 
                 '
-                    SELECT  user.id_admin as userId , user.email as email ,user.username 
-                    from users as user , groups as g ,group_emails as ge 
+                    SELECT  user.id_admin as userId ,
+                     user.email as email ,user.username 
+                    from 
+                    users as user , 
+                    groups as g ,
+                    group_emails as ge 
                     where g.id = :gId and  ge.group_id = g.id and ge.email = user.email and g.teacher_id = :tId; 
 
                 ';
@@ -427,10 +454,15 @@ class UserOperationsRepository extends EntityRepository
     {
         $sql1 = 
                 '
-                   SELECT g.id, g.group_name, 
+                   SELECT 
+                          g.id, g.group_name, 
                           l.fecha_inicio as start_date,l.fecha_fin as end_date
-                    from groups as g ,ligas as l  ,group_leagues as gl 
-                    where g.id = :gId and  gl.group_id = g.id and gl.league_id = l.id 
+                    FROM 
+                        groups as g ,
+                        ligas as l  ,
+                        group_leagues as gl 
+                    WHERE 
+                        g.id = :gId and  gl.group_id = g.id and gl.league_id = l.id 
                 ';
 
                 $conn = $this->getEntityManager()
@@ -448,10 +480,13 @@ class UserOperationsRepository extends EntityRepository
     {
        $sql1 = 
                 '
-                  SELECT g.id, g.group_name, 
+                  SELECT 
+                          g.id, g.group_name, 
                           l.fecha_inicio as start_date,l.fecha_fin as end_date
-                    from groups as g ,ligas as l  ,group_leagues as gl 
-                    where g.id = :gId and  gl.group_id = g.id and gl.league_id = l.id 
+                    from 
+                        groups as g ,ligas as l  ,group_leagues as gl 
+                    where 
+                        g.id = :gId and  gl.group_id = g.id and gl.league_id = l.id 
                 ';
 
                 $conn = $this->getEntityManager()
