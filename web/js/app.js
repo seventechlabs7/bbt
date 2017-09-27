@@ -3,7 +3,7 @@
 // Declare app level module which depends on views, and components
 angular.module('app', [
     //'ngAnimate',
-    //'ngCookies',
+    'ngCookies',
 //    'ngResource',
    'ngSanitize',
     'ngTouch',
@@ -27,7 +27,8 @@ angular.module('app', [
    'ngMessages',
    'angular-storage',
    'ngTable',
-   'blockUI'
+   'blockUI',
+   'pascalprecht.translate'
        //'angular-loading-bar', 
     //'ng-token-auth',
     //'ngFileUpload',
@@ -87,6 +88,17 @@ angular.module('app', [
         return response;
     };
 })
+
+.config(['$translateProvider', function ($translateProvider) {
+  $translateProvider.translations();
+  // configures staticFilesLoader
+  $translateProvider.useStaticFilesLoader({
+    prefix: './i18n/locale-',
+    suffix: '.json'
+  });
+  // load 'en' table on startup
+  $translateProvider.preferredLanguage('en');
+}]);
 
 window.paceOptions = {
     document: true, // disabled
