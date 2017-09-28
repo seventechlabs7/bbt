@@ -1,8 +1,8 @@
 'use strict';
 
 
-angular.module('app').controller('ranking', ['$scope','$document','$rootScope','$stateParams','$http','$state','$timeout','uiGmapGoogleMapApi','$filter','Upload','notify','NgTableParams','blockUI',
-    function($scope,$document,$rootScope,$stateParams,$http,$state,$timeout,uiGmapGoogleMapApi,$filter,Upload,notify,NgTableParams,blockUI) {
+angular.module('app').controller('ranking', ['$scope','$document','$rootScope','$stateParams','$http','$state','$timeout','uiGmapGoogleMapApi','$filter','Upload','notify','NgTableParams','blockUI','$translate',
+    function($scope,$document,$rootScope,$stateParams,$http,$state,$timeout,uiGmapGoogleMapApi,$filter,Upload,notify,NgTableParams,blockUI,$translate) {
         
        $scope.screen = "start";
        $scope.init = function(gId)
@@ -1186,6 +1186,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				return;
 			}
         	$scope.currentStep =3;
+        	
         	$scope.start(index);
         	return;
         }
@@ -1297,6 +1298,11 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 		{
 			window.location.href = "/index";
 		}
+
+
+		$rootScope.changeLanguage = function (langKey) {		 
+		   $translate.use(langKey);
+		  };
 
 
 

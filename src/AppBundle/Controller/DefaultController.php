@@ -132,7 +132,9 @@ class DefaultController extends Controller
             $checkMail =    $this->CheckUserTable($email);
             if($checkMail)
             {
-                return new JsonResponse("Error : Link Already verified !");
+                return $this->render('staff/error-page.html.twig', array(
+                         'message' => 'Link Already Verified or does not exist',
+                    ));
             }
             else
             {
@@ -238,7 +240,9 @@ class DefaultController extends Controller
             $checkMail =    $this->CheckUserTable($email);
             if($checkMail)
             {
-                return new JsonResponse("Error : Link Already verified !");
+                return $this->render('staff/error-page.html.twig', array(
+                         'message' => 'Link Already Verified or does not exist',
+                    ));
             }
             else
             {
@@ -321,7 +325,9 @@ class DefaultController extends Controller
             //return new JsonResponse($email);
             if($checkMail)
             {
-                return new JsonResponse("Error : Link Already verified or email already in use");
+                return $this->render('staff/error-page.html.twig', array(
+                         'message' => 'Link Already Verified or does not exist',
+                    ));
             }
             else
             {

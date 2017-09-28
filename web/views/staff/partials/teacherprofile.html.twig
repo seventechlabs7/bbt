@@ -214,10 +214,10 @@ ul.unedit_ul {
 					<div class="left_bar_buttons main-sidebar">
 						<ul class="bar_but_ul"> 
 							<li>
-								<a class="btn color" ng-click="changeNav('profile')"><i class="fa fa-user" aria-hidden="true"></i>Profile</a>
+								<a class="btn color" ng-click="changeNav('profile')"><i class="fa fa-user" aria-hidden="true"></i><span translate="">MENU_PROFILE</span></a>
 							</li>
 							<li>
-								<a class="btn color" ng-click="changeNav('ranking')"><i class="fa fa-file-text" aria-hidden="true"></i>Ranking</a>
+								<a class="btn color" ng-click="changeNav('ranking')"><i class="fa fa-file-text" aria-hidden="true"></i><span translate="">MENU_RANKING</span></a>
 							</li>
 							<!-- <li>
 								<button class="left_bar_but" ng-click="changeNav('feedback')">Feedback</button>
@@ -228,6 +228,20 @@ ul.unedit_ul {
 						</ul>
 					</div>
 				</div>
+			<div class="header_container">
+			<div class="row">
+				<div class="col-lg-6 col-md-6 col-xs-12">
+					<div class="">
+						<a href=""><img style="width: 100%" src="imgs/eng_flag.png" ng-click="changeLanguage('en')"></a>
+					</div>
+				</div>
+				<div class="col-lg-6 col-md-6 col-xs-12">
+					<div class="">
+						<a href=""><img style="width: 100%" src="imgs/esp_flag.png" ng-click="changeLanguage('es')"></a>
+					</div>
+				</div>
+			</div>
+		</div>
 			</div>
 		</div>
 		<div class="center_container main-content-section">
@@ -277,31 +291,31 @@ ul.unedit_ul {
 							<div class="green_box">
 						      <div class="row">
 							    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-								 <h2>General Statistics</h2>
+								 <h2 translate="">D_GEN_STATS</h2>
 								</div>
 						      	<div class="col-lg-7 col-md-8 col-sm-8 col-xs-6">
-						      		<label>Number of Students</label>
+						      		<label translate="">D_NO_OF_STUDENTS</label>
 									<span class="pull-right"><b>:</b></span>
 						      	</div>
 						      	<div class="col-lg-5 col-md-4 col-sm-4 col-xs-6">
 						      		<p>{{report.count}}</p>
 						      	</div>
 						      	<div class="col-lg-7 col-md-8 col-sm-8 col-xs-6">
-						      		<label>Total Number of Operations</label>
+						      		<label translate="">D_NO_OF_OPS</label>
 									<span class="pull-right"><b>:</b></span>
 						      	</div>
 						      	<div class="col-lg-5 col-md-4 col-sm-4 col-xs-6">
 						      		<p>{{report.operations}}</p>
 						      	</div>
 						      	<div class="col-lg-7 col-md-8 col-sm-8 col-xs-6">
-						      		<label>Total Profitability</label>
+						      		<label translate="">D_TOTAL_PROFITABILITY</label>
 									<span class="pull-right"><b>:</b></span>
 						      	</div>
 						      	<div class="col-lg-5 col-md-4 col-sm-4 col-xs-6">
 						      		<p>{{report.percentage}} %</p>
 						      	</div>
 						      	<div class="col-lg-7 col-md-8 col-sm-8 col-xs-6">
-						      		<label>Total Benefits</label>
+						      		<label translate="">D_TOTAL_BENEFITS</label>
 									<span class="pull-right"><b>:</b></span>
 						      	</div>
 						      	<div class="col-lg-5 col-md-4 col-sm-4 col-xs-6">
@@ -315,7 +329,7 @@ ul.unedit_ul {
 					<div class="col-lg-7 col-md-8 col-sm-12 col-xs-12">
 						<div class="center_r_block post-comment-sec">
 						<div class="post_cont">		
-						  <h2>timeline</h2>					
+						  <h2 translate="">T_TIMELINE</h2>					
 							<div class="single_post" ng-repeat="op in timeLine ">
 								<div class="single_profile">
 									<div class="row m-t-10">
@@ -326,15 +340,15 @@ ul.unedit_ul {
 										</div>
 										<div class="col-lg-10 col-md-10 col-sm-10 col-xs-9">
 											<div class="post_line">
-												<span class="post_name">{{op.username}}</span> has bought
+												<span class="post_name">{{op.username}}</span> <span translate="">T_BOUGHT</span>
 											</div>
 											<div class="post_line">
-												<span class="bold">{{op.shares}}</span> shares of <span class="bold">{{op.nom_empresa}}</span> for <span class="bold">{{op.amount}} &euro;</span>
+												<span class="bold">{{op.shares}}</span> <span translate="">T_SHARES_FROM</span> <span class="bold">{{op.nom_empresa}}</span> <span translate="">T_FOR</span> <span class="bold">{{op.amount}} &euro;</span>
 											</div>
 											<div class="post_line">
 												<p>
 
-													<a href="javascript:void()" class="like_a" ng-click="postLike(op.recordId)"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a>{{op.likes.length}}    <a href="javascript:void(0)" ng-click="openclosecmt($index)"> Comments({{op.comments.length}})</a>
+													<a href="javascript:void()" class="like_a" ng-click="postLike(op.recordId)"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i><span translate="">T_LIKE</span></a>{{op.likes.length}}    <a href="javascript:void(0)" ng-click="openclosecmt($index)">  <span translate="">T_COMMENT</span>({{op.comments.length}})</a>
 												</p>
 											</div>
 										</div>
@@ -365,7 +379,7 @@ ul.unedit_ul {
 														</div>
 														<div class="likes_section">
 																<div class="post_line">
-																<a href="javascript:void()" class="like_a" ng-click="postCommentLike(op.recordId,com.commentId)"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a> {{com.commentLikes.length}} 
+																<a href="javascript:void()" class="like_a" ng-click="postCommentLike(op.recordId,com.commentId)"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i><span translate="">T_LIKE</span></a> {{com.commentLikes.length}} 
 																</div>
 															</div>
 													</div>			
@@ -380,7 +394,7 @@ ul.unedit_ul {
 										<div class="comment_box">
 											<div class="row">
 												<div class="col-lg-10 col-md-7 col-sm-6 col-xs-12 p-r-0 p-l-0">
-													<textarea rows="3" placeholder="Write a comment..." ng-model = "com.currentComment" name="comment" id="comment" ng-minlength="2" ng-maxlength="25" ng-submit="postComment(op.id,com.commentId)" required></textarea>
+													<textarea rows="3" placeholder="{{'T_COMMENT_PH' | translate}}" ng-model = "com.currentComment" name="comment" id="comment" ng-minlength="2" ng-maxlength="25" ng-submit="postComment(op.id,com.commentId)" required></textarea>
 													<div ng-messages="commentForm.comment.$error" ng-show="commentForm.comment.$touched">
 									      		 <div ng-messages-include="js/messages.html"></div>
 											    </div>
@@ -398,7 +412,7 @@ ul.unedit_ul {
 								</div>
 							</div>
 							<div  class="" ng-if="timeLine.length == 0">
-								<h4>No data available yet</h4
+								<h4 translate=""> NO_DATA </h4
 							</div>
 
 						</div>
@@ -417,10 +431,10 @@ ul.unedit_ul {
 	        <div class="modal-header">
 	          <button type="button" class="close" data-dismiss="modal">&times;</button>
 	          <ul>
-	          	<li class="step_head_li" id="step_head_1" data="1">Step 1 of 4</li>
-	          	<li class="step_head_li" id="step_head_2" data="2">Step 2 of 4</li>
-	          	<li class="step_head_li" id="step_head_3" data="3">Step 3 of 4</li>
-	          	<li class="step_head_li" id="step_head_4" data="4">Step 4 of 4</li>
+	          	<li class="step_head_li" id="step_head_1" data="1" translate="">STEP_1</li>
+	          	<li class="step_head_li" id="step_head_2" data="2" translate="">STEP_2</li>
+	          	<li class="step_head_li" id="step_head_3" data="3" translate="">STEP_3</li>
+	          	<li class="step_head_li" id="step_head_4" data="4" translate="">STEP_4</li>
 	          </ul>
 	        </div>
 	        <div class="modal-body">
@@ -430,30 +444,30 @@ ul.unedit_ul {
 	        				<div class="form_container">
 	        					<div class="row">								
 	        						<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 m-t-10 p-0">
-	        							<div class="form_head_text">
-			        						Do you have students? Add them
+	        							<div class="form_head_text" translate="">
+			        						S1_ADD_STUDENTS
 			        					</div>
 	        							<div class="row">
 	        								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
 			        							<div class="input_upload m-b-0">
-			        								<input type="text" class="field_text" placeholder="Enter comma separated emails" name="maillist"  ng-model="teacher.mail_list"/>
+			        								<input type="text" class="field_text" placeholder="{{'S1_ADD_STUDENTS_PH' | translate}}" name="maillist"  ng-model="teacher.mail_list"/>
 			        							</div>
 		        							</div>
 											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 txt-or">(or)</div>		        							
 		        							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
 			        							<div class="input_upload">
-			        								<input type="file" class="upload_text p-0" placeholder="Find Your File(csv./other)" name="maillistfile" name="file" ngf-select="selectFile(teacher.mail_list_file)" ng-model="teacher.mail_list_file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
-			        								<small class="upload-info">File format: (XLS / XLSX / .CSV)</small>
+			        								<input type="file" class="upload_text p-0" placeholder="{{'S1_ADD_STUDENTS_PH' | translate}}" name="maillistfile" name="file" ngf-select="selectFile(teacher.mail_list_file)" ng-model="teacher.mail_list_file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
+			        								<small class="upload-info" translate="">S1_UPLOAD_STUDENTS</small>
 			        								<!-- <button class="upload_button">Upload</button> -->
 			        							</div>
 		        							</div>
 	        							</div>
 	        							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p0 m-t-10">
-		    								<div class="form_head_text">
-				        						Want to create a group with them ?
+		    								<div class="form_head_text" translate="">
+				        						S1_GROUP_LABEL
 				        					</div>
 				        					<div class="input_text m-t-10">
-				        						<input type="text" class="field_text" placeholder="Name of the Group" name="groupname" ng-model="teacher.group_name" />
+				        						<input type="text" class="field_text" placeholder="{{'S1_GROUP_PH' | translate }}" name="groupname" ng-model="teacher.group_name" />
 				        					</div>
 		    							</div>
 	        						</div>
@@ -468,15 +482,15 @@ ul.unedit_ul {
 	        					</div>
 	        					<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 m-t-10 p-0">
 	        						<div class="modal_but_cont p-0 m-t-10 text-right">        							
-	        							<button class="modal_nxt_bt" ng-click="shiftTab(2)">Next</button>
+	        							<button class="modal_nxt_bt" ng-click="shiftTab(2)"> <span translate="">STEP_NEXT</span> </button>
 	        						</div>
 	        					</div>
 	        				</div>
 	        			</li>
 	        			<li class="step_body_li" id="step_body_2">
 	        				<div class="form_container">
-	        					<div class="form_head_text">
-	        						Create a virtual bag league for your students:
+	        					<div class="form_head_text" translate="">
+	        						S2_TITLE 
 	        					</div>
 	        					<div class="row">
 	        						<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 p-0">
@@ -485,18 +499,18 @@ ul.unedit_ul {
 		        								<li class="cust_num_li">
 		        									<div class="cust_list_q">
 		        										<span class="li_num">1. </span>
-		        										<span class="li_q">How long will it last for? </span>
+		        										<span class="li_q" translate="">s2_DATE_LABEL </span>
 		        									</div>
 													<div class="col-md-9 p-0" style="padding:0 !important;">
 		        									 <div class="cust_list_ans p-0">         						
 														<div class="row">
 															<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 p-l-0">
-																<b style="font-size: 12px; color: #666666;">Start Date : </b>
+																<b style="font-size: 12px; color: #666666;" translate="">S2_SDATE  </b>
 																<!-- <input id="sDateField" type="date" class="date_form"  placeholder="Start Date" name="maillistfile" ng-model="teacher.start_date" ng-change="checkTime('start')" /> -->
 																<input type="text" ng-click="dateinitialize()" class="form-control docs-date" id="picker1" name="sdate"   ng-model="teacher.start_date" ng-change="checkTime('start')" placeholder="dd/mm/yyyy" data-toggle="datepicker" />
 															</div>
 															<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 p-0">
-																<b style="font-size: 12px; color: #666666;">End Date : </b> 
+																<b style="font-size: 12px; color: #666666;" translate="">S2_EDATE  </b> 
 																<!-- <input type="date"  class="date_form" name="startdate"  ng-model="teacher.end_date" ng-change="checkTime('end')"/> -->
 																<input type="text" ng-click="dateinitialize()" class="form-control docs-date" id="picker2" name="edate"   ng-model="teacher.end_date" ng-change="checkTime('end')" placeholder="dd/mm/yyyy" data-toggle="datepicker" />
 															</div>
@@ -508,7 +522,7 @@ ul.unedit_ul {
 		        								<li class="cust_num_li">
 		        									<div class="cust_list_q">
 		        										<span class="li_num">2. </span>
-		        										<span class="li_q">Which assets do you want to have?</span>
+		        										<span class="li_q" translate="">S2_ASSETS_LABEL</span>
 		        									</div>
 		        									<div class="cust_list_ans p-0">         						
 														<div class="row">
@@ -542,12 +556,12 @@ ul.unedit_ul {
 		        								<li class="cust_num_li">
 		        									<div class="cust_list_q">
 		        										<span class="li_num">3. </span>
-		        										<span class="li_q">How do you want to call your league?</span>
+		        										<span class="li_q" translate="">S2_LEAGUE_LABEl</span>
 		        									</div>
 		        									<div class="cust_list_ans p-0">
 		        										<div class="row">
 		        											<div class="col-lg-9 col-md-12 col-sm-12 col-xs-12 p-0">
-		        												<input type="text" class="field_text ft2 blue" placeholder="League Name" name="leaguename" ng-model="teacher.league_name" />
+		        												<input type="text" class="field_text ft2 blue" placeholder="{{'S2_LEAGUE_PH' |  translate}}" name="leaguename" ng-model="teacher.league_name" />
 		        											</div>	
 		        										</div>
 		        									</div>
@@ -555,12 +569,12 @@ ul.unedit_ul {
 		        								<li class="cust_num_li">
 		        									<div class="cust_list_q">
 		        										<span class="li_num">4. </span>
-		        										<span class="li_q">Virtual money to start:</span>
+		        										<span class="li_q" translate="">S2_VIRTUAL_MONEY</span>
 		        									</div>
 		        									<div class="cust_list_ans p-0">
 		        										<div class="row">
 		        											<div class="col-lg-9 col-md-10 col-sm-10 col-xs-10 p-0">
-		        											 <input type="text" class="field_text ft2 blue"  placeholder="" name="virtualmoney" ng-model="teacher.virtual_money" /> 
+		        											 <input type="text" class="field_text ft2 blue"  placeholder="{{'S2_VIRTUAL_MONEY_PH' |  translate}}" name="virtualmoney" ng-model="teacher.virtual_money" /> 
 		        											</div>	
 		        											<div class="col-lg-1 col-md-2 col-sm-2 col-xs-2" style="padding-top: 2%;">
 		        											&euro;
@@ -582,7 +596,7 @@ ul.unedit_ul {
 	        					<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 p-0">
 	        						<div class="modal_but_cont p-l-0 p-r-0 text-right">
 	        							<!-- <button class="modal_nxt_bt" ng-click="shiftTab(1)">Back</button> -->
-	        							<button class="modal_nxt_bt" ng-click="shiftTab(3)">Next</button>
+	        							<button class="modal_nxt_bt" ng-click="shiftTab(3)"><span translate="">STEP_NEXT</span> </button>
 	        						</div>
 
 	        					</div>        					
@@ -590,15 +604,15 @@ ul.unedit_ul {
 	        			</li>
 	        			<li class="step_body_li p-0" id="step_body_3">
 	        				<div class="form_container">
-	        					<div class="form_head_text">
-	        						What do you want to see?
+	        					<div class="form_head_text" translate="">
+	        						S3_FEED_BACK_TITLE
 	        					</div>
 	        					<div class="row">
 	        						<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 p-0">
 	        							<div class="row">
 	        								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
-			        							<div class="cust_list_q">
-					        						1. Select the feedback.
+			        							<div class="cust_list_q" translate="">
+					        						S3_FEED_BACK_LABEL
 					        					</div>
 		        							</div>
 		        							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
@@ -607,25 +621,25 @@ ul.unedit_ul {
 														<li> 
 															<label class="check_label">   
 																<input type="checkbox"  ng-true-value="'1'" ng-false-value="'0'" ng-model="teacher.feedback[0]">
-																<span class="check_text">Benefits</span>
+																<span class="check_text" translate="">S3_FEED_BACK_1</span>
 															</label>
 														</li>
 														<li> 
 															<label class="check_label">   
 																<input type="checkbox"  ng-true-value="'1'" ng-false-value="'0'" ng-model="teacher.feedback[1]">
-																<span class="check_text">Number of Operations</span>
+																<span class="check_text" translate="">S3_FEED_BACK_2</span>
 															</label>
 														</li>
 														<li> 
 															<label class="check_label">   
 																<input type="checkbox"  ng-true-value="'1'" ng-false-value="'0'" ng-model="teacher.feedback[2]">
-																<span class="check_text">Total Profitability</span>
+																<span class="check_text" translate="">S3_FEED_BACK_3</span>
 															</label>
 														</li>
 														<li> 
 															<label class="check_label">   
 																<input type="checkbox"  ng-true-value="'1'" ng-false-value="'0'" ng-model="teacher.feedback[3]">
-																<span class="check_text">Average Profitability per person</span>
+																<span class="check_text" translate="">S3_FEED_BACK_4</span>
 															</label>
 														</li>
 													</ul>
@@ -644,7 +658,7 @@ ul.unedit_ul {
 	        					<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 p-0">
 	        						<div class="modal_but_cont p-l-0 p-r-0 text-right">
 	        							<!-- <button class="modal_nxt_bt" ng-click="shiftTab(2)">Back</button> -->
-	        							<button class="modal_nxt_bt" ng-click="start(4)">Next</button>
+	        							<button class="modal_nxt_bt" ng-click="start(4)"><span translate="">STEP_NEXT</span></button>
 	        						</div>
 	        					</div>
 	        				</div>        				
@@ -652,7 +666,7 @@ ul.unedit_ul {
 	        			<li class="step_body_li" id="step_body_4">
 	        				<div class="form_container">
 	        					<div class="row">
-	        						<p class="form_head_text">Saved Successfully</p>
+	        						<p class="form_head_text" translate="">S4_MESSAGE</p>
 									<!-- <div ng-if="response.invalidArray.length >0">
 	        							following emails are invalid and not added
 	        							<p ng-repeat="email in response.invalidArray">
@@ -667,7 +681,7 @@ ul.unedit_ul {
 	        						</div>	 -->								
 	        					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 m-t-10">
 	        						<div class="modal_but_cont m-t-10" style="text-align:center !important;">        							
-	        							<button class="modal_nxt_bt" data-dismiss="modal">OK</button>
+	        							<button class="modal_nxt_bt" data-dismiss="modal"><span translate="">OK</span> </button>
 	        				     </div>
 	        		       	 </div>
 	        			</li>

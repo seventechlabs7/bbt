@@ -1,11 +1,112 @@
 {
   "HOME_BANNER_TEXT" : "Tu universidad cada vez más cerca:",
-
   "HOME_LIST_1" : "Aprende a finanzas",
   "HOME_LIST_2" : "Practica en bolsa virtual",
   "HOME_LIST_3" : "Conecta con personas y empresas",
 
+
   "SIGN_UP_TITLE" : "Registro Profesor",
   "SIGN_UP_SUB_TITLE" : "Todo adaptado especialmente para profesores",
-  "SIGN_UP_TERMS" : "Al hacer click en Únete ahora, Aceptas la Política de cookies, la Política de privacidad y los Términos y condiciones de BBT."
+  "SIGN_UP_TERMS" : "Al hacer click en Únete ahora, Aceptas la Política de cookies, la Política de privacidad y los Términos y condiciones de BBT." ,
+  "SIGN_UP_BUTTON" : "Únete ahora",
+
+  "S_NAME_PH" : "Nombre",
+  "S_SURNAME_PH" : "Apellidos" ,
+  "S_EMAIL_PH"	 : "Correo Electrónico",
+  "S_PASS_PH"	: "Contraseña",
+  "S_UNIV_PH"	:"Universidad",
+
+
+  "LOGIN_BUTTON" : "Inicia sesión",
+  "LOGIN_FORGOT" : "¿Olvidaste la contraseña?" ,
+
+  "L_EMAIL_PH" : "Correo Electrónico",
+  "L_PASS_PH"  : "Contraseña",
+
+  "MENU_PROFILE" : "Perfil",
+  "MENU_RANKING" : "clasificación",
+
+
+  "P_UPLOAD_AVATAR" : "Subir foto" ,
+
+
+  "D_GEN_STATS" 	:"Estadísticas generales",
+  "D_NO_OF_STUDENTS": "Número de alumnos",
+  "D_NO_OF_OPS" : "Numero de operaciones total",
+  "D_TOTAL_PROFITABILITY" : "Rentabilidad total",
+  "D_TOTAL_BENEFITS" : "Beneficios totales" ,
+
+  "T_TIMELINE" : "Cronograma",
+  "T_BOUGHT" : "ha comprado",
+  "T_SHARES_FROM" : "acciones de",
+  "T_FOR"	:"por",
+  "T_LIKE" : "Me gusta",
+  "T_COMMENT" :"Comentar",
+  "T_COMMENT_PH":"Escribir un comentario",
+
+  "NO_DATA" : "datos no disponibles",
+
+
+  "STEP_1" : "Paso 1 de 4",
+  "STEP_2" : "Paso 2 de 4",
+  "STEP_3" : "Paso 3 de 4",
+  "STEP_4" : "Paso 4 de 4",
+
+  "STEP_NEXT" :"siguiente",
+  "STEP_BACK": "espalda",
+  "OK" : "Bueno",
+  "SAVE" :"salvar",
+  "CANCEL" :"cancelar",
+  "UPDATE" : "Actualizar",
+  "MODIFY" :"modificar",
+
+  "S1_ADD_STUDENTS" : "¿Tienes alumnos? Añádelos",
+  "S1_ADD_STUDENTS_PH" :"Copia y pega aquí tu lista de mails",
+  "S1_UPLOAD_STUDENTS" : "Busca tu archivo (csv./etc)",
+  "S1_GROUP_LABEL" : "¿Quieres crear un grupo con ellos?",
+  "S1_GROUP_PH" : "   Nombre del grupo",
+
+  "s2_TITLE" : "Crea una liga de bolsa virtual para tus alumnos:",
+  "s2_DATE_LABEL" : "¿Cúanto va a durar?",
+  "S2_SDATE" : "Inicio",
+  "S2_EDATE" : "Fin",
+  "S2_ASSETS_LABEL": "¿Qué mercados quieres que tenga tu liga?",
+  "S2_LEAGUE_LABEl" :"¿Cómo quieres llamar a tu liga?",
+  "S2_LEAGUE_PH" :"Nombre",
+  "S2_VIRTUAL_MONEY":" Dinero virtual con el que empiezan",
+  "S2_VIRTUAL_MONEY_PH":"Dinero virtual",
+
+  "S3_FEED_BACK_TITLE" : "¿Qué quieres ver de tus alumnos?",
+  "S3_FEED_BACK_LABEL" : "Selecciona el feedback que quieres ver:",
+  "S3_FEED_BACK_1" : "Beneficio",
+  "S3_FEED_BACK_2" : "Numero de operaciones",
+  "S3_FEED_BACK_3" :"Rentabilidad total",
+  "S3_FEED_BACK_4" : "Rentabilidad media por operación",
+
+  "S4_MESSAGE" : "Guardado exitosamente", 
+
+
+
+  "EP_TITLE" : "Editar perfil",
+  "EP_PERSONAL" : "Detalles personales ",
+  "EP_NAME" : "Nombre :",
+  "EP_SURNAME" : "Apellido :",
+  "EP_EMAIL" : "Correo electrónico :",
+  "EP_UNIV" : "Universidad :",
+
+  "EP_NAME_PH" : "Nombre",
+  "EP_SURNAME_PH" : "Apellido",
+  "EP_EMAIL_PH" : "Correo electrónico",
+  "EP_UNIV_PH" : "Universidad",
+
+  "EP_PROFESSIONAL_DETAILS" : "Detalles Profesionales",
+  "EP_WHO" :"Dile al mundo quien eres ",
+  "EP_WHERE" : "Donde enseñas ? ",
+  "EP_WORK" : "Haz tu trabajo ? ",
+
+
+
+  "SESSION_EXPIRED" :  "Session Expired or unauthorized",
+  "SESSION_EXPIRED_TEXT":"Please login to comtinue" ,
+  "LOGOUT" : "Logout"
 }

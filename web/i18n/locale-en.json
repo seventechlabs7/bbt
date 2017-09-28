@@ -1,11 +1,113 @@
 {
   "HOME_BANNER_TEXT" : "Your University Is Getting Closer",
-
   "HOME_LIST_1" : "Learn Finance",
   "HOME_LIST_2" : "Practice in virtual Stock Exchange",
   "HOME_LIST_3" : "Connect with people and companies",
 
+
   "SIGN_UP_TITLE" : "Sign up Teacher",
   "SIGN_UP_SUB_TITLE" : "Specially Prepared for Teachers" ,
-  "SIGN_UP_TERMS" : "By clicking the join now button you agree with the cookies policy, the privacy policy and terms and conditions."
+  "SIGN_UP_TERMS"  : "By clicking the join now button you agree with the cookies policy, the privacy policy and terms and conditions.",
+  "SIGN_UP_BUTTON" : "Join now",
+
+  "S_NAME_PH" : "First Name",
+  "S_SURNAME_PH" : "Surname" ,
+  "S_EMAIL_PH"	 : "Email",
+  "S_PASS_PH"	: "Password",
+  "S_UNIV_PH"	:"University",
+
+
+  "LOGIN_BUTTON" : "Log In",
+  "LOGIN_FORGOT" : "Forgot your password?",
+
+  "L_EMAIL_PH" : "Email",
+  "L_PASS_PH"  : "Password" ,
+
+  "MENU_PROFILE" : "Profile",
+  "MENU_RANKING" : "Ranking",
+
+
+  "P_UPLOAD_AVATAR" : "Upload photo" ,
+
+
+  "D_GEN_STATS" 	:"General statistics",
+  "D_NO_OF_STUDENTS": "No of students",
+  "D_NO_OF_OPS" : "Total no of operations",
+  "D_TOTAL_PROFITABILITY" : "Total Profitability",
+  "D_TOTAL_BENEFITS" : "Total Benefits" ,
+
+  "T_TIMELINE" : "Timeline",
+  "T_BOUGHT" : "has bought",
+  "T_SHARES_FROM" : "shares from",
+  "T_FOR"	:"for",
+  "T_LIKE" : "Like",
+  "T_COMMENT" :"Comment",
+  "T_COMMENT_PH":"Write a comment...",
+
+  "NO_DATA" : "No data available" ,
+
+
+  "STEP_1" : "Step 1 of 4",
+  "STEP_2" : "Step 2 of 4",
+  "STEP_3" : "Step 3 of 4",
+  "STEP_4" : "Step 4 0f 4",
+
+  "STEP_NEXT" :"next",
+  "STEP_BACK": "Back",
+  "OK"	: "Okay",
+  "SAVE" :"Save",
+  "CANCEL" :"Cancel",
+  "UPDATE" : "Update",
+  "MODIFY" :"Modify", 
+
+  "S1_ADD_STUDENTS" : "Do you have students? Add them",
+  "S1_ADD_STUDENTS_PH" :"Copy and paste here your mailing list",
+  "S1_UPLOAD_STUDENTS" : "Find your file (XLS / XLSX / .CSV)",
+  "S1_GROUP_LABEL" : "Want to create a group with them ?",
+  "S1_GROUP_PH" : "Name of the group",
+
+  "S2_TITLE" : "Create a virtual bag league for your students:",
+  "s2_DATE_LABEL" : "How long will it last for?",
+  "S2_SDATE" : "Start date",
+  "S2_EDATE" : "End date",
+  "S2_ASSETS_LABEL": "Which assets do you want to have?",
+  "S2_LEAGUE_LABEl" :"How do you want to call your league?",
+  "S2_LEAGUE_PH" :"League name",
+  "S2_VIRTUAL_MONEY":" Virtual money to start",
+  "S2_VIRTUAL_MONEY_PH":"Virtual money",
+
+  "S3_FEED_BACK_TITLE" : "What do you want to see?",
+  "S3_FEED_BACK_LABEL" : "1. Select the feedback you want to see",
+  "S3_FEED_BACK_1" : "Benefits",
+  "S3_FEED_BACK_2" : "Number of Operations",
+  "S3_FEED_BACK_3" :"Total Profitability",
+  "S3_FEED_BACK_4" : "Average Profitability per person",
+
+  "S4_MESSAGE" : "Saved Successfully",
+
+
+  "EP_TITLE" : "Edit profile",
+  "EP_PERSONAL" : "Personal Details :",
+  "EP_NAME" : "Name :",
+  "EP_SURNAME" : "Surname :",
+  "EP_EMAIL" : "Email :",
+  "EP_UNIV" : "University :",
+
+  "EP_NAME_PH" : "Enter name",
+  "EP_SURNAME_PH" : "Enter surname",
+  "EP_EMAIL_PH" : "Enter email",
+  "EP_UNIV_PH" : "Enter university",
+
+  "EP_PROFESSIONAL_DETAILS" : "Professional details",
+  "EP_WHO" :"Tell the world who you are ? ",
+  "EP_WHERE" : "Where do you teach ? ",
+  "EP_WORK" : "Do you work ? ",
+
+
+
+
+
+  "SESSION_EXPIRED" :  "Session Expired or unauthorized",
+  "SESSION_EXPIRED_TEXT":"Please login to comtinue" ,
+  "LOGOUT" : "Logout"
 }

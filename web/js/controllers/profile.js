@@ -1,8 +1,8 @@
 'use strict';
 
 
-angular.module('app').controller('profile', ['$scope','$document','$rootScope','$stateParams','$http','$state','$timeout','uiGmapGoogleMapApi','$filter','Upload','notify',
-    function($scope,$document,$rootScope,$stateParams,$http,$state,$timeout,uiGmapGoogleMapApi,$filter,Upload,notify) {
+angular.module('app').controller('profile', ['$scope','$document','$rootScope','$stateParams','$http','$state','$timeout','uiGmapGoogleMapApi','$filter','Upload','notify','$translate',
+    function($scope,$document,$rootScope,$stateParams,$http,$state,$timeout,uiGmapGoogleMapApi,$filter,Upload,notify ,$translate) {
         
         $scope.profileName ="Home";
         $scope.c_next_index = 1;
@@ -737,6 +737,10 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 		{
 			window.location.href = "/index";
 		}
+
+		$rootScope.changeLanguage = function (langKey) {		 
+		   $translate.use(langKey);
+		  };
 
 		
     }

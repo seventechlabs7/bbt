@@ -97,7 +97,9 @@ angular.module('app', [
     suffix: '.json'
   });
   // load 'en' table on startup
+
   $translateProvider.preferredLanguage('en');
+  $translateProvider.useLocalStorage();
 }]);
 
 window.paceOptions = {
@@ -111,3 +113,5 @@ window.paceOptions = {
     }
 
 };
+
+

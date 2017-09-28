@@ -228,10 +228,10 @@ ul.unedit_ul {
 					<div class="left_bar_buttons main-sidebar">
 						<ul class="bar_but_ul"> 
 							<li>
-								<a class="btn color" ng-click="changeNav('profile')"><i class="fa fa-user" aria-hidden="true"></i>Profile</a>
+								<a class="btn color" ng-click="changeNav('profile')"><i class="fa fa-user" aria-hidden="true"></i><span translate="">MENU_PROFILE</span></a>
 							</li>
 							<li>
-								<a class="btn color" ng-click="changeNav('ranking')"><i class="fa fa-file-text" aria-hidden="true"></i>Ranking</a>
+								<a class="btn color" ng-click="changeNav('ranking')"><i class="fa fa-file-text" aria-hidden="true"></i><span translate="">MENU_RANKING</span></a>
 							</li>
 							<!-- <li>
 								<button class="left_bar_but" ng-click="changeNav('feedback')">Feedback</button>
@@ -242,26 +242,40 @@ ul.unedit_ul {
 						</ul>
 					</div>
 				</div>
+				<div class="header_container">
+			<div class="row">
+				<div class="col-lg-6 col-md-6 col-xs-12">
+					<div class="">
+						<a href=""><img style="width: 100%" src="imgs/eng_flag.png" ng-click="changeLanguage('en')"></a>
+					</div>
+				</div>
+				<div class="col-lg-6 col-md-6 col-xs-12">
+					<div class="">
+						<a href=""><img style="width: 100%" src="imgs/esp_flag.png" ng-click="changeLanguage('es')"></a>
+					</div>
+				</div>
+			</div>
+		</div>
 			</div>
 		</div>
 		<div class="center_container main-content-section">
 		  <form id="profile" name="profile" formnovalidate="formnovalidate" novalidate>
 			<div class="profile_head_cont setting-form-sec">
-			 <h1>Edit Profile</h1>
+			 <h1 translate="">EP_TITLE</h1>
 			  <div class="row">					
 				  <div class="col-lg-10 col-md-9 col-sm-12 col-xs-12 text-left">
 					<div class="edit_elements_form p-l-0 p-r-0">	  						
 						  <div class="row">
 						    <div class="col-md-12 p-0">
-						    <div class="form_head_text">Personal Details :</div>
+						    <div class="form_head_text" translate="">EP_PERSONAL</div>
 						   </div>
 						  	<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 p-0">						   
 						       <div class="row">
 						      <div class="col-lg-12 col-sm-12 col-xs-12 p-0">
-							   		<label for="name" class="pull-left center_l_label p-0">Name :</label>
+							   		<label for="name" class="pull-left center_l_label p-0" translate="">EP_NAME</label>
 							  </div>
 							  <div class="col-lg-12 col-sm-12 col-xs-12 p-0">
-							  		<input type="text" class="form-control" id="email" placeholder="Enter name" name="name" ng-model="teacherstatus.name" ng-minlength="2" ng-maxlength="30" ng-pattern="/^[a-zA-Z ]*$/" required>
+							  		<input type="text" class="form-control" id="email" placeholder="{{'EP_NAME_PH' | translate}}" name="name" ng-model="teacherstatus.name" ng-minlength="2" ng-maxlength="30" ng-pattern="/^[a-zA-Z ]*$/" required>
 							  </div>
 						    </div>						  
 						    <div class="col-md-12 p-0 error" ng-messages="profile.name.$error" ng-show="profile.name.$touched">
@@ -271,10 +285,10 @@ ul.unedit_ul {
 						    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 p-0">							   
 							   <div class="row">
 							   		<div class="col-lg-12 col-sm-12 col-xs-12 p-r-0">
-							   			<label for="name" class="pull-left center_l_label p-0">Surname :</label>
+							   			<label for="name" class="pull-left center_l_label p-0" translate="">EP_SURNAME</label>
 							   		</div>
 							   		<div class="col-lg-12 col-sm-12 col-xs-12 p-r-0">
-							   			<input type="text" class="form-control" id="email" placeholder="Enter surname" name="surname"  ng-model="teacherstatus.surname" ng-minlength="2" ng-maxlength="30" ng-pattern="/^[a-zA-Z ]*$/" required>
+							   			<input type="text" class="form-control" id="email" placeholder="{{'EP_SURNAME_PH' | translate}}" name="surname"  ng-model="teacherstatus.surname" ng-minlength="2" ng-maxlength="30" ng-pattern="/^[a-zA-Z ]*$/" required>
 							   		</div>
 							   </div>						
 						    <div class="col-md-12 error" ng-messages="profile.surname.$error" ng-show="profile.surname.$touched">
@@ -284,10 +298,10 @@ ul.unedit_ul {
 						  	<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 p-0">						    
 						    	<div class="row">
 							   		<div class="col-lg-12 col-sm-12 col-xs-12 p-r-0">
-							   			<label for="email" class="pull-left center_l_label p-0">Email :</label>
+							   			<label for="email" class="pull-left center_l_label p-0" translate="">EP_EMAIL</label>
 							   		</div>
 						      		<div class="col-lg-12 col-sm-12 col-xs-12 p-r-0">
-						      			<input type="email" class="form-control" id="email" ng-model="teacherstatus.email" placeholder="Enter email" name="email" ng-model="teacherstatus.email" ng-pattern="/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,30}$/" required>
+						      			<input type="email" class="form-control" id="email" ng-model="teacherstatus.email" placeholder="{{'EP_EMAIL_PH' | translate}}" name="email" ng-model="teacherstatus.email" ng-pattern="/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,30}$/" required>
 						      		</div>
 						      	</div>						  
 						    <div class="col-md-12 error" ng-messages="profile.email.$error" ng-show="profile.email.$touched">
@@ -297,10 +311,10 @@ ul.unedit_ul {
 						    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12 p-0">							
 							 	<div class="row">
 							   		<div class="col-lg-12 col-sm-12 col-xs-12 p-r-0">
-							   			<label for="university" class="pull-left center_l_label p-0">University :</label>
+							   			<label for="university" class="pull-left center_l_label p-0" translate="">EP_UNIV</label>
 							   		</div>
 						      		<div class="col-lg-12 col-sm-12 col-xs-12 p-r-0">
-						      			<input type="text" class="form-control" id="university" placeholder="Enter university" name="university" ng-model="teacherstatus.university" ng-minlength="2" ng-maxlength="30" ng-pattern="/^[a-zA-Z ]*$/" required>
+						      			<input type="text" class="form-control" id="university" placeholder="{{'EP_UNIV_PH' | translate}}" name="university" ng-model="teacherstatus.university" ng-minlength="2" ng-maxlength="30" ng-pattern="/^[a-zA-Z ]*$/" required>
 						      		</div>
 						      	</div>						  
 						    <div class="col-md-12 error" ng-messages="profile.university.$error" ng-show="profile.university.$touched">
@@ -313,10 +327,10 @@ ul.unedit_ul {
 				  <div class="row">
 				    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">				
 						<div class="center_l_block p-0">
-						<div class="form_head_text text-left">Professional Details :</div>
+						<div class="form_head_text text-left" translate="">EP_PROFESSIONAL_DETAILS</div>
 						 <div class="col-lg-4 p-l-0">
-							<div class="center_l_label p-0">
-								Tell the world who you are ?
+							<div class="center_l_label p-0" translate="">
+								EP_WHO
 							</div>
 							<div class="center_l_txt_cont p-0">
 								<textarea class="form-control center_l_txtarea colored" ng-model="teacherstatus.about" name="about" id="about" 
@@ -328,8 +342,8 @@ ul.unedit_ul {
 							 </div>
 					     </div>		 
 						 <div class="col-lg-4 p-l-0">
-							<div class="center_l_label p-0">
-								Where do you teach ?
+							<div class="center_l_label p-0" translate="">
+								EP_WHERE
 							</div>
 							<div class="center_l_txt_cont p-0">
 								<textarea class="form-control center_l_txtarea colored" ng-model="teacherstatus.teach_place" id="teach_place" name="teach_place" 
@@ -341,8 +355,8 @@ ul.unedit_ul {
 							 </div>
 						 </div>
 						 <div class="col-lg-4 p-0">	 
-							<div class="center_l_label p-0">
-								Do you work ?
+							<div class="center_l_label p-0" translate="">
+								EP_WORK
 							</div>
 							<div class="center_l_txt_cont p-0">
 								<textarea class="form-control center_l_txtarea colored" ng-model="teacherstatus.work" id="work" name="work"
