@@ -308,7 +308,7 @@ h1{
 			<div class="row">
 				<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 					<div class="form-group m-t-10">
-						<label for="sel1" class="form_head_text pull-left">Select Group {{currentGroupId}}</label>
+						<label for="sel1" class="form_head_text pull-left" translate="">R_SELECT_GROUP</label>
 					<!-- 	<select class="form-control" id="gId" name="gId" placeholder="Select group" ng-model="currentGroupId" ng-selected="currentGroupId" ng-change="loadRanking(currentGroupId)" >
 						<option ng-repeat="group in groups" value="{{group.id}}">{{group.id}}{{group.group_name}}</option>
 						</select> -->
@@ -371,19 +371,19 @@ h1{
 				 <div id="clockdiv">
 					<div>
 						<span class="days">{{timeTillEvent.days}}</span>
-						<div class="smalltext">Days</div>
+						<div class="smalltext" translate="">R_DAYS</div>
 					</div>
 					<div>
 						<span class="hours">{{timeTillEvent.hours}}</span>
-						<div class="smalltext">Hours</div>
+						<div class="smalltext" translate="">R_HOURS</div>
 					</div>
 					<div>
 						<span class="minutes">{{timeTillEvent.mins}}</span>
-						<div class="smalltext">Minutes</div>
+						<div class="smalltext" translate="">R_MINS</div>
 					</div>
 					 <div>
 						<span class="seconds">{{timeTillEvent.seconds}}</span>
-						<div class="smalltext">Seconds</div>
+						<div class="smalltext" translate="">R_SECS</div>
 					</div> 
 				  </div>
 				</div>				
@@ -393,7 +393,7 @@ h1{
 					<div class="row">
 						<table ng-table="rankTable" class="table table-bordered table-striped table-condensed">
 							<tr ng-repeat="row in $data track by $index">
-								<td data-title="'Position'" filter="{position: 'text'}" sortable="'position'">{{row.position}} 
+								<td title=" 'RT_POSITION' | translate " filter="{position: 'text'}" sortable="'position'">{{row.position}} 
 								<!-- <div ng-switch = "positionCheck(row.old_position,row.position)">
 									<span ng-switch-when=true><i class="fa fa-arrow-up" aria-hidden="true"></i></span>
 									<span ng-switch-when=false><i class="fa fa-arrow-down" aria-hidden="true"></i></span>
@@ -401,15 +401,15 @@ h1{
 								<span class="pull-left" ng-if=positionCheck(row.old_position,row.position)><i class="fa fa-arrow-up" aria-hidden="true" style=" color: green;text-shadow: 1px 1px 1px #ccc;font-size: 1.5em;"></i></span>
 								<span class="pull-left" ng-if=!positionCheck(row.old_position,row.position)><i class="fa fa-arrow-down" aria-hidden="true" style=" color: red;text-shadow: 1px 1px 1px #ccc;font-size: 1.5em;"></i></span>
 								</td>
-								<td data-title="'Name'" filter="{name: 'text'}" sortable="'name'"><a ng-click="userBasedFeedBack(row.userId);" href="javascript:void(0)"> {{row.name}} </a></td>
-								<td data-title="'Amount'" filter="{amount: 'text'}" sortable="'amount'">{{row.amount}}</td>
-								<td style="width:10%" data-title="'Operations'" filter="{operations: 'text'}" sortable="'operations'">{{row.operations}}</td>								
-								<td data-title="'Profitability %'" filter="{benefitPercent: 'text'}" sortable="'benefitPercent'">{{row.benefitPercent}}</td>
-								<td data-title="'Benefit'" filter="{benefits: 'text'}" sortable="'benefits'">{{row.benefits}}</td>
-								<td data-title="'Actions'" > 
-									<i title="Chat" ng-click="chatNow(row.userId);" class="fa fa-comments" aria-hidden="true" style=" color: #00BFFF;text-shadow: 1px 1px 1px #ccc;font-size: 1.5em;"></i> ({{row.total}}) 
+								<td title=" 'RT_NAME' | translate" filter="{name: 'text'}" sortable="'name'"><a ng-click="userBasedFeedBack(row.userId);" href="javascript:void(0)"> {{row.name}} </a></td>
+								<td data-title="'RT_AMOUNT' | translate" filter="{amount: 'text'}" sortable="'amount'">{{row.amount}}</td>
+								<td style="width:10%" data-title="'RT_OPERATIONS' | translate" filter="{operations: 'text'}" sortable="'operations'">{{row.operations}}</td>								
+								<td data-title=" 'RT_PROFITABILITY' | translate " filter="{benefitPercent: 'text'}" sortable="'benefitPercent'">{{row.benefitPercent}}</td>
+								<td data-title="'RT_BENEFIT' | translate" filter="{benefits: 'text'}" sortable="'benefits'">{{row.benefits}}</td>
+								<td data-title="'RT_ACTIONS' |translate " > 
+									<i title="'RT_CHAT' | translate" ng-click="chatNow(row.userId);" class="fa fa-comments" aria-hidden="true" style=" color: #00BFFF;text-shadow: 1px 1px 1px #ccc;font-size: 1.5em;"></i> ({{row.total}}) 
 									
-									<i title="Delete User" ng-click = "removeStudent(row.userId);" class="fa fa-times-circle" aria-hidden="true" style=" color: red;
+									<i title=" 'RT_DELETE_USER' | translate " ng-click = "removeStudent(row.userId);" class="fa fa-times-circle" aria-hidden="true" style=" color: red;
 								text-shadow: 1px 1px 1px #ccc;
 								font-size: 1.5em;"></i>
 								</td>
@@ -420,12 +420,12 @@ h1{
 							</tr>
 						</table>
 						<div ng-if="rankingList.length ==0">
-							<h4>No data available yet</h4>
+							<h4 translate="">NO_DATA</h4>
 						</div>						
 						       <div class="col-md-6 text-left p-0">
-									<button class="modal_nxt_bt" ng-click="changeScreen('addstudents')">Upload Students</button>
-									<button class="modal_nxt_bt" ng-click="changeScreen('league')">League Settings</button>
-									<button class="modal_nxt_bt" ng-click="changeScreen('editfeedback')">Modify Feedback</button>
+									<button class="modal_nxt_bt" ng-click="changeScreen('addstudents')"><span translate="">RT_ADD_STUDENTS</span></button>
+									<button class="modal_nxt_bt" ng-click="changeScreen('league')"><span translate="">RT_LEAGUE_SETTINGS</span></button>
+									<button class="modal_nxt_bt" ng-click="changeScreen('editfeedback')"><span translate="">RT_MODIFY_FEEDBACK</span></button>
 								</div>														
 							   </div>
 							  </div>

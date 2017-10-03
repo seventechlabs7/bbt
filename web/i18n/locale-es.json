@@ -59,6 +59,7 @@
   "CANCEL" :"cancelar",
   "UPDATE" : "Actualizar",
   "MODIFY" :"modificar",
+  "SETTINGS" :"AJUSTES",
 
   "S1_ADD_STUDENTS" : "¿Tienes alumnos? Añádelos",
   "S1_ADD_STUDENTS_PH" :"Copia y pega aquí tu lista de mails",
@@ -66,7 +67,7 @@
   "S1_GROUP_LABEL" : "¿Quieres crear un grupo con ellos?",
   "S1_GROUP_PH" : "   Nombre del grupo",
 
-  "s2_TITLE" : "Crea una liga de bolsa virtual para tus alumnos:",
+  "S2_TITLE" : "Crea una liga de bolsa virtual para tus alumnos:",
   "s2_DATE_LABEL" : "¿Cúanto va a durar?",
   "S2_SDATE" : "Inicio",
   "S2_EDATE" : "Fin",
@@ -103,6 +104,37 @@
   "EP_WHO" :"Dile al mundo quien eres ",
   "EP_WHERE" : "Donde enseñas ? ",
   "EP_WORK" : "Haz tu trabajo ? ",
+
+
+  "PASSWORD_TITLE" : "Cambia la contraseña :",
+  "OLD_PASSWORD" : "Contraseña actual :",
+  "NEW_PASSWORD" : "Nueva contraseña",
+  "CONFIRM_PASSWORD":"Confirmar nueva contraseña",
+
+  "OLD_PASSWORD_PH" : "Introducir contraseña antigua",
+  "NEW_PASSWORD_PH" : "Introduzca nueva contraseña",
+  "CONFIRM_PASSWORD_PH" : "Re-ingrese nueva contraseña",
+
+
+  "R_SELECT_GROUP" : "Seleccionar grupo :",
+  "R_DAYS" : "Días",
+  "R_HOURS": "Horas",
+  "R_MINS" : "Minutos",
+  "R_SECS" : "Segundos",
+
+  "RT_POSITION" : "Posición",
+  "RT_NAME" : "Nombre",
+  "RT_PROFITABILITY" : "Rentabilidad %",
+  "RT_BENEFIT" :"Beneficios",
+  "RT_AMOUNT" : "Valor",
+  "RT_OPERATIONS" :"Operaciones",
+  "RT_ACTIONS" : "Opciones",
+  "RT_CHAT" : "Charla",
+  "RT_DELETE_USER" : "Borrar usuario",
+
+  "RT_ADD_STUDENTS"    : "Subir alumnos",
+  "RT_MODIFY_FEEDBACK" : "Modificar feedback",
+  "RT_LEAGUE_SETTINGS" : "Ajustes Liga",
 
 
 

@@ -59,6 +59,7 @@
   "CANCEL" :"Cancel",
   "UPDATE" : "Update",
   "MODIFY" :"Modify", 
+  "SETTINGS":"Settings",
 
   "S1_ADD_STUDENTS" : "Do you have students? Add them",
   "S1_ADD_STUDENTS_PH" :"Copy and paste here your mailing list",
@@ -86,6 +87,7 @@
   "S4_MESSAGE" : "Saved Successfully",
 
 
+  
   "EP_TITLE" : "Edit profile",
   "EP_PERSONAL" : "Personal Details :",
   "EP_NAME" : "Name :",
@@ -104,7 +106,37 @@
   "EP_WORK" : "Do you work ? ",
 
 
+  "PASSWORD_TITLE" : "Change password :",
+  "OLD_PASSWORD" : "Current password",
+  "NEW_PASSWORD" : "New password",
+  "CONFIRM_PASSWORD":"Confirm new password",
 
+  "OLD_PASSWORD_PH" : "Enter old password",
+  "NEW_PASSWORD_PH" : "Enter new password",
+  "CONFIRM_PASSWORD_PH" : "Re enter new password",
+
+
+  "R_SELECT_GROUP" : "Select group :",
+  "R_DAYS" : "Days",
+  "R_HOURS": "Hours",
+  "R_MINS" : "Minutes",
+  "R_SECS" : "Seconds",
+
+  "RT_POSITION" : "Position",
+  "RT_NAME" : "Name",
+  "RT_PROFITABILITY" : "Profitability %",
+  "RT_BENEFIT" :"Benefits",
+  "RT_AMOUNT" : "Amount",
+  "RT_OPERATIONS" :"Operations",
+  "RT_ACTIONS" : "Actions",
+  "RT_CHAT" : "Chat",
+  "RT_DELETE_USER" : "Delete User",
+
+  "RT_ADD_STUDENTS"    : "Add students",
+  "RT_MODIFY_FEEDBACK" : "Modify feedback",
+  "RT_LEAGUE_SETTINGS" : "League Settings",
+
+  
 
 
   "SESSION_EXPIRED" :  "Session Expired or unauthorized",
