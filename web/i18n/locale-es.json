@@ -60,15 +60,17 @@
   "UPDATE" : "Actualizar",
   "MODIFY" :"modificar",
   "SETTINGS" :"AJUSTES",
+  "SEND" : "Enviar",
 
   "S1_ADD_STUDENTS" : "¿Tienes alumnos? Añádelos",
   "S1_ADD_STUDENTS_PH" :"Copia y pega aquí tu lista de mails",
+  "S1_ADD_STUDENTS_NOTE" : "Ingrese correos electrónicos separados por comas",
   "S1_UPLOAD_STUDENTS" : "Busca tu archivo (csv./etc)",
   "S1_GROUP_LABEL" : "¿Quieres crear un grupo con ellos?",
   "S1_GROUP_PH" : "   Nombre del grupo",
 
   "S2_TITLE" : "Crea una liga de bolsa virtual para tus alumnos:",
-  "s2_DATE_LABEL" : "¿Cúanto va a durar?",
+  "S2_DATE_LABEL" : "¿Cúanto va a durar?",
   "S2_SDATE" : "Inicio",
   "S2_EDATE" : "Fin",
   "S2_ASSETS_LABEL": "¿Qué mercados quieres que tenga tu liga?",
@@ -132,9 +134,22 @@
   "RT_CHAT" : "Charla",
   "RT_DELETE_USER" : "Borrar usuario",
 
+  "RT_ASSET":"Activo",
+  "RT_BUY_DATE":"Fecha compra",
+  "RT_BUY_PRICE" : "Precio compra",
+  "RT_BUY_VOL" : "Cantidad",
+  "RT_SALE_DATE" : "Fecha venta",
+  "RT_SALE_PRICE" : "Precio venta",
+  "RT_SALE_VOL" : "Cantidad",
+  "RT_BENEFIT_PERCENT" : "% Beneficio",
+  "RT_CURRENT_PRICE" : "Cotización actual",
+
   "RT_ADD_STUDENTS"    : "Subir alumnos",
   "RT_MODIFY_FEEDBACK" : "Modificar feedback",
   "RT_LEAGUE_SETTINGS" : "Ajustes Liga",
+  "RT_VIEW_RANKING"    : "ver ranking",
+  "RT_UPDATE_FEEDBACK" : "salvar",
+
 
 
 

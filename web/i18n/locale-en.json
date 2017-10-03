@@ -60,15 +60,17 @@
   "UPDATE" : "Update",
   "MODIFY" :"Modify", 
   "SETTINGS":"Settings",
+  "SEND" : "Send",
 
   "S1_ADD_STUDENTS" : "Do you have students? Add them",
   "S1_ADD_STUDENTS_PH" :"Copy and paste here your mailing list",
+  "S1_ADD_STUDENTS_NOTE" : "Enter comma seperated mails",
   "S1_UPLOAD_STUDENTS" : "Find your file (XLS / XLSX / .CSV)",
   "S1_GROUP_LABEL" : "Want to create a group with them ?",
   "S1_GROUP_PH" : "Name of the group",
 
   "S2_TITLE" : "Create a virtual bag league for your students:",
-  "s2_DATE_LABEL" : "How long will it last for?",
+  "S2_DATE_LABEL" : "How long will it last for?",
   "S2_SDATE" : "Start date",
   "S2_EDATE" : "End date",
   "S2_ASSETS_LABEL": "Which assets do you want to have?",
@@ -132,9 +134,21 @@
   "RT_CHAT" : "Chat",
   "RT_DELETE_USER" : "Delete User",
 
+  "RT_ASSET":"Asset",
+  "RT_BUY_DATE":"Date of buy",
+  "RT_BUY_PRICE" : "Buy price",
+  "RT_BUY_VOL" : "Purchase volume",
+  "RT_SALE_DATE" : "Date of sale",
+  "RT_SALE_PRICE" : "Sale price",
+  "RT_SALE_VOL" : "Sales volume",
+  "RT_BENEFIT_PERCENT" : "Benefit %",
+  "RT_CURRENT_PRICE" : "Current price",
+
   "RT_ADD_STUDENTS"    : "Add students",
   "RT_MODIFY_FEEDBACK" : "Modify feedback",
   "RT_LEAGUE_SETTINGS" : "League Settings",
+  "RT_VIEW_RANKING"    :"View ranking",
+  "RT_UPDATE_FEEDBACK" : "Update feedback",
 
   
 

@@ -320,7 +320,7 @@ h1{
 			</div>
 			<div class="row">				
 				<div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
-						<div class="green_box">
+						   <div class="green_box">
 						      <div class="row">
 							    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 								 <h2 translate="">D_GEN_STATS</h2>
@@ -450,42 +450,42 @@ h1{
 			         </div>
   			        </div>					
 					<div class="col-md-12">					
-			         <div class="green_box">
-				      <div class="row">
-					    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						  <h2>General Statistics</h2>
-						</div>
-				      	<div class="col-lg-7 col-md-8 col-sm-8 col-xs-6">
-				      		<label>Number of students</label>
-							<span class="pull-right"><b>:</b></span>
-				      	</div>
-				      	<div class="col-lg-5 col-md-4 col-sm-4 col-xs-6">
-				      		<p>{{report.count}}</p>
-				      	</div>
-				      	<div class="col-lg-7 col-md-8 col-sm-8 col-xs-6">
-				      		<label>Total number of operations</label>
-							<span class="pull-right"><b>:</b></span>
-				      	</div>
-				      	<div class="col-lg-5 col-md-4 col-sm-4 col-xs-6">
-				      		<p>{{report.operations}}</p>
-				      	</div>
-				      	<div class="col-lg-7 col-md-8 col-sm-8 col-xs-6">
-				      		<label>Total Profitability</label>
-							<span class="pull-right"><b>:</b></span>
-				      	</div>
-				      	<div class="col-lg-5 col-md-4 col-sm-4 col-xs-6">
-				      		<p>{{report.percentage}} %</p>
-				      	</div>
-				      	<div class="col-lg-7 col-md-8 col-sm-8 col-xs-6">
-				      		<label>Total Benefits</label>
-							<span class="pull-right"><b>:</b></span>
-				      	</div>
-				      	<div class="col-lg-5 col-md-4 col-sm-4 col-xs-6">
-				      		<p>{{report.benefits}}</p>
-				      	</div>
+			       		 <div class="green_box">
+						      <div class="row">
+							    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								 <h2 translate="">D_GEN_STATS</h2>
+								</div>
+						      	<div class="col-lg-7 col-md-8 col-sm-8 col-xs-6">
+						      		<label translate="">D_NO_OF_STUDENTS</label>
+									<span class="pull-right"><b>:</b></span>
+						      	</div>
+						      	<div class="col-lg-5 col-md-4 col-sm-4 col-xs-6">
+						      		<p>{{report.count}}</p>
+						      	</div>
+						      	<div class="col-lg-7 col-md-8 col-sm-8 col-xs-6">
+						      		<label translate="">D_NO_OF_OPS</label>
+									<span class="pull-right"><b>:</b></span>
+						      	</div>
+						      	<div class="col-lg-5 col-md-4 col-sm-4 col-xs-6">
+						      		<p>{{report.operations}}</p>
+						      	</div>
+						      	<div class="col-lg-7 col-md-8 col-sm-8 col-xs-6">
+						      		<label translate="">D_TOTAL_PROFITABILITY</label>
+									<span class="pull-right"><b>:</b></span>
+						      	</div>
+						      	<div class="col-lg-5 col-md-4 col-sm-4 col-xs-6">
+						      		<p>{{report.percentage}} %</p>
+						      	</div>
+						      	<div class="col-lg-7 col-md-8 col-sm-8 col-xs-6">
+						      		<label translate="">D_TOTAL_BENEFITS</label>
+									<span class="pull-right"><b>:</b></span>
+						      	</div>
+						      	<div class="col-lg-5 col-md-4 col-sm-4 col-xs-6">
+						      		<p>{{report.benefits}}</p>
+						      	</div>
 
-				      </div>
-			     </div>
+						      </div>
+					     </div>	
 				    </div>			         
 			   </div>
 			   <div class="profile_body_cont" ng-if="screen == 'start'">
@@ -493,12 +493,12 @@ h1{
 			      <div class="row">
 			         <table ng-table="purchaseTable" class="table table-bordered table-striped table-condensed">
 			            <tr ng-repeat="row in $data track by $index">			              
-			               <td data-title="'Asset'" filter="{asset: 'text'}" sortable="'asset'">{{row.asset}}</td>
-			               <td data-title="'Date of buy'" filter="{purchaseDate: 'text'}" sortable="'purchaseDate'">{{row.purchaseDate | date}}</td>
-			               <td data-title="'Buy Price'" filter="{purchasePrice: 'text'}" sortable="'purchasePrice'">{{row.purchasePrice}}</td>
-			               <td data-title="'Amount'" filter="{purchaseShare: 'text'}" sortable="'purchaseShare'">{{row.purchaseShare}}</td>
-			               <td data-title="'Current Price'" filter="{currentPrice: 'text'}" sortable="'currentPrice'">{{row.currentPrice}}</td>
-			               <td data-title="'Benefit'" filter="{benefits: 'text'}" sortable="'benefits'">{{row.benefits}}</td>
+			               <td data-title="'RT_ASSET' | translate" filter="{asset: 'text'}" sortable="'asset'">{{row.asset}}</td>
+			               <td data-title="'RT_BUY_DATE' | translate" filter="{purchaseDate: 'text'}" sortable="'purchaseDate'">{{row.purchaseDate | date}}</td>
+			               <td data-title="'RT_BUY_PRICE' | translate" filter="{purchasePrice: 'text'}" sortable="'purchasePrice'">{{row.purchasePrice}}</td>
+			               <td data-title="'RT_AMOUNT' | translate" filter="{purchaseShare: 'text'}" sortable="'purchaseShare'">{{row.purchaseShare}}</td>
+			               <td data-title="'RT_CURRENT_PRICE' | translate" filter="{currentPrice: 'text'}" sortable="'currentPrice'">{{row.currentPrice}}</td>
+			               <td data-title="'RT_BENEFIT' | translate" filter="{benefits: 'text'}" sortable="'benefits'">{{row.benefits}}</td>
 			            </tr>
 			         </table>
 			         <div>
@@ -508,15 +508,15 @@ h1{
 			       <div class="row">
 			         <table ng-table="operationsTable" class="table table-bordered table-striped table-condensed">
 			            <tr ng-repeat="row in $data track by $index">			              
-			               <td data-title="'Asset'" filter="{asset: 'text'}" sortable="'asset'">{{row.asset}}</td>
-			               <td data-title="'Date of buy'" filter="{purchaseDate: 'text'}" sortable="'purchaseDate'">{{row.purchaseDate}}</td>
-			               <td data-title="'Buy Price'" filter="{purchasePrice: 'text'}" sortable="'purchasePrice'">{{row.purchasePrice}}</td>
-			               <td data-title="'Purchase Volume'" filter="{purchaseShare: 'text'}" sortable="'purchaseShare'">{{row.purchaseShare}}</td>
-			               <td data-title="'Sell Price Price'" filter="{salePrice: 'text'}" sortable="'salePrice'">{{row.salePrice}}</td>
-			               <td data-title="'Sales Volume'" filter="{saleShare: 'text'}" sortable="'saleShare'">{{row.saleShare}}</td>
-			               <td data-title="'Date of sale'" filter="{saleDate: 'text'}" sortable="'saleDate'">{{row.saleDate}}</td>
-			               <td data-title="'Benefit'" filter="{benefits: 'text'}" sortable="'benefits'"><button class="btn" ng-class="buttonColor1(row.benefits)">{{row.benefits}}</button></td>
-			               <td data-title="'Benefit %'" filter="{benefitPercentage: 'text'}" sortable="'benefitPercentage'"><button class="btn" ng-class="buttonColor1(row.benefitPercentage)">{{row.benefitPercentage}}</button></td>
+			               <td data-title="'RT_ASSET' | translate" filter="{asset: 'text'}" sortable="'asset'">{{row.asset}}</td>
+			               <td data-title="'RT_BUY_DATE' | translate" filter="{purchaseDate: 'text'}" sortable="'purchaseDate'">{{row.purchaseDate}}</td>
+			               <td data-title="'RT_BUY_PRICE' | translate" filter="{purchasePrice: 'text'}" sortable="'purchasePrice'">{{row.purchasePrice}}</td>
+			               <td data-title="'RT_BUY_VOL' | translate" filter="{purchaseShare: 'text'}" sortable="'purchaseShare'">{{row.purchaseShare}}</td>
+			               <td data-title="'RT_SALE_PRICE' | translate" filter="{salePrice: 'text'}" sortable="'salePrice'">{{row.salePrice}}</td>
+			               <td data-title="'RT_SALE_VOL | translate'" filter="{saleShare: 'text'}" sortable="'saleShare'">{{row.saleShare}}</td>
+			               <td data-title="'RT_SALE_DATE' | translate" filter="{saleDate: 'text'}" sortable="'saleDate'">{{row.saleDate}}</td>
+			               <td data-title="'RT_BENEFIT' | translate" filter="{benefits: 'text'}" sortable="'benefits'"><button class="btn" ng-class="buttonColor1(row.benefits)">{{row.benefits}}</button></td>
+			               <td data-title="'RT_BENEFIT_PER'| translate" filter="{benefitPercentage: 'text'}" sortable="'benefitPercentage'"><button class="btn" ng-class="buttonColor1(row.benefitPercentage)">{{row.benefitPercentage}}</button></td>
 			            </tr>
 			         </table>
 			         <div>
@@ -531,14 +531,14 @@ h1{
 					<div class="col-lg-2 col-md-2 col-sm-8 col-xs-12">
 					</div>
 					<div class="col-lg-6 col-md-6 col-sm-8 col-xs-12">
-						<div class="form_head_text">
-    						Do you have students? Add them
+						<div class="form_head_text" translate="">
+    						S1_ADD_STUDENTS
     					</div>
 						<div class="row">
 							<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
     							<div class="input_upload">
-    								<input type="text" class="field_text" placeholder="Copy and Paste your mailing list" name="maillist"  ng-model="teacher.mail_list"/>
-    								<small>Enter comma seperated emails</small>
+    								<input type="text" class="field_text" placeholder="{{ 'S1_ADD_STUDENTS_PH' | translate }}" name="maillist"  ng-model="teacher.mail_list"/>
+    								<small translate="">S1_ADD_STUDENTS_NOTE</small>
     							</div>
 							</div>
 						</div>
@@ -549,7 +549,7 @@ h1{
 							<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
     							<div class="input_upload">
     								<input type="file" class="upload_text" placeholder="Find Your File(csv./other)" name="maillistfile" name="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" ngf-select="selectFile(teacher.mail_list_file)" ng-model="teacher.mail_list_file"/>
-    								<small>Enter xls ,xlxs documents with emails</small>
+    								<small translate="">S1_UPLOAD_STUDENTS</small>
     							</div>
 							</div>
 						</div>
@@ -583,8 +583,8 @@ h1{
 				</div>
 				</div> -->
 				<div class="col-lg-12 col-sm-12 col-xs-12  p-0">
-					 <button class="upload_pic_but m-t-10" ng-click="changeScreen('start')">View Ranking</button>
-					 <button class="upload_pic_but m-t-10" ng-click="addStudents()">upload Students</button>
+					 <button class="upload_pic_but m-t-10" ng-click="changeScreen('start')"> <span translate=""> RT_VIEW_RANKING </span></button>
+					 <button class="upload_pic_but m-t-10" ng-click="addStudents()"> <span translate="">RT_ADD_STUDENTS</span></button>
 				 </div>
 				</div>
 				
@@ -593,8 +593,8 @@ h1{
 			<div class="profile_head_cont">
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<div class="form_head_text center_label">
-							Select the feedback.
+						<div class="form_head_text center_label" translate="">
+							S3_FEED_BACK_LABEL
 						</div>
 					</div>
 					<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
@@ -603,25 +603,25 @@ h1{
 								<li> 
 									<label class="check_label">   
 										<input type="checkbox"  ng-true-value="'1'" ng-false-value="'0'" value="true" ng-model="teacher.feedback[0]">
-										<span class="check_text">Benefits </span>
+										<span class="check_text" translate="">S3_FEED_BACK_1 </span>
 									</label>
 								</li>
 								<li> 
 									<label class="check_label">   
 										<input type="checkbox"  ng-true-value="'1'" ng-false-value="'0'" ng-model="teacher.feedback[1]">
-										<span class="check_text">Number of Operations</span>
+										<span class="check_text" translate="">S3_FEED_BACK_2</span>
 									</label>
 								</li>
 								<li> 
 									<label class="check_label">   
 										<input type="checkbox" ng-true-value="'1'" ng-false-value="'0'" ng-model="teacher.feedback[2]">
-										<span class="check_text">Total Profitability</span>
+										<span class="check_text" translate="">S3_FEED_BACK_3</span>
 									</label>
 								</li>
 								<li> 
 									<label class="check_label">   
 										<input type="checkbox"  ng-true-value="'1'" ng-false-value="'0'" ng-model="teacher.feedback[3]">
-										<span class="check_text">Average Profitability per person</span>
+										<span class="check_text" translate="">S3_FEED_BACK_4</span>
 									</label>
 								</li>
 							</ul>
@@ -634,12 +634,12 @@ h1{
 				<div class="row">
 				<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 					<div class="modal_but_cont">        							
-						<button class="modal_nxt_bt" ng-click="updateFeedback()">Update Feedback</button>
+						<button class="modal_nxt_bt" ng-click="updateFeedback()"><span translate="">RT_UPDATE_FEEDBACK</span></button>
 					</div>
 				</div>
 				<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 					<div class="modal_but_cont">        							
-						<button class="modal_nxt_bt" ng-click="changeScreen('start')">View Ranking</button>
+						<button class="modal_nxt_bt" ng-click="changeScreen('start')" ><span translate="">RT_VIEW_RANKING</span></button>
 					</div>
 				</div>
 				</div>
@@ -657,13 +657,13 @@ h1{
 		        								<li class="cust_num_li">
 		        									<div class="cust_list_q">
 		        										<span class="li_num">1</span>
-		        										<span class="li_q">How long will it last for? </span>
+		        										<span class="li_q" translate="">S2_DATE_LABEL</span>
 		        									</div>
 		        									<div class="cust_list_ans">         						
 														<div class="row">
 															<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 
-																<b>Start Date : </b>
+																<b translate="">S2_SDATE </b>
 																<!-- <input type="date" class="date_form"  placeholder="Start Date" name="maillistfile" ng-model="teacher.start_date" ng-change="stopcountdownFun('start')"  /> -->
 																<input type="text"  class="form-control docs-date" id="picker3" name="sdate"   ng-model="teacher.start_date" ng-change="stopcountdownFun('start')" placeholder="dd/mm/yyyy" data-toggle="datepicker" ng-disabled="DisableStartDate"
 																required  />
@@ -672,7 +672,7 @@ h1{
 															<div ng-messages-include="js/messages.html"></div>
 														</div>
 															<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-																<b>End Date : </b> 
+																<b translate="">S2_EDATE </b> 
 																<!-- <input type="date"  class="date_form" name="startdate"  ng-model="teacher.end_date" ng-change="stopcountdownFun('end')"/> -->
 																<input type="text"  class="form-control docs-date" id="picker4" name="edate"   ng-model="teacher.end_date" ng-change="stopcountdownFun('end')" placeholder="dd/mm/yyyy" data-toggle="datepicker" 
 																required />
@@ -686,7 +686,7 @@ h1{
 		        								<li class="cust_num_li">
 		        									<div class="cust_list_q">
 		        										<span class="li_num">2</span>
-		        										<span class="li_q">Which assets do you want to have?</span>
+		        										<span class="li_q" translate="">S2_ASSETS_LABEL</span>
 		        									</div>
 		        									<div class="cust_list_ans">         						
 														<div class="row">
@@ -720,12 +720,12 @@ h1{
 		        								<li class="cust_num_li">
 		        									<div class="cust_list_q">
 		        										<span class="li_num">3</span>
-		        										<span class="li_q">How do you want to call your league?</span>
+		        										<span class="li_q" translate="">S2_LEAGUE_LABEl</span>
 		        									</div>
 		        									<div class="cust_list_ans">
 		        										<div class="row">
 		        											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-		        												<input type="text" class="field_text ft2 blue" placeholder="League Name" name="leaguename" ng-model="teacher.league_name" ng-minlength="2" ng-maxlength=100 required />
+		        												<input type="text" class="field_text ft2 blue" placeholder="{{'S2_LEAGUE_PH' | translate}}" name="leaguename" ng-model="teacher.league_name" ng-minlength="2" ng-maxlength=100 required />
 		        												 <div class="text-left error" ng-messages="leagueForm.leaguename.$error" ng-show="leagueForm.leaguename.$touched">
 															       <div ng-messages-include="js/messages.html"></div>
 															 	</div>
@@ -737,12 +737,12 @@ h1{
 		        								<li class="cust_num_li">
 		        									<div class="cust_list_q">
 		        										<span class="li_num">4</span>
-		        										<span class="li_q">Virtual money to start:</span>
+		        										<span class="li_q" translate="">S2_VIRTUAL_MONEY</span>
 		        									</div>
 		        									<div class="cust_list_ans">
 		        										<div class="row">
 		        											<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
-		        												<input type="text" class="field_text ft2 blue"  placeholder="" name="virtualmoney" ng-model="teacher.virtual_money" ng-disabled="editVirtualMoney()"
+		        												<input type="text" class="field_text ft2 blue"  placeholder="{{'S2_VIRTUAL_MONEY_PH' | translate}}" name="virtualmoney" ng-model="teacher.virtual_money" ng-disabled="editVirtualMoney()"
 		        												 required ng-pattern="/^[0-9.,]*$/" ng-maxlength="12"/> 
 		        												 <div class="text-left error" ng-messages="leagueForm.virtualmoney.$error" ng-show="leagueForm.virtualmoney.$touched">
 															       <div ng-messages-include="js/messages.html"></div>
@@ -771,13 +771,13 @@ h1{
 								<div class="row">
 									<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 		        						<div class="modal_but_cont">
-		        							<button class="modal_nxt_bt" ng-disabled="!leagueForm.$valid" ng-click="updateLeague()">Update</button>
+		        							<button class="modal_nxt_bt" ng-disabled="!leagueForm.$valid" ng-click="updateLeague()"><span translate="">UPDATE</span></button>
 		        							
 		        						</div>
 		        					</div>
 									<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 										<div class="modal_but_cont">        							
-											<button class="modal_nxt_bt" ng-click="changeScreen('start')">View Ranking</button>
+											<button class="modal_nxt_bt" ng-click="changeScreen('start')"><span translate="">RT_VIEW_RANKING</span></button>
 										</div>
 									</div>
 								</div>
@@ -831,7 +831,7 @@ h1{
 		    
 		    <div class="chat-input-holder">
 		      <textarea class="chat-input" ng-model="chat.newMessage" required ></textarea>
-		      <input type="submit" value="Send" class="message-send" ng-click="sendMessage();"/>
+		      <input type="submit" value="{{'SEND' | translate}}" class="message-send" ng-click="sendMessage();"/>
 		    </div>
 		    
 		  </div>

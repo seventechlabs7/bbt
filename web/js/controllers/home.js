@@ -1,8 +1,8 @@
 'use strict';
 
 
-angular.module('app').controller('homepage', ['$scope','$document','$rootScope','$stateParams','$http','$state','$timeout','uiGmapGoogleMapApi','$filter','Upload','notify','UserService','$translate',
-    function($scope,$document,$rootScope,$stateParams,$http,$state,$timeout,uiGmapGoogleMapApi,$filter,Upload,notify,UserService,$translate) {
+angular.module('app').controller('homepage', ['$scope','$document','$rootScope','$stateParams','$http','$state','$timeout','uiGmapGoogleMapApi','$filter','Upload','notify','UserService','translateService','$translate',
+    function($scope,$document,$rootScope,$stateParams,$http,$state,$timeout,uiGmapGoogleMapApi,$filter,Upload,notify,UserService,translateService,$translate) {
         
         $scope.profileName ="Home";
         $scope.c_next_index = 1;
@@ -537,7 +537,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 					}else if(success.data.status == 'failed')
 					{
 						notify({
-							message: success.data.reason,
+							message: translateService.translate(success.data.reason),
 							classes:'alert-danger',
 							duration:3000
 						});

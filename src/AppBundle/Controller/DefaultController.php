@@ -34,7 +34,8 @@ class DefaultController extends Controller
     public function signupTeacherAction(Request $request,MailerService $mailerService,CustomCrypt $crypt)
     {
         $teacher = $request->request->all();
-
+        $new  = $this->get('translator')->trans('index.a');
+        return new JsonResponse($new);
         $emailvalidate =0;
         $emailCheck1 = $this->CheckDupeEmail($teacher['email']);
         if(!$emailCheck1)

@@ -54,6 +54,25 @@ angular.module('app', [
         return currentUser;
     };
 })
+.service('translateService', function($translate) {
+    var service = this;
+    
+    service.translate = function(key) {
+        
+      /*start*/
+      var a ;
+      $translate(key).then(function (anotherOne) {
+          a = anotherOne;
+      }, function (translationId) {
+          a = translationId;
+      });
+      return  a;
+      /*end*/
+
+       // return currentUser;
+    };
+
+})
 .service('APIInterceptor', function($rootScope, UserService,$state ,$timeout) {
     var service = this;
     service.request = function(config) {
@@ -63,6 +82,7 @@ angular.module('app', [
         if (access_token) {
            // config.headers.authorization = access_token;
             config.headers['Authorization'] = 'Bearer ' + access_token;
+            config.headers['Accept-Language'] = 'es-ES';
         }
         return config;
     };
