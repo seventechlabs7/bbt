@@ -127,6 +127,12 @@ angular.module('app', [
   $translateProvider.useLocalStorage();
 }]);
 
+$rootScope.messageFile = function()
+{
+  alert("js/messages.html");
+  return "js/messages.html";
+}
+
 window.paceOptions = {
     document: true, // disabled
     eventLag: true,

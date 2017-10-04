@@ -199,5 +199,14 @@
   "confirm_upload_students" : "¿Seguro que quieres subir?",
   "students_uploaded" : "Los estudiantes agregaron con éxito",
   "enter_message" :"Introduce un mensaje",
-  "message_length_long" : "Longitud de mensaje demasiado larga"
+  "message_length_long" : "Longitud de mensaje demasiado larga",
+
+
+ "required" : "este campo es requerido" ,
+  "too_short" : "Este campo es demasiado corto",
+  "too_long" : "Este campo es demasiado largo",
+  "invalid_email" : "Ingrese un email valido",
+  "invalid_characters" : "Caracteres inválidos"
+
+
 }
