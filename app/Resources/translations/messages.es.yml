@@ -1,3 +1,22 @@
-missing:
-   parameter:
-       first_name: sas asas 'first_name'
+registration.proff.title : "Registro exitoso"
+registration.proff.message: "Hola %name% ! Se ha registrado exitosamente."
+
+verify.message1 : "Para verificar , "
+verify.message2 : "Verificar enlace."
+thank.msg : "Gracias !"
+
+
+registration.student.title : "Registro exitoso"
+registration.student.message : "Hola estudiante! Se ha registrado exitosamente."
+registration.student.password : "Tu password temporal:"
+
+email.change.title : "verificación de cambio de email"
+email.change.message : "Hola %name% !  recibimos una solicitud de cambio de email"
+
+email.change.notify.title : "Notificación de cambios por email"
+email.notify.message : "Hola %name% ! ,Recibimos una solicitud de cambio de correo electrónico para %newmail% para su cuenta bigbangtrading.com."
+
+
+subject_reg : "BBT-Registro exitoso "
+subject_mail_change : "BBT - Confirmación de cambios de email"
+subject_mail_change_notify : "BBT - Notificación de cambios por email"

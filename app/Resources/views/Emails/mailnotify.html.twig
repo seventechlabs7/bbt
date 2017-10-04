@@ -1,11 +1,12 @@
-{# Makes an absolute URL to the /images/logo.png file #}
+
 <img style="width:4rem;" src="{{ absolute_url(asset('imgs/logo.png')) }}">
 
-<h3>Email Change Notification</h3>
-
-Hi {{ regObject.name }} ! ,
- We received a email change request to {{ regObject.newmail }} for your bigbangtrading.com account .
+<h3>{{'email.change.notify.title' | trans}}</h3>
 
 
-Thanks!
+<span>{{ 'email.notify.message' | trans({'%name%': regObject.name ,'%newmail%' : regObject.newmail }) }}</span>
+
+
+
+<p>{{'thank.msg' | trans}}</p>
 

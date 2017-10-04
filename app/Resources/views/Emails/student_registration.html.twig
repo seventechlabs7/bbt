@@ -1,14 +1,12 @@
-{# Makes an absolute URL to the /images/logo.png file #}
 <img style="width:4rem;" src="{{ absolute_url(asset('imgs/logo.png')) }}">
 
-<h3>Registration Successfull</h3>
+<h3>{{ 'registration.student.title' | trans }}</h3>
 
-Hi {{ regObject.name }} ! You're successfully registered.
+<p>{{'registration.student.message' | trans}}</p>
 
-Temporary password  - bbt@123
-{# example, assuming you have a route named "login" #}
-To verify, go to: <a href="{{ url('studentsignupverify', {'verifyLink': regObject.encryptedLink } ) }}">Verify Link</a>.
+<p> {{'registration.student.password'| trans}}  - bbt@123</p>
 
-Thanks!
+<p> {{'verify.message1' |  trans }} <a href="{{ url('studentsignupverify', {'verifyLink': regObject.encryptedLink } ) }}"> {{ 'verify.message2' | trans }} </a>.</p>
 
-{# Makes an absolute URL to the /images/logo.png file #}
+<p>{{'thank.msg' | trans}}</p>
+

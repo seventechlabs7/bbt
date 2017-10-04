@@ -18,7 +18,7 @@ class MailerService
     }
     else
         $page ='Emails/student_registration.html.twig' ;
-    $message = (new \Swift_Message('BBT - Registration Success'))
+    $message = (new \Swift_Message($this->get('translator')->trans('subject_reg')))
         ->setFrom('profesores@bigbangtrading.com')
         ->setTo($mailObject->{'toMail'})
         ->setBody(           
@@ -52,7 +52,7 @@ class MailerService
    public function mailChangeLink($mailObject)
 {
         $page ='Emails/mailchange.html.twig' ; 
-        $message = (new \Swift_Message('BBT - Email Change Confirmation'))
+        $message = (new \Swift_Message($this->get('translator')->trans('subject_mail_change')))
         ->setFrom('profesores@bigbangtrading.com')
         ->setTo($mailObject->{'toMail'})
         ->setBody(           
@@ -72,7 +72,7 @@ class MailerService
 public function mailChangeNotify($mailObject)
 {
         $page ='Emails/mailnotify.html.twig' ; 
-        $message = (new \Swift_Message('BBT - Email Change Confirmation'))
+        $message = (new \Swift_Message($this->get('translator')->trans('subject_mail_change_notify')))
         ->setFrom('profesores@bigbangtrading.com')
         ->setTo($mailObject->{'toMail'})
         ->setBody(           

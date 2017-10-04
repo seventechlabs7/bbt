@@ -83,6 +83,7 @@ class UniversityController extends Controller implements  TokenAuthenticatedCont
 
     public function saveTeacherAction(Request $request,CustomCrypt $crypt,MailerService $mailerService , Utils $utils)
     { 
+    	  $this->get('translator')->setLocale($_SERVER['HTTP_ACCEPT_LANGUAGE']);
      $em = $this->getDoctrine()->getManager();   
      $em->getConnection()->beginTransaction();
       try
@@ -256,6 +257,7 @@ class UniversityController extends Controller implements  TokenAuthenticatedCont
 
     public function updateTeacherAction(Request $request ,CustomCrypt $crypt,MailerService $mailerService)
     {
+    	  $this->get('translator')->setLocale($_SERVER['HTTP_ACCEPT_LANGUAGE']);
     	$em = $this->getDoctrine()->getManager();
 		$teacher = $request->request->get('teacher');
 		$isEmailChanged = isset($teacher['oldemail']);
@@ -390,6 +392,7 @@ class UniversityController extends Controller implements  TokenAuthenticatedCont
 	
 	public function sendEmailsToUser($email,CustomCrypt $crypt,MailerService $mailerService)
 	{
+
 			$mailObject = new \stdClass();
 			$mailObject->toMail = $email;
 			$mailObject->name = 'Student';

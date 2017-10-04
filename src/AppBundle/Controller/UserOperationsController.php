@@ -285,7 +285,7 @@ class UserOperationsController extends Controller implements TokenAuthenticatedC
 
   public function addStudentsAction(Request $request ,CustomCrypt $crypt,MailerService $mailerService)
   {
-
+        $this->get('translator')->setLocale($_SERVER['HTTP_ACCEPT_LANGUAGE']);
         $teacher = $request->request->get('teacher');  
         $file = $request->files->get('file');   
     

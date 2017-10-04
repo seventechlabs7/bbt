@@ -1,3 +1,20 @@
-missing:
-   parameter:
-       first_name: Missing parameter
+registration.proff.title : "Registration Successful"
+registration.proff.message: "Hi %name% ! You have successfully registered."
+
+verify.message1 : "To verify , "
+verify.message2 : "Verify Link ."
+thank.msg : "Thank you !"
+
+registration.student.title : "Registration successful"
+registration.student.message : "Hi Student ! You're successfully registered"
+registration.student.password : "Your temporary password :"
+
+email.change.title : "Email change verification"
+email.change.message : "Hi %name% !  we received a email change request"
+
+email.change.notify.title : "Email change notification"
+email.notify.message : "Hi %name% ! ,We received a email change request to %newmail% for your bigbangtrading.com account ."
+
+subject_reg : "BBT- Registration successful"
+subject_mail_change : "BBT - Email Change Confirmation"
+subject_mail_change_notify : "BBT - Email change notification"
