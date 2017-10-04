@@ -63,11 +63,11 @@ angular.module('app', [
       /*start*/
       var a ;
       $translate(key).then(function (anotherOne) {
-      // alert("a" +anotherOne)
+     
           $rootScope.a = anotherOne;
          // return anotherOne;
       }, function (translationId) {
-      //alert("b" +translationId)
+    
           $rootScope.a = translationId;
          // return $rootScope.a;
       });
@@ -82,7 +82,7 @@ angular.module('app', [
     var service = this;
     service.request = function(config) {
         console.log(config);
-        alert($translate.use())
+        
         var currentUser = UserService.getCurrentUser(),
             access_token = currentUser ? currentUser.access_token : null;
         if (access_token) {
