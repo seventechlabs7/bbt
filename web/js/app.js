@@ -87,11 +87,9 @@ angular.module('app', [
             access_token = currentUser ? currentUser.access_token : null;
         if (access_token) {
            // config.headers.authorization = access_token;
-            config.headers['Authorization'] = 'Bearer ' + access_token;
-             config.headers['Accept-Language'] = $translate.use() || null;
-              
-           
+            config.headers['Authorization'] = 'Bearer ' + access_token;           
         }
+        config.headers['Accept-Language'] = $translate.use() ;
         return config;
     };
     service.responseError = function(response) {

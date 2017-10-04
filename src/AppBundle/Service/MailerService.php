@@ -2,13 +2,17 @@
 namespace AppBundle\Service;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Translation\TranslatorInterface;
 /*ref : https://stackoverflow.com/questions/44111878/attempted-to-call-an-undefined-method-named-renderview-of-class */
 class MailerService
 {
-    public function __construct(\Swift_Mailer $mailer, $templating)
+    
+
+    public function __construct(\Swift_Mailer $mailer, $templating,TranslatorInterface $translator)
 {
     $this->mailer = $mailer;
     $this->templating = $templating;
+     $this->translator = $translator;
 }
    public function indexAction($mailObject)
 {
@@ -18,7 +22,7 @@ class MailerService
     }
     else
         $page ='Emails/student_registration.html.twig' ;
-    $message = (new \Swift_Message($this->get('translator')->trans('subject_reg')))
+    $message = (new \Swift_Message($this->translator->trans('subject_reg')))
         ->setFrom('profesores@bigbangtrading.com')
         ->setTo($mailObject->{'toMail'})
         ->setBody(           
@@ -52,7 +56,7 @@ class MailerService
    public function mailChangeLink($mailObject)
 {
         $page ='Emails/mailchange.html.twig' ; 
-        $message = (new \Swift_Message($this->get('translator')->trans('subject_mail_change')))
+        $message = (new \Swift_Message($this->translator->trans('subject_mail_change')))
         ->setFrom('profesores@bigbangtrading.com')
         ->setTo($mailObject->{'toMail'})
         ->setBody(           
@@ -72,7 +76,7 @@ class MailerService
 public function mailChangeNotify($mailObject)
 {
         $page ='Emails/mailnotify.html.twig' ; 
-        $message = (new \Swift_Message($this->get('translator')->trans('subject_mail_change_notify')))
+        $message = (new \Swift_Message($this->translator->trans('subject_mail_change_notify')))
         ->setFrom('profesores@bigbangtrading.com')
         ->setTo($mailObject->{'toMail'})
         ->setBody(           
