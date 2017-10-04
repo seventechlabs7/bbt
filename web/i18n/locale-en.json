@@ -155,5 +155,49 @@
 
   "SESSION_EXPIRED" :  "Session Expired or unauthorized",
   "SESSION_EXPIRED_TEXT":"Please login to comtinue" ,
-  "LOGOUT" : "Logout"
+  "LOGOUT" : "Logout",
+
+
+
+  "signup_success":"Teacher saved successfully . Please check your email and verify",
+  "email_already_exists" : "Email already exists",
+  "already_verified" : "Link already or does not exist",
+  "something_went_wrong" : "Something went wrong",
+
+  "inactive_account" : "Inactive account. Please verify the link sent to youe email.",
+  "invalid_credentials" : "Invalid credentials",
+  "invalid_user" : "Invalid user",
+  "invalid_mail" : "Invalid email" ,
+  "comma_sepearated_email" : "Should be comma sepearated email",
+  "mail_list_or_file" : "Enter valid comma sepearated mails or upload a email list file",
+  "only_one_email_list" : "Cannot add both mail list and file . Choose either of the two",
+
+  "fill_start_date" : "Fill Start Date",
+  "fill_end_date" : "Fill end date",
+  "select_assets" : "Select atleast one asset",
+  "select_feedback" : "Select atleast one feedback",
+  "enter_league_name" :"Enter league name",
+  "enter_virtual_money" : "Enter virtual money",
+  "invalid_end_date" : "invalid end date",
+  "past_date_error" : "Past dates not allowed",
+  "profile_updated" : "Your profile is updated successfully",
+  "select_valid_image" :"Select valid image",
+  "image_uploaded" : "Avatar uploaded successfully",
+  "updated_successfully" : "Updated successfully",
+  "updated_successfully_verify_email" : "Updated successfully .Please verify link in your  email to permanently update ",
+  "incorrect_current_password" : "Incorrect current password" ,
+  "enter_current_password" : "Please enter current password" ,
+  "password_confirm_password_not_same" : "Password and confirm password should be same",
+  "new_current_password_same" : "New password and current password should not be same",
+  "confirm_email_update" : "Are you sure you want to update email ? You will have to verify email to update email" ,
+  "unsaved_data" : "Unsaved data",
+  "leave_page" : "Are you sure you want to leave page ?",
+  "are_you_sure" : "Are you sure ?" ,
+  "confirm_user_remove_text" : "This will permanently remove user from group ",
+  "student_removed" : "Student successfully removed from group",
+  "student_not_removed" : "Student not removed from group . Please try again! ",
+  "confirm_upload_students" : "Are you sure you want to upload ?",
+  "students_uploaded" : "Students added successfully",
+  "enter_message" :"Enter a message",
+  "message_length_long" : "Message length too long"
 }

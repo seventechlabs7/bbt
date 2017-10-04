@@ -36,18 +36,18 @@ class LoginController extends Controller
              $teacherFind = $em->getRepository('AppBundle:Teacher')->findOneByEmail($userName);
              if($teacherFind)
              {
-                return new JsonResponse(array('status' => 'failure','reason' => 'Inactive account . Plesae activate link shared to your registered email id','response' => 200));
+                return new JsonResponse(array('status' => 'failure','reason' => 'inactive_account','response' => 200));
              }
              else
              {
                  $studentfind = $em->getRepository('AppBundle:GroupEmail')->findOneByEmail($userName);
                   if($studentfind)
                  {
-                    return new JsonResponse(array('status' => 'failure','reason' => 'Inactive account . Plesae activate link shared to your registered email id','response' => 200));
+                    return new JsonResponse(array('status' => 'failure','reason' => 'inactive_account','response' => 200));
                  }
              }
              
-            return new JsonResponse(array('status' => 'failure','reason' => 'Invalid User','response' => 200));
+            return new JsonResponse(array('status' => 'failure','reason' => 'invalid_user','response' => 200));
            // throw $this->createNotFoundException();
         }
  
@@ -58,7 +58,7 @@ class LoginController extends Controller
        
         if (!$isValid) {
            // throw new BadCredentialsException();
-            return new JsonResponse(array('status' => 'failure','reason' => 'Invalid Credentials','response' => 404));
+            return new JsonResponse(array('status' => 'failure','reason' => 'invalid_credentials','response' => 404));
         }
     $user1 = $em->getRepository('AppBundle:UserOperations')
             ->getTeacherId($userName);

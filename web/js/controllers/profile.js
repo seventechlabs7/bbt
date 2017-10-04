@@ -67,119 +67,7 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 			$scope.file = file;
 		}
 
-		$scope.start = function()
-		{
-			$scope.teacher.id = $stateParams.teacher_id;//$scope.teacher.mail_list == undefined || 
-			notify.closeAll();
-			var list = $scope.teacher.mail_list.split(',');
-			var emailregex = /\S+@\S+\.\S+/;
-      
-			for (var i = 0; i < list.length; i++) 
-			{
-				if(list[i] == null)
-				{
-					notify({
-						message:'Should Seperate by single comma',
-						classes:'alert-danger',
-						duration:2000
-					});
-					return;
-				}
-				if(!list[i].match(emailregex))
-				{
-					notify({
-						message:'Invalid Mail Id',
-						classes:'alert-danger',
-						duration:2000
-					});
-				return;
 
-				}
-			}	
-					
-			if($scope.teacher.start_date == undefined || $scope.teacher.start_date == null)
-			{				
-				notify({
-					message:'Fill Start Date',
-					classes:'alert-danger',
-					duration:2000
-				});
-				return;
-			}
-			if($scope.teacher.end_date == undefined || $scope.teacher.end_date == null)
-			{				
-				notify({
-					message:'Fill End Date',
-					classes:'alert-danger',
-					duration:2000
-				});
-				return;
-			}
-			if($scope.teacher.assets == undefined || $scope.teacher.assets == 0)
-			{				
-				notify({
-					message:'Select Assets',
-					classes:'alert-danger',
-					duration:2000
-				});
-				return;
-			}
-			if($scope.teacher.league_name == undefined || $scope.teacher.league_name == null)
-			{				
-				notify({
-					message:'Enter League Name',
-					classes:'alert-danger',
-					duration:2000
-				});
-				return;
-			}
-			if($scope.teacher.virtual_money == undefined || $scope.teacher.virtual_money == null)
-			{				
-				notify({
-					message:'Enter Virtual Money',
-					classes:'alert-danger',
-					duration:2000
-				});
-				return;
-			}
-			if($scope.teacher.feedback == undefined || $scope.teacher.feedback == null)
-			{				
-				notify({
-					message:'Select Feedback',
-					classes:'alert-danger',
-					duration:2000
-				});
-				return;
-			}
-
-			console.log($scope.teacher)
-
-			if($scope.teacher.start_date != undefined && $scope.teacher.start_date != null)
-				$scope.teacher.start_date = $filter('date')($scope.teacher.start_date, 'yyyy-MM-dd');
-			
-			if($scope.teacher.end_date != undefined && $scope.teacher.end_date != null)
-				$scope.teacher.end_date = $filter('date')($scope.teacher.end_date, 'yyyy-MM-dd');
-			console.log($scope.teacher)
-
-			Upload.upload({
-				method: 'POST',				
-				url: 'api/saveteacher',
-				data:{
-					file: $scope.file,
-					teacher :$scope.teacher,
-				}
-			})
-			.then(function(success){
-				console.log(success)
-				if(success.data.status == 'success')
-				{
-					$scope.shiftTab(4);
-					//$('#addStudent').modal('hide');
-				}				
-			},function(error){
-
-			})
-		}
 
 		$scope.checkTime = function(index)
 		{		
@@ -194,7 +82,7 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 		      if(to.getTime() < from.getTime())
 		      {
 		      	notify({
-		      		message: 'Invalid End Date',
+		      		message: $translate.instant('invalid_end_date'),
 		      		classes: 'alert-danger',
 		      		duration: 2000
 		      	});
@@ -262,7 +150,7 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 				{
 					notify.closeAll();
 					notify({
-						message:'Your Status is Saved Successfully',
+						message:$translate.instant('profile_updated'),
 						classes:'alert-success',
 						duration:3000
 					});
@@ -273,75 +161,6 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 		}
 
 
-		$scope.teacher_signup = function()
-		{			
-		      notify.closeAll();			
-				console.log($scope.teacher)
-				$http({
-					method: 'POST',
-					url: 'api/teacher/signup',
-					data:$scope.teacher
-				}).then(function(success){
-					console.log(success)
-					if(success.data.status == 'success')
-					{
-						$scope.teacher.id = success.data.teacher_id;
-						$scope.teacher_id = $scope.teacher.id;
-						notify({
-						message: success.data.reason,
-						classes:'alert-success',
-						duration:3000
-					});
-					/*$state.go('app.profile', {
-					    teacher_id: $scope.teacher_id 
-					});	*/			
-					}else if(success.data.status == 'failed')
-					{
-						notify({
-							message: success.data.reason,
-							classes:'alert-danger',
-							duration:3000
-						});
-						return;			
-					}
-				},function(error){
-
-				});
-		}
-		console.log($scope.teacher_id);
-		/*var today = new Date();
-	    var dd = today.getDate();
-	    var mm = today.getMonth()+1;
-	    var yyyy = today.getFullYear();
-	     if(dd<10){
-	            dd='0'+dd
-	        } 
-	        if(mm<10){
-	            mm='0'+mm
-	        } 
-
-	    $scope.today = yyyy+'-'+mm+'-'+dd;
-	    console.log($scope.today);*/
-	    //faiyaz
-	    $scope.pastDateCheck = function()
-	    {
-	    	notify.closeAll();
-	    	if($scope.teacher.start_date)
-	    	{
-	    		var date = new Date($scope.teacher.start_date)	    		
-	    		if(date.setHours(0,0,0,0) < new Date().setHours(0,0,0,0))
-	    		{
-	    			$scope.teacher.start_date = undefined;
-	    			notify({
-							message:'Past Dates Not Allowed',
-							classes:'alert-danger',
-							duration:3000
-						});
-						return;	
-	    			
-	    		}
-	    	}
-	    }
 
 
 
@@ -352,7 +171,7 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 	    	if(avatar.type !="image/png" && avatar.type !="image/jpeg" && avatar.type !="image/gif")
 	    		{
 	    			notify({
-							message:'Please select valid image',
+							message:$translate.instant('select_valid_image'),
 							classes:'alert-warning',
 							duration:3000
 						});
@@ -369,7 +188,7 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 	    		if(!$scope.avatarFile)
 	    	{
 	    		notify({
-							message:'Please select image',
+							message: $translate.instant('select_image'),
 							classes:'alert-warning',
 							duration:3000
 						});
@@ -389,7 +208,7 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 				if(success.data.status == "success")
 				{
 					notify({
-								message: success.data.reason,
+								message: $translate.instant(success.data.reason),
 								classes:'alert-success',
 								duration:3000
 							});
@@ -400,7 +219,7 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 			     else
 			     {
 			     	notify({
-								message: success.data.reason,
+								message: $translate.instant(success.data.reason),
 								classes:'alert-danger',
 								duration:3000
 							});
@@ -417,7 +236,7 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 			if(!$scope.teacherstatus.name)
 			{
 				notify({
-					message:'Enter first name',
+					message:$translate.instant('enter_first_name'),
 					classes:'alert-danger',
 					duration:2000
 				});
@@ -426,7 +245,7 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 			if(!$scope.teacherstatus.surname)
 			{
 				notify({
-					message:'Enter sur name',
+					message:$translate.instant('enter_surname'),
 					classes:'alert-danger',
 					duration:2000
 				});
@@ -435,7 +254,7 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 			if(!$scope.teacherstatus.email)
 			{
 				notify({
-					message:'Enter email',
+					message:$translate.instant('enter_valid_email'),
 					classes:'alert-danger',
 					duration:2000
 				});
@@ -444,7 +263,7 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 			if(!$scope.teacherstatus.university)
 			{
 				notify({
-					message:'Enter university',
+					message:$translate.instant('enter_university'),
 					classes:'alert-danger',
 					duration:2000
 				});
@@ -453,7 +272,7 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 			if(!$scope.teacherstatus.about)
 			{
 				notify({
-					message:'Enter about',
+					message:$translate.instant('enter_about'),
 					classes:'alert-danger',
 					duration:2000
 				});
@@ -462,7 +281,7 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 			if(!$scope.teacherstatus.teach_place)
 			{
 				notify({
-					message:'Enter teach place',
+					message:$translate.instant('enter_teach_place'),
 					classes:'alert-danger',
 					duration:2000
 				});
@@ -471,7 +290,7 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 			if(!$scope.teacherstatus.work)
 			{
 				notify({
-					message:'Enter work',
+					message:$translate.instant('enter_work'),
 					classes:'alert-danger',
 					duration:2000
 				});
@@ -481,7 +300,8 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 			{
 				swal({
 				title: "Email changed",
-				text: "Are you sure you want to update email ? You will have to verify email to update email",
+				// text: "Are you sure you want to update email ? You will have to verify email to update email",
+				text : $translate.instant('confirm_email_update');
 				type: "warning",
 				showCancelButton: true,
 				confirmButtonColor: "#DD6B55",
@@ -505,7 +325,7 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 				{
 					notify.closeAll();
 					notify({
-						message:success.data.reason,
+						message: $translate.instant(success.data.reason),
 						classes:'alert-success',
 						duration:3000
 					});
@@ -520,7 +340,7 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 				{
 					notify.closeAll();
 					notify({
-						message:success.data.reason,
+						message: $translate.instant(success.data.reason),
 						classes:'alert-danger',
 						duration:3000
 					});
@@ -550,7 +370,7 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 				{
 					notify.closeAll();
 					notify({
-						message:success.data.reason,
+						message: $translate.instant(success.data.reason),
 						classes:'alert-success',
 						duration:3000
 					});
@@ -565,7 +385,7 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 				{
 					notify.closeAll();
 					notify({
-						message:success.data.reason,
+						message: $translate.instant(success.data.reason),
 						classes:'alert-danger',
 						duration:3000
 					});
@@ -611,7 +431,7 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 				{
 					$scope.password.currentPassword ='';
 					notify.closeAll();
-					swal("Failed!", success.data.reason, "error", {
+					swal("Failed!", $translate.instant(success.data.reason), "error", {
 						  confirmButtonText: "Try Again!",
 						});
 					
@@ -626,14 +446,14 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 			notify.closeAll();
 			if(!$scope.password.currentPassword)
 			{
-				swal("Failed!", "Please enter current password", "warning", {
+				swal("Failed!", "enter_current_password", "warning", {
 						  confirmButtonText: "Try Again!",
 						});		
 				return;
 			}
 			if($scope.password.password != $scope.password.confirm)
 			{
-				swal("Failed!", "Password and confirm password should be same!", "error", {
+				swal("Failed!", "password_confirm_password_not_same!", "error", {
 						  confirmButtonText: "Try Again!",
 						});			
 						return;		
@@ -641,7 +461,7 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 			if($scope.password.password == $scope.password.currentPassword)
 			{
 				{
-					swal("Failed!", "New password should not be same as current password!", "error", {
+					swal("Failed!", "new_current_password_same", "error", {
 						  confirmButtonText: "Try Again!",
 						});					
 						return;		
@@ -659,14 +479,14 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 				if(success.data.status == 'success')
 				{
 					notify.closeAll();
-					swal("Success!", success.data.reason, "success", {
+					swal("Success!", $translate.instant(success.data.reason), "success", {
 						  confirmButtonText: "Close",
 						});
 				}
 				else
 				{
 					notify.closeAll();
-					swal("failed!", success.data.reason, "error", {
+					swal("failed!", $translate.instant(success.data.reason), "error", {
 						  confirmButtonText: "Try Again",
 						});				
 						return;	
@@ -682,8 +502,8 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 			if(!angular.equals($scope.oldteacherstatus, $scope.teacherstatus))
 				{
 						swal({
-				title: "unsaved Data",
-				text: "Are you sure you want to leave page ?",
+				title: $translate.instant('unsaved_data'),
+				text: $translate.instant('leave_page'),
 				type: "warning",
 				showCancelButton: true,
 				confirmButtonColor: "#DD6B55",

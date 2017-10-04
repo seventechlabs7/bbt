@@ -82,57 +82,7 @@ angular.module('app').controller('feedback', ['$scope','$document','$rootScope',
        		return (parseInt(newPos) <= parseInt(oldPos));
        }
 
-       $scope.removeStudent = function(sId)
-       {
-			swal({
-				title: "Are you sure?",
-				text: "This will permanently remove user from group",
-				type: "warning",
-				showCancelButton: true,
-				confirmButtonColor: "#DD6B55",
-				confirmButtonText: "Delete",
-				cancelButtonText: "Cancel!",
-				closeOnConfirm: false,
-				closeOnCancel: true,
-				showLoaderOnConfirm: true,
-			},
-			function(isConfirm){
-				if (isConfirm) {
-
-				$http({
-				method: 'POST',
-				url: 'api/student/removeFromGroup',
-				data:{uId : $scope.teacher.id ,'sId': sId}
-				}).then(function(success){
-
-				var data = success.data;
-				if(data.status =="success")
-					{
-						swal({
-						title:"Deleted!", 
-						text:data.reason,
-						type:"success",
-						closeOnConfirm:true,});
-					}
-				else
-				{
-					swal({
-						title:"Error!", 
-						text:data.reason,
-						type:"warning",
-						closeOnConfirm:true,});
-				}
-				$scope.loadRankingList();
-			},function(error){
-				swal("Error!", "Something Went Wrong", "error");
-			});
-					
-				} else {
-					
-				}
-			});
-
-       }
+       
 
        $scope.strToDate = function(date)
        {
@@ -229,81 +179,7 @@ angular.module('app').controller('feedback', ['$scope','$document','$rootScope',
 				$scope.file = file;
 			}
 
-			$scope.addStudents = function()
-			{
-				$scope.teacher.id = $stateParams.teacher_id;		
-				var list = $scope.teacher.mail_list.split(',');
-				var emailregex = /\S+@\S+\.\S+/;
-	      		notify.closeAll();
-				for (var i = 0; i < list.length; i++) 
-				{
-					if(list[i] == null)
-					{
-						notify({
-							message:'Should Seperate by single comma',
-							classes:'alert-danger',
-							duration:2000
-						});
-						return;
-					}
-					if(!list[i].match(emailregex))
-					{
-						notify({
-							message:'Invalid Mail Id',
-							classes:'alert-danger',
-							duration:2000
-						});
-					return;
-
-					}
-				}
-
-				swal({
-				title: "Upload Students",
-				text: "Are you sure you want to upload ?",
-				type: "info",
-				showCancelButton: true,
-				confirmButtonColor: "#DD6B55",
-				confirmButtonText: "Upload",
-				cancelButtonText: "Cancel!",
-				closeOnConfirm: false,
-				closeOnCancel: true,
-				showLoaderOnConfirm: true,
-			},
-			function(isConfirm){
-				if (isConfirm) {
-
-				Upload.upload({
-					method: 'POST',				
-					url: 'api/addstudents',
-					data:{
-							file: $scope.file,
-							teacher :$scope.teacher,
-						}
-					})
-					.then(function(success){
-					console.log(success)
-					var data = success.data;
-				if(data.status =="success")
-					{
-						swal("Uploaded!", data.reason, "success");
-						$scope.teacher.mail_list = [];
-						$scope.file = null;
-					}
-				else
-					swal("Error!", data.reason, "warning");	
-
-					},function(error){
-
-					})
-					
-				} else {
-					
-				}
-			});
 			
-				
-			}
 
 			$scope.getLeagueDetails =function()
 			{

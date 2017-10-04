@@ -34,8 +34,8 @@ class DefaultController extends Controller
     public function signupTeacherAction(Request $request,MailerService $mailerService,CustomCrypt $crypt)
     {
         $teacher = $request->request->all();
-        $new  = $this->get('translator')->trans('index.a');
-        return new JsonResponse($new);
+       // $new  = $this->get('translator')->trans('missing.parameter.first_name');
+       // return new JsonResponse($new);
         $emailvalidate =0;
         $emailCheck1 = $this->CheckDupeEmail($teacher['email']);
         if(!$emailCheck1)
@@ -63,9 +63,9 @@ class DefaultController extends Controller
             $mailObject->encryptedLink = urlencode($crypt->encrypt($teacher['email']));
 
             $mailerService->indexAction($mailObject);
-            return $this->json(array('status' => 'success','teacher_id' => $TD->getId(),'reason' => 'Teacher Saved Successfully . please verify your email','response' => 200));
+            return $this->json(array('status' => 'success','teacher_id' => $TD->getId(),'reason' => 'signup_success','response' => 200));
         }else{
-            return $this->json(array('status' => 'failed','reason' => 'Email already Exists'));
+            return $this->json(array('status' => 'failed','reason' => 'email_already_exists'));
         }
     }
 
@@ -134,7 +134,7 @@ class DefaultController extends Controller
             if($checkMail)
             {
                 return $this->render('staff/error-page.html.twig', array(
-                         'message' => 'Link Already Verified or does not exist',
+                         'message' => 'already_verified',
                     ));
             }
             else
@@ -242,7 +242,7 @@ class DefaultController extends Controller
             if($checkMail)
             {
                 return $this->render('staff/error-page.html.twig', array(
-                         'message' => 'Link Already Verified or does not exist',
+                         'message' => 'already_verified',
                     ));
             }
             else
@@ -298,7 +298,7 @@ class DefaultController extends Controller
         catch(Exception $e)
         {
              $em1->getConnection()->rollBack();
-            return new JsonResponse("Something went wrong");
+            return new JsonResponse("something_went_wrong");
         }
     }
 
@@ -327,7 +327,7 @@ class DefaultController extends Controller
             if($checkMail)
             {
                 return $this->render('staff/error-page.html.twig', array(
-                         'message' => 'Link Already Verified or does not exist',
+                         'message' => 'already_verified',
                     ));
             }
             else

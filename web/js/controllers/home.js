@@ -47,7 +47,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 						if(list[i] == null)
 						{
 							notify({
-								message:'Should be Seperated by single comma',
+								message: $translate.instant('comma_sepearated_email'),
 								classes:'alert-danger',
 								duration:2000
 							});
@@ -56,7 +56,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 						if(!emailregex.test(list[i]))
 						{
 							notify({
-								message:'Invalid Mail Id',
+								message:  $translate.instant('invalid_mail'),
 								classes:'alert-danger',
 								duration:2000
 							});
@@ -70,7 +70,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				if(list.length == 0 && !$scope.file)
 				{
 					notify({
-						message:'Enter valid comma sepearated emails or upload a email list file',
+						message: $translate.instant('mail_list_or_file'),
 						classes:'alert-danger',
 						duration:4000
 					});
@@ -79,7 +79,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				if(list.length > 0 && $scope.file)
 				{
 					notify({
-						message:'Cannot add both mail list and file . Choose either of the two',
+						message: $translate.instant('only_one_email_list'),
 						classes:'alert-danger',
 						duration:4000
 					});
@@ -94,7 +94,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
         	if(!$scope.teacher.start_date)
 			{				
 				notify({
-					message:'Fill Start Date',
+					message: $translate.instant('fill_start_date'),
 					classes:'alert-danger',
 					duration:2000
 				});
@@ -103,7 +103,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 			if(!$scope.teacher.end_date)
 			{				
 				notify({
-					message:'Fill End Date',
+					message: $translate.instant('fill_end_date'),
 					classes:'alert-danger',
 					duration:2000
 				});
@@ -126,7 +126,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 			if(!$scope.assetsCheck)
 			{				
 				notify({
-					message:'Select Assets',
+					message:$translate.instant('select_assets'),
 					classes:'alert-danger',
 					duration:2000
 				});
@@ -135,7 +135,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 			if(!$scope.teacher.league_name)
 			{				
 				notify({
-					message:'Enter League Name',
+					message:$translate.instant('enter_league_name'),
 					classes:'alert-danger',
 					duration:2000
 				});
@@ -144,7 +144,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 			if(!$scope.teacher.virtual_money)
 			{				
 				notify({
-					message:'Enter Virtual Money',
+					message:$translate.instant('enter_virtual_money'),
 					classes:'alert-danger',
 					duration:2000
 				});
@@ -171,7 +171,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 			if(!$scope.feedbackCheck)
 			{				
 				notify({
-					message:'Select Feedback',
+					message:$translate.instant('select_feedback'),
 					classes:'alert-danger',
 					duration:2000
 				});
@@ -231,7 +231,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 		{
 			$scope.teacher.save_step = $scope.currentStep;
 			$scope.teacher.id = $stateParams.teacher_id; 
-			if($scope.currentStep ==1)
+/*			if($scope.currentStep ==1)
 			{
 			if($scope.teacher.mail_list)
 			{
@@ -349,7 +349,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				});
 				return;
 			}
-		   }
+		   }*/
 			console.log($scope.teacher)
 			if($scope.currentStep ==2)
 			{
@@ -408,7 +408,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 		      if(to.getTime() < from.getTime())
 		      {
 		      	notify({
-		      		message: 'Invalid End Date',
+		      		message: $translate.instant('invalid_end_date'),
 		      		classes: 'alert-danger',
 		      		duration: 2000
 		      	});
@@ -427,7 +427,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 	    		{
 	    			$scope.teacher.start_date = undefined;
 	    			notify({
-							message:'Past Dates Not Allowed',
+							message: $translate.instant('past_date_error'),
 							classes:'alert-danger',
 							duration:3000
 						});
@@ -494,7 +494,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				{
 					notify.closeAll();
 					notify({
-						message:'Your Status is Saved Successfully',
+						message:$translate.instant('profile_updated'),
 						classes:'alert-success',
 						duration:3000
 					});
@@ -520,11 +520,12 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 					{
 						/*$scope.teacher.id = success.data.teacher_id;
 						$scope.teacher_id = $scope.teacher.id;*/
+						
 						$scope.teacher ={};
 						$scope.signup.$setPristine();
 						$scope.signup.$setUntouched();
 						notify({
-						message: success.data.reason,
+						message: $translate.instant(success.data.reason),
 						classes:'alert-success',
 						duration:5000,
 						position:'center'
@@ -533,7 +534,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 					    teacher_id: $scope.teacher_id 
 					});	*/
 					//$scope.completed = true;	
-					$scope.signupReason = success.data.reason;		
+					$scope.signupReason = $translate.instant(success.data.reason);		
 					}else if(success.data.status == 'failed')
 					{
 						notify({
@@ -617,7 +618,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 	    	if(avatar.type !="image/png" && avatar.type !="image/jpeg" && avatar.type !="image/gif")
 	    		{
 	    			notify({
-							message:'Please select valid image',
+							message:$translate.instant('select_valid_image'),
 							classes:'alert-warning',
 							duration:3000
 						});
@@ -633,7 +634,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 	    	if(!$scope.avatarFile)
 	    	{
 	    		notify({
-							message:'Please select image',
+							message: $translate.instant('select_image'),
 							classes:'alert-warning',
 							duration:3000
 						});
@@ -652,7 +653,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				if(success.data.status == "success")
 				{
 					notify({
-								message: success.data.reason,
+								message: $translate.instant(success.data.reason),
 								classes:'alert-success',
 								duration:3000
 							});
@@ -663,7 +664,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 			     else
 			     {
 			     	notify({
-								message: success.data.reason,
+								message: $translate.instant(success.data.reason),
 								classes:'alert-danger',
 								duration:3000
 							});
@@ -801,7 +802,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 					if(success.data.status =="success")
 					{
 						var user ={};
-						 user.access_token = success.data.token;
+						 user.access_token = $translate.instant(success.data.token);
 		                 UserService.setCurrentUser(user);
 		                 $rootScope.$broadcast('authorized');
 		                 $state.go('app.profile', {
@@ -812,7 +813,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 						{
 							notify.closeAll();
 							notify({
-							message: success.data.reason,
+							message: $translate.instant(success.data.reason),
 							classes:'alert-danger',
 							duration:5000
 							});
@@ -822,7 +823,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 					$scope.blocked = false;
 					notify.closeAll();
 					notify({
-							message: 'Invalid Credentials 1',
+							message: $translate.instant('invalid_credentials'),
 							classes:'alert-danger',
 							duration:5000
 							});
@@ -832,7 +833,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 			{
 				notify.closeAll();
 					notify({
-							message: 'Enter valid email and password',
+							message: $translate.instant('enter_email_and_password'),
 							classes:'alert-danger',
 							duration:5000
 						});

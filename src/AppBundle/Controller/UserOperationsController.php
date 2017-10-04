@@ -274,12 +274,12 @@ class UserOperationsController extends Controller implements TokenAuthenticatedC
      {
        $em->remove($TD);
        $em->flush();
-       return new JsonResponse(array('status' => 'success','reason' => 'Student removed from group successfully','response' => 200));
+       return new JsonResponse(array('status' => 'success','reason' => 'student_removed','response' => 200));
 
      }
      else
      {
-       return new JsonResponse(array('status' => 'failure','reason' => 'Student not removed from group ! please try again','response' => 200));
+       return new JsonResponse(array('status' => 'failure','reason' => 'student_not_removed','response' => 200));
      }
   }
 
@@ -346,7 +346,7 @@ class UserOperationsController extends Controller implements TokenAuthenticatedC
           unlink($path);
     }
 
-       return new JsonResponse(array('status' => 'success','reason' => 'success','response' => 200));
+       return new JsonResponse(array('status' => 'success','reason' => 'students_uploaded','response' => 200));
   }
 
       public function CheckDupeEmail($email)
@@ -511,7 +511,7 @@ class UserOperationsController extends Controller implements TokenAuthenticatedC
             
               }
                 $em->getConnection()->commit();
-           return new JsonResponse(array('status' => 'success','reason' => 'updated successfully','response' => 200));
+           return new JsonResponse(array('status' => 'success','reason' => 'updated_successfully','response' => 200));
           }
         }
   }
@@ -520,7 +520,7 @@ class UserOperationsController extends Controller implements TokenAuthenticatedC
       catch(Exception $e)
       {
        $em->getConnection()->rollBack();
-          return new JsonResponse(array('status' => 'failure','reason' => 'something went wrong','response' => 200));
+          return new JsonResponse(array('status' => 'failure','reason' => 'something_went_wrong','response' => 200));
       } 
 
     
@@ -542,7 +542,7 @@ class UserOperationsController extends Controller implements TokenAuthenticatedC
 
     $feedbacks = $requestData['feedback'];
     if(count($feedbacks) == 0)
-        return new JsonResponse(array('status' => 'failure','reason' => 'Select atleast one feedback','response' => 200));
+        return new JsonResponse(array('status' => 'failure','reason' => 'select_feedback','response' => 200));
     
 
 
@@ -577,13 +577,13 @@ class UserOperationsController extends Controller implements TokenAuthenticatedC
       }
     }
        $em->getConnection()->commit();
-       return new JsonResponse(array('status' => 'success','reason' => 'updated successfully','response' => 200));
+       return new JsonResponse(array('status' => 'success','reason' => 'updated_successfully','response' => 200));
     }
    }
       catch(Exception $e)
       {
        $em->getConnection()->rollBack();
-          return new JsonResponse(array('status' => 'failure','reason' => 'something went wrong','response' => 200));
+          return new JsonResponse(array('status' => 'failure','reason' => 'something_went_wrong','response' => 200));
       } 
 
   }
@@ -612,7 +612,7 @@ class UserOperationsController extends Controller implements TokenAuthenticatedC
            return new JsonResponse(array('status' => 'success','response' => 200));
         }  
         else
-           return new JsonResponse(array('status' => 'failure','reason' => 'Incorrect current password','response' => 200));    
+           return new JsonResponse(array('status' => 'failure','reason' => 'incorrect_current_password','response' => 200));    
       return new JsonResponse($pwEN);
     }
     
@@ -648,12 +648,12 @@ class UserOperationsController extends Controller implements TokenAuthenticatedC
             }
             else
             {
-               return new JsonResponse(array('status' => 'failure','reason' => 'New password should not be same as current password','response' => 200));  
+               return new JsonResponse(array('status' => 'failure','reason' => 'new_current_password_same','response' => 200));  
             }
         }  
         else
-           return new JsonResponse(array('status' => 'failure','reason' => 'incorrect current password','response' => 200));    
-      return new JsonResponse(array('status' => 'success','reason' => 'Password updated successfully','response' => 200)); 
+           return new JsonResponse(array('status' => 'failure','reason' => 'incorrect_current_password','response' => 200));    
+      return new JsonResponse(array('status' => 'success','reason' => 'password_updated','response' => 200)); 
     }
   }
 

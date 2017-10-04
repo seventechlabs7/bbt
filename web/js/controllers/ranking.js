@@ -173,8 +173,8 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
        $scope.removeStudent = function(sId)
        {
 			swal({
-				title: "Are you sure?",
-				text: "This will permanently remove user from group",
+				title: $translate.instant('are_you_sure'),
+				text: $translate.instant('confirm_user_remove_text'),
 				type: "warning",
 				showCancelButton: true,
 				confirmButtonColor: "#DD6B55",
@@ -198,7 +198,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 					{
 						swal({
 						title:"Deleted!", 
-						text:data.reason,
+						text: $translate.instant(data.reason),
 						type:"success",
 						closeOnConfirm:true,});
 					}
@@ -206,7 +206,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				{
 					swal({
 						title:"Error!", 
-						text:data.reason,
+						text: $translate.instant(data.reason),
 						type:"warning",
 						closeOnConfirm:true,});
 				}
@@ -214,7 +214,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				$scope.rankTable;
 				console.log($scope.rankTable)
 			},function(error){
-				swal("Error!", "Something Went Wrong", "error");
+				swal("Error!", $translate.instant('something_went_wrong'), "error");
 			});
 					
 				} else {
@@ -344,7 +344,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 						if(list[i] == null)
 						{
 							notify({
-								message:'Should be Seperated by single comma',
+								message: $translate.instant('comma_sepearated_email'),
 								classes:'alert-danger',
 								duration:2000
 							});
@@ -353,7 +353,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 						if(!emailregex.test(list[i]))
 						{
 							notify({
-								message:'Invalid Mail Id',
+								message:'invalid_mail',
 								classes:'alert-danger',
 								duration:2000
 							});
@@ -367,7 +367,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				if(list.length == 0 && !$scope.file)
 				{
 					notify({
-						message:'Enter valid comma sepearated emails or upload a email list file',
+						message: $translate.instant('mail_list_or_file'),
 						classes:'alert-danger',
 						duration:4000
 					});
@@ -376,7 +376,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				if(list.length > 0 && $scope.file)
 				{
 					notify({
-						message:'Cannot add both mail list and file . Choose either of the two',
+						message: $translate.instant('only_one_email_list'),
 						classes:'alert-danger',
 						duration:4000
 					});
@@ -384,8 +384,8 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				}
 
 				swal({
-				title: "Upload Students",
-				text: "Are you sure you want to upload ?",
+				title: "Confirm ",
+				text: $translate.instant("confirm_upload_students"),
 				type: "info",
 				showCancelButton: true,
 				confirmButtonColor: "#DD6B55",
@@ -411,13 +411,13 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 					var data = success.data;
 				if(data.status =="success")
 					{
-						swal("Uploaded!", data.reason, "success");
+						swal("Uploaded!", $translate.instant(data.reason), "success");
 						$scope.teacher.mail_list = "";
 						$scope.file = null;
 						$scope.changeScreen('start');
 					}
 				else
-					swal("Error!", data.reason, "warning");	
+					swal("Error!", $translate.instant('something_went_wrong'), "warning");	
 
 					},function(error){
 
@@ -521,7 +521,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 		      {
 		      	notify.closeAll();
 		      	notify({
-		      		message: 'Invalid End Date',
+		      		message: $translate.instant('invalid_end_date'),
 		      		classes: 'alert-danger',
 		      		duration: 2000
 		      	});
@@ -534,7 +534,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 		      {
 		      	notify.closeAll();
 		      	notify({
-		      		message: 'End date is less than current date',
+		      		message: $translate.instant('past_date_error'),
 		      		classes: 'alert-danger',
 		      		duration: 2000
 		      	});
@@ -565,7 +565,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 	    		{
 	    			$scope.teacher.start_date = undefined;
 	    			notify({
-							message:'Past Dates Not Allowed',
+							message: $translate.instant('past_date_error'),
 							classes:'alert-danger',
 							duration:3000
 						});
@@ -582,7 +582,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 			{		
 
 				notify({
-					message:'Fill Start Date',
+					message:$translate.instant('fill_start_date'),
 					classes:'alert-danger',
 					duration:2000
 				});
@@ -591,7 +591,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 			if(!$scope.teacher.end_date)
 			{				
 				notify({
-					message:'Fill End Date',
+					message:$translate.instant('fill_end_date'),
 					classes:'alert-danger',
 					duration:2000
 				});
@@ -613,7 +613,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 			if(!$scope.assetsCheck)
 			{				
 				notify({
-					message:'Select Assets',
+					message: $translate.instant('select_assets'),
 					classes:'alert-danger',
 					duration:2000
 				});
@@ -622,7 +622,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 			if(!$scope.teacher.league_name)
 			{				
 				notify({
-					message:'Enter League Name',
+					message: $translate.instant('enter_league_name'),
 					classes:'alert-danger',
 					duration:2000
 				});
@@ -631,7 +631,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 			if(!$scope.teacher.virtual_money)
 			{				
 				notify({
-					message:'Enter Virtual Money',
+					message: $translate.instant('enter_virtual_money'),
 					classes:'alert-danger',
 					duration:2000
 				});
@@ -655,7 +655,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				if(data.status =="success")
 				{
 					notify({
-					message: data.reason,
+					message: $translate.instant(data.reason),
 					classes:'alert-success',
 					duration:2000
 				});
@@ -664,7 +664,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				else
 				{
 					notify({
-					message: data.reason,
+					message: $translate.instant(data.reason),
 					classes:'alert-danger',
 					duration:2000
 					});
@@ -692,7 +692,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 			if(!$scope.feedbackCheck)
 			{				
 				notify({
-					message:'Select Feedback',
+					message: $translate.instant('select_feedback'),
 					classes:'alert-danger',
 					duration:2000
 				});
@@ -709,7 +709,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				if(data.status =="success")
 				{
 					notify({
-					message: data.reason,
+					message: $translate.instant(data.reason),
 					classes:'alert-success',
 					duration:2000
 				});
@@ -718,7 +718,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				else
 				{
 					notify({
-					message: data.reason,
+					message: $translate.instant(data.reason),
 					classes:'alert-danger',
 					duration:2000
 					});
@@ -811,7 +811,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 			if(!$scope.chat.newMessage)
 			{
 				notify({
-					message: 'Enter a message',
+					message: $translate.instant('enter_message'),
 					classes:'alert-warning',
 					duration:2000
 					});
@@ -822,7 +822,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				if($scope.chat.newMessage.trim().length >30)
 				{
 					notify({
-					message: 'Message length too long',
+					message: $translate.instant('message_length_long'),
 					classes:'alert-warning',
 					duration:2000
 					});
@@ -883,8 +883,8 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				if(!angular.equals($scope.oldObj, $scope.teacher) && $scope.unsaved)
 				{
 						swal({
-				title: "unsaved Data",
-				text: "Are you sure you want to leave page ?",
+				title: $translate.instant("unsaved Data"),
+				text: $translate.instant("leave_page"),
 				type: "warning",
 				showCancelButton: true,
 				confirmButtonColor: "#DD6B55",
@@ -1061,7 +1061,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 						if(list[i] == null)
 						{
 							notify({
-								message:'Should be Seperated by single comma',
+								message: $translate.instant('comma_sepearated_email'),
 								classes:'alert-danger',
 								duration:2000
 							});
@@ -1070,7 +1070,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 						if(!emailregex.test(list[i]))
 						{
 							notify({
-								message:'Invalid Mail Id',
+								message:  $translate.instant('invalid_mail'),
 								classes:'alert-danger',
 								duration:2000
 							});
@@ -1084,7 +1084,16 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				if(list.length == 0 && !$scope.file)
 				{
 					notify({
-						message:'Enter valid comma sepearated emails or upload a email list file',
+						message: $translate.instant('mail_list_or_file'),
+						classes:'alert-danger',
+						duration:4000
+					});
+					return;
+				}
+				if(list.length > 0 && $scope.file)
+				{
+					notify({
+						message: $translate.instant('only_one_email_list'),
 						classes:'alert-danger',
 						duration:4000
 					});
@@ -1099,7 +1108,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
         	 if(!$scope.teacher.start_date)
 			{				
 				notify({
-					message:'Fill Start Date',
+					message: $translate.instant('fill_start_date'),
 					classes:'alert-danger',
 					duration:2000
 				});
@@ -1108,7 +1117,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 			if(!$scope.teacher.end_date)
 			{				
 				notify({
-					message:'Fill End Date',
+					message: $translate.instant('fill_end_date'),
 					classes:'alert-danger',
 					duration:2000
 				});
@@ -1134,7 +1143,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 			if(!$scope.assetsCheck)
 			{				
 				notify({
-					message:'Select Assets',
+					message: $translate.instant('select_assets'),
 					classes:'alert-danger',
 					duration:2000
 				});
@@ -1143,7 +1152,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 			if(!$scope.teacher.league_name)
 			{				
 				notify({
-					message:'Enter League Name',
+					message:$translate.instant('enter_league_name'),
 					classes:'alert-danger',
 					duration:2000
 				});
@@ -1152,7 +1161,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 			if(!$scope.teacher.virtual_money)
 			{				
 				notify({
-					message:'Enter Virtual Money',
+					message: $translate.instant('enter_virtual_money'),
 					classes:'alert-danger',
 					duration:2000
 				});
@@ -1179,7 +1188,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 			if(!$scope.feedbackCheck)
 			{				
 				notify({
-					message:'Select Feedback',
+					message: $translate.instant('select_feedback'),
 					classes:'alert-danger',
 					duration:2000
 				});
@@ -1265,7 +1274,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 		      if(to.getTime() < from.getTime())
 		      {
 		      	notify({
-		      		message: 'Invalid End Date',
+		      		message: $translate.instant('invalid_end_date'),
 		      		classes: 'alert-danger',
 		      		duration: 2000
 		      	});
@@ -1284,7 +1293,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 	    		{
 	    			$scope.teacher.start_date = undefined;
 	    			notify({
-							message:'Past Dates Not Allowed',
+							message: $translate.instant('past_date_error'),
 							classes:'alert-danger',
 							duration:3000
 						});

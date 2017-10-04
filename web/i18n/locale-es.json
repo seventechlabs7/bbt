@@ -24,7 +24,7 @@
   "L_PASS_PH"  : "Contraseña",
 
   "MENU_PROFILE" : "Perfil",
-  "MENU_RANKING" : "clasificación",
+  "MENU_RANKING" : "Ranking",
 
 
   "P_UPLOAD_AVATAR" : "Subir foto" ,
@@ -36,7 +36,7 @@
   "D_TOTAL_PROFITABILITY" : "Rentabilidad total",
   "D_TOTAL_BENEFITS" : "Beneficios totales" ,
 
-  "T_TIMELINE" : "Cronograma",
+  "T_TIMELINE" : "Timeline",
   "T_BOUGHT" : "ha comprado",
   "T_SHARES_FROM" : "acciones de",
   "T_FOR"	:"por",
@@ -155,5 +155,49 @@
 
   "SESSION_EXPIRED" :  "Session Expired or unauthorized",
   "SESSION_EXPIRED_TEXT":"Please login to comtinue" ,
-  "LOGOUT" : "Logout"
+  "LOGOUT" : "Logout",
+
+
+
+  "signup_success":" Profesor ahorrado con éxito. Comprueba tu mail y comprueba",
+  "email_already_exists" : "el Email ya existe",
+  "already_verified" : "Enlace ya verificado o no existe",
+  "something_went_wrong" : "Algo salió mal",
+
+  "inactive_account" : "Cuenta inactiva. Verifique el enlace enviado a su emal.",
+  "invalid_credentials" : "Credenciales no válidas",
+  "invalid_user" : "Usuario invalido",
+  "invalid_mail" : "Invalid email" ,
+  "comma_sepearated_email" : "Debe ser email separado por comas",
+  "mail_list_or_file" : "Ingrese correos electrónicos válidos separados por comas o cargue un archivo de lista de correo electrónico",
+  "only_one_email_list" : "No se puede agregar la lista de correo y el archivo. Elija uno de los dos",
+
+  "fill_start_date" : "Fecha de inicio del relleno",
+  "fill_end_date" : "Fecha de finalización del relleno",
+  "select_assets" : "Seleccione al menos un recurso",
+  "select_feedback" : "Seleccione al menos una feedback",
+  "enter_league_name" :"Ingrese el nombre de la liga",
+  "enter_virtual_money" : "Ingresa dinero virtual",
+  "invalid_end_date" : "Fecha de finalización no válida",
+  "past_date_error" : "Fecha pasada no permitida",
+  "profile_updated" : "Tu perfil se ha actualizado correctamente.",
+  "select_valid_image" :"Seleccionar imagen válida",
+  "image_uploaded" : "Avatar cargado correctamente",
+  "updated_successfully" : "Actualizado correctamente",
+  "updated_successfully_verify_email" : "Actualizado correctamente .Por favor, verifique el enlace en su email para actualizar permanentemente ",
+  "incorrect_current_password" : "Contraseña actual incorrecta" ,
+  "enter_current_password" : "Introduzca la contraseña actual" ,
+  "password_confirm_password_not_same" : "Contraseña y confirmar contraseña debe ser la misma",
+  "new_current_password_same" : "La nueva contraseña y la contraseña actual no deben ser las mismas",
+  "confirm_email_update" : "¿Estás seguro de que quieres actualizar el email? Tendrá que verificar el correo electrónico para actualizar el email" ,
+  "unsaved_data" : "Datos no guardados",
+  "leave_page" : "¿Seguro que quieres salir de la página?",
+  "are_you_sure" : "Estás seguro ?" ,
+  "confirm_user_remove_text" : "Esto eliminará de forma permanente al usuario del grupo",
+  "student_removed" : "El estudiante se retiró exitosamente del grupo",
+  "student_not_removed" : "El estudiante no fue removido del grupo. Por favor, inténtelo de nuevo!",
+  "confirm_upload_students" : "¿Seguro que quieres subir?",
+  "students_uploaded" : "Los estudiantes agregaron con éxito",
+  "enter_message" :"Introduce un mensaje",
+  "message_length_long" : "Longitud de mensaje demasiado larga"
 }

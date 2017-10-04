@@ -54,19 +54,24 @@ angular.module('app', [
         return currentUser;
     };
 })
-.service('translateService', function($translate) {
+.service('translateService', function($translate,$rootScope) {
     var service = this;
     
     service.translate = function(key) {
         
+      return $translate.instant(key);  
       /*start*/
       var a ;
       $translate(key).then(function (anotherOne) {
-          a = anotherOne;
+       alert("a" +anotherOne)
+          $rootScope.a = anotherOne;
+         // return anotherOne;
       }, function (translationId) {
-          a = translationId;
+      alert("b" +translationId)
+          $rootScope.a = translationId;
+         // return $rootScope.a;
       });
-      return  a;
+      return  $rootScope.a;
       /*end*/
 
        // return currentUser;

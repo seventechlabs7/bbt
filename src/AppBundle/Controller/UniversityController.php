@@ -293,9 +293,12 @@ class UniversityController extends Controller implements  TokenAuthenticatedCont
 		    $em->flush();
 		    
              if($mailFlag)
-             	$this->mailUpdateLink($oldemail,$teacher['email'],$crypt, $mailerService);
+             	{
+             		$this->mailUpdateLink($oldemail,$teacher['email'],$crypt, $mailerService);
+             		return $this->json(array('status' => 'success','reason' => 'updated_successfully_verify_email','response' => 200));
+             	}
 
-    	return $this->json(array('status' => 'success','reason' => 'updated Successfully','response' => 200));
+    	return $this->json(array('status' => 'success','reason' => 'updated_successfully','response' => 200));
     }
     
 
@@ -366,7 +369,7 @@ class UniversityController extends Controller implements  TokenAuthenticatedCont
        $fileName = $fileUploader->upload($file,$user['userId']);
        if($fileName == "failure")
        {
-       		return new JsonResponse(array('status' => 'failure','reason' => 'Select valid image','response' => 401));
+       		return new JsonResponse(array('status' => 'failure','reason' => 'select_valid_image','response' => 401));
        }
        if(isset($user['image']))
        		$removeFile = $fileUploader->removeFile($user['image']);
@@ -381,7 +384,7 @@ class UniversityController extends Controller implements  TokenAuthenticatedCont
 				'url' =>$fileName,
 				'id' => $user['userId']));
 
-       return new JsonResponse(array('status' => 'success','reason' => 'Image uploaded Successfully','response' => 200));
+       return new JsonResponse(array('status' => 'success','reason' => 'image_uploaded','response' => 200));
 	}
 
 	
