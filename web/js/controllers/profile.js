@@ -301,7 +301,7 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 				swal({
 				title: "Email changed",
 				// text: "Are you sure you want to update email ? You will have to verify email to update email",
-				text : $translate.instant('confirm_email_update');
+				text : $translate.instant('confirm_email_update'),
 				type: "warning",
 				showCancelButton: true,
 				confirmButtonColor: "#DD6B55",
