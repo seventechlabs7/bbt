@@ -290,12 +290,12 @@ h1{
 			<div class="row">
 				<div class="col-lg-6 col-md-6 col-xs-12">
 					<div class="">
-						<a href=""><img style="width: 100%" src="imgs/eng_flag.png" ng-click="changeLanguage('en')"></a>
+						<a href=""><img title="English" style="width: 100%" src="imgs/eng_flag.png" ng-click="changeLanguage('en')"></a>
 					</div>
 				</div>
 				<div class="col-lg-6 col-md-6 col-xs-12">
 					<div class="">
-						<a href=""><img style="width: 100%" src="imgs/esp_flag.png" ng-click="changeLanguage('es')"></a>
+						<a href=""><img title="Espanol" style="width: 100%" src="imgs/esp_flag.png" ng-click="changeLanguage('es')"></a>
 					</div>
 				</div>
 			</div>
@@ -547,10 +547,17 @@ h1{
 						</div>
 						<div class="row">
 							<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-    							<div class="input_upload">
+    							<!-- <div class="input_upload">
     								<input type="file" class="upload_text" placeholder="Find Your File(csv./other)" name="maillistfile" name="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" ngf-select="selectFile(teacher.mail_list_file)" ng-model="teacher.mail_list_file"/>
     								<small translate="">S1_UPLOAD_STUDENTS</small>
-    							</div>
+    							</div> -->
+    											<div class="file-upload">
+													  <div class="file-select">
+													    <div class="file-select-button" id="fileName">Choose File</div>
+													    <div class="file-select-name" id="noFile">No file chosen...</div> 
+													    <input type="file" name="chooseFile" id="chooseFile">
+													  </div>
+													</div>
 							</div>
 						</div>
 						<!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p0">
@@ -587,7 +594,19 @@ h1{
 					 <button class="upload_pic_but m-t-10" ng-click="addStudents()"> <span translate="">RT_ADD_STUDENTS</span></button>
 				 </div>
 				</div>
-				
+					<script type="text/javascript">
+		$('#chooseFile').bind('change', function () {
+						var filename = $("#chooseFile").val();
+						if (/^\s*$/.test(filename)) {
+							$(".file-upload").removeClass('active');
+							$("#noFile").text("No file chosen..."); 
+						}
+						else {
+								$(".file-upload").addClass('active');
+								$("#noFile").text(filename.replace("C:\\fakepath\\","")); 
+							}
+						});
+	</script>
 			</div>
 			<div class="center_container main-content-section" ng-if="screen == 'editfeedback'" ng-init="processArrays()">
 			<div class="profile_head_cont">
@@ -884,8 +903,15 @@ h1{
 			        							<div class="input_upload">
 			        								<input type="file" class="upload_text p-0" placeholder="{{'S1_ADD_STUDENTS_PH' | translate}}" name="maillistfile" name="file" ngf-select="selectFile(teacher.mail_list_file)" ng-model="teacher.mail_list_file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
 			        								<small class="upload-info" translate="">S1_UPLOAD_STUDENTS</small>
-			        								<!-- <button class="upload_button">Upload</button> -->
+			        								
 			        							</div>
+			        						<!-- 	<div class="file-upload">
+													  <div class="file-select">
+													    <div class="file-select-button" id="fileName1">Choose File</div>
+													    <div class="file-select-name" id="noFile1">No file chosen...</div> 
+													    <input type="file" name="chooseFile" id="chooseFile1">
+													  </div>
+													</div> -->
 		        							</div>
 	        							</div>
 	        							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p0 m-t-10">
@@ -1137,6 +1163,12 @@ h1{
 						  }); 
 				}
 				initPlug();
+
+					
+
+
+					
+
 				
 
         </script>
@@ -1145,4 +1177,5 @@ h1{
 	
 		<!-- chat end -->
 	</div>
+
 

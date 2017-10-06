@@ -178,8 +178,8 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				type: "warning",
 				showCancelButton: true,
 				confirmButtonColor: "#DD6B55",
-				confirmButtonText: "Delete",
-				cancelButtonText: "Cancel!",
+				confirmButtonText: $translate.instant("DELETE"),
+				cancelButtonText: $translate.instant("CANCEL"),
 				closeOnConfirm: false,
 				closeOnCancel: true,
 				showLoaderOnConfirm: true,
@@ -197,7 +197,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				if(data.status =="success")
 					{
 						swal({
-						title:"Deleted!", 
+						title:$translate.instant("SUCCESS"), 
 						text: $translate.instant(data.reason),
 						type:"success",
 						closeOnConfirm:true,});
@@ -205,7 +205,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				else
 				{
 					swal({
-						title:"Error!", 
+						title:$translate.instant("FAILED"), 
 						text: $translate.instant(data.reason),
 						type:"warning",
 						closeOnConfirm:true,});
@@ -214,7 +214,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				$scope.rankTable;
 				console.log($scope.rankTable)
 			},function(error){
-				swal("Error!", $translate.instant('something_went_wrong'), "error");
+				swal($translate.instant("FAILED"), $translate.instant('something_went_wrong'), "error");
 			});
 					
 				} else {
@@ -384,13 +384,13 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				}
 
 				swal({
-				title: "Confirm ",
+				title: $translate.instant("CONFIRM"),
 				text: $translate.instant("confirm_upload_students"),
 				type: "info",
 				showCancelButton: true,
 				confirmButtonColor: "#DD6B55",
-				confirmButtonText: "Upload",
-				cancelButtonText: "Cancel!",
+				confirmButtonText: $translate.instant("UPLOAD"),
+				cancelButtonText: $translate.instant("CANCEL"),
 				closeOnConfirm: false,
 				closeOnCancel: true,
 				showLoaderOnConfirm: true,
@@ -411,7 +411,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 					var data = success.data;
 				if(data.status =="success")
 					{
-						swal("Uploaded!", $translate.instant(data.reason), "success");
+						swal($translate.instant("SUCCESS"), $translate.instant(data.reason), "success");
 						$scope.teacher.mail_list = "";
 						$scope.file = null;
 						$scope.changeScreen('start');
@@ -854,8 +854,14 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 			 		return;*/
 			 	$scope.timeTillEvent = {};
 				var e = angular.copy($scope.currentEndDate);
-				e = new Date(e.split("/").reverse().join("-"));
-				var d1 = e;
+				if(!e)
+					return;				
+				e = e.split("/").reverse().join("-");
+				var e2= e.split(" 00");				
+				var e3 = e2[0];
+				var e1 = e3.replace(/-/g , "/");				
+				e1 = new Date(e1);				
+				var d1 = e1;
 				d1.setHours(24,0,0,0);
 				var d2 = new Date();
 				//d2.setHours(0,0,0,0);
@@ -883,13 +889,13 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				if(!angular.equals($scope.oldObj, $scope.teacher) && $scope.unsaved)
 				{
 						swal({
-				title: $translate.instant("unsaved Data"),
+				title: $translate.instant("unsaved_data"),
 				text: $translate.instant("leave_page"),
 				type: "warning",
 				showCancelButton: true,
 				confirmButtonColor: "#DD6B55",
-				confirmButtonText: "Yes",
-				cancelButtonText: "Cancel!",
+				confirmButtonText: $translate.instant("YES"),
+				cancelButtonText: $translate.instant("CANCEL"),
 				closeOnConfirm: true,
 				closeOnCancel: true,
 			},

@@ -61,6 +61,15 @@
   "MODIFY" :"modificar",
   "SETTINGS" :"AJUSTES",
   "SEND" : "Enviar",
+  "YES" : "Sí",
+  "FAILED" : "Fallado",
+  "SUCCESS" :"Éxito",
+  "TRY_AGAIN" : "Inténtalo de nuevo",
+  "CLOSE" : "Cerca",
+  "DELETE" : "Borrar",
+  "CONFIRM" : "Confirmar",
+  "UPLOAD" : "subir",
+
 
   "S1_ADD_STUDENTS" : "¿Tienes alumnos? Añádelos",
   "S1_ADD_STUDENTS_PH" :"Copia y pega aquí tu lista de mails",
@@ -153,8 +162,8 @@
 
 
 
-  "SESSION_EXPIRED" :  "Session Expired or unauthorized",
-  "SESSION_EXPIRED_TEXT":"Please login to comtinue" ,
+  "SESSION_EXPIRED" :  "Sesión expirada o no autorizada",
+  "SESSION_EXPIRED_TEXT":"Por favor inicie sesión para continuar" ,
   "LOGOUT" : "Logout",
 
 
@@ -200,6 +209,8 @@
   "students_uploaded" : "Los estudiantes agregaron con éxito",
   "enter_message" :"Introduce un mensaje",
   "message_length_long" : "Longitud de mensaje demasiado larga",
+
+  "email_changed_title" : "correo electrónico cambiado",
 
 
  "required" : "este campo es requerido" ,

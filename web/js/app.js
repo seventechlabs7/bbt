@@ -99,8 +99,8 @@ angular.module('app', [
            window.onkeydown = null;
           window.onfocus = null;
           swal({
-            title: "Session Expired or unauthorized", 
-            text: "Please login to continue",       
+            title: $translate.instant("SESSION_EXPIRED"),
+            text: $translate.instant("SESSION_EXPIRED_TEXT"),       
            
           });
           $timeout(function()

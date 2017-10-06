@@ -1,5 +1,5 @@
 {
-  "HOME_BANNER_TEXT" : "Your University Is Getting Closer",
+  "HOME_BANNER_TEXT" : "Your university is getting closer",
   "HOME_LIST_1" : "Learn Finance",
   "HOME_LIST_2" : "Practice in virtual Stock Exchange",
   "HOME_LIST_3" : "Connect with people and companies",
@@ -54,13 +54,22 @@
 
   "STEP_NEXT" :"next",
   "STEP_BACK": "Back",
-  "OK"	: "Okay",
+  "OK"	: "Ok",
   "SAVE" :"Save",
   "CANCEL" :"Cancel",
   "UPDATE" : "Update",
   "MODIFY" :"Modify", 
   "SETTINGS":"Settings",
   "SEND" : "Send",
+  "YES" : "Yes",
+  "FAILED" : "Failed",
+  "SUCCESS" :"Success",
+  "TRY_AGAIN":"try Again !",
+  "CLOSE" : "Close",
+  "DELETE" :"Delete",
+  "CONFIRM" : "Confirm",
+  "UPLOAD" : "Upload",
+
 
   "S1_ADD_STUDENTS" : "Do you have students? Add them",
   "S1_ADD_STUDENTS_PH" :"Copy and paste here your mailing list",
@@ -154,7 +163,7 @@
 
 
   "SESSION_EXPIRED" :  "Session Expired or unauthorized",
-  "SESSION_EXPIRED_TEXT":"Please login to comtinue" ,
+  "SESSION_EXPIRED_TEXT":"Please login to continue" ,
   "LOGOUT" : "Logout",
 
 
@@ -201,12 +210,15 @@
   "enter_message" :"Enter a message",
   "message_length_long" : "Message length too long",
 
+  "email_changed_title" :"Email changed",
+
 
   "required" : "This field is required" ,
   "too_short" : "This field is too short",
   "too_long" : "This field is too long",
   "invalid_email" : "Enter valid email",
-  "invalid_characters" : "Invalid Characters"
+  "invalid_characters" : "Invalid Characters",
+
 
 
 }

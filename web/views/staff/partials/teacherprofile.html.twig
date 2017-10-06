@@ -232,12 +232,12 @@ ul.unedit_ul {
 			<div class="row">
 				<div class="col-lg-6 col-md-6 col-xs-12">
 					<div class="">
-						<a href=""><img style="width: 100%" src="imgs/eng_flag.png" ng-click="changeLanguage('en')"></a>
+						<a href=""><img title ="English" style="width: 100%" src="imgs/eng_flag.png" ng-click="changeLanguage('en')"></a>
 					</div>
 				</div>
 				<div class="col-lg-6 col-md-6 col-xs-12">
 					<div class="">
-						<a href=""><img style="width: 100%" src="imgs/esp_flag.png" ng-click="changeLanguage('es')"></a>
+						<a href=""><img title ="Espanol" style="width: 100%" src="imgs/esp_flag.png" ng-click="changeLanguage('es')"></a>
 					</div>
 				</div>
 			</div>
@@ -279,7 +279,8 @@ ul.unedit_ul {
 					</div>
 					<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
 						<div class="setting-menu">	
-						 <a ng-click="editProfile()"><i class="fa fa-gear"></i> <span translate="">SETTINGS</span></a>		
+						 <a ng-click="editProfile()"><i class="fa fa-gear"></i> <span translate="">SETTINGS</span></a>	
+						 <img src="/imgs/logout.png" style="width: 10%">
 						</div>						
 					</div>
 				</div>
@@ -455,11 +456,18 @@ ul.unedit_ul {
 		        							</div>
 											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 txt-or">(or)</div>		        							
 		        							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
-			        							<div class="input_upload">
+			        							<!-- <div class="input_upload">
 			        								<input type="file" class="upload_text p-0" placeholder="{{'S1_ADD_STUDENTS_PH' | translate}}" name="maillistfile" name="file" ngf-select="selectFile(teacher.mail_list_file)" ng-model="teacher.mail_list_file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
 			        								<small class="upload-info" translate="">S1_UPLOAD_STUDENTS</small>
-			        								<!-- <button class="upload_button">Upload</button> -->
-			        							</div>
+			        								
+			        							</div> -->
+			        							<div class="file-upload">
+													  <div class="file-select">
+													    <div class="file-select-button" id="fileName">Choose File</div>
+													    <div class="file-select-name" id="noFile">No file chosen...</div> 
+													    <input type="file" name="chooseFile" id="chooseFile">
+													  </div>
+													</div>
 		        							</div>
 	        							</div>
 	        							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p0 m-t-10">
@@ -711,6 +719,18 @@ ul.unedit_ul {
 						  }); 
 				}
 				initPlug();
+
+				/*$('#chooseFile').bind('change', function () {
+						var filename = $("#chooseFile").val();
+						if (/^\s*$/.test(filename)) {
+							$(".file-upload").removeClass('active');
+							$("#noFile").text("No file chosen..."); 
+						}
+						else {
+								$(".file-upload").addClass('active');
+								$("#noFile").text(filename.replace("C:\\fakepath\\", "")); 
+							}
+						});*/
 				
 
         </script>
