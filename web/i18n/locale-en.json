@@ -217,8 +217,7 @@
   "too_short" : "This field is too short",
   "too_long" : "This field is too long",
   "invalid_email" : "Enter valid email",
-  "invalid_characters" : "Invalid Characters",
-
+  "invalid_characters" : "Invalid Characters"
 
 
 }
