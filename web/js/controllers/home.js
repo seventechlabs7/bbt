@@ -782,7 +782,12 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 					    teacher_id: $scope.teacher.id 
 					});	
 			}
-
+			else if(page == 'forgotpassword')
+			{
+				$state.go('app.forgotpassword', {
+					    
+					});	
+			}
 		}
 		$scope.login = {};
 		$scope.loginNow = function()

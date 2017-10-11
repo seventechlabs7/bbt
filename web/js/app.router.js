@@ -68,13 +68,13 @@ angular.module('app')
                             ]
                         }
                     })
-                    .state('app.campaign', {
-                        url: '/camp',
-                        templateUrl: 'partials/campaign.html',
+                    .state('app.forgotpassword', {
+                        url: '/forgotpassword',
+                        templateUrl: 'views/staff/partials/forgotpassword.html.twig',
                         resolve: {
                             deps: ['uiLoad',
                                 function(uiLoad) {
-                                    return uiLoad.load(['js/controllers/campaign.js']);
+                                    return uiLoad.load(['js/controllers/password.js']);
                                 }
                             ]
                         }

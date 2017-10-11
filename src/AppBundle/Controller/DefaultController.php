@@ -15,6 +15,7 @@ use AppBundle\Entity\GroupEmail;
 use AppBundle\Entity\GroupAsset;
 use AppBundle\Entity\GroupFeedback;
 use AppBundle\Entity\Teacher;
+use AppBundle\Entity\Recovery;
 use AppBundle\Entity\BbtUser;
 use AppBundle\Service\FileUploader;
 use AppBundle\Service\MailerService;
@@ -36,7 +37,7 @@ class DefaultController extends Controller
         $teacher = $request->request->all();
        // $lang = ();
         $this->get('translator')->setLocale($_SERVER['HTTP_ACCEPT_LANGUAGE']);
-       $new  = $this->get('translator')->trans('a.b.c');
+
        // return new JsonResponse($new);
         $emailvalidate =0;
         $emailCheck1 = $this->CheckDupeEmail($teacher['email']);
@@ -408,6 +409,97 @@ class DefaultController extends Controller
                      $stmt1->execute(array('userId' => $result['id'] , 'value1' => rand(1.0000,10.0000) , 'value2'=> rand(100000.0000,500000.0000)/10));
             }
 
+    }
+
+    public function forgotPasswordAction(Request $request ,MailerService $mailerService,CustomCrypt $crypt)
+    {
+         $em = $this->getDoctrine()->getManager();   
+         $em->getConnection()->beginTransaction();
+        try
+        {    
+            $data = $request->request->all(); 
+            if(!isset($data['email']))
+                 return new JsonResponse((array('status' => 'failed' ,'reason' =>'enter_valid_email')));
+            
+            $checkUser  = $em->getRepository('AppBundle:UserOperations')
+                ->checkUser($data['email']);
+            if(!$checkUser)
+                 return new JsonResponse((array('status' => 'failed' ,'reason' =>'enter_valid_email')));
+            else
+            {
+                $recovery  = $em->getRepository('AppBundle:UserOperations')
+                ->passwordResetCheck($checkUser['user_id']); 
+                if(!$recovery)
+                {
+                    $RAW_QUERY1 = "
+                                    DELETE FROM `recovery`
+                                    WHERE `recovery`.`user_id` = :uId 
+                                    ";
+
+                            $stmt =$em->getConnection()->prepare($RAW_QUERY1);
+                            $stmt->execute(array('uId'=>$checkUser['user_id']));
+                    //new link
+                    $nr =  new Recovery();
+                    $nr->setUserId($checkUser['user_id']);
+                    $otp = md5(uniqid($checkUser['user_id'], true));
+                    $nr->setOtp($otp);
+                    $nr->setCreatedAt(new \DateTime()); 
+                    $em->persist($nr);
+                    $em->flush();
+                }
+                else
+                {
+                  $otp = $recovery['otp'];
+                    //resend link
+                }
+
+                $mailObject = new \stdClass();
+                $mailObject->toMail = $checkUser['email'];
+                $mailObject->name = $checkUser['username'];
+                //$mailObject->type = 'teacher';
+                $mailObject->encryptedLink = ($crypt->encrypt($otp));
+                $mailerService->forgotPassword($mailObject);
+
+                
+
+
+            }
+            $em->getConnection()->commit(); 
+            return new JsonResponse((array('status' => 'success' ,'reason' =>'success')));                    
+        }
+        catch(Exception $e)
+        {
+             $em->getConnection()->rollBack();
+            return new JsonResponse("something_went_wrong");
+        }
+    }
+
+        public function forgotPasswordVerifyAction(Request $request ,CustomCrypt $crypt,$verifyLink)
+    {
+         return $this->render('staff/index.html.twig', array(
+            'profileName' => 'Admin',
+        ));
+    
+        $em = $this->getDoctrine()->getManager();  
+        $otp = $crypt->decrypt(urldecode($verifyLink));
+        if($otp)
+        {
+            $checkOtp =  $em->getRepository('AppBundle:UserOperations')   
+                            ->checkValidOtp($otp);
+          
+            if(!$checkOtp)
+            {
+                return $this->render('staff/error-page.html.twig', array(
+                         'message' => 'already_verified',
+                    ));
+            }
+            else
+            {
+                return $this->render('staff/newpassword.html.twig', array(
+
+                    ));
+            }
+        }
     }
 
 }

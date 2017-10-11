@@ -35,6 +35,14 @@ emailupdateteacherverify:
     path:     anon/teacher/emailchange/{verifyLink}
     defaults: { _controller: AppBundle:Default:emailChangeTeacherVerify}
     methods:  [GET]
+forgotpassword:
+    path:     anon/forgotpassword
+    defaults: { _controller: AppBundle:Default:forgotPassword}
+    methods:  [POST]
+forgotpasswordverify:
+    path:     /anon/forgotpasswordverify/{verifyLink}
+    defaults: { _controller: AppBundle:Default:forgotPasswordVerify}
+    methods:  [GET]
 
 
 

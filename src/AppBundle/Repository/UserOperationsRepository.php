@@ -9,6 +9,19 @@ class UserOperationsRepository extends EntityRepository
 	 /**
      * @return UserOperations[]
      */
+
+    public function checkUser($email)
+    {
+          $conn = $this->getEntityManager()
+          ->getConnection();
+
+          $sql = 'SELECT id_admin as user_id ,email ,username FROM users where users.email = :email LIMIT 1;';
+
+          $stmt = $conn->prepare($sql);
+          $stmt->execute(array('email' => $email));
+          $final = $stmt->fetch();         
+          return ($final);
+    }
     public function findAllOperationsOfConnectedUsers($tid)
     {
 
@@ -161,6 +174,19 @@ class UserOperationsRepository extends EntityRepository
     }
 
     public function findEmailById($id)
+    {
+            $conn = $this->getEntityManager()
+            ->getConnection();
+            $sql = '
+            SELECT user.email as email from users as user where user.id_admin = :id
+            ';
+            $stmt = $conn->prepare($sql);
+             $stmt->execute(array('id' => $id));
+            $final = $stmt->fetch();   
+           // var_dump($final);die;         
+            return ($final);
+    }
+     public function findIdByEmail($email)
     {
             $conn = $this->getEntityManager()
             ->getConnection();
@@ -566,5 +592,37 @@ class UserOperationsRepository extends EntityRepository
                 $final = $stmt->fetchAll();   
                // var_dump($final);die;         
                 return ($final);
+    }
+
+    public function passwordResetCheck($email)
+    {
+          $conn = $this->getEntityManager()
+          ->getConnection();
+
+          $sql = 'SELECT id,otp FROM recovery as r 
+                  where 
+                  r.user_id = :id  and  TIMESTAMPDIFF(HOUR, NOW(), created_at) <=24 ;
+          ';
+
+          $stmt = $conn->prepare($sql);
+          $stmt->execute(array('id' => $email));
+          $final = $stmt->fetch();         
+          return ($final);
+    }
+
+    public function checkValidOtp($otp)
+    {
+          $conn = $this->getEntityManager()
+          ->getConnection();
+
+          $sql = 'SELECT id,otp FROM recovery as r 
+                  where 
+                  r.otp = :otp  and  TIMESTAMPDIFF(HOUR, NOW(), created_at) <=24 ;
+          ';
+
+          $stmt = $conn->prepare($sql);
+          $stmt->execute(array('otp' => $otp));
+          $final = $stmt->fetch();         
+          return ($final);
     }
 }

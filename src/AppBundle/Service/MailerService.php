@@ -93,4 +93,25 @@ public function mailChangeNotify($mailObject)
 
     return new JsonResponse("successs");
 }
+
+public function forgotPassword($mailObject)
+{
+        $page ='Emails/forgotPassword.html.twig' ; 
+        $message = (new \Swift_Message($this->translator->trans('subject_mail_change_notify')))
+        ->setFrom('profesores@bigbangtrading.com')
+        ->setTo($mailObject->{'toMail'})
+        ->setBody(           
+                $this->templating->render(
+
+                    $page,
+                    array('regObject' =>  $mailObject)
+                ),
+                'text/html'
+        )
+    ;
+    
+   $this->mailer->send($message);
+
+    return new JsonResponse("successs");
+}
 }
