@@ -150,9 +150,16 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				});
 				return;
 			}
-			$scope.currentStep =2;
-			 $scope.start(index);
-			 return;
+			if(parseFloat($scope.teacher.virtual_money) <= 0)
+				{
+					notify.closeAll();			
+					notify({
+					message:$translate.instant('virtual_money_not_zero'),
+					classes:'alert-danger',
+					duration:2000
+				});
+					return
+				}
         	}
         	if(index == 4)
         {
@@ -324,7 +331,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 			}
 			else
 				$scope.teacher.virtual_money = parseFloat($scope.teacher.virtual_money);
-		   }
+		   }*/
 		   if($scope.currentStep == 3)
 		   {
 			$scope.feedbackCheck = false;
@@ -341,15 +348,16 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 
 			}
 			if(!$scope.feedbackCheck)
-			{				
+			{	
+				notify.closeAll();			
 				notify({
-					message:'Select Feedback',
+					message:$translate.instant('select_feedback'),
 					classes:'alert-danger',
 					duration:2000
 				});
 				return;
 			}
-		   }*/
+		   }
 			console.log($scope.teacher)
 			if($scope.currentStep ==2)
 			{
@@ -363,6 +371,16 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 				{
 					 $scope.teacher.end_date = new Date($scope.teacher.end_date.split("/").reverse().join("-"));
 					$scope.teacher.end_date = $filter('date')($scope.teacher.end_date, 'yyyy-MM-dd');
+				}
+				if(parseFloat($scope.teacher.virtual_money) <= 0)
+				{
+					notify.closeAll();			
+					notify({
+					message:$translate.instant('virtual_money_not_zero'),
+					classes:'alert-danger',
+					duration:2000
+				});
+				return;
 				}
 			}
 			console.log($scope.teacher)
@@ -846,15 +864,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 			}
 		}
 
-		$scope.logout = function()
-		{
-			UserService.setCurrentUser(null);
-			window.location.href = "/index";
-		}
 
-		$rootScope.changeLanguage = function (langKey) {		 
-		   $translate.use(langKey);
-		  };
 
 		/*initialiser for date*/
 

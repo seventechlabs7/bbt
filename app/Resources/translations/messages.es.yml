@@ -20,3 +20,8 @@ email.notify.message : "Hola %name% ! ,Recibimos una solicitud de cambio de corr
 subject_reg : "BBT-Registro exitoso "
 subject_mail_change : "BBT - Confirmación de cambios de email"
 subject_mail_change_notify : "BBT - Notificación de cambios por email"
+forgotPassword : "recuperación de contraseña"
+message.already_verified : Este enlace ya está verificado, caducó o no existe.
+
+password.forgot.title : "Recuperación de contraseña"
+password.forgot.message : "Hi %name% !  Recibimos una recuperación de contraseña"

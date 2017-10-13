@@ -18,3 +18,8 @@ email.notify.message : "Hi %name% ! ,We received a email change request to %newm
 subject_reg : "BBT- Registration successful"
 subject_mail_change : "BBT - Email Change Confirmation"
 subject_mail_change_notify : "BBT - Email change notification"
+forgotPassword : "BBT -Password reovery"
+message.already_verified : "This link is already verified , expired or does not exist" 
+
+password.forgot.title : "Password recovery"
+email.change.message : "Hi %name% !  we received a password recovery request"

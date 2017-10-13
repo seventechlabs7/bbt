@@ -69,6 +69,8 @@
   "DELETE" :"Delete",
   "CONFIRM" : "Confirm",
   "UPLOAD" : "Upload",
+  "RESEND" : "Resend",
+  "HOME" :"Home",
 
 
   "S1_ADD_STUDENTS" : "Do you have students? Add them",
@@ -217,7 +219,25 @@
   "too_short" : "This field is too short",
   "too_long" : "This field is too long",
   "invalid_email" : "Enter valid email",
-  "invalid_characters" : "Invalid Characters"
+  "invalid_characters" : "Invalid Characters",
+
+  "FORGOT_PASSSWORD_TITLE" : "Password - Self recovery",
+  "NEW_PASSWORD_TITLE" : "New password",
+  "reset_password_message" : "Verification link sent your registered email id .Please use the link to update password . ",
+  "DID_NOT_RECEIVE_MAIL" : "Did not receive email ? Click the resend button",
+  "password_change_message" :"Your password was successfully updated",
+  "invalid_link" : "Invalid Link",
+  "enter_both_password" :"Enter both passwords",
+  "password_updated" : "Password successfully updated .Click the login button to continue",
+  "FORGOT_PASSWORD_TEXT" : "Enter you registered email to recover password",
+  "link_sent_agin" :"Email sent again .Please consider checking your spam box",
+
+  "no_file_choosen" : "No file choosen ...",
+  "choose_file" : "Choose file",
+  "back_to_home_page" : "Back to home page" ,
+  "NOT_FOUND" :"The page you are looking for does not exist",
+  "virtual_money_not_zero" : "Virtual money should not be 0"
+
 
 
 }

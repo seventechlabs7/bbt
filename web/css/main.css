@@ -1529,6 +1529,9 @@ input[type=date]::-webkit-inner-spin-button {
     margin-bottom: 20px;
     padding: 8px 20px;
 	float:right;
+    position: absolute;
+    right: 40px;
+    top: 6px
 }	
 .setting-menu a 
 {
@@ -2166,3 +2169,11 @@ input[type=date]::-webkit-inner-spin-button {
 .file-upload .file-select.file-select-disabled:hover{cursor:default;display:block;border: 2px solid #dce4ec;color: #34495e;cursor:pointer;height:40px;line-height:40px;margin-top:5px;text-align:left;background:#FFFFFF;overflow:hidden;position:relative;}
 .file-upload .file-select.file-select-disabled:hover .file-select-button{background:#dce4ec;color:#666666;padding:0 10px;display:inline-block;height:40px;line-height:40px;}
 .file-upload .file-select.file-select-disabled:hover .file-select-name{line-height:40px;display:inline-block;padding:0 10px;}
+
+
+.logoutRight {
+    width: 2%;
+    position: absolute;
+    top: 11px;
+    right: 10px;
+}

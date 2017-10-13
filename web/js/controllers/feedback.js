@@ -491,11 +491,6 @@ angular.module('app').controller('feedback', ['$scope','$document','$rootScope',
 
 			}
 
-			$scope.logout = function()
-		{
-			window.location.href = "/index";
-		}
-
 			
     }
     ]);

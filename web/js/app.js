@@ -39,6 +39,28 @@ angular.module('app', [
     //'htmlSortable'
 ])
 
+/*.service('Common', function($scope,$rootScope,$translate,UserService) {
+    var service = this;
+       service.logout = function()
+       {
+          alert("here")
+          UserService.setCurrentUser(null);
+           window.location.href = "/index";
+       };
+       
+})*/
+.run(function($rootScope,UserService,$translate) {
+        $rootScope.logout = function()
+       {
+          UserService.setCurrentUser(null);
+           window.location.href = "/index";
+       }
+
+       $rootScope.changeLanguage = function(langKey)
+       {
+        $translate.use(langKey);
+       }
+    })
 .service('UserService', function(store) {
     var service = this,
         currentUser = null;
@@ -100,7 +122,8 @@ angular.module('app', [
           window.onfocus = null;
           swal({
             title: $translate.instant("SESSION_EXPIRED"),
-            text: $translate.instant("SESSION_EXPIRED_TEXT"),       
+            text: $translate.instant("SESSION_EXPIRED_TEXT"),  
+            confirmButtonText : $translate.instant("OK"),   
            
           });
           $timeout(function()
@@ -110,6 +133,24 @@ angular.module('app', [
                 });
            },2000);
          
+        } 
+         if(response.status == 500)
+        {
+           window.onkeydown = null;
+          window.onfocus = null;
+          swal({
+            title: $translate.instant("something_went_wrong"),                         
+          });
+        
+        } 
+         if(response.status == 404)
+        {
+           window.onkeydown = null;
+          window.onfocus = null;
+          swal({
+            title: $translate.instant("something_went_wrong"),                         
+          });
+        
         } 
         return response;
     };
@@ -127,6 +168,9 @@ angular.module('app', [
   $translateProvider.preferredLanguage('en');
   $translateProvider.useLocalStorage();
 }]);
+  
+
+
 
 
 window.paceOptions = {
@@ -140,5 +184,16 @@ window.paceOptions = {
     }
 
 };
+
+
+/* var app = angular.module('app', []);
+  app.run(function($rootScope) {
+        $rootScope.logout = function()
+       {
+          alert("here")
+          UserService.setCurrentUser(null);
+           window.location.href = "/index";
+       };
+    });*/
 
 

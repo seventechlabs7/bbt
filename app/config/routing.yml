@@ -43,6 +43,14 @@ forgotpasswordverify:
     path:     /anon/forgotpasswordverify/{verifyLink}
     defaults: { _controller: AppBundle:Default:forgotPasswordVerify}
     methods:  [GET]
+changepassword:
+    path:     /anon/changepassword
+    defaults: { _controller: AppBundle:Default:changePassword}
+    methods:  [POST]
+checkpasswordvalidlink:
+    path:     /anon/checkpasswordvalidlink
+    defaults: { _controller: AppBundle:Default:checkpasswordValidLink}
+    methods:  [POST]
 
 
 

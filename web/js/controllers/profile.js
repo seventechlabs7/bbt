@@ -309,7 +309,7 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 				cancelButtonText: $translate.instant("CANCEL"),
 				closeOnConfirm: true,
 				closeOnCancel: true,
-			},
+			}).then(
 			function(isConfirm){
 				if (isConfirm) {
 
@@ -431,8 +431,12 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 				{
 					$scope.password.currentPassword ='';
 					notify.closeAll();
-					swal($translate.instant("FAILED"), $translate.instant(success.data.reason), "error", {
-						  confirmButtonText: $translate.instant("TRY_AGAIN"),
+					swal(
+						{
+							title : $translate.instant("FAILED"), 
+							text  : $translate.instant(success.data.reason), 
+							type : "error", 
+						  	confirmButtonText: $translate.instant("TRY_AGAIN"),
 						});
 					
 				}
@@ -446,22 +450,32 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 			notify.closeAll();
 			if(!$scope.password.currentPassword)
 			{
-				swal($translate.instant("FAILED"), $translate.instant("enter_current_password"), "warning", {
-						  confirmButtonText: $translate.instant("TRY_AGAIN"),
+				alert()
+				swal( { 
+					title : $translate.instant("FAILED"),
+				 	text : $translate.instant("enter_current_password"),
+				 	type: "warning", 
+					showConfirmButton: true,
+					confirmButtonText: $translate.instant("OKAY"),
 						});		
 				return;
 			}
 			if($scope.password.password != $scope.password.confirm)
 			{
-				swal($translate.instant("FAILED"), $translate.instant("password_confirm_password_not_same"), "error", {
-						  confirmButtonText: $translate.instant("TRY_AGAIN"),
+				swal({ title : $translate.instant("FAILED"),
+				 		text : $translate.instant("password_confirm_password_not_same"), 
+				 		type : "error", 
+						confirmButtonText: $translate.instant("TRY_AGAIN"),
 						});			
 						return;		
 			}
 			if($scope.password.password == $scope.password.currentPassword)
 			{
 				{
-					swal($translate.instant("FAILED"), $translate.instant("new_current_password_same"), "error", {
+					swal({
+						title : $translate.instant("FAILED"),
+						text : $translate.instant("new_current_password_same"), 
+						type : "error", 
 						  confirmButtonText: $translate.instant("TRY_AGAIN"),
 						});					
 						return;		
@@ -479,14 +493,19 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 				if(success.data.status == 'success')
 				{
 					notify.closeAll();
-					swal($translate.instant("SUCCESS"), $translate.instant(success.data.reason), "success", {
+					swal({ title : $translate.instant("SUCCESS"),
+							text : $translate.instant(success.data.reason),
+							type : "success",
+						  showConfirmButton: true,
 						  confirmButtonText: $translate.instant("CLOSE"),
 						});
 				}
 				else
 				{
 					notify.closeAll();
-					swal($translate.instant("FAILED"), $translate.instant(success.data.reason), "error", {
+					swal({ title : $translate.instant("FAILED"), 
+						   text : $translate.instant(success.data.reason),
+						   type : "error",
 						  confirmButtonText: $translate.instant("TRY_AGAIN"),
 						});				
 						return;	
@@ -511,7 +530,7 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 				cancelButtonText: $translate.instant("CANCEL"),
 				closeOnConfirm: true,
 				closeOnCancel: true,
-			},
+			}).then(
 			function(isConfirm){
 				if (isConfirm) {
 
@@ -553,14 +572,6 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 
 		}
 
-		$scope.logout = function()
-		{
-			window.location.href = "/index";
-		}
-
-		$rootScope.changeLanguage = function (langKey) {		 
-		   $translate.use(langKey);
-		  };
 
 		
     }

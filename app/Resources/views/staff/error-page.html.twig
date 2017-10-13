@@ -190,7 +190,14 @@ div#blue {
   <div id="red" class="rgb"></div>
   <div id="blue" class="rgb"></div>
   <h1>404</h1>
-  <p>This means nothing was found. Are you lost?</p>
+  <p>
+    {% if message is defined and message is not empty %}
+    <span >{{ message }}</span>
+{% endif %}
+ {% if message is not defined  %}
+    <span translate="">NOT_FOUND</span>
+{% endif %}
+  </p>
 </div>
 </body>
 </html>

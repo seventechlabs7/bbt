@@ -222,9 +222,9 @@ ul.unedit_ul {
 							<!-- <li>
 								<button class="left_bar_but" ng-click="changeNav('feedback')">Feedback</button>
 							</li> -->
-							<li>
+							<!-- <li>
 								<a class="btn color" ng-click="logout()"><i class="fa fa-power-off" aria-hidden="true"></i>Logout</a>
-							</li>
+							</li> -->
 						</ul>
 					</div>
 				</div>
@@ -245,6 +245,7 @@ ul.unedit_ul {
 			</div>
 		</div>
 		<div class="center_container main-content-section">
+			 <img src="/imgs/logout.png" class="logoutRight" ng-click="logout()">
 			<div class="profile_head_cont">
 				<div class="row">
 					<div class="col-lg-2 col-md-3 col-sm-4 col-xs-12">
@@ -280,7 +281,7 @@ ul.unedit_ul {
 					<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
 						<div class="setting-menu">	
 						 <a ng-click="editProfile()"><i class="fa fa-gear"></i> <span translate="">SETTINGS</span></a>	
-						 <img src="/imgs/logout.png" style="width: 10%">
+						
 						</div>						
 					</div>
 				</div>
@@ -456,17 +457,21 @@ ul.unedit_ul {
 		        							</div>
 											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 txt-or">(or)</div>		        							
 		        							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
-			        							<!-- <div class="input_upload">
+			        							<!--  <div class="input_upload">
 			        								<input type="file" class="upload_text p-0" placeholder="{{'S1_ADD_STUDENTS_PH' | translate}}" name="maillistfile" name="file" ngf-select="selectFile(teacher.mail_list_file)" ng-model="teacher.mail_list_file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
 			        								<small class="upload-info" translate="">S1_UPLOAD_STUDENTS</small>
 			        								
-			        							</div> -->
+			        							</div>  -->
 			        							<div class="file-upload">
 													  <div class="file-select">
-													    <div class="file-select-button" id="fileName">Choose File</div>
-													    <div class="file-select-name" id="noFile">No file chosen...</div> 
-													    <input type="file" name="chooseFile" id="chooseFile">
+													    <div class="file-select-button" id="fileName" translate="">choose_file</div>
+													    <div class="file-select-name" id="noFile" translate="">no_file_choosen</div> 
+													    <input type="file" name="chooseFile" id="chooseFile" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+													    name="file" ngf-select="selectFile(teacher.mail_list_file)" 
+													    ng-model="teacher.mail_list_file">
+													   
 													  </div>
+													   <small translate="">S1_UPLOAD_STUDENTS</small>
 													</div>
 		        							</div>
 	        							</div>
@@ -720,7 +725,7 @@ ul.unedit_ul {
 				}
 				initPlug();
 
-				/*$('#chooseFile').bind('change', function () {
+				$('#chooseFile').bind('change', function () {
 						var filename = $("#chooseFile").val();
 						if (/^\s*$/.test(filename)) {
 							$(".file-upload").removeClass('active');
@@ -728,9 +733,16 @@ ul.unedit_ul {
 						}
 						else {
 								$(".file-upload").addClass('active');
-								$("#noFile").text(filename.replace("C:\\fakepath\\", "")); 
+								var a = (filename.replace("C:\\fakepath\\","")); 								
+								if(a.length > 12)
+									{
+
+										a = a.substring(0, 12);
+										a = a + " ...";										
+									}
+									$("#noFile").text(a);
 							}
-						});*/
+						});
 				
 
         </script>

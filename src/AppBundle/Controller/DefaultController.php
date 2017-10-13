@@ -126,6 +126,8 @@ class DefaultController extends Controller
 
     public function verifySignupteacherAction(Request $request ,CustomCrypt $crypt,$verifyLink)
     {
+            $str2 = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0, 2);
+         $this->get('translator')->setLocale($str2);
         $em1 = $this->getDoctrine()->getManager();   
         $em1->getConnection()->beginTransaction();
         try
@@ -137,7 +139,7 @@ class DefaultController extends Controller
             if($checkMail)
             {
                 return $this->render('staff/error-page.html.twig', array(
-                         'message' => 'already_verified',
+                         'message' =>  $this->get('translator')->trans('message.already_verified'),
                     ));
             }
             else
@@ -245,7 +247,7 @@ class DefaultController extends Controller
             if($checkMail)
             {
                 return $this->render('staff/error-page.html.twig', array(
-                         'message' => 'already_verified',
+                          'message' =>  $this->get('translator')->trans('message.already_verified'),
                     ));
             }
             else
@@ -330,7 +332,7 @@ class DefaultController extends Controller
             if($checkMail)
             {
                 return $this->render('staff/error-page.html.twig', array(
-                         'message' => 'already_verified',
+                           'message' =>  $this->get('translator')->trans('message.already_verified'),
                     ));
             }
             else
@@ -413,18 +415,19 @@ class DefaultController extends Controller
 
     public function forgotPasswordAction(Request $request ,MailerService $mailerService,CustomCrypt $crypt)
     {
+
          $em = $this->getDoctrine()->getManager();   
          $em->getConnection()->beginTransaction();
         try
         {    
             $data = $request->request->all(); 
             if(!isset($data['email']))
-                 return new JsonResponse((array('status' => 'failed' ,'reason' =>'enter_valid_email')));
+                 return new JsonResponse((array('status' => 'failed' ,'reason' =>'invalid_email')));
             
             $checkUser  = $em->getRepository('AppBundle:UserOperations')
                 ->checkUser($data['email']);
             if(!$checkUser)
-                 return new JsonResponse((array('status' => 'failed' ,'reason' =>'enter_valid_email')));
+                 return new JsonResponse((array('status' => 'failed' ,'reason' =>'invalid_email')));
             else
             {
                 $recovery  = $em->getRepository('AppBundle:UserOperations')
@@ -457,7 +460,7 @@ class DefaultController extends Controller
                 $mailObject->toMail = $checkUser['email'];
                 $mailObject->name = $checkUser['username'];
                 //$mailObject->type = 'teacher';
-                $mailObject->encryptedLink = ($crypt->encrypt($otp));
+                $mailObject->encryptedLink = urlencode($crypt->encrypt($otp));
                 $mailerService->forgotPassword($mailObject);
 
                 
@@ -465,21 +468,17 @@ class DefaultController extends Controller
 
             }
             $em->getConnection()->commit(); 
-            return new JsonResponse((array('status' => 'success' ,'reason' =>'success')));                    
+            return new JsonResponse((array('status' => 'success' ,'reason' =>'reset_password_message')));                    
         }
         catch(Exception $e)
         {
              $em->getConnection()->rollBack();
-            return new JsonResponse("something_went_wrong");
+            return new JsonResponse((array('status' => 'failed' ,'reason' =>'something_went_wrong')));
         }
     }
 
         public function forgotPasswordVerifyAction(Request $request ,CustomCrypt $crypt,$verifyLink)
     {
-         return $this->render('staff/index.html.twig', array(
-            'profileName' => 'Admin',
-        ));
-    
         $em = $this->getDoctrine()->getManager();  
         $otp = $crypt->decrypt(urldecode($verifyLink));
         if($otp)
@@ -490,15 +489,108 @@ class DefaultController extends Controller
             if(!$checkOtp)
             {
                 return $this->render('staff/error-page.html.twig', array(
-                         'message' => 'already_verified',
+                          'message' =>  $this->get('translator')->trans('message.already_verified'),
                     ));
             }
             else
             {
-                return $this->render('staff/newpassword.html.twig', array(
+                $url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'] ;
+                return $this->redirect($url.'/index#/app/newpassword/'.$otp);
 
-                    ));
             }
+        }
+    }
+
+
+    public function checkpasswordValidLinkAction(Request $request)
+    {
+         $em = $this->getDoctrine()->getManager();   
+         $em->getConnection()->beginTransaction();
+        try
+        {    
+            $data = $request->request->all(); 
+
+
+
+                $recovery  = $em->getRepository('AppBundle:UserOperations')
+                                ->checkValidOtp($data['verifyLink']); 
+                if($recovery)
+                {
+
+
+                    
+                }
+                else
+                {
+                    return new JsonResponse((array('status' => 'failed' ,'reason' =>'already_verified')));       
+
+                }
+
+
+            $em->getConnection()->commit(); 
+            return new JsonResponse((array('status' => 'success' ,'reason' =>'success')));                    
+        }
+        catch(Exception $e)
+        {
+             $em->getConnection()->rollBack();
+            return new JsonResponse("something_went_wrong");
+        }
+    }
+        public function changePasswordAction(Request $request ,CustomCrypt $crypt)
+    {
+         $em = $this->getDoctrine()->getManager();   
+         $em->getConnection()->beginTransaction();
+        try
+        {    
+            $data = $request->request->all(); 
+            if(!isset($data['password']['newPassword']) || !isset($data['password']['confirmPassword']))
+                 return new JsonResponse((array('status' => 'failed' ,'reason' =>'enter_both_password')));
+             if(!isset($data['verifyLink']))
+                return new JsonResponse((array('status' => 'failed' ,'reason' =>'invalid_link')));
+
+
+                $recovery  = $em->getRepository('AppBundle:UserOperations')
+                                ->checkValidOtp($data['verifyLink']); 
+                if($recovery)
+                {
+
+
+                    $encoder = new MessageDigestPasswordEncoder();
+                   
+                   
+                    $encPassword =   $encoder->encodePassword($data['password']['newPassword'], '');
+
+                    
+                    $passwordupdate = $em->getRepository('AppBundle:UserOperations')
+                                    ->updatePasswordByUserId($recovery['user_id'],$encPassword); 
+         
+                   
+         
+
+                    $RAW_QUERY1 = "
+                                    DELETE FROM `recovery`
+                                    WHERE `recovery`.`user_id` = :uId 
+                                    ";
+
+                            $stmt =$em->getConnection()->prepare($RAW_QUERY1);
+                            $stmt->execute(array('uId'=>$recovery['user_id']));
+                    
+                    $em->flush();
+                }
+                else
+                {
+                    return new JsonResponse((array('status' => 'failed' ,'reason' =>'already_verified')));       
+
+                }
+
+
+            $em->getConnection()->commit(); 
+            return new JsonResponse(array('status' => 'success','reason' => 'password_updated','response' => 200));                    
+        }
+        catch(Exception $e)
+        {
+             $em->getConnection()->rollBack();
+            return new JsonResponse("something_went_wrong");
         }
     }
 

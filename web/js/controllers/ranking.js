@@ -183,7 +183,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				closeOnConfirm: false,
 				closeOnCancel: true,
 				showLoaderOnConfirm: true,
-			},
+			}).then(
 			function(isConfirm){
 				if (isConfirm) {
 
@@ -353,7 +353,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 						if(!emailregex.test(list[i]))
 						{
 							notify({
-								message:'invalid_mail',
+								message:$translate.instant('invalid_mail'),
 								classes:'alert-danger',
 								duration:2000
 							});
@@ -394,7 +394,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				closeOnConfirm: false,
 				closeOnCancel: true,
 				showLoaderOnConfirm: true,
-			},
+			}).then(
 			function(isConfirm){
 				if (isConfirm) {
 
@@ -898,7 +898,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				cancelButtonText: $translate.instant("CANCEL"),
 				closeOnConfirm: true,
 				closeOnCancel: true,
-			},
+			}).then(
 			function(isConfirm){
 				if (isConfirm) {
 						$state.go('app.profile', {
@@ -1111,24 +1111,24 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
         	}
         	if(index == 3)
         	{
-        	 if(!$scope.teacher.start_date)
-			{				
-				notify({
-					message: $translate.instant('fill_start_date'),
-					classes:'alert-danger',
-					duration:2000
-				});
-				return;
-			}
-			if(!$scope.teacher.end_date)
-			{				
-				notify({
-					message: $translate.instant('fill_end_date'),
-					classes:'alert-danger',
-					duration:2000
-				});
-				return;
-			}
+	        	 if(!$scope.teacher.start_date)
+				{				
+					notify({
+						message: $translate.instant('fill_start_date'),
+						classes:'alert-danger',
+						duration:2000
+					});
+					return;
+				}
+				if(!$scope.teacher.end_date)
+				{				
+					notify({
+						message: $translate.instant('fill_end_date'),
+						classes:'alert-danger',
+						duration:2000
+					});
+					return;
+				}
 			console.log($scope.teacher.assets)
 			$scope.assetsCheck = false;
 			if(!$scope.teacher.assets)
@@ -1143,7 +1143,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 						break;
 					}
 
-			}
+				}
 			console.log($scope.teacher.assets)
 		
 			if(!$scope.assetsCheck)
@@ -1173,10 +1173,18 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				});
 				return;
 			}
-			$scope.currentStep =2;
-			 $scope.start(index);
+			if(parseFloat($scope.teacher.virtual_money) <= 0)
+				{
+					notify.closeAll();			
+					notify({
+					message:$translate.instant('virtual_money_not_zero'),
+					classes:'alert-danger',
+					duration:2000
+				});
+			
 			 return;
         	}
+        }
         	if(index == 4)
         {
         	$scope.feedbackCheck = false;
@@ -1231,6 +1239,16 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				{
 					 $scope.teacher.end_date = new Date($scope.teacher.end_date.split("/").reverse().join("-"));
 					$scope.teacher.end_date = $filter('date')($scope.teacher.end_date, 'yyyy-MM-dd');
+				}
+				if(parseFloat($scope.teacher.virtual_money) <= 0)
+				{
+					notify.closeAll();			
+					notify({
+					message:$translate.instant('virtual_money_not_zero'),
+					classes:'alert-danger',
+					duration:2000
+				});
+					return;
 				}
 			}
 			console.log($scope.teacher)
@@ -1308,16 +1326,6 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 	    		}
 	    	}
 	    }
-			$scope.logout = function()
-		
-		{
-			window.location.href = "/index";
-		}
-
-
-		$rootScope.changeLanguage = function (langKey) {		 
-		   $translate.use(langKey);
-		  };
 
 
 

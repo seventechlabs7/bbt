@@ -97,7 +97,7 @@ public function mailChangeNotify($mailObject)
 public function forgotPassword($mailObject)
 {
         $page ='Emails/forgotPassword.html.twig' ; 
-        $message = (new \Swift_Message($this->translator->trans('subject_mail_change_notify')))
+        $message = (new \Swift_Message($this->translator->trans('forgotPassword')))
         ->setFrom('profesores@bigbangtrading.com')
         ->setTo($mailObject->{'toMail'})
         ->setBody(           

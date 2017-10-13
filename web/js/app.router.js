@@ -79,6 +79,17 @@ angular.module('app')
                             ]
                         }
                     })
+                     .state('app.newpassword', {
+                        url: '/newpassword/:verifyLink',
+                        templateUrl: 'views/staff/partials/newpassword.html.twig',
+                        resolve: {
+                            deps: ['uiLoad',
+                                function(uiLoad) {
+                                    return uiLoad.load(['js/controllers/password.js']);
+                                }
+                            ]
+                        }
+                    })
 
                                         
             }

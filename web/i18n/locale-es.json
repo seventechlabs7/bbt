@@ -69,6 +69,8 @@
   "DELETE" : "Borrar",
   "CONFIRM" : "Confirmar",
   "UPLOAD" : "subir",
+  "RESEND" : "Reenviar",
+  "HOME" : "Casa",
 
 
   "S1_ADD_STUDENTS" : "¿Tienes alumnos? Añádelos",
@@ -217,7 +219,24 @@
   "too_short" : "Este campo es demasiado corto",
   "too_long" : "Este campo es demasiado largo",
   "invalid_email" : "Ingrese un email valido",
-  "invalid_characters" : "Caracteres inválidos"
+  "invalid_characters" : "Caracteres inválidos",
+
+  "FORGOT_PASSSWORD_TITLE" : "Contraseña: auto recuperación",
+  "NEW_PASSWORD_TITLE" : "Nueva contraseña",
+  "reset_password_message" : "El enlace de verificación envió su ID de correo electrónico registrado. Utilice el enlace para actualizar la contraseña. ",
+  "DID_NOT_RECEIVE_MAIL" : "¿No recibiste el correo electrónico? Haz clic en el botón de reenviar",
+  "password_change_message" :"Your password was successfully updated",
+  "invalid_link" : "Enlace no válido",
+  "enter_both_password" :"Ingrese ambas contraseñas",
+  "password_updated" : "Contraseña actualizada correctamente. Haga clic en el botón de inicio de sesión para continuar",
+  "FORGOT_PASSWORD_TEXT" : "Ingrese su correo electrónico registrado para recuperar la contraseña",
+  "link_sent_agin" :"Correo electrónico enviado nuevamente. Considere revisar su buzón de spam.",
+
+  "no_file_choosen" : "Ningún archivo elegido ...",
+  "choose_file" : "Elija el archivo",
+  "back_to_home_page":"Volver a la página de inicio" ,
+  "NOT_FOUND"  :  "La página que busca no existe.",
+  "virtual_money_not_zero" : "El dinero virtual no debe ser 0"
 
 
 }

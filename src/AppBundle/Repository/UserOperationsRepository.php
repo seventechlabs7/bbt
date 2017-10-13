@@ -227,6 +227,18 @@ class UserOperationsRepository extends EntityRepository
             //var_dump($final);die;         
             return ($stmt);
     }
+    public function updatePasswordByUserId ($id,$password)
+    {
+        $conn = $this->getEntityManager()
+            ->getConnection();
+            $sql = '
+            UPDATE users set password = :password where id_admin = :id 
+            ';
+            $stmt = $conn->prepare($sql);
+             $stmt->execute(array('id' => $id,'password'=>$password));
+     
+            return ($stmt);
+    }
 
     public function getChat($uId,$tId)
     {
@@ -615,7 +627,7 @@ class UserOperationsRepository extends EntityRepository
           $conn = $this->getEntityManager()
           ->getConnection();
 
-          $sql = 'SELECT id,otp FROM recovery as r 
+          $sql = 'SELECT id,user_id,otp FROM recovery as r 
                   where 
                   r.otp = :otp  and  TIMESTAMPDIFF(HOUR, NOW(), created_at) <=24 ;
           ';
