@@ -260,7 +260,7 @@ ul.unedit_ul {
 		</div>
 		<div class="center_container main-content-section">
 		  <form id="profile" name="profile" formnovalidate="formnovalidate" novalidate>
-		  	 <img class="logoutRight" src="/imgs/logout.png" ng-click="logout()">
+		  	 <img title="{{ 'LOGOUT' | translate}}" class="logoutRight cp" src="/imgs/logout.png" ng-click="logout()">
 			<div class="profile_head_cont setting-form-sec">
 			 <h1 translate="">EP_TITLE</h1>
 			  <div class="row">					
@@ -421,14 +421,23 @@ ul.unedit_ul {
 						<div class="pro_pic_upd_cont">
 							<div class="pro_pic_cont">
 							<div class="image_and_select">
-							<input type="file" class="upload_text" placeholder="Avatar" accept="image/jpg,image/jpeg,image/png"  name="avatar_file" ngf-select="selectAvatar(teacher.avatarFile)" ng-model="teacher.avatarFile"/>
+							<input id="avatar" type="file" class="upload_text" placeholder="Avatar" accept="image/jpg,image/jpeg,image/png"  name="avatar_file" ngf-select="selectAvatar(teacher.avatarFile)" ng-model="teacher.avatarFile"/>
 							<img  ng-if="imageSelected" ngf-src="teacher.avatarFile" class="pro_pic_upd_img">
 							<img ng-if="!imageSelected" src="{{profileImageUrl}}" class="pro_pic_upd_img">
 							</div>
 							</div>							
-							<button class="upload_pic_but" ng-click="uploadAvatar()">
-								<i class="fa fa-camera m-r-5"></i><span translate="">P_UPLOAD_AVATAR</span>
-							</button>
+							<div ng-if="!imageSelected">						
+								<button class="upload_pic_but" onclick="document.getElementById('avatar').click()" >
+								<i class="fa fa-camera m-r-5"></i>
+									<span translate="">CHOOSE_FILE</span>
+								</button>
+							</div>
+							<div ng-if="imageSelected">						
+								<button class="upload_pic_but"  ng-click="uploadAvatar()">
+								<i class="fa fa-camera m-r-5"></i>
+									<span translate="">P_UPLOAD_AVATAR</span>
+								</button>
+							</div>
 						</div>
 					</div>					
 				</div>

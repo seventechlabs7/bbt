@@ -677,6 +677,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 
 		$scope.updateFeedback = function()
 		{
+			$scope.feedbackCheck = false;
 			if(!$scope.teacher.feedback)
 				$scope.teacher.feedback = [];
 			for (var i = 0; i < $scope.teacher.feedback.length; i++) {
@@ -1184,6 +1185,9 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 			
 			 return;
         	}
+        		$scope.currentStep = 2;
+				$scope.start(index);
+				return;
         }
         	if(index == 4)
         {

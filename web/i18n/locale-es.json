@@ -236,7 +236,17 @@
   "choose_file" : "Elija el archivo",
   "back_to_home_page":"Volver a la página de inicio" ,
   "NOT_FOUND"  :  "La página que busca no existe.",
-  "virtual_money_not_zero" : "El dinero virtual no debe ser 0"
+  "virtual_money_not_zero" : "El dinero virtual no debe ser 0",
+  "select_image" : "Seleccione imagen primero",
+  "CHOOSE_FILE" : "Elegir imagen",
+  "PLEASE_WAIT" : "Por favor espera ...",
+
+  "enter_first_name" :"Ingrese el nombre",
+  "enter_surname" : "Introducir apellido",
+  "enter_university" : "Ingrese el nombre de la universidad",
+  "enter_about" :"Ingrese sobre usted",
+  "enter_teach_place" : "Ingrese lugar de enseñanza",
+  "enter_work" :"Ingrese trabajo"
 
 
 }

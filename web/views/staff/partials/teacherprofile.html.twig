@@ -245,22 +245,30 @@ ul.unedit_ul {
 			</div>
 		</div>
 		<div class="center_container main-content-section">
-			 <img src="/imgs/logout.png" class="logoutRight" ng-click="logout()">
+			 <img title="{{ 'LOGOUT' | translate}}" src="/imgs/logout.png" class="logoutRight cp" ng-click="logout()">
 			<div class="profile_head_cont">
 				<div class="row">
 					<div class="col-lg-2 col-md-3 col-sm-4 col-xs-12">
 						<div class="pro_pic_upd_cont">
 							<div class="pro_pic_cont">
 							<div class="image_and_select">
-							<input type="file" class="upload_text" placeholder="Avatar" accept="image/jpg,image/jpeg,image/png"  name="avatar_file" ngf-select="selectAvatar(teacher.avatarFile)" ng-model="teacher.avatarFile"/>
+							<input id="avatar" type="file" class="upload_text" placeholder="Avatar" accept="image/jpg,image/jpeg,image/png"  name="avatar_file" ngf-select="selectAvatar(teacher.avatarFile)" ng-model="teacher.avatarFile"/>
 								<img  ng-if="imageSelected" ngf-src="teacher.avatarFile" class="pro_pic_upd_img">
 								<img ng-if="!imageSelected" src="{{profileImageUrl}}" class="pro_pic_upd_img">
 							</div>
-							</div>							
-							<button class="upload_pic_but" ng-click="uploadAvatar()">
-							<i class="fa fa-camera m-r-5"></i>
-								<span translate="">P_UPLOAD_AVATAR</span>
-							</button>
+							</div>	
+							<div ng-if="!imageSelected">						
+								<button class="upload_pic_but" onclick="document.getElementById('avatar').click()" >
+								<i class="fa fa-camera m-r-5"></i>
+									<span translate="">CHOOSE_FILE</span>
+								</button>
+							</div>
+							<div ng-if="imageSelected">						
+								<button class="upload_pic_but"  ng-click="uploadAvatar()">
+								<i class="fa fa-camera m-r-5"></i>
+									<span translate="">P_UPLOAD_AVATAR</span>
+								</button>
+							</div>
 						</div>
 					</div>
 					<div class="col-lg-8 col-md-7 col-sm-6 col-xs-12">
@@ -671,7 +679,7 @@ ul.unedit_ul {
 	        					<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 p-0">
 	        						<div class="modal_but_cont p-l-0 p-r-0 text-right">
 	        							<!-- <button class="modal_nxt_bt" ng-click="shiftTab(2)">Back</button> -->
-	        							<button class="modal_nxt_bt" ng-click="start(4)"><span translate="">STEP_NEXT</span></button>
+	        							<button class="modal_nxt_bt" ng-click="shiftTab(4)"><span translate="">STEP_NEXT</span></button>
 	        						</div>
 	        					</div>
 	        				</div>        				

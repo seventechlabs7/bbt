@@ -49,17 +49,21 @@ angular.module('app', [
        };
        
 })*/
-.run(function($rootScope,UserService,$translate) {
+.run(function($rootScope,UserService,$translate,blockUI,blockUIConfig) {
         $rootScope.logout = function()
        {
           UserService.setCurrentUser(null);
+
            window.location.href = "/index";
        }
 
        $rootScope.changeLanguage = function(langKey)
        {
-        $translate.use(langKey);
+         $translate.use(langKey);
+          blockUIConfig.message = $translate.instant("PLEASE_WAIT");
+        // location.reload();
        }
+
     })
 .service('UserService', function(store) {
     var service = this,
@@ -100,11 +104,11 @@ angular.module('app', [
     };
 
 })
-.service('APIInterceptor', function($rootScope, UserService,$state ,$timeout,$translate) {
+.service('APIInterceptor', function($rootScope, UserService,$state ,$timeout,$translate ,blockUI) {
     var service = this;
+    
     service.request = function(config) {
         console.log(config);
-        
         var currentUser = UserService.getCurrentUser(),
             access_token = currentUser ? currentUser.access_token : null;
         if (access_token) {
@@ -116,6 +120,7 @@ angular.module('app', [
     };
     service.responseError = function(response) {
       console.log(response);
+       blockUI.stop();
       if(response.status == 403)
         {
            window.onkeydown = null;
@@ -155,7 +160,15 @@ angular.module('app', [
         return response;
     };
 })
-
+/*.config(function(blockUIConfig,$translate) {
+  
+  // Change the default overlay message
+  blockUIConfig.message  =  $translate.instant("PLEASE_WAIT");
+  
+  // Change the default delay to 100ms before the blocking is visible
+  blockUIConfig.delay = 100;
+  
+})*/
 .config(['$translateProvider', function ($translateProvider) {
   $translateProvider.translations();
   // configures staticFilesLoader
@@ -168,6 +181,8 @@ angular.module('app', [
   $translateProvider.preferredLanguage('en');
   $translateProvider.useLocalStorage();
 }]);
+
+
   
 
 

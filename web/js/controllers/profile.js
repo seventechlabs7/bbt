@@ -119,6 +119,7 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 					$scope.teacherstatus.teach_place = $scope.teacher.teach_place;
 					$scope.teacherstatus.work = $scope.teacher.work;
 					$scope.teacherstatus.id =	$scope.teacher.id;
+					$scope.imageSelected = false;
 					$scope.profileImageUrl = success.data.profileImageUrl ;
 					//$scope.profileImageUrl = success.data.profileImageUrl+"/"+$scope.teacher.id+".jpeg";
 					if(!$scope.teacher.virtual_money)
@@ -212,6 +213,9 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 								classes:'alert-success',
 								duration:3000
 							});
+					
+					$scope.getteacherdetails();
+
 					/*$scope.profileImageUrl = "";
 					$scope.imageSelected =false;
 					$scope.getteacherdetails();*/
@@ -254,7 +258,7 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 			if(!$scope.teacherstatus.email)
 			{
 				notify({
-					message:$translate.instant('enter_valid_email'),
+					message:$translate.instant('invalid_email'),
 					classes:'alert-danger',
 					duration:2000
 				});
@@ -450,13 +454,23 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 			notify.closeAll();
 			if(!$scope.password.currentPassword)
 			{
-				alert()
 				swal( { 
 					title : $translate.instant("FAILED"),
 				 	text : $translate.instant("enter_current_password"),
 				 	type: "warning", 
 					showConfirmButton: true,
-					confirmButtonText: $translate.instant("OKAY"),
+					confirmButtonText: $translate.instant("OK"),
+						});		
+				return;
+			}
+			if(!$scope.password.password || !$scope.password.confirm)
+			{
+				swal( { 
+					title : $translate.instant("FAILED"),
+				 	text : $translate.instant("enter_both_password"),
+				 	type: "warning", 
+					showConfirmButton: true,
+					confirmButtonText: $translate.instant("OK"),
 						});		
 				return;
 			}

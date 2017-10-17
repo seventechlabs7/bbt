@@ -2177,3 +2177,7 @@ input[type=date]::-webkit-inner-spin-button {
     top: 11px;
     right: 10px;
 }
+
+.cp{
+    cursor: pointer;
+}

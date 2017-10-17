@@ -158,8 +158,11 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 					classes:'alert-danger',
 					duration:2000
 				});
-					return
+					return;
 				}
+				$scope.currentStep = 2;
+				$scope.start(index);
+				return;
         	}
         	if(index == 4)
         {
@@ -478,6 +481,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 					$scope.teacherstatus.about = $scope.teacher.about;
 					$scope.teacherstatus.teach_place = $scope.teacher.teach_place;
 					$scope.teacherstatus.work = $scope.teacher.work;
+					$scope.imageSelected = false;
 					$scope.profileImageUrl = success.data.profileImageUrl ;
 					//$scope.profileImageUrl = success.data.profileImageUrl+"/"+$scope.teacher.id+".png";
 					if(!$scope.teacher.virtual_money)
@@ -542,25 +546,36 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 						$scope.teacher ={};
 						$scope.signup.$setPristine();
 						$scope.signup.$setUntouched();
-						notify({
+
+						/*notify({
 						message: $translate.instant(success.data.reason),
 						classes:'alert-success',
 						duration:5000,
 						position:'center'
-					});
-					/*$state.go('app.profile', {
-					    teacher_id: $scope.teacher_id 
-					});	*/
-					//$scope.completed = true;	
+						});*/
+						swal({ title : $translate.instant("SUCCESS"),
+							text : $translate.instant(success.data.reason),
+							type : "success",
+						  showConfirmButton: true,
+						  confirmButtonText: $translate.instant("CLOSE"),
+						});
+
 					$scope.signupReason = $translate.instant(success.data.reason);		
 					}else if(success.data.status == 'failed')
 					{
-						notify({
+						/*notify({
 							message: translateService.translate(success.data.reason),
 							classes:'alert-danger',
 							duration:3000
 						});
-						return;			
+						return;	*/
+						swal( { 
+					title : $translate.instant("FAILED"),
+				 	text : $translate.instant(success.data.reason),
+				 	type: "warning", 
+					showConfirmButton: true,
+					confirmButtonText: $translate.instant("OK"),
+						});				
 					}
 				},function(error){
 
@@ -675,6 +690,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 								classes:'alert-success',
 								duration:3000
 							});
+					$scope.getteacherdetails();					
 					/*$scope.profileImageUrl = "";
 					$scope.imageSelected =false;
 					$scope.getteacherdetails();*/
