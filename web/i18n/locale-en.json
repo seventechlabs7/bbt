@@ -246,7 +246,14 @@
   "enter_university" : "Enter University name",
   "enter_about" :"Enter about",
   "enter_teach_place" : "Enter teach place",
-  "enter_work" :"Enter work"
+  "enter_work" :"Enter work",
+
+  "virtual_money_too_long" : "Virtual money too long",
+  "virtual_money_help" : "Enter money in spanish format or plain number",
+
+  "dupelicate_email" : "The following emails are dupelicate and not added",
+  "invalid_emails" : "The following emails are invalid and not added" ,
+  "notification" : "Notification"
 
 
 

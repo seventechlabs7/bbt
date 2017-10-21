@@ -698,7 +698,7 @@ h1{
 														<div class="row">
 															<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 
-																<b translate="">S2_SDATE </b>
+																<b translate="">S2_SDATE</b>
 																<!-- <input type="date" class="date_form"  placeholder="Start Date" name="maillistfile" ng-model="teacher.start_date" ng-change="stopcountdownFun('start')"  /> -->
 																<input type="text"  class="form-control docs-date" id="picker3" name="sdate"   ng-model="teacher.start_date" ng-change="stopcountdownFun('start')" placeholder="dd/mm/yyyy" data-toggle="datepicker" ng-disabled="DisableStartDate"
 																required  />
@@ -778,10 +778,11 @@ h1{
 		        										<div class="row">
 		        											<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
 		        												<input type="text" class="field_text ft2 blue"  placeholder="{{'S2_VIRTUAL_MONEY_PH' | translate}}" name="virtualmoney" ng-model="teacher.virtual_money" ng-disabled="editVirtualMoney()"
-		        												 required ng-pattern="/^[0-9.,]*$/" ng-maxlength="12"/> 
-		        												 <div class="text-left error" ng-messages="leagueForm.virtualmoney.$error" ng-show="leagueForm.virtualmoney.$touched">
+		        												 required ng-pattern="/^[0-9.,]*$/" ng-maxlength="16" ng-change="checkVirtualMoney();"/> 
+		        												 <div class="text-left error" ng-messages="leagueForm.virtualmoney.$error" ng-show="leagueForm.virtualmoney.$touched" >
 															       <div ng-messages-include="js/messages.html"></div>
 															 	</div>
+															 	<small translate=""> virtual_money_help</small>
 		        											</div>	
 		        											<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="padding-left: 0%;
     															padding-top: 2%;">
@@ -1042,8 +1043,9 @@ h1{
 		        									<div class="cust_list_ans p-0">
 		        										<div class="row">
 		        											<div class="col-lg-9 col-md-10 col-sm-10 col-xs-10 p-0">
-		        											 <input type="text" class="field_text ft2 blue"  placeholder="{{'S2_VIRTUAL_MONEY_PH' |  translate}}" name="virtualmoney" ng-model="teacher.virtual_money" /> 
-		        											</div>	
+		        											 <input type="text" class="field_text ft2 blue"  placeholder="{{'S2_VIRTUAL_MONEY_PH' |  translate}}" name="virtualmoney" ng-model="teacher.virtual_money" ng-change="checkVirtualMoney();"/> 
+		        											</div>
+		        											<small translate=""> virtual_money_help</small>	
 		        											<div class="col-lg-1 col-md-2 col-sm-2 col-xs-2" style="padding-top: 2%;">
 		        											&euro;
 		        											</div>
@@ -1152,6 +1154,8 @@ h1{
 	        							<button class="modal_nxt_bt" data-dismiss="modal"><span translate="">OK</span> </button>
 	        				     </div>
 	        		       	 </div>
+	        		       	</div>
+	        		       </div>
 	        			</li>
 	        		</ul>
 	        	</div>
@@ -1189,6 +1193,41 @@ h1{
 
         </script>
 	</div>
+	<div class="modal fade" id="errorEmails" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close"  ng-click="changeScreen('start')" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title" translate="">notification</h4>
+        </div>
+        <div class="modal-body">
+           <div ng-if="response.invalidArray.length >0">
+			
+			<dl>
+			    <dt translate="">invalid_emails </dt>
+			    <dd ng-repeat="email in response.invalidArray">- {{email}}</dd>
+			 </dl>  
+		</div>
+		<div ng-if="response.dupelicateArray.length >0">
+			  <dl>
+			    <dt ><span translate="">dupelicate_email</span></dt>
+			     <dd ng-repeat="email in response.dupelicateArray">- {{email}}</dd>
+			 </dl> 	        							
+		</div>
+        </div>
+        <div class="modal-footer">
+         <div class="row">
+			<div class="modal_but_cont p-l-0 p-r-0 text-right">
+				<!-- <button class="modal_nxt_bt" ng-click="shiftTab(1)">Back</button> -->
+				<button class="modal_nxt_bt" ng-click="changeScreen('start')" data-dismiss="modal"><span translate="">CLOSE</span> </button>
+			</div>
+
+		</div> 
+        </div>       
+      </div>      
+    </div>
+  </div>
 	  <!-- 4 STEP PROCESS END -->
 	
 		<!-- chat end -->

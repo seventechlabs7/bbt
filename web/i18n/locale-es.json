@@ -166,7 +166,7 @@
 
   "SESSION_EXPIRED" :  "Sesión expirada o no autorizada",
   "SESSION_EXPIRED_TEXT":"Por favor inicie sesión para continuar" ,
-  "LOGOUT" : "Logout",
+  "LOGOUT" : "cerrar sesión",
 
 
 
@@ -246,7 +246,11 @@
   "enter_university" : "Ingrese el nombre de la universidad",
   "enter_about" :"Ingrese sobre usted",
   "enter_teach_place" : "Ingrese lugar de enseñanza",
-  "enter_work" :"Ingrese trabajo"
+  "enter_work" :"Ingrese trabajo",
+
+  "virtual_money_too_long" : "dinero virtual demasiado largo",
+  "virtual_money_help" : "Ingrese dinero en formato español o número simple" ,
+  "notification" : "Notificación"
 
 
 }

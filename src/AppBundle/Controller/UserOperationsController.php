@@ -292,16 +292,23 @@ class UserOperationsController extends Controller implements TokenAuthenticatedC
         $em = $this->getDoctrine()->getManager();
         $emails_list = $teacher['mail_list'];
         $emails = explode(',', $emails_list); 
-
+        $invalidArray = [];
+        $dupelicateArray = [];
         foreach ($emails as $email) 
       {
         $valid = $this->CheckValidEmail($email);
         if(!$valid)
+         {
+          array_push($invalidArray, $email);
           continue;
+         }
         $exists = $this->CheckDupeEmail($email);
         
         if($exists)
-          continue;
+         {
+          array_push($dupelicateArray, $email);
+           continue;
+         } 
         $GM = new GroupEmail;
         $GM->setGroup_id($teacher['gId']);
         $GM->setEmail($email);
@@ -328,11 +335,17 @@ class UserOperationsController extends Controller implements TokenAuthenticatedC
           {
             $valid = $this->CheckValidEmail(array_values($c)[0]);
             if(!$valid)
-              continue;
+              {
+                array_push($invalidArray, $email);
+                continue;
+              }
             $exists = $this->CheckDupeEmail(array_values($c)[0]);
           //return $this->json($exists);
             if($exists)
-              continue;
+              {
+                array_push($dupelicateArray, $email);
+                continue;
+              }
             $GM = new GroupEmail;
             $GM->setGroup_id($teacher['gId']);
             $GM->setEmail(array_values($c)[0]);
@@ -348,7 +361,8 @@ class UserOperationsController extends Controller implements TokenAuthenticatedC
           unlink($path);
     }
 
-       return new JsonResponse(array('status' => 'success','reason' => 'students_uploaded','response' => 200));
+       return new JsonResponse(array('status' => 'success','reason' => 'students_uploaded','response' => 200 ,
+        'invalidArray' =>$invalidArray ,'dupelicateArray'=>$dupelicateArray));
   }
 
       public function CheckDupeEmail($email)
