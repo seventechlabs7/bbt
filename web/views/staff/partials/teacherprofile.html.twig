@@ -596,13 +596,14 @@ ul.unedit_ul {
 		        										<div class="row">
 		        											<div class="col-lg-9 col-md-10 col-sm-10 col-xs-10 p-0">
 		        											 <input type="text" class="field_text ft2 blue"  placeholder="{{'S2_VIRTUAL_MONEY_PH' |  translate}}" name="virtualmoney" ng-model="teacher.virtual_money"  ng-change="checkVirtualMoney();" ng-maxlength="16"/> 
-		        											 <small translate=""> virtual_money_help</small>	
+		        												
 		        											</div>
 		        											
 		        											<div class="col-lg-1 col-md-2 col-sm-2 col-xs-2" style="padding-top: 2%;">
 		        											&euro;
 		        											</div>
 		        										</div>
+		        										 <small translate=""> virtual_money_help</small>
 		        									</div>
 		        								</li>
 		        							</ul>
@@ -769,16 +770,15 @@ ul.unedit_ul {
         </div>
         <div class="modal-body">
            <div ng-if="response.invalidArray.length >0">			
-				<dl>
-				    <dt translate="">invalid_emails </dt>
-				    <dd ng-repeat="email in response.invalidArray">- {{email}}</dd>
+				
+				   	 <b translate="">invalid_emails</b>
+				    <span ng-repeat="email in response.invalidArray" >- {{email}}</span>
 				 </dl>  
 			</div>
-			<div ng-if="response.dupelicateArray.length >0">
-			  <dl>
-			    <dt ><span translate="">dupelicate_email</span></dt>
-			     <dd ng-repeat="email in response.dupelicateArray">- {{email}}</dd>
-			 </dl> 	        							
+			<div ng-if="response.dupelicateArray.length >0">			  
+			    <b translate="">dupelicate_email</b>
+			     <span ng-repeat="email in response.dupelicateArray">- {{email}}</span>
+	        							
 			</div>
         </div>
          <div class="modal-footer">

@@ -71,6 +71,7 @@
   "UPLOAD" : "subir",
   "RESEND" : "Reenviar",
   "HOME" : "Casa",
+  "SUBMIT" :"Enviar",
 
 
   "S1_ADD_STUDENTS" : "¿Tienes alumnos? Añádelos",
@@ -250,7 +251,8 @@
 
   "virtual_money_too_long" : "dinero virtual demasiado largo",
   "virtual_money_help" : "Ingrese dinero en formato español o número simple" ,
-  "notification" : "Notificación"
+  "notification" : "Notificación" ,
+  "enter_email_and_password" : "Enter both email and password"
 
 
 }
