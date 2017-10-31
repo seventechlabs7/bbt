@@ -37,8 +37,8 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 
        $scope.loadRanking = function(gId)
        {
-       	if(!gId)
-       		return;
+
+       	
 			$http({
 				method: 'POST',
 				url: 'api/ranking/load',
@@ -97,6 +97,12 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 					$scope.stopcountdown = false;
 					updateClockNg();
 					$scope.loadRankingList();					
+				}
+				else
+				{
+					$state.go('app.profile', {
+					    		teacher_id: $stateParams.teacher_id
+							});	
 				}
 
 			},function(error){

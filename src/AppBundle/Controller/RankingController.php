@@ -104,9 +104,7 @@ class RankingController extends Controller implements TokenAuthenticatedControll
       if(!$flag && count($groups) >0 )
       {
         $groupId = $groups[0]['id'] ;
-      }
-      
-      $em = $this->getDoctrine()->getManager();
+              $em = $this->getDoctrine()->getManager();
       $group =    $em->getRepository('AppBundle:UserOperations')
                ->findRankingDataBygroupId($groupId);
 
@@ -116,6 +114,15 @@ class RankingController extends Controller implements TokenAuthenticatedControll
 
      return new JsonResponse(array('status' => 'success','groups'=>$groups,'groupData'=>$group,'feedback'=>$feedback,
                                    'reason' => 'data loaded','response' => 200));
+      }
+      else
+      {
+
+     return new JsonResponse(array('status' => 'failure',
+                                   'reason' => 'no group','response' => 200));
+      }
+      
+
   }
 
   public function dashBoardAction(Request $request)
