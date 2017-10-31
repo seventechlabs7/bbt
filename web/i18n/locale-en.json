@@ -71,7 +71,7 @@
   "UPLOAD" : "Upload",
   "RESEND" : "Resend",
   "HOME" :"Home",
-  "SUBMIT" :"Enviar",
+  "SUBMIT" :"Submit",
 
 
   "S1_ADD_STUDENTS" : "Do you have students? Add them",
@@ -255,7 +255,10 @@
   "dupelicate_email" : "The following emails are duplicate and not added",
   "invalid_emails" : "The following emails are invalid and not added" ,
   "notification" : "Notification",
-  "enter_email_and_password" : "Ingrese tanto el correo electrónico como la contraseña"
+  "enter_email_and_password" : "Enter both email and password",
+
+  "GO_HOME" : "Go back to home page" ,
+  "CLICK_HERE" : "Click here"
 
 
 

@@ -37,6 +37,8 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 
        $scope.loadRanking = function(gId)
        {
+       	if(!gId)
+       		return;
 			$http({
 				method: 'POST',
 				url: 'api/ranking/load',

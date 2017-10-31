@@ -2,6 +2,10 @@
 <html>
 <head>
     <title>Error</title>
+    {% block stylesheets %}
+     <link  rel="stylesheet" src="{{ asset('css/bootstrap.css') }}">
+    <link  rel="stylesheet" src="{{ asset('css/font-awesome.min.css') }}" >
+        {% endblock %}
 </head>
 <style type="text/css">
     
@@ -189,7 +193,8 @@ div#blue {
   <div id="green" class="rgb"></div>
   <div id="red" class="rgb"></div>
   <div id="blue" class="rgb"></div>
- 
+ <span> <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> </span>
+
   <p>
     {% if message is defined and message is not empty %}
     <span >{{ message }}</span>

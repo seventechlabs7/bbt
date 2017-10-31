@@ -448,9 +448,11 @@ ul.unedit_ul {
 	          </ul>
 	        </div>
 	        <div class="modal-body">
+	        	
 	        	<div class="step_body_container">
 	        		<ul class="step_body_ul">
 	        			<li class="step_body_li p-0 signupstep-sec" id="step_body_1">
+	        				<form id="stepForm1" name="stepForm1"  formnovalidate="formnovalidate" novalidate>
 	        				<div class="form_container">
 	        					<div class="row">								
 	        						<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 m-t-10 p-0">
@@ -488,8 +490,11 @@ ul.unedit_ul {
 				        						S1_GROUP_LABEL
 				        					</div>
 				        					<div class="input_text m-t-10">
-				        						<input type="text" class="field_text" placeholder="{{'S1_GROUP_PH' | translate }}" name="groupname" ng-model="teacher.group_name" />
+				        						<input type="text" class="field_text" placeholder="{{'S1_GROUP_PH' | translate }}" name="groupname" ng-model="teacher.group_name"  ng-maxlength="30"/>
 				        					</div>
+				        					<div class="text-left error" ng-messages="stepForm1.groupname.$error" ng-show="stepForm1.groupname.$touched">
+																<div ng-messages-include="js/messages.html"></div>
+															</div>
 		    							</div>
 	        						</div>
 									<div class="col-lg-4 col-lg-offset-0 col-md-4 col-sm-4 col-xs-12 text-center p-0" style="margin-top: 8%;">
@@ -503,12 +508,14 @@ ul.unedit_ul {
 	        					</div>
 	        					<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 m-t-10 p-0">
 	        						<div class="modal_but_cont p-0 m-t-10 text-right">        							
-	        							<button class="modal_nxt_bt" ng-click="shiftTab(2)"> <span translate="">STEP_NEXT</span> </button>
+	        							<button class="modal_nxt_bt" ng-click="shiftTab(2)" ng-disabled="!stepForm1.$valid"> <span translate="">STEP_NEXT</span> </button>
 	        						</div>
 	        					</div>
 	        				</div>
+	        			</form>
 	        			</li>
 	        			<li class="step_body_li" id="step_body_2">
+	        				<form id="stepForm2" name="stepForm2"  formnovalidate="formnovalidate" novalidate>
 	        				<div class="form_container">
 	        					<div class="form_head_text" translate="">
 	        						S2_TITLE 
@@ -582,9 +589,13 @@ ul.unedit_ul {
 		        									<div class="cust_list_ans p-0">
 		        										<div class="row">
 		        											<div class="col-lg-9 col-md-12 col-sm-12 col-xs-12 p-0">
-		        												<input type="text" class="field_text ft2 blue" placeholder="{{'S2_LEAGUE_PH' |  translate}}" name="leaguename" ng-model="teacher.league_name" />
+		        												<input type="text" class="field_text ft2 blue" placeholder="{{'S2_LEAGUE_PH' |  translate}}" name="leaguename" ng-model="teacher.league_name" ng-minlength="2" ng-maxlength="30"/>
 		        											</div>	
+		        											
 		        										</div>
+		        										<div class="text-left error" ng-messages="stepForm2.leaguename.$error" ng-show="stepForm2.leaguename.$touched">
+																<div ng-messages-include="js/messages.html"></div>
+															</div>
 		        									</div>
 		        								</li>
 		        								<li class="cust_num_li">
@@ -598,6 +609,7 @@ ul.unedit_ul {
 		        											 <input type="text" class="field_text ft2 blue"  placeholder="{{'S2_VIRTUAL_MONEY_PH' |  translate}}" name="virtualmoney" ng-model="teacher.virtual_money"  ng-change="checkVirtualMoney();" ng-maxlength="16"/> 
 		        												
 		        											</div>
+
 		        											
 		        											<div class="col-lg-1 col-md-2 col-sm-2 col-xs-2" style="padding-top: 2%;">
 		        											&euro;
@@ -620,11 +632,12 @@ ul.unedit_ul {
 	        					<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12 p-0">
 	        						<div class="modal_but_cont p-l-0 p-r-0 text-right">
 	        							<!-- <button class="modal_nxt_bt" ng-click="shiftTab(1)">Back</button> -->
-	        							<button class="modal_nxt_bt" ng-click="shiftTab(3)"><span translate="">STEP_NEXT</span> </button>
+	        							<button class="modal_nxt_bt" ng-click="shiftTab(3)" ng-disabled="!stepForm2.$valid"><span translate="">STEP_NEXT</span> </button>
 	        						</div>
 
 	        					</div>        					
 	        				</div>
+	        			</form>
 	        			</li>
 	        			<li class="step_body_li p-0" id="step_body_3">
 	        				<div class="form_container">
@@ -731,6 +744,7 @@ ul.unedit_ul {
 						  $("#picker2").datepicker({
 						  	format: "DD/MM/YYYY",
 						  	zIndex:9999999999,
+						  	startDate: new Date(),
 						  	autoHide : true
 						  }); 
 				}
@@ -772,12 +786,21 @@ ul.unedit_ul {
            <div ng-if="response.invalidArray.length >0">			
 				
 				   	 <b translate="">invalid_emails</b>
-				    <span ng-repeat="email in response.invalidArray" >- {{email}}</span>
-				 </dl>  
+				  <ul>
+			     	<li ng-repeat="email in response.dupelicateArray track by $index">
+			     	{{email}}
+			     </li>
+			     </ul>
+				   
 			</div>
 			<div ng-if="response.dupelicateArray.length >0">			  
-			    <b translate="">dupelicate_email</b>
-			     <span ng-repeat="email in response.dupelicateArray">- {{email}}</span>
+			    <b translate="">dupelicate_email</b> 
+			    <ul>
+			     	<li ng-repeat="email in response.dupelicateArray track by $index">
+			     	{{email}}
+			     </li>
+			     </ul>
+			    
 	        							
 			</div>
         </div>

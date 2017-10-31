@@ -1,0 +1,291 @@
+
+<html lang="en" ng-app="app" >
+
+<head>
+    
+   <title>BBT</title>
+   {% block stylesheets %}
+        <link  rel="stylesheet" src="{{ asset('css/bootstrap.css') }}">
+        <link  rel="stylesheet" src="{{ asset('css/font-awesome.min.css') }}" >
+        <link  rel="stylesheet" src="{{ asset('css/angular-chart.css') }}" >
+        <link  rel="stylesheet" type="text/css" src="{{ asset('css/ng-table.min.css ') }}">
+        <link  rel="stylesheet" src="{{ asset('css/easytabs.css ') }}">
+        <link  rel="stylesheet" src="{{ asset('css/main.css ') }}">
+ 
+        <link  rel="stylesheet" src="{{ asset('css/angular-block-ui.min.css ') }}">
+        <link  rel="stylesheet" src="{{ asset('css/datepicker.css ') }}">
+        <link rel="stylesheet" type="text/css" src="{{ asset('bower_components/angular-notify/dist/angular-notify.min.css') }}" />
+        <style type="text/css">
+    
+
+    * {
+  margin: 0;
+  padding: 0;
+}
+
+div.container {
+  width: 100vw;
+  height: 100vh;
+  background-color: #fff;
+  position: relative;
+}
+
+div.container h1, div.container p {
+  text-align: center;
+  
+  position: absolute;
+  width: 100%;
+  color: #fff;
+  z-index: 9;
+  font-family: sans-serif;
+  font-weight: 100;
+  
+}
+
+div.container h1 {
+  font-size: 64px;
+  margin-top: 45vh;
+}
+
+div.container p {
+  margin-top: 60vh;
+}
+
+
+div.rgb {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  opacity: 0.55;
+
+}
+
+div#red {
+  background-color: red;
+  z-index: 2;
+  animation-name: colorify;
+  animation-duration: 10s;
+  animation-delay: 3s;
+  animation-iteration-count: infinite;
+}
+
+div#green {
+  background-color: green;
+  z-index: 1;
+  animation-name: colorify;
+  animation-duration: 15s;
+  animation-delay: 2s;
+  animation-iteration-count: infinite;
+}
+
+div#blue {
+  background-color: blue;
+  z-index: 0;
+  animation-name: colorify;
+  animation-duration: 20s;
+  animation-delay: 1s;
+  animation-iteration-count: infinite;
+}
+
+@-webkit-keyframes colorify {
+  0% {
+    opacity: 0.55
+  }
+  10% {
+    opacity: 0.47
+  }
+  20% {
+    opacity: 0.37
+  }
+  30% {
+    opacity: 0.27
+  }
+  40% {
+    opacity: 0.17
+  }
+  50% {
+    opacity: 0.05
+  }
+  60% {
+    opacity: 0.15
+  }
+  70% {
+    opacity: 0.25
+  }
+  80% {
+    opacity: 0.35
+  }
+  90% {
+    opacity: 0.45
+  }
+  100% {
+    opacity: 0.55
+  }
+}
+
+@-moz-keyframes colorify {
+  0% {
+    opacity: 0.55
+  }
+  10% {
+    opacity: 0.47
+  }
+  20% {
+    opacity: 0.37
+  }
+  30% {
+    opacity: 0.27
+  }
+  40% {
+    opacity: 0.17
+  }
+  50% {
+    opacity: 0.05
+  }
+  60% {
+    opacity: 0.15
+  }
+  70% {
+    opacity: 0.25
+  }
+  80% {
+    opacity: 0.35
+  }
+  90% {
+    opacity: 0.45
+  }
+  100% {
+    opacity: 0.55
+  }
+}
+
+@keyframes colorify {
+  0% {
+    opacity: 0.55
+  }
+  10% {
+    opacity: 0.47
+  }
+  20% {
+    opacity: 0.37
+  }
+  30% {
+    opacity: 0.27
+  }
+  40% {
+    opacity: 0.17
+  }
+  50% {
+    opacity: 0.05
+  }
+  60% {
+    opacity: 0.15
+  }
+  70% {
+    opacity: 0.25
+  }
+  80% {
+    opacity: 0.35
+  }
+  90% {
+    opacity: 0.45
+  }
+  100% {
+    opacity: 0.55
+  }
+}
+
+</style>
+    {% endblock %}
+
+    {% block javascripts %}
+    
+    <!--Javascript Frameworks-->
+    <script  src="{{ asset('js/jquery-2.0.3.min.js') }}"></script>
+    <script  src="{{ asset('js/angular.min.js') }}"></script>
+    <script  src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <!--Bootstrap Dependencies-->
+    <script  src="{{ asset('js/moment.min.js') }}"></script>
+    <script  src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
+    <script  src="{{ asset('js/datepicker.js') }}"></script>
+
+    <!--Angular Dependencies-->
+    <script  src="{{ asset('js/angular-sanitize.min.js') }}"></script>
+     <script  src="{{ asset('js/angular-messages.min.js') }}"></script>
+    <script  src="{{ asset('js/angular-touch.min.js') }}"></script>
+    <script  src="{{ asset('js/ui-bootstrap-tpls.js') }}"></script>
+    <script  src="{{ asset('js/angular-ui-router.min.js') }}"></script>
+    <script  src="{{ asset('js/ocLazyLoad.min.js') }}"></script>
+    <script  src="{{ asset('js/ui-utils.min.js') }}"></script>
+    <script  src="{{ asset('js/angular-inview.js') }}"></script>
+
+    <script  src="{{ asset('js/app.js') }}"></script>
+    <script  src="{{ asset('js/app.config.js') }}"></script>
+    <script  src="{{ asset('js/angular-block-ui.min.js') }}"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.10.2/sweetalert2.all.min.js"></script>
+    <script  src="{{ asset('js/app.lazyload.js') }}"></script>
+
+    <script  src="{{ asset('js/jq/chart.js') }}"></script>
+    <script  src="{{ asset('js/jq/chartconfig.js') }}"></script>
+    <script  src="{{ asset('js/jq/legend.js') }}"></script>
+    <script  src="{{ asset('js/directives/easytabs.js') }}"></script>
+    <script  src="{{ asset('js/app.main.js') }}"></script>
+
+    <script  src="{{ asset('js/services/ui-load.js') }}"></script>
+    <script  src="{{ asset('js/services/UrlService.js') }}"></script>
+    <script  src="{{ asset('js/directives/ui-jq.js') }}"></script>
+    <script  src="{{ asset('js/directives/ui-module.js') }}"></script>
+    <script  src="{{ asset('js/directives/d3.js') }}"></script>
+    <script  src="{{ asset('js/directives/ng-knob.js') }}"></script>
+    <script  src="{{ asset('js/directives/progressbar.js') }}"></script>
+    <script  src="{{ asset('js/directives/angular-chart.js') }}"></script>
+    <script  src="{{ asset('js/directives/ng-table.min.js') }}"></script>
+    <script  src="{{ asset('js/directives/ng-table.min.js') }}"></script>
+     <script src="{{ asset('js/directives/angular-cookies.min.js') }}"></script>
+        <script src="https://cdn.rawgit.com/angular-translate/bower-angular-translate/2.15.2/angular-translate.js"></script>
+    <script src="https://cdn.rawgit.com/angular-translate/bower-angular-translate-interpolation-messageformat/2.15.2/angular-translate-interpolation-messageformat.js"></script>
+    <script src="https://cdn.rawgit.com/angular-translate/bower-angular-translate-storage-cookie/2.15.2/angular-translate-storage-cookie.js"></script>
+    <script src="https://cdn.rawgit.com/angular-translate/bower-angular-translate-storage-local/2.15.2/angular-translate-storage-local.js"></script>
+    <script src="https://cdn.rawgit.com/angular-translate/bower-angular-translate-loader-url/2.15.2/angular-translate-loader-url.js"></script>
+    <script src="https://cdn.rawgit.com/angular-translate/bower-angular-translate-loader-static-files/2.15.2/angular-translate-loader-static-files.js"></script>
+    <script src="https://cdn.rawgit.com/angular-translate/bower-angular-translate-handler-log/2.15.2/angular-translate-handler-log.js"></script>
+ <script src="https://cdn.rawgit.com/auth0/angular-storage/master/dist/angular-storage.js"></script>
+    <script  src="{{ asset('js/directives/lodash.js') }}"></script>
+    <script  src="{{ asset('js/directives/angular-simple-logger.js') }}"></script>
+    <script  src="{{ asset('js/directives/angular-google-maps.min.js') }}"></script>
+    <script  src="{{ asset('js/directives/infobox.js') }}"></script>
+    <script  src="{{ asset('bower_components/ng-file-upload/ng-file-upload-shim.min.js') }}"></script>
+    <script  src="{{ asset('bower_components/ng-file-upload/ng-file-upload.min.js') }}"></script>
+    <script src="{{ asset('bower_components/angular-notify/dist/angular-notify.min.js') }}"></script>
+    <script  src="{{ asset('js/app.router.js') }}"></script>    
+    <script  src="{{ asset('js/controllers/home.js') }}"></script>
+    <script  src="{{ asset('js/controllers/profile.js') }}"></script>
+    <script  src="{{ asset('js/controllers/password.js') }}"></script>
+   
+    {% endblock %}
+
+
+</head>
+
+  <body ng-controller="AppCtrl">
+
+      <div class="container" ngcontroller>
+        <div id="green" class="rgb"></div>
+        <div id="red" class="rgb"></div>
+        <div id="blue" class="rgb"></div>
+
+        <p>
+        {% if message is defined and message is not empty %}
+          <span >{{ message }}</span>
+        {% endif %}
+        {% if message is not defined  %}
+          <span translate="">NOT_FOUND</span>
+        {% endif %}
+        </p>
+
+      <div class="row">
+         <p translate="">GO_HOME </p> <a href="/index" >click_here</a>
+              </div>
+      </div>
+  </body>
+</html>
