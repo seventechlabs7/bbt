@@ -265,7 +265,7 @@ h1{
 						<img src="imgs/logo.png">
 					</div>
 					<div class="left_logo_text">
-						Victor Garcia
+						{{teacher.name}} {{teacher.surname}}
 					</div>
 				</div>
 				<div class="left_bar_content">
@@ -779,9 +779,7 @@ h1{
 		        											<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
 		        												<input type="text" class="field_text ft2 blue"  placeholder="{{'S2_VIRTUAL_MONEY_PH' | translate}}" name="virtualmoney" ng-model="teacher.virtual_money" ng-disabled="editVirtualMoney()"
 		        												 required ng-pattern="/^[0-9.,]*$/" ng-maxlength="16" ng-change="checkVirtualMoney();"/> 
-		        												 <div class="text-left error" ng-messages="leagueForm.virtualmoney.$error" ng-show="leagueForm.virtualmoney.$touched" >
-															       <div ng-messages-include="js/messages.html"></div>
-															 	</div>
+		        												 
 															 	
 		        											</div>	
 		        											<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="padding-left: 0%;
@@ -790,6 +788,9 @@ h1{
 		        											</div>
 		        											
 		        										</div>
+		        										<div class="text-left error" ng-messages="leagueForm.virtualmoney.$error" ng-show="leagueForm.virtualmoney.$touched" >
+															       <div ng-messages-include="js/messages.html"></div>
+															 	</div>
 		        										<small translate=""> virtual_money_help</small>
 		        									</div>
 		        								</li>
@@ -1215,22 +1216,22 @@ h1{
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close"  ng-click="changeScreen('start')" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title" translate="">notification</h4>
+          <h4 class="modal-title" translate="">email_upload_failed</h4>
         </div>
-       <div class="modal-body">
-           <div ng-if="response.invalidArray.length >0">			
+ <div class="modal-body">
+           <div ng-if="response.invalidArray.length">			
 				
 				   	 <b translate="">invalid_emails</b>
 				  <ul>
-			     	<li ng-repeat="email in response.dupelicateArray track by $index">
+			     	<li ng-repeat="email in response.invalidArray track by $index">
 			     	{{email}}
 			     </li>
 			     </ul>
 				   
 			</div>
-			<div ng-if="response.dupelicateArray.length >0">			  
+			<div ng-if="response.dupelicateArray.length">			  
 			    <b translate="">dupelicate_email</b> 
-			     <ul>
+			    <ul>
 			     	<li ng-repeat="email in response.dupelicateArray track by $index">
 			     	{{email}}
 			     </li>

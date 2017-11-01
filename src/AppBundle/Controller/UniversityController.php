@@ -97,7 +97,8 @@ class UniversityController extends Controller implements  TokenAuthenticatedCont
 		if($STEP == "1")
 		{
 			$emails_list = $teacher['mail_list'];
-			$emails = explode(',', $emails_list);		
+			$emails = explode(',', $emails_list);
+
 			$content = [];
 			if($file)
 			{	
@@ -113,6 +114,7 @@ class UniversityController extends Controller implements  TokenAuthenticatedCont
 			}
 			$contentsNew = [];
 			foreach ($content as $key ) {
+				if(array_values($key)[0] != "" && array_values($key)[0] != " ")
 				 array_push($contentsNew, array_values($key)[0]);	
 			}
 			
@@ -120,9 +122,10 @@ class UniversityController extends Controller implements  TokenAuthenticatedCont
 			$emails = array_intersect_key($emails, array_unique(array_map('strtolower', $emails)));
 
 			//new version
-
+			$emails = array_filter($emails);
 			foreach ($emails as $email) 
 		    {
+		    	
 		    	$valid = $this->CheckValidEmail($email);
 		    	if(!$valid)
 	    		{
@@ -135,7 +138,12 @@ class UniversityController extends Controller implements  TokenAuthenticatedCont
 		    		array_push($dupelicateArray, $email);
 		    	}
 		    }
-
+		  
+		    if(count($invalidArray) >0 ||  count($dupelicateArray) > 0)
+		    {
+		    	return $this->json(array('status' => 'failure','reason' => 'no_emails_added','response' => 200 , 'invalidArray' =>$invalidArray ,'dupelicateArray'=>$dupelicateArray    							 ));
+		    }
+			
 		   // return new JsonResponse (array('array'=>$emails ,'invalidArray'=> $invalidArray,'dupelicateArray'=>$dupelicateArray ));
 			$group = new Group();
 			$group->setTeacher_id($teacher['id']);

@@ -104,12 +104,7 @@ angular.module('app').controller('profile', ['$scope','$document','$rootScope','
 				
 						$scope.teacherstatus ={};
 					console.log($scope.teacher);
-					if(!$scope.teacher.isGroup)			
-						{
-							$state.go('app.profile', {
-					    		teacher_id: $stateParams.teacher_id
-							});	
-						}
+					
 					$scope.teacherstatus.name = $scope.teacher.name;
 					$scope.teacherstatus.surname =$scope.teacher.surname;
 					$scope.teacherstatus.email = $scope.teacher.email;

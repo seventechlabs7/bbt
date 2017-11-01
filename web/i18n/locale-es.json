@@ -251,11 +251,15 @@
 
   "virtual_money_too_long" : "dinero virtual demasiado largo",
   "virtual_money_help" : "Ingrese dinero en formato español o número simple" ,
+
+  "dupelicate_email" : "Los siguientes correos electrónicos están duplicados y no se han agregado",
+  "invalid_emails" : "Please check and make sure the valid email ids are listed in the first column of your excel sheet" ,
   "notification" : "Notificación" ,
   "enter_email_and_password" : "Enter both email and password" ,
 
   "GO_HOME" : "Volver a la página de inicio",
-  "CLICK_HERE" : "haga clic aquí"
+  "CLICK_HERE" : "haga clic aquí",
+  "email_upload_failed":"Subida fallida"
 
 
 }

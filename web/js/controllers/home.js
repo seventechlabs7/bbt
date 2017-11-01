@@ -434,7 +434,11 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 			    	$('#step_head_'+index).addClass('active');
 			    	$('.step_body_li').removeClass('active');
 			    	$('#step_body_'+index).addClass('active'); 			    
-				}				
+				}	
+				else
+				{
+					$('#zeroEmails').modal('show');
+				}			
 			},function(error){
 
 			})

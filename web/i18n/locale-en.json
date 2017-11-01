@@ -253,12 +253,13 @@
   "virtual_money_help" : "Enter money in spanish format or plain number",
 
   "dupelicate_email" : "The following emails are duplicate and not added",
-  "invalid_emails" : "The following emails are invalid and not added" ,
+  "invalid_emails" : "Verifique y asegúrese de que los ID de correo electrónico válidos se encuentren en la primera columna de su hoja de Excel" ,
   "notification" : "Notification",
   "enter_email_and_password" : "Enter both email and password",
 
   "GO_HOME" : "Go back to home page" ,
-  "CLICK_HERE" : "Click here"
+  "CLICK_HERE" : "Click here",
+  "email_upload_failed":"Upload failed"
 
 
 

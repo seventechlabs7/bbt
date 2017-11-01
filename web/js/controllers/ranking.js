@@ -450,6 +450,13 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 
 			$scope.getLeagueDetails =function()
 			{
+				if(!$scope.teacher.gId)
+				{
+					 $scope.changeScreen('start');
+					 $scope.getTeacherDetails();
+
+					 return;
+				}
 				$http({
 				method: 'POST',
 				url: 'api/league/details',
