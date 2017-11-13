@@ -152,6 +152,8 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 					else
 						$scope.processRankingTable();	
 				}
+				if(!scope.report.benefits)
+					$scope.report.benefits == "00.0000";
 				$scope.report.benefits = parseFloat($scope.report.benefits).toLocaleString("de-DE");							
 			},function(error){
 

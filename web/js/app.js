@@ -139,7 +139,7 @@ angular.module('app', [
            },2000);
          
         } 
-         if(response.status == 500)
+/*         if(response.status == 500)
         {
            window.onkeydown = null;
           window.onfocus = null;
@@ -156,7 +156,7 @@ angular.module('app', [
             title: $translate.instant("something_went_wrong"),                         
           });
         
-        } 
+        } */
         return response;
     };
 })
