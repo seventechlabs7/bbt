@@ -253,7 +253,7 @@
   "virtual_money_help" : "Enter money in spanish format or plain number",
 
   "dupelicate_email" : "The following emails are duplicate and not added",
-  "invalid_emails" : "Verifique y asegúrese de que los ID de correo electrónico válidos se encuentren en la primera columna de su hoja de Excel" ,
+  "invalid_emails" : "Please check and make sure the email ids are listed in the first column of your excel sheet without any headers" ,
   "notification" : "Notification",
   "enter_email_and_password" : "Enter both email and password",
 

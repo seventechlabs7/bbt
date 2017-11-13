@@ -253,9 +253,9 @@
   "virtual_money_help" : "Ingrese dinero en formato español o número simple" ,
 
   "dupelicate_email" : "Los siguientes correos electrónicos están duplicados y no se han agregado",
-  "invalid_emails" : "Please check and make sure the valid email ids are listed in the first column of your excel sheet" ,
+  "invalid_emails" : "Verifique y asegúrese de que los ID de correo electrónico estén en la primera columna de su hoja de Excel sin ningún encabezado" ,
   "notification" : "Notificación" ,
-  "enter_email_and_password" : "Enter both email and password" ,
+  "enter_email_and_password" : "Ingrese tanto el correo electrónico como la contraseña" ,
 
   "GO_HOME" : "Volver a la página de inicio",
   "CLICK_HERE" : "haga clic aquí",
