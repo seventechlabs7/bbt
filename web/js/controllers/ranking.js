@@ -336,7 +336,6 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 			}
 			$scope.editProfile = function()
 		{
-			alert($scope.teacher.id)
 			$state.go('app.editprofile', {
 					    teacher_id: $scope.teacher.id 
 					});	
