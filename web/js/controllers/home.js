@@ -201,7 +201,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 
         $scope.teacher = {};
         $scope.teacherdetail = {};
-        $scope.teacher.virtual_money = 25.000;
+        $scope.teacher.virtual_money = "25.000";
         $scope.step = 1;
         $scope.teacher_id = "";
         console.log($stateParams.teacher_id);
@@ -516,7 +516,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 					$scope.profileImageUrl = success.data.profileImageUrl ;
 					//$scope.profileImageUrl = success.data.profileImageUrl+"/"+$scope.teacher.id+".png";
 					if(!$scope.teacher.virtual_money)
-						$scope.teacher.virtual_money = "25000.00";
+						$scope.teacher.virtual_money = "25.000";
 					$scope.teacher.id = $scope.teacher.id;
 					$timeout(function() {
 			    $scope.teacher.start_date = new Date();
@@ -647,7 +647,7 @@ angular.module('app').controller('homepage', ['$scope','$document','$rootScope',
 						$scope.report.percentage = "0.00"
 					}
 				}
-				if(!scope.report.benefits)
+				if(!$scope.report.benefits)
 					$scope.report.benefits = "00.0000";
 				$scope.report.benefits = parseFloat($scope.report.benefits).toLocaleString("de-DE");	
 

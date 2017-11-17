@@ -304,6 +304,9 @@ h1{
 		</div>
 		<!-- ranking list -->
 		<div class="center_container main-content-section" ng-if="type=='ranking'">
+			<div class="setting-menu">	
+			 <a ng-click="editProfile()" class=""><i class="fa fa-gear"></i> <span translate="" class="ng-scope">Settings</span></a>				
+			</div>
 			 <img title="{{ 'LOGOUT' | translate}}" class="logoutRight cp" src="/imgs/logout.png" ng-click="logout()">
 			<div class="profile_head_cont" ng-if="screen != 'addstudents' && screen != 'editfeedback'">
 			<div class="row">

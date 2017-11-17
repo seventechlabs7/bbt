@@ -57,7 +57,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 					{
 						$scope.teacher.start_date = new Date();
 			   			$scope.teacher.start_date = $filter('date')($scope.teacher.start_date, 'dd/MM/yyyy');
-			   			$scope.teacher.virtual_money = "25000.00";
+			   			$scope.teacher.virtual_money = "25.000";
 			   			$scope.teacher.assets = [0,0,0];
 						$scope.teacher.feedback = [0,0,0,0];
 						$('#addStudent').modal('show');
@@ -70,7 +70,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 						$scope.currentGroupId = $scope.savedGroup;
 						$scope.teacher.start_date = new Date();
 			   			$scope.teacher.start_date = $filter('date')($scope.teacher.start_date, 'dd/MM/yyyy');
-			   			$scope.teacher.virtual_money = "25000.00";
+			   			$scope.teacher.virtual_money = "25.000";
 			   			$scope.teacher.assets = [0,0,0];
 						$scope.teacher.feedback = [0,0,0,0];
 						$('#addStudent').modal('show');
@@ -89,7 +89,9 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				    	$('.step_body_li').removeClass('active');
 				    	$('#step_body_'+3).addClass('active'); 
 					}
-					$scope.groupData.start_date =   $filter('date')($scope.groupData.start_date, 'dd/MM/yyyy');
+					if($scope.groupData.start_date)
+						$scope.groupData.start_date =   $filter('date')($scope.groupData.start_date, 'dd/MM/yyyy');
+					if($scope.groupData.end_date)
 					$scope.groupData.end_date =   $filter('date')($scope.groupData.end_date, 'dd/MM/yyyy');
 					var deadline = new Date($scope.groupData.end_date);
 					//$scope.initializeClock('clockdiv', deadline);
@@ -152,7 +154,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 					else
 						$scope.processRankingTable();	
 				}
-				if(!scope.report.benefits)
+				if(!$scope.report.benefits)
 					$scope.report.benefits = "00.0000";
 				$scope.report.benefits = parseFloat($scope.report.benefits).toLocaleString("de-DE");							
 			},function(error){
@@ -332,6 +334,12 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 					$scope.getLeagueDetails(); 
 				}
 			}
+			$scope.editProfile = function()
+		{
+			$state.go('app.editprofile', {
+					    teacher_id: $scope.teacher.id 
+					});	
+		}
 
 			$scope.selectFile = function(file)
 			{
@@ -475,7 +483,9 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				$scope.teacher.end_date = $scope.getDateObj(data.league.end_date);
 
 				/*date filter*/
-			    $scope.teacher.start_date = $filter('date')($scope.teacher.start_date, 'dd/MM/yyyy');
+				if($scope.teacher.start_date)
+			    	$scope.teacher.start_date = $filter('date')($scope.teacher.start_date, 'dd/MM/yyyy');
+			    if($scope.teacher.end_date)
 			    $scope.teacher.end_date = $filter('date')($scope.teacher.end_date, 'dd/MM/yyyy');
 
 				$scope.teacher.virtual_money = parseFloat(data.league.virtual_money).toLocaleString("de-DE");
@@ -670,7 +680,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 			$scope.teacher.start_date =  $scope.getDateObj($scope.teacher.start_date);
 			$scope.teacher.start_date =  $filter('date')($scope.teacher.start_date, 'yyyy-MM-dd');
 
-			$scope.teacher.end_date = $scope.getDateObj($scope.teacher.start_date);
+			$scope.teacher.end_date = $scope.getDateObj($scope.teacher.end_date);
 			$scope.teacher.end_date =  $filter('date')($scope.teacher.end_date, 'yyyy-MM-dd');
 			$scope.unsaved =false;
 			$http({

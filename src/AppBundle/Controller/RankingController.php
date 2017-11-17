@@ -101,7 +101,7 @@ class RankingController extends Controller implements TokenAuthenticatedControll
         $flag = true;
         $groupId = $ranking['gId'] ;
       }
-      if(!$flag && count($groups) >0 )
+      if($flag  && count($groups) >0 )
       {
         $groupId = $groups[0]['id'] ;
               $em = $this->getDoctrine()->getManager();
