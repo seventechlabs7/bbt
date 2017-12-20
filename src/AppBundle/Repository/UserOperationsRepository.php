@@ -373,7 +373,7 @@ class UserOperationsRepository extends EntityRepository
                    
                     left join hist_user_operaciones_proff_'.$tid.' as op   on  op.id_user = user.id_admin
                     
-                    / ;
+                     ;
                 ';
 
                 $conn = $this->getEntityManager()
