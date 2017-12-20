@@ -259,7 +259,10 @@
 
   "GO_HOME" : "Volver a la página de inicio",
   "CLICK_HERE" : "haga clic aquí",
-  "email_upload_failed":"Subida fallida"
+  "email_upload_failed":"Subida fallida",
+
+  "CUR_GROUP" : "Nombre del grupo",
+  "LEAGUE_NOT_STARTED" : "Liga no iniciada"
 
 
 }

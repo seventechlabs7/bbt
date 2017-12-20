@@ -292,35 +292,13 @@ class UserOperationsController extends Controller implements TokenAuthenticatedC
         $em = $this->getDoctrine()->getManager();
         $emails_list = $teacher['mail_list'];
         $emails = explode(',', $emails_list); 
+
         $invalidArray = [];
         $dupelicateArray = [];
-        foreach ($emails as $email) 
-      {
-        $valid = $this->CheckValidEmail($email);
-        if(!$valid)
-         {
-          array_push($invalidArray, $email);
-          continue;
-         }
-        $exists = $this->CheckDupeEmail($email);
-        
-        if($exists)
-         {
-          array_push($dupelicateArray, $email);
-           continue;
-         } 
-        $GM = new GroupEmail;
-        $GM->setGroup_id($teacher['gId']);
-        $GM->setEmail($email);
-        $GM->setTeacherId($teacher['id']);
-        $GM->setActive(0);
-        $GM->setCreated_by(1);
-        $em->persist($GM);
-        $em->flush();
-        $this->sendEmailsToUser($email,$crypt,$mailerService);
 
-      }
-      //path    
+        /*new version*/
+
+      $content = [];
       if($file)
       { 
           $absolute_path = getcwd();
@@ -330,36 +308,60 @@ class UserOperationsController extends Controller implements TokenAuthenticatedC
           $path = $absolute_path."/temp.xls";
           $path = str_replace('/', '//', $path);
           $content = $reader->readAll($path);
-          
-           foreach ($content as $c) 
-          {
-            $valid = $this->CheckValidEmail(array_values($c)[0]);
-            if(!$valid)
-              {
-                array_push($invalidArray, $email);
-                continue;
-              }
-            $exists = $this->CheckDupeEmail(array_values($c)[0]);
-          //return $this->json($exists);
-            if($exists)
-              {
-                array_push($dupelicateArray, $email);
-                continue;
-              }
-            $GM = new GroupEmail;
-            $GM->setGroup_id($teacher['gId']);
-            $GM->setEmail(array_values($c)[0]);
-            $GM->setTeacherId($teacher['id']);
-            $GM->setActive(0);
-            $GM->setCreated_by(1);
-            $em->persist($GM);
-            $em->flush();
-            $this->sendEmailsToUser(array_values($c)[0],$crypt,$mailerService);
-            //var_dump($content)
-            //return $this->json($content);
-          }
           unlink($path);
-    }
+          
+      }
+      $contentsNew = [];
+      foreach ($content as $key ) {
+        if(array_values($key)[0] != "" && array_values($key)[0] != " ")
+         array_push($contentsNew, array_values($key)[0]); 
+      }
+      
+      $emails = array_merge($emails,$contentsNew);
+      $emails = array_intersect_key($emails, array_unique(array_map('strtolower', $emails)));
+
+      //new version
+      $emails = array_filter($emails);
+      foreach ($emails as $email) 
+        {
+          
+          $valid = $this->CheckValidEmail($email);
+          if(!$valid)
+          {
+            //add to invalid mail list  
+            array_push($invalidArray, $email);
+          }
+          $exists = $this->CheckDupeEmail($email);
+          if($exists)
+          {
+            array_push($dupelicateArray, $email);
+          }
+        }
+      
+        if(count($invalidArray) >0 ||  count($dupelicateArray) > 0)
+        {
+          return $this->json(array('status' => 'failure','reason' => 'no_emails_added','response' => 200 , 'invalidArray' =>$invalidArray ,'dupelicateArray'=>$dupelicateArray));
+        }
+
+        foreach($emails as $email)
+        {
+          $GM = new GroupEmail;
+          $GM->setGroup_id($teacher['gId']);
+          $GM->setEmail($email);
+          $GM->setTeacherId($teacher['id']);
+          $GM->setActive(0);
+          $GM->setCreated_by(1);
+          $em->persist($GM);
+          $em->flush();
+          $this->sendEmailsToUser($email,$crypt,$mailerService);
+        }
+
+        
+
+
+
+          
+    
 
        return new JsonResponse(array('status' => 'success','reason' => 'students_uploaded','response' => 200 ,
         'invalidArray' =>$invalidArray ,'dupelicateArray'=>$dupelicateArray));

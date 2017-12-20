@@ -372,7 +372,7 @@ h1{
 				</div>-->
 						
 				<div class="col-lg-5 col-lg-offset-1 col-md-4 col-sm-12 col-xs-12" style="margin-top: 4%;">
-				 <div id="clockdiv">
+				 <div id="clockdiv" ng-if="!notStarted">
 					<div>
 						<span class="days">{{timeTillEvent.days}}</span>
 						<div class="smalltext" translate="">R_DAYS</div>
@@ -389,6 +389,9 @@ h1{
 						<span class="seconds">{{timeTillEvent.seconds}}</span>
 						<div class="smalltext" translate="">R_SECS</div>
 					</div> 
+				  </div>
+				  <div ng-if="notStarted" >
+				  	 <h1 translate="">	LEAGUE_NOT_STARTED </h1>
 				  </div>
 				</div>				
 			  </div>				
@@ -538,6 +541,10 @@ h1{
 						<div class="form_head_text" translate="">
     						S1_ADD_STUDENTS
     					</div>
+    					<div class="form_head_text" >
+    					 <span translate="">	CUR_GROUP </span>: {{groupData.group_name}}
+    					</div>
+
 						<div class="row">
 							<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
     							<div class="input_upload">
@@ -1256,6 +1263,53 @@ h1{
 		</div> 
         </div>       
       </div>      
+    </div>
+  </div>
+
+  <!-- zero emails -->
+<div class="modal fade" id="zeroEmails" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close"  ng-click="changeScreen('start')" data-dismiss="modal" >&times;</button>
+          <h4 class="modal-title" translate="">email_upload_failed</h4>
+        </div>
+        <div class="modal-body">
+           <div ng-if="response.invalidArray.length">			
+				
+				   	 <b translate="">invalid_emails</b>
+				  <ul>
+			     	<li ng-repeat="email in response.invalidArray track by $index">
+			     	{{email}}
+			     </ui>
+			     </ol>
+				   
+			</div>
+			<div ng-if="response.dupelicateArray.length">			  
+			    <b translate="">dupelicate_email</b> 
+			    <ul>
+			     	<li ng-repeat="email in response.dupelicateArray track by $index">
+			     	{{email}}
+			     </ui>
+			     </ol>
+			    
+	        							
+			</div>
+        </div>
+         <div class="modal-footer">
+         <div class="row">
+			<div class="modal_but_cont p-l-0 p-r-0 text-right">
+				<!-- <button class="modal_nxt_bt" ng-click="shiftTab(1)">Back</button> -->
+				<button class="modal_nxt_bt"  ng-click="changeScreen('start')" data-dismiss="modal"><span translate="">CLOSE</span> </button>
+			</div>
+
+		</div> 
+        </div> 
+       
+      </div>
+      
     </div>
   </div>
 	  <!-- 4 STEP PROCESS END -->

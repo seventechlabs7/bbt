@@ -48,6 +48,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				if(data.status == "success")
 				{
 					$scope.groupData =data.groupData;
+
 					$scope.feedbackData = data.feedback;
 					
 					$scope.groups = data.groups;
@@ -96,6 +97,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 					var deadline = new Date($scope.groupData.end_date);
 					//$scope.initializeClock('clockdiv', deadline);
 					$scope.currentEndDate = angular.copy($scope.groupData.end_date);
+					$scope.currentStartDate = angular.copy($scope.groupData.start_date);
 					$scope.stopcountdown = false;
 					updateClockNg();
 					$scope.loadRankingList();					
@@ -415,7 +417,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 			}).then(
 			function(isConfirm){
 				if (isConfirm) {
-
+					console.log($scope.teacher)
 				Upload.upload({
 					method: 'POST',				
 					url: 'api/addstudents',
@@ -427,6 +429,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 					.then(function(success){
 					console.log(success)
 					var data = success.data;
+					$scope.response = success.data;
 				if(data.status =="success")
 					{
 						$scope.response = success.data;
@@ -444,7 +447,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 						}
 					}
 				else
-					swal("Error!", $translate.instant('something_went_wrong'), "warning");	
+					$('#zeroEmails').modal('show');//swal("Error!", $translate.instant('something_went_wrong'), "warning");	
 
 					},function(error){
 
@@ -581,6 +584,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 		      }
 		     // var deadline = new Date($scope.teacher.end_date);
 		      $scope.currentEndDate = angular.copy($scope.teacher.end_date);
+
 		      //return;
 		      $scope.stopcountdown =false;
 		     // updateClockNg();
@@ -697,6 +701,7 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 					classes:'alert-success',
 					duration:2000
 				});
+					window.location.reload();
 					$scope.changeScreen('start');
 				}
 				else
@@ -889,12 +894,16 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 
 			var updateClockNg = function ()
 			 {
+			 	console.log($scope.teacher.start_date);
 			 	/*if($scope.stopcountdown)
 			 		return;*/
 			 	$scope.timeTillEvent = {};
 				var e = angular.copy($scope.currentEndDate);
 				if(!e)
-					return;				
+					return;	
+			    var s1 = angular.copy($scope.currentStartDate);	
+			    s1 = $scope.getDateObj(s1);
+
 				e = e.split("/").reverse().join("-");
 				var e2= e.split(" 00");				
 				var e3 = e2[0];
@@ -902,10 +911,21 @@ angular.module('app').controller('ranking', ['$scope','$document','$rootScope','
 				e1 = new Date(e1);				
 				var d1 = e1;
 				d1.setHours(24,0,0,0);
+
 				var d2 = new Date();
+				s1.setHours(0,0,0,0);	
+				var s1t = s1.getTime();
 				//d2.setHours(0,0,0,0);
 				var t1 = d1.getTime();
 				var t2 = d2.getTime();
+				//alert(t2 + " - "+ s1t)
+				if( s1t > t2)
+					{
+						
+						$scope.notStarted = true;
+						return ;
+					}
+				
 				$scope.seconds = (t1-t2)/1000;
 				$scope.timeTillEvent = {
 				days: parseInt($scope.seconds / 86400),

@@ -259,8 +259,10 @@
 
   "GO_HOME" : "Go back to home page" ,
   "CLICK_HERE" : "Click here",
-  "email_upload_failed":"Upload failed"
+  "email_upload_failed":"Upload failed",
 
+  "CUR_GROUP" : "Group Name" ,
 
+  "LEAGUE_NOT_STARTED" : "League not started"
 
 }
