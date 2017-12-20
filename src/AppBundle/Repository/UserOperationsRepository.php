@@ -369,11 +369,11 @@ class UserOperationsRepository extends EntityRepository
                       , count(op.id) as operations 
                    
                     FROM
-                     hist_ranking_posiciones_proff_'.$tid.' as pos, users as user 
+                     hist_ranking_posiciones_proff_'.$tid.' as pos on pos.id_user = user.id_admin, users as user 
                    
                     left join hist_user_operaciones_proff_'.$tid.' as op   on  op.id_user = user.id_admin
                     
-                    where pos.id_user = user.id_admin group by pos.id_user;
+                    where pos.id_user = user.id_admin ;
                 ';
 
                 $conn = $this->getEntityManager()
